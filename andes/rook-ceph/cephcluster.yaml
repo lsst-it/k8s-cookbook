@@ -1,0 +1,40 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    # For the latest ceph images, see https://hub.docker.com/r/ceph/ceph/tags
+    image: ceph/ceph:v14.2.6
+  dataDirHostPath: /var/lib/rook
+  mon:
+    count: 3
+    allowMultiplePerNode: true
+  dashboard:
+    enabled: true
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    nodes:
+    - name: andes04.cp.lsst.org
+      devices:
+      - name: nvme0n1
+        config:
+          osdsPerDevice: "5"
+      - name: sdb
+      - name: sdc
+    - name: andes05.cp.lsst.org
+      devices:
+      - name: nvme0n1
+        config:
+          osdsPerDevice: "5"
+      - name: sdb
+      - name: sdc
+    - name: andes06.cp.lsst.org
+      devices:
+      - name: nvme0n1
+        config:
+          osdsPerDevice: "5"
+      - name: sdb
