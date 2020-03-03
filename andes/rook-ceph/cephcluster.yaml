@@ -20,21 +20,16 @@ spec:
     nodes:
     - name: andes04.cp.lsst.org
       devices:
-      - name: nvme0n1
-        config:
-          osdsPerDevice: "5"
       - name: sdb
-      - name: sdc
+        config:
+          osdsPerDevice: "4"
     - name: andes05.cp.lsst.org
       devices:
-      - name: nvme0n1
-        config:
-          osdsPerDevice: "5"
       - name: sdb
-      - name: sdc
+        config:
+          osdsPerDevice: "4"
     - name: andes06.cp.lsst.org
       devices:
-      - name: nvme0n1
-        config:
-          osdsPerDevice: "5"
       - name: sdb
+        config:
+          osdsPerDevice: "4"
