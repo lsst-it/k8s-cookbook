@@ -25,24 +25,20 @@ data:
   # CSI_PROVISIONER_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
   # # (Optional) CEPH CSI provisioner tolerations list. Put here list of taints you want to tolerate in YAML format.
   # # CSI provisioner would be best to start on the same nodes as other ceph daemons.
-  # CSI_PROVISIONER_TOLERATIONS: |
-  #   - effect: NoSchedule
-  #     key: node-role.kubernetes.io/controlplane
-  #     operator: Exists
-  #   - effect: NoExecute
-  #     key: node-role.kubernetes.io/etcd
-  #     operator: Exists
+  CSI_PROVISIONER_TOLERATIONS: |
+    - key: role
+      operator: Equal
+      value: storage-node
+      effect: NoSchedule
   # # (Optional) Ceph CSI plugin NodeAffinity.
   # CSI_PLUGIN_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
   # # (Optional) CEPH CSI plugin tolerations list. Put here list of taints you want to tolerate in YAML format.
   # # CSI plugins need to be started on all the nodes where the clients need to mount the storage.
-  # CSI_PLUGIN_TOLERATIONS: |
-  #   - effect: NoSchedule
-  #     key: node-role.kubernetes.io/controlplane
-  #     operator: Exists
-  #   - effect: NoExecute
-  #     key: node-role.kubernetes.io/etcd
-  #     operator: Exists
+  CSI_PLUGIN_TOLERATIONS: |
+    - key: role
+      operator: Equal
+      value: storage-node
+      effect: NoSchedule
 ---
 # OLM: BEGIN OPERATOR DEPLOYMENT
 apiVersion: apps/v1
@@ -89,14 +85,12 @@ spec:
         # - name: AGENT_TOLERATION_KEY
         #   value: "<KeyOfTheTaintToTolerate>"
         # (Optional) Rook Agent tolerations list. Put here list of taints you want to tolerate in YAML format.
-        # - name: AGENT_TOLERATIONS
-        #   value: |
-        #     - effect: NoSchedule
-        #       key: node-role.kubernetes.io/controlplane
-        #       operator: Exists
-        #     - effect: NoExecute
-        #       key: node-role.kubernetes.io/etcd
-        #       operator: Exists
+        - name: AGENT_TOLERATIONS
+          value: |
+            - key: role
+              operator: Equal
+              value: storage-node
+              effect: NoSchedule
         # (Optional) Rook Agent priority class name to set on the pod(s)
         # - name: AGENT_PRIORITY_CLASS_NAME
         #   value: "<PriorityClassName>"
@@ -127,14 +121,12 @@ spec:
         # - name: DISCOVER_TOLERATION_KEY
         #   value: "<KeyOfTheTaintToTolerate>"
         # (Optional) Rook Discover tolerations list. Put here list of taints you want to tolerate in YAML format.
-        # - name: DISCOVER_TOLERATIONS
-        #   value: |
-        #     - effect: NoSchedule
-        #       key: node-role.kubernetes.io/controlplane
-        #       operator: Exists
-        #     - effect: NoExecute
-        #       key: node-role.kubernetes.io/etcd
-        #       operator: Exists
+        - name: DISCOVER_TOLERATIONS
+          value: |
+            - key: role
+              operator: Equal
+              value: storage-node
+              effect: NoSchedule
         # (Optional) Rook Discover priority class name to set on the pod(s)
         # - name: DISCOVER_PRIORITY_CLASS_NAME
         #   value: "<PriorityClassName>"
@@ -256,27 +248,23 @@ spec:
         #   value: "role=storage-node; storage=rook, ceph"
         # (Optional) CEPH CSI provisioner tolerations list. Put here list of taints you want to tolerate in YAML format.
         #  CSI provisioner would be best to start on the same nodes as other ceph daemons.
-        # - name: CSI_PROVISIONER_TOLERATIONS
-        #   value: |
-        #     - effect: NoSchedule
-        #       key: node-role.kubernetes.io/controlplane
-        #       operator: Exists
-        #     - effect: NoExecute
-        #       key: node-role.kubernetes.io/etcd
-        #       operator: Exists
+        - name: CSI_PROVISIONER_TOLERATIONS
+          value: |
+            - key: role
+              operator: Equal
+              value: storage-node
+              effect: NoSchedule
         # (Optional) Ceph CSI plugin NodeAffinity.
         # - name: CSI_PLUGIN_NODE_AFFINITY
         #   value: "role=storage-node; storage=rook, ceph"
         # (Optional) CEPH CSI plugin tolerations list. Put here list of taints you want to tolerate in YAML format.
         # CSI plugins need to be started on all the nodes where the clients need to mount the storage.
-        # - name: CSI_PLUGIN_TOLERATIONS
-        #   value: |
-        #     - effect: NoSchedule
-        #       key: node-role.kubernetes.io/controlplane
-        #       operator: Exists
-        #     - effect: NoExecute
-        #       key: node-role.kubernetes.io/etcd
-        #       operator: Exists
+        - name: CSI_PLUGIN_TOLERATIONS
+          value: |
+            - key: role
+              operator: Equal
+              value: storage-node
+              effect: NoSchedule
         # Configure CSI cephfs grpc and liveness metrics port
         #- name: CSI_CEPHFS_GRPC_METRICS_PORT
         #  value: "9091"

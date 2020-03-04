@@ -33,3 +33,10 @@ spec:
       - name: sdb
         config:
           osdsPerDevice: "4"
+  placement:
+    all:
+      tolerations:
+      - key: role
+        operator: Equal
+        value: storage-node
+        effect: NoSchedule
