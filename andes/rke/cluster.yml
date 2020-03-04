@@ -62,7 +62,10 @@ nodes:
   ssh_cert: ""
   ssh_cert_path: ""
   labels: {}
-  taints: []
+  taints:
+    - key: role
+      value: storage-node
+      effect: NoSchedule
 - address: andes05.cp.lsst.org
   port: "22"
   internal_address: ""
@@ -76,7 +79,10 @@ nodes:
   ssh_cert: ""
   ssh_cert_path: ""
   labels: {}
-  taints: []
+  taints:
+    - key: role
+      value: storage-node
+      effect: NoSchedule
 - address: andes06.cp.lsst.org
   port: "22"
   internal_address: ""
@@ -90,7 +96,10 @@ nodes:
   ssh_cert: ""
   ssh_cert_path: ""
   labels: {}
-  taints: []
+  taints:
+    - key: role
+      value: storage-node
+      effect: NoSchedule
 services:
   etcd:
     image: ""
