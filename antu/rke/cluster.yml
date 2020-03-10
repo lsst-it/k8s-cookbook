@@ -86,20 +86,21 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: antu06.ls.lsst.org
-  port: "22"
-  internal_address: ""
-  role:
-  - worker
-  hostname_override: ""
-  user: rke
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/id_rsa
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
-  taints: []
+# disable antu06 - https://jira.lsstcorp.org/browse/IT-1975
+#- address: antu06.ls.lsst.org
+#  port: "22"
+#  internal_address: ""
+#  role:
+#  - worker
+#  hostname_override: ""
+#  user: rke
+#  docker_socket: /var/run/docker.sock
+#  ssh_key: ""
+#  ssh_key_path: ~/.ssh/id_rsa
+#  ssh_cert: ""
+#  ssh_cert_path: ""
+#  labels: {}
+#  taints: []
 - address: antu07.ls.lsst.org
   port: "22"
   internal_address: ""
