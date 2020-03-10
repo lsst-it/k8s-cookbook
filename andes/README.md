@@ -4,7 +4,7 @@ andes cluster deployment
 ```bash
 ssh andes01.cp.lsst.org
 sudo -iu rke
-git clone https://github.com/jhoblitt/k8s-cookbook
+git clone https://github.com/lsst-it/k8s-cookbook
 cd k8s-cookbook/andes/
 
 (cd rke; rke up)
