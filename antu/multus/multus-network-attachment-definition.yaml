@@ -1,0 +1,25 @@
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-conf
+  namespace: kube-system
+spec:
+  config: '{
+      "cniVersion": "0.3.0",
+      "type": "macvlan",
+      "master": "em2.2400",
+      "mode": "bridge",
+      "ipam": {
+        "type": "host-local",
+        "subnet": "139.229.147.0/24",
+        "rangeStart": "139.229.147.150",
+        "rangeEnd": "139.229.147.224",
+        "routes": [
+          { "dst": "139.229.167.0/24" },
+          { "dst": "139.229.170.0/24" },
+          { "dst": "139.229.178.0/24" }
+        ],
+        "gateway": "139.229.147.254"
+      }
+    }'
