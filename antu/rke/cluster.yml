@@ -157,7 +157,7 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: ls-dnt02.ls.lsst.org
+- address: ls-dtn02.ls.lsst.org
   port: "22"
   internal_address: ""
   role:
