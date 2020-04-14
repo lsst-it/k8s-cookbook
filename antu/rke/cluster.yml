@@ -171,7 +171,7 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: ls-eftetl01.ls.lsst.org
+- address: ls-efdetl01.ls.lsst.org
   port: "22"
   internal_address: ""
   role:
