@@ -15,7 +15,8 @@ nodes:
   ssh_key_path: ~/.ssh/id_rsa
   ssh_cert: ""
   ssh_cert_path: ""
-  labels: {}
+  labels:
+    role: storage-node
   taints:
     - key: role
       value: storage-node
@@ -34,7 +35,8 @@ nodes:
   ssh_key_path: ~/.ssh/id_rsa
   ssh_cert: ""
   ssh_cert_path: ""
-  labels: {}
+  labels:
+    role: storage-node
   taints:
     - key: role
       value: storage-node
@@ -53,7 +55,8 @@ nodes:
   ssh_key_path: ~/.ssh/id_rsa
   ssh_cert: ""
   ssh_cert_path: ""
-  labels: {}
+  labels:
+    role: storage-node
   taints:
     - key: role
       value: storage-node
