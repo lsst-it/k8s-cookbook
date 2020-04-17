@@ -9,7 +9,7 @@ kubectl delete -f cephblockpool.yaml
 kubectl delete -f cephcluster.yaml
 
 ( set -ex
-  cd rook-1.2
+  cd rook-1.3.1
   kubectl delete -f toolbox.yaml
   kubectl delete -f operator.yaml
   kubectl delete -f common.yaml

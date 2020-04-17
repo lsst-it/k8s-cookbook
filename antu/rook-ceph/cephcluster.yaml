@@ -7,13 +7,18 @@ metadata:
 spec:
   cephVersion:
     # For the latest ceph images, see https://hub.docker.com/r/ceph/ceph/tags
-    image: ceph/ceph:v14.2.6
+    image: ceph/ceph:v14.2.8
+    allowUnsupported: false
   dataDirHostPath: /var/lib/rook
+  skipUpgradeChecks: false
+  continueUpgradeAfterChecksEvenIfNotHealthy: false
   mon:
     count: 3
-    allowMultiplePerNode: true
+    allowMultiplePerNode: false
   dashboard:
     enabled: true
+  crashCollector:
+    disable: false
   storage:
     useAllNodes: false
     useAllDevices: false
@@ -35,8 +40,18 @@ spec:
           osdsPerDevice: "1"
   placement:
     all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: role
+              operator: In
+              values:
+              - storage-node
       tolerations:
       - key: role
         operator: Equal
         value: storage-node
         effect: NoSchedule
+  disruptionManagement:
+    managePodBudgets: true
