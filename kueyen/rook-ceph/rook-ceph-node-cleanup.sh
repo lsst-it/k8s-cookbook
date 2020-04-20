@@ -2,25 +2,20 @@
 
 set -x
 
-ssh kueyen01.ls.lsst.org -l jhoblitt_b sudo rm -rf /var/lib/rook
-ssh kueyen01.ls.lsst.org -l jhoblitt_b sudo sh -c 'ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove %'
-ssh kueyen01.ls.lsst.org -l jhoblitt_b sudo rm -rf /dev/ceph-*
-ssh kueyen01.ls.lsst.org -l jhoblitt_b sudo sgdisk --zap-all /dev/sdb
-ssh kueyen01.ls.lsst.org -l jhoblitt_b sudo reboot
+SSH_USER=jhoblitt_b
 
-ssh kueyen02.ls.lsst.org -l jhoblitt_b sudo rm -rf /var/lib/rook
-ssh kueyen02.ls.lsst.org -l jhoblitt_b sudo sh -c 'ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove %'
-ssh kueyen02.ls.lsst.org -l jhoblitt_b sudo rm -rf /dev/ceph-*
-ssh kueyen02.ls.lsst.org -l jhoblitt_b sudo sgdisk --zap-all /dev/sdb
-ssh kueyen02.ls.lsst.org -l jhoblitt_b sudo reboot
-
-ssh kueyen03.ls.lsst.org -l jhoblitt_b sudo rm -rf /var/lib/rook
-ssh kueyen03.ls.lsst.org -l jhoblitt_b sudo sh -c 'ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove %'
-ssh kueyen03.ls.lsst.org -l jhoblitt_b sudo rm -rf /dev/ceph-*
-ssh kueyen03.ls.lsst.org -l jhoblitt_b sudo sgdisk --zap-all /dev/sdb
-ssh kueyen03.ls.lsst.org -l jhoblitt_b sudo reboot
-
-for n in $(seq 4 9);
+for n in $(seq 1 3);
 do
-    ssh "kueyen0${n}.ls.lsst.org" -l jhoblitt_b sudo rm -rf /var/lib/rook
+    HOST="antu0${n}.ls.lsst.org"
+    SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
+
+    ${SSH_CMD} sudo rm -rf /var/lib/rook
+    ${SSH_CMD} sudo sh -c 'ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove %'
+    ${SSH_CMD} sudo rm -rf /dev/ceph-*
+    ${SSH_CMD} sudo sgdisk --zap-all /dev/sdb
+    ${SSH_CMD} sudo dd if=/dev/zero of=/dev/sdb bs=1M count=100 oflag=direct,dsync
+    ${SSH_CMD} sudo blockdev --rereadpt /dev/sdb
+    # reboot still seems to be required to clear the disk label
+    # DO NOT reboot all controlplane/etcd hosts at the same time
+    #${SSH_CMD} sudo reboot
 done
