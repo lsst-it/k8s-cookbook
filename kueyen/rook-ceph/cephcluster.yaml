@@ -23,17 +23,22 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: antu01.ls.lsst.org
+    - name: kueyen01
       devices:
       - name: sdb
         config:
           osdsPerDevice: "1"
-    - name: antu02.ls.lsst.org
+    - name: kueyen02
       devices:
       - name: sdb
         config:
           osdsPerDevice: "1"
-    - name: antu03.ls.lsst.org
+    - name: kueyen03
+      devices:
+      - name: sdb
+        config:
+          osdsPerDevice: "1"
+    - name: kueyen04
       devices:
       - name: sdb
         config:
