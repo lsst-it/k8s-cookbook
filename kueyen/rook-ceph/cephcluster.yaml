@@ -13,7 +13,7 @@ spec:
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
   mon:
-    count: 3
+    count: 4
     allowMultiplePerNode: false
   dashboard:
     enabled: true
