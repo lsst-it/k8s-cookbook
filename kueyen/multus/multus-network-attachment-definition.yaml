@@ -8,7 +8,7 @@ spec:
   config: '{
       "cniVersion": "0.3.0",
       "type": "macvlan",
-      "master": "em2.2400",
+      "master": "p2p1.2400",
       "mode": "bridge",
       "ipam": {
         "type": "host-local",
