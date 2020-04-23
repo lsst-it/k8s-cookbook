@@ -1,14 +1,14 @@
-lazuli cluster deployment
+ruka cluster deployment
 ========================
 
 ```bash
-ssh lazuli01.ls.lsst.org
+ssh ruka01.ls.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
-cd k8s-cookbook/lazuli/
+cd k8s-cookbook/ruka/
 
 (cd rke; rke up)
-export KUBECONFIG=/home/rke/k8s-cookbook/lazuli/rke/kube_config_cluster.yml
+export KUBECONFIG=/home/rke/k8s-cookbook/ruka/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 

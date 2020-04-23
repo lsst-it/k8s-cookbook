@@ -23,17 +23,17 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: lazuli01
+    - name: ruka01
       devices:
       - name: sdb
         config:
           osdsPerDevice: "1"
-    - name: lazuli02
+    - name: ruka02
       devices:
       - name: sdb
         config:
           osdsPerDevice: "1"
-    - name: lazuli03
+    - name: ruka03
       devices:
       - name: sdb
         config:

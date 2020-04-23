@@ -1,14 +1,14 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: lazuli01.ls.lsst.org
+- address: ruka01.ls.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "lazuli01"
+  hostname_override: "ruka01"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""
@@ -17,14 +17,14 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node 
-- address: lazuli02.ls.lsst.org
+- address: ruka02.ls.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "lazuli02"
+  hostname_override: "ruka02"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""
@@ -33,14 +33,14 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node
-- address: lazuli03.ls.lsst.org
+- address: ruka03.ls.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "lazuli03"
+  hostname_override: "ruka03"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""
@@ -96,7 +96,7 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
-    cluster_domain: lazuli.ls.lsst.org
+    cluster_domain: ruka.ls.lsst.org
     infra_container_image: ""
     cluster_dns_server: 10.43.0.10
     fail_swap_on: false
