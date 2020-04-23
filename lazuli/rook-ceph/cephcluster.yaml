@@ -25,17 +25,17 @@ spec:
     nodes:
     - name: lazuli01
       devices:
-      - name: sda
+      - name: sdb
         config:
           osdsPerDevice: "1"
     - name: lazuli02
       devices:
-      - name: sda
+      - name: sdb
         config:
           osdsPerDevice: "1"
     - name: lazuli03
       devices:
-      - name: sda
+      - name: sdb
         config:
           osdsPerDevice: "1"
   placement:
