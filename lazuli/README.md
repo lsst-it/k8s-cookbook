@@ -1,14 +1,14 @@
-Kueyen cluster deployment
+lazuli cluster deployment
 ========================
 
 ```bash
-ssh kueyen01.ls.lsst.org
+ssh lazuli01.ls.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
-cd k8s-cookbook/kueyen/
+cd k8s-cookbook/lazuli/
 
 (cd rke; rke up)
-export KUBECONFIG=/home/rke/k8s-cookbook/kueyen/rke/kube_config_cluster.yml
+export KUBECONFIG=/home/rke/k8s-cookbook/lazuli/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
