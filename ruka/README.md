@@ -14,8 +14,6 @@ export KUBECONFIG=/home/rke/k8s-cookbook/ruka/rke/kube_config_cluster.yml
 
 (cd ingress; ./nginx-ingress-helm.sh)
 
-(cd multus; ./multus.sh)
-
 (cd rook-ceph; ./rook-ceph.sh)
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
