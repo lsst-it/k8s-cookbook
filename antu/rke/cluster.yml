@@ -291,7 +291,7 @@ services:
     extra_args: {}
     extra_binds: []
     extra_env: []
-    cluster_domain: antu.ls.lsst.org
+    cluster_domain: cluster.local
     infra_container_image: ""
     cluster_dns_server: 10.43.0.10
     fail_swap_on: false
