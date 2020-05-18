@@ -25,17 +25,17 @@ spec:
     nodes:
     - name: ruka01
       devices:
-      - name: sdb
+      - name: vdb
         config:
           osdsPerDevice: "1"
     - name: ruka02
       devices:
-      - name: sdb
+      - name: vdb
         config:
           osdsPerDevice: "1"
     - name: ruka03
       devices:
-      - name: sdb
+      - name: vdb
         config:
           osdsPerDevice: "1"
   placement:
