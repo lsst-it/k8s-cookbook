@@ -2,11 +2,11 @@
 
 set -x
 
-SSH_USER=jhoblitt_b
+SSH_USER=hreinking_b
 
 for n in $(seq 1 3);
 do
-    HOST="antu0${n}.ls.lsst.org"
+    HOST="ruka0${n}.dev.lsst.org"
     SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
 
     ${SSH_CMD} sudo rm -rf /var/lib/rook
