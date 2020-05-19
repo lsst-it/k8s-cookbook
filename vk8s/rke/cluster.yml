@@ -1,14 +1,14 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: ruka01.dev.lsst.org
+- address: vk8s01.dev.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "ruka01"
+  hostname_override: "vk8s01"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""
@@ -17,14 +17,14 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node 
-- address: ruka02.dev.lsst.org
+- address: vk8s02.dev.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "ruka02"
+  hostname_override: "vk8s02"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""
@@ -33,14 +33,14 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node
-- address: ruka03.dev.lsst.org
+- address: vk8s03.dev.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "ruka03"
+  hostname_override: "vk8s03"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""

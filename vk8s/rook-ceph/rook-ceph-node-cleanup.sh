@@ -6,7 +6,7 @@ SSH_USER=hreinking_b
 
 for n in $(seq 1 3);
 do
-    HOST="ruka0${n}.dev.lsst.org"
+    HOST="vk8s${n}.dev.lsst.org"
     SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
 
     ${SSH_CMD} sudo rm -rf /var/lib/rook

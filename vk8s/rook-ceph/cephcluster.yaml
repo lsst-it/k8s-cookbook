@@ -23,17 +23,17 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: ruka01
+    - name: vk8s01
       devices:
       - name: vdb
         config:
           osdsPerDevice: "1"
-    - name: ruka02
+    - name: vk8s02
       devices:
       - name: vdb
         config:
           osdsPerDevice: "1"
-    - name: ruka03
+    - name: vk8s03
       devices:
       - name: vdb
         config:
