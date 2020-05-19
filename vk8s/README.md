@@ -1,14 +1,14 @@
-ruka cluster deployment
+vk8s cluster deployment
 ========================
 
 ```bash
-ssh ruka01.ls.lsst.org
+ssh vk8s01.ls.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
-cd k8s-cookbook/ruka/
+cd k8s-cookbook/vk8s/
 
 (cd rke; rke up)
-export KUBECONFIG=/home/rke/k8s-cookbook/ruka/rke/kube_config_cluster.yml
+export KUBECONFIG=/home/rke/k8s-cookbook/vk8s/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
