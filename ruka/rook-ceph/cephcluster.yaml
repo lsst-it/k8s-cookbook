@@ -23,17 +23,22 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: ruka01
-      devices:
-      - name: sdb
-        config:
-          osdsPerDevice: "1"
+    # - name: ruka01
+    #   devices:
+    #   - name: sdb
+    #     config:
+    #       osdsPerDevice: "1"
     - name: ruka02
       devices:
       - name: sdb
         config:
           osdsPerDevice: "1"
     - name: ruka03
+      devices:
+      - name: sdb
+        config:
+          osdsPerDevice: "1"
+    - name: ruka04
       devices:
       - name: sdb
         config:
