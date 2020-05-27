@@ -64,7 +64,7 @@ nodes:
   ssh_cert: ""
   ssh_cert_path: ""
   labels:
-    role: storage-node 
+    role: storage-node
 services:
   etcd:
     image: ""
