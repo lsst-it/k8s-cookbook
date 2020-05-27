@@ -4,7 +4,7 @@ set -x
 
 SSH_USER=jhoblitt_b
 
-for n in $(seq 1 3);
+for n in $(seq 2 4);
 do
     HOST="ruka0${n}.ls.lsst.org"
     SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
