@@ -21,4 +21,4 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 
 import andes cluster into rancher via this url:
 
-https://rancher.cp.lsst.org/g/clusters/add/launch/import
+https://rancher.ls.lsst.org/g/clusters/add/launch/import
