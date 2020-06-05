@@ -188,34 +188,6 @@ nodes:
   ssh_cert_path: ""
   labels: {}
   taints: []
-- address: ls-handoff01.ls.lsst.org
-  port: "22"
-  internal_address: ""
-  role:
-  - worker
-  hostname_override: ""
-  user: rke
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/id_rsa
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
-  taints: []
-- address: ls-handoff02.ls.lsst.org
-  port: "22"
-  internal_address: ""
-  role:
-  - worker
-  hostname_override: ""
-  user: rke
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/id_rsa
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
-  taints: []
 - address: ls-fwdr02.ls.lsst.org
   port: "22"
   internal_address: ""
