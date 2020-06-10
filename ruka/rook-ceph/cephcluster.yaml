@@ -30,17 +30,17 @@ spec:
     #       osdsPerDevice: "1"
     - name: ruka02
       devices:
-      - name: sdb
+      - name: sdc
         config:
           osdsPerDevice: "1"
     - name: ruka03
       devices:
-      - name: sdb
+      - name: sdc
         config:
           osdsPerDevice: "1"
     - name: ruka04
       devices:
-      - name: sdb
+      - name: sdd
         config:
           osdsPerDevice: "1"
   placement:
