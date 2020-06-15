@@ -10,8 +10,8 @@ kubectl create namespace cattle-system
 helm install rancher rancher-stable/rancher \
   --namespace cattle-system \
   --set hostname=rancher.tu.lsst.org \
-  --set ingress.tls.source=letsencrypt \
-  --set letsencrypt.email=hreinking@lsst.org \
+  --set ingress.tls.source=letsEncrypt \
+  --set letsEncrypt.email=hreinking@lsst.org \
   --version v2.3.5 \
   --set replicas=1
 
