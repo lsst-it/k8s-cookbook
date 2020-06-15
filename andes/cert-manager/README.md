@@ -10,4 +10,4 @@ EMAIL = jdoe@acme.com
 REGION = us-somewhere-1
 AWS_ACCESS_KEY = THISISNOTAREALKEY
 AWS_SECRET_KEY = THISISNOTAREALSECRET|base64
-./cm-and_clusterissuer.sh
+./cm-and-clusterissuer.sh
