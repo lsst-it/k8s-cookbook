@@ -13,6 +13,6 @@ helm install rancher rancher-stable/rancher \
   --set ingress.tls.source=letsencrypt \
   --set letsencrypt.email=hreinking@lsst.org \
   --version v2.3.5 \
-  --set replica=1
+  --set replicas=1
 
 kubectl -n cattle-system rollout status deploy/rancher
