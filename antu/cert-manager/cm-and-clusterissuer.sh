@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -exu
 
 kubectl create ns cert-manager
 helm repo add jetstack https://charts.jetstack.io
