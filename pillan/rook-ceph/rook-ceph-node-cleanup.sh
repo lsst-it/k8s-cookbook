@@ -4,7 +4,7 @@ set -x
 
 SSH_USER=hreinking_b
 
-HOST="pillan1.ls.lsst.org"
+HOST="pillan01.ls.lsst.org"
 SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
 
 ${SSH_CMD} sudo rm -rf /var/lib/rook

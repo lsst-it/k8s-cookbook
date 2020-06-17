@@ -23,7 +23,7 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: pillan1
+    - name: pillan01
       devices:
       - name: sda
         config:

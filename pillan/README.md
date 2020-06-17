@@ -2,7 +2,7 @@ pillan cluster deployment
 =========================
 
 ```bash
-ssh pillan1.ls.lsst.org
+ssh pillan01.ls.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
 cd k8s-cookbook/pillan/

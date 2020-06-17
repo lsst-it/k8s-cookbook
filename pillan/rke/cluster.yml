@@ -1,14 +1,14 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: pillan1.tu.lsst.org
+- address: pillan01.tu.lsst.org
   port: "22"
   internal_address: ""
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "pillan1"
+  hostname_override: "pillan01"
   user: rke
   docker_socket: /var/run/docker.sock
   ssh_key: ""

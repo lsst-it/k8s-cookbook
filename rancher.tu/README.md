@@ -2,7 +2,7 @@ rancher cluster deployment
 ==========================
 
 ```bash
-ssh rancher1.tuc.lsst.cloud
+ssh rancher01.tuc.lsst.cloud
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
 cd k8s-cookbook/rancher.tu/
