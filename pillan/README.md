@@ -14,11 +14,13 @@ export KUBECONFIG=/home/rke/k8s-cookbook/pillan/rke/kube_config_cluster.yml
 
 (cd ingress; ./nginx-ingress-helm.sh)
 
+(cd multus; ./multus.sh)
+
 (cd rook-ceph; ./rook-ceph.sh)
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 ```
 
-import andes cluster into rancher via this url:
+import pillan cluster into rancher via this url:
 
 https://rancher.tu.lsst.org/g/clusters/add/launch/import
