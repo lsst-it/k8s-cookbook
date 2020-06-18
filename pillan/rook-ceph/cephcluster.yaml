@@ -25,7 +25,13 @@ spec:
     nodes:
     - name: pillan01
       devices:
-      - name: sdb
+      - name: sdb1
+        config:
+          osdsPerDevice: "1"
+      - name: sdb2
+        config:
+          osdsPerDevice: "1"
+      - name: sdb3
         config:
           osdsPerDevice: "1"
   placement:
