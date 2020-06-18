@@ -7,7 +7,7 @@ provisioner: rook-ceph.rbd.csi.ceph.com
 parameters:
     clusterID: rook-ceph
     pool: replicapool
-    imageFormat: "1"
+    imageFormat: "2"
     imageFeatures: layering
 
     # The secrets contain Ceph admin credentials.
