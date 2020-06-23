@@ -1,0 +1,53 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    # For the latest ceph images, see https://hub.docker.com/r/ceph/ceph/tags
+    image: ceph/ceph:v14.2.8
+    allowUnsupported: false
+  dataDirHostPath: /var/lib/rook
+  skipUpgradeChecks: false
+  continueUpgradeAfterChecksEvenIfNotHealthy: false
+  mon:
+    count: 1
+    allowMultiplePerNode: false
+  dashboard:
+    enabled: true
+  crashCollector:
+    disable: false
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    nodes:
+    - name: pillan01
+      devices:
+      - name: sdb1
+        config:
+          osdsPerDevice: "1"
+      - name: sdb2
+        config:
+          osdsPerDevice: "1"
+      - name: sdb3
+        config:
+          osdsPerDevice: "1"
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: role
+              operator: In
+              values:
+              - storage-node
+      tolerations:
+      - key: role
+        operator: Equal
+        value: storage-node
+        effect: NoSchedule
+  disruptionManagement:
+    managePodBudgets: true
