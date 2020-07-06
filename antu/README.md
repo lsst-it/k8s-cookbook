@@ -1,4 +1,4 @@
-andes cluster deployment
+antu cluster deployment
 ========================
 
 ```bash
@@ -18,6 +18,16 @@ export KUBECONFIG=/home/rke/k8s-cookbook/antu/rke/kube_config_cluster.yml
 
 (cd rook-ceph; ./rook-ceph.sh)
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+(cd cert-manager/
+DNS_ZONE = your.domain.com
+HOSTED_ZONE_ID = A123B456C789D
+EMAIL = jdoe@acme.com
+REGION = us-somewhere-1
+AWS_ACCESS_KEY = THISISNOTAREALKEY
+AWS_SECRET_KEY = THISISNOTAREALSECRET|base64
+./cm-and_clusterissuer.sh
+)
 
 ```
 
