@@ -9,5 +9,6 @@ set -ex
 )
 
 kubectl apply -f multus-nad-default.yaml
+kubectl apply -f multus-nad-comcam.yaml
 
 # vim: tabstop=2 shiftwidth=2 expandtab
