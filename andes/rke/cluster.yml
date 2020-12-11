@@ -1,12 +1,12 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: andes01.cp.lsst.org
-  user: rke
-  role:
-  - controlplane
-  - worker
-  - etcd
+#- address: andes01.cp.lsst.org
+#  user: rke
+#  role:
+#  - controlplane
+#  - worker
+#  - etcd
 - address: andes02.cp.lsst.org
   user: rke
   role:
