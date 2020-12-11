@@ -25,6 +25,10 @@ nodes:
   - controlplane
   - worker
   - etcd
+  taints:
+    - key: role
+      value: multus-broken
+      effect: NoSchedule
   #taints:
   #  - key: role
   #    value: storage-node
