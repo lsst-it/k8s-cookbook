@@ -13,7 +13,7 @@ spec:
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
   mon:
-    count: 3
+    count: 6
     allowMultiplePerNode: false
   dashboard:
     enabled: true
@@ -23,24 +23,34 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    # - name: ruka01
-    #   devices:
-    #   - name: sdb
-    #     config:
-    #       osdsPerDevice: "1"
+    - name: ruka01
+      devices:
+      - name: sdb
+        config:
+          osdsPerDevice: "1"
     - name: ruka02
       devices:
-      - name: sdc
+      - name: sdb
         config:
           osdsPerDevice: "1"
     - name: ruka03
       devices:
-      - name: sdc
+      - name: sdb
         config:
           osdsPerDevice: "1"
     - name: ruka04
       devices:
-      - name: sdd
+      - name: nvme0n1
+        config:
+          osdsPerDevice: "1"
+    - name: ruka05
+      devices:
+      - name: nvme0n1
+        config:
+          osdsPerDevice: "1"
+    - name: ruka06
+      devices:
+      - name: nvme0n1
         config:
           osdsPerDevice: "1"
   placement:
