@@ -67,7 +67,8 @@ services:
   kubelet:
     image: ""
     extra_args: {}
-    extra_binds: []
+    extra_binds:
+      - "/minio:/minio"
     extra_env: []
     cluster_domain: cluster.local
     infra_container_image: ""
