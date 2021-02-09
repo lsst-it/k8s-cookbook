@@ -12,7 +12,7 @@ export KUBECONFIG=/home/rke/k8s-cookbook/chonchon/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
-(cd ingress; ./nginx-ingress-helm.sh)
+(cd ingress; ./ingress-nginx-helm.sh)
 
 (cd cert-manager/
 DNS_ZONE = your.domain.com
