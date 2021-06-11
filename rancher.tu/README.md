@@ -12,7 +12,7 @@ export KUBECONFIG=/home/rke/k8s-cookbook/rancher.tu/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
-(cd cert-manager; ./cert-manager.sh)
+(cd cert-manager; ./cm-and-clusterissuer.sh)
 
 (cd ingress; ./ingress-nginx-helm.sh)
 
