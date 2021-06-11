@@ -2,21 +2,26 @@
 # please consult the documentation on how to configure custom RKE images.
 nodes:
 - address: rancher01.tu.lsst.org
-  port: "22"
-  internal_address: ""
+  hostname_override: "rancher01.tu"
+  user: rke
   role:
   - controlplane
   - worker
   - etcd
-  hostname_override: "rancher01.tu"
+- address: rancher02.tu.lsst.org
+  hostname_override: "rancher02.tu"
   user: rke
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/id_rsa
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels: {}
-  taints: []
+  role:
+  - controlplane
+  - worker
+  - etcd
+- address: rancher03.tu.lsst.org
+  hostname_override: "rancher03.tu"
+  user: rke
+  role:
+  - controlplane
+  - worker
+  - etcd
 services:
   etcd:
     image: ""
@@ -85,48 +90,16 @@ authentication:
   webhook: null
 addons: ""
 addons_include: []
-system_images:
-  etcd: rancher/coreos-etcd:v3.4.3-rancher1
-  alpine: rancher/rke-tools:v0.1.52
-  nginx_proxy: rancher/rke-tools:v0.1.52
-  cert_downloader: rancher/rke-tools:v0.1.52
-  kubernetes_services_sidecar: rancher/rke-tools:v0.1.52
-  kubedns: rancher/k8s-dns-kube-dns:1.15.0
-  dnsmasq: rancher/k8s-dns-dnsmasq-nanny:1.15.0
-  kubedns_sidecar: rancher/k8s-dns-sidecar:1.15.0
-  kubedns_autoscaler: rancher/cluster-proportional-autoscaler:1.7.1
-  coredns: rancher/coredns-coredns:1.6.5
-  coredns_autoscaler: rancher/cluster-proportional-autoscaler:1.7.1
-  kubernetes: rancher/hyperkube:v1.17.2-rancher1
-  flannel: rancher/coreos-flannel:v0.11.0-rancher1
-  flannel_cni: rancher/flannel-cni:v0.3.0-rancher5
-  calico_node: rancher/calico-node:v3.10.2
-  calico_cni: rancher/calico-cni:v3.10.2
-  calico_controllers: rancher/calico-kube-controllers:v3.10.2
-  calico_ctl: rancher/calico-ctl:v2.0.0
-  calico_flexvol: rancher/calico-pod2daemon-flexvol:v3.10.2
-  canal_node: rancher/calico-node:v3.10.2
-  canal_cni: rancher/calico-cni:v3.10.2
-  canal_flannel: rancher/coreos-flannel:v0.11.0
-  canal_flexvol: rancher/calico-pod2daemon-flexvol:v3.10.2
-  weave_node: weaveworks/weave-kube:2.5.2
-  weave_cni: weaveworks/weave-npc:2.5.2
-  pod_infra_container: rancher/pause:3.1
-  ingress: rancher/nginx-ingress-controller:nginx-0.25.1-rancher1
-  ingress_backend: rancher/nginx-ingress-controller-defaultbackend:1.5-rancher1
-  metrics_server: rancher/metrics-server:v0.3.6
-  windows_pod_infra_container: rancher/kubelet-pause:v0.1.3
-ssh_key_path: ~/.ssh/id_ed25519
+ssh_key_path: ~/.ssh/id_rsa
 ssh_cert_path: ""
 ssh_agent_auth: false
 authorization:
   mode: rbac
   options: {}
 ignore_docker_version: false
-kubernetes_version: ""
+kubernetes_version: "v1.20.6-rancher1-1"
 private_registries: []
 ingress:
-#  provider: ""
   provider: none
   options: {}
   node_selector: {}
