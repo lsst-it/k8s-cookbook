@@ -10,4 +10,4 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 140.252.34.150/32
+      - 140.252.146.84/32
