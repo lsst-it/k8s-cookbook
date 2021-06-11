@@ -24,7 +24,7 @@ Security -> Authentication
 ### Configure an FreeIPA server
 
 Hostname or IP Address
-`ipa1.tuc.lsst.cloud`
+`ipa1.tu.lsst.org`
 
 Port
 `636` TLS [X]
