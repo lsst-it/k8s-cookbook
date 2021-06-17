@@ -3,7 +3,7 @@
 set -ex
 
 ( set -ex
-  git clone https://github.com/intel/multus-cni -b v3.4
+  git clone https://github.com/intel/multus-cni -b v3.7.1
   cd multus-cni
   kubectl apply -f images/multus-daemonset.yml
 )
