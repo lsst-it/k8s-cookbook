@@ -12,12 +12,11 @@ export KUBECONFIG=/home/rke/k8s-cookbook/pillan/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
+(cd cert-manager; ./cm-and-clusterissuer.sh)
+
 (cd ingress; ./ingress-nginx-helm.sh)
 
 (cd multus; ./multus.sh)
-
-#Must first create secret.yaml and letsencrypt.yaml
-(cd cert-manager; ./cert-manager.sh)
 
 (cd rook-ceph; ./subdivide.sh; ./rook-ceph.sh)
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
