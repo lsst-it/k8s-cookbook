@@ -1,2 +1,3 @@
-secret.yaml
+creds.sh
 letsencrypt.yaml
+secret.yaml
