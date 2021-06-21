@@ -2,10 +2,15 @@
 
 set -ex
 
-kubectl create ns cert-manager
+kubectl create namespace cert-manager --dry-run -o yaml | kubectl apply -f -
 helm repo add jetstack https://charts.jetstack.io
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.11/deploy/manifests/00-crds.yaml --validate=false
-helm install cert-manager -n cert-manager jetstack/cert-manager
+# helm managment of the CRDs did not work when tested
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
+helm install cert-manager jetstack/cert-manager \
+  --namespace cert-manager \
+  --version v1.3.1 \
+  --set installCRDS=false
+
 cat > secret.yaml << END
 apiVersion: v1
 kind: Secret
@@ -13,33 +18,36 @@ metadata:
   name: aws-route53
   namespace: cert-manager
 data:
-  aws_key: $(AWS_SECRET_KEY)
-
+  aws_key: $(echo "${AWS_SECRET_ACCESS_KEY}" | base64)
 END
-kubectl apply -f secret.yaml
+
 cat > letsencrypt.yaml << END
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt
   namespace: cert-manager
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory 
+    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt
-    email: $(EMAIL)
+    email: ${EMAIL}
     solvers:
     - selector:
         dnsZones:
-          - "$(DNS_ZONE)"
+          - "${DNS_ZONE}"
       dns01:
         route53:
-          region: $(REGION)
-          hostedZoneID: $(HOSTED_ZONE_ID)
-          accessKeyID: $(AWS_ACCESS_KEY) 
-          secretAccessKeySecretRef: 
+          region: ${AWS_DEFAULT_REGION}
+          hostedZoneID: ${HOSTED_ZONE_ID}
+          accessKeyID: ${AWS_ACCESS_KEY_ID}
+          secretAccessKeySecretRef:
             name: aws-route53
-            key: aws_key 
+            key: aws_key
 END
-kubectl apply -f letsencrypt
+
+kubectl apply -f secret.yaml
+# need to wait for the CA to be injected
+sleep 20
+kubectl apply -f letsencrypt.yaml
