@@ -2,13 +2,13 @@
 
 set -ex
 
-kubectl create ns cert-manager
+kubectl create namespace cert-manager --dry-run -o yaml | kubectl apply -f -
 helm repo add jetstack https://charts.jetstack.io
 # helm managment of the CRDs did not work when tested
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.crds.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.crds.yaml
 helm install cert-manager jetstack/cert-manager \
   --namespace cert-manager \
-  --version v1.1.0 \
+  --version v1.3.1 \
   --set installCRDS=false
 
 cat > secret.yaml << END
@@ -18,7 +18,7 @@ metadata:
   name: aws-route53
   namespace: cert-manager
 data:
-  aws_key: $(echo ${AWS_SECRET_ACCESS_KEY} | base64)
+  aws_key: $(echo "${AWS_SECRET_ACCESS_KEY}" | base64)
 END
 
 cat > letsencrypt.yaml << END
