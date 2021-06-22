@@ -2,14 +2,17 @@
 
 set -ex
 
-( set -ex
-  #git clone https://github.com/rook/rook -b release-1.2
-  #cd rook/cluster/examples/kubernetes/ceph/
-  cd rook-1.3.1
-  kubectl create -f common.yaml
-  kubectl create -f operator.yaml
-  kubectl create -f toolbox.yaml
-)
+helm repo add rook-release https://charts.rook.io/release
+helm repo update
+kubectl create namespace rook-ceph --dry-run -o yaml | kubectl apply -f -
+
+helm install rook-ceph rook-release/rook-ceph \
+  --namespace rook-ceph \
+  --version v1.6.5 \
+  -f ./values.yaml
+
+# XXX needs affinity & tolerations
+kubectl apply -f https://raw.githubusercontent.com/rook/rook/v1.6.5/cluster/examples/kubernetes/ceph/toolbox.yaml
 
 kubectl apply -f cephcluster.yaml
 kubectl apply -f cephblockpool.yaml
