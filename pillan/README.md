@@ -25,4 +25,4 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 
 import pillan cluster into rancher via this url:
 
-https://rancher.tu.lsst.org/g/clusters/add/launch/import
+https://rancher.tu.lsst.org/g/clusters/add/launch/import?importProvider=other
