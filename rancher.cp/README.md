@@ -14,7 +14,7 @@ export KUBECONFIG=/home/rke/k8s-cookbook/rancher.cp/rke/kube_config_cluster.yml
 
 (cd cert-manager; ./cert-manager.sh)
 
-(cd ingress; ./nginx-ingress-helm.sh)
+(cd ingress; ./ingress-nginx-helm.sh)
 
 (cd rancher; ./rancher.sh)
 ```
