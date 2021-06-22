@@ -33,10 +33,8 @@ CA Certificate
 `file:ipa-ca.pem`
 
 Service Account Distinguished Name
-_XXX binding seems to only work with Directory Manager.  It is not working with
-read-only ldap only users or regular ipa user accounts._
-XXX cn=rancher
-cn=Directory Manager
+
+`uid=svc_rancher,cn=users,cn=accounts,dc=lsst,dc=cloud`
 
 Service Account Password
 `<value from 1pass>`
