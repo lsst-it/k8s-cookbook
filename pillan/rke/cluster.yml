@@ -8,6 +8,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: pillan02.tu.lsst.org
   hostname_override: pillan02
   user: rke
@@ -15,6 +17,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: pillan03.tu.lsst.org
   hostname_override: pillan03
   user: rke
@@ -22,6 +26,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: pillan04.tu.lsst.org
   hostname_override: pillan04
   user: rke
@@ -29,6 +35,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: pillan05.tu.lsst.org
   hostname_override: pillan05
   user: rke
@@ -36,6 +44,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: pillan06.tu.lsst.org
   hostname_override: pillan06
   user: rke
@@ -43,6 +53,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 services:
   etcd:
     image: ""
