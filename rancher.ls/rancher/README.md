@@ -17,14 +17,14 @@ ipa-ldap-updater rancher-binddn.update
 Configure rancher free ipa integration
 --------------------------------------
 
-Logon to https://rancher.tu.lsst.org
+Logon to https://rancher.ls.lsst.org
 
 Security -> Authentication
 
 ### Configure an FreeIPA server
 
 Hostname or IP Address
-`ipa1.tu.lsst.org`
+`ipa1.ls.lsst.org`
 
 Port
 `636` TLS [X]
