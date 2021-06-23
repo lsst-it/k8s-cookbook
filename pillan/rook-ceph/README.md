@@ -36,11 +36,11 @@ Run from rke user env:
 _Must be run prior to the node cleanup._
 
 ```bash
-./rook-ceph-k8s-cleanup.sh
+./scripts/rook-ceph-k8s-cleanup.sh
 ```
 
 Run from workstation with personal ssh-agent setup:
 
 ```bash
-./rook-ceph-node-cleanup.sh
+./scripts/rook-ceph-node-cleanup.sh
 ```
