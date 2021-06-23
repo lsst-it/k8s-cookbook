@@ -16,6 +16,7 @@ spec:
     allowMultiplePerNode: false
   dashboard:
     enabled: true
+    ssl: true  # tls between ingress and svc... doesn't seem to work unless enabled
   crashCollector:
     disable: false
   storage:

@@ -16,6 +16,9 @@ helm install rook-ceph rook-release/rook-ceph \
 kubectl apply -f toolbox.yaml
 
 kubectl apply -f cephcluster.yaml
+kbuectl apply -f ceph-dashboard-ingress.yaml
+# dashbaord creds:
+# kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 
