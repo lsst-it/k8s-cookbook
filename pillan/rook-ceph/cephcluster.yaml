@@ -57,3 +57,6 @@ spec:
     method: quick
     dataSource: zero
     iteration: 1
+  monitoring:
+    enabled: true
+    rulesNamespace: rook-ceph
