@@ -11,8 +11,9 @@ helm install rook-ceph rook-release/rook-ceph \
   --version v1.6.5 \
   -f ./values.yaml
 
-# XXX needs affinity & tolerations
-kubectl apply -f https://raw.githubusercontent.com/rook/rook/v1.6.5/cluster/examples/kubernetes/ceph/toolbox.yaml
+# toolbox needs affinity & tolerations
+# https://raw.githubusercontent.com/rook/rook/v1.6.5/cluster/examples/kubernetes/ceph/toolbox.yaml
+kubectl apply -f toolbox.yaml
 
 kubectl apply -f cephcluster.yaml
 kubectl apply -f cephblockpool.yaml
