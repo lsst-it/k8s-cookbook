@@ -51,3 +51,9 @@ spec:
         effect: NoSchedule
   disruptionManagement:
     managePodBudgets: true
+  cleanupPolicy:
+    # unset only when all data should be destroyed
+    #confirmation: "yes-really-destroy-data"
+    method: quick
+    dataSource: zero
+    iteration: 1
