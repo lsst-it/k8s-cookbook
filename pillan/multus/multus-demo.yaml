@@ -4,7 +4,7 @@ kind: Pod
 metadata:
   name: multus1
   annotations:
-    k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf
+    k8s.v1.cni.cncf.io/networks: kube-system/auxtel-dds
 spec:
   containers:
   - name: iperf
