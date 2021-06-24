@@ -16,9 +16,10 @@ helm install rook-ceph rook-release/rook-ceph \
 kubectl apply -f toolbox.yaml
 
 kubectl apply -f cephcluster.yaml
-kbuectl apply -f ceph-dashboard-ingress.yaml
+kubectl apply -f ceph-dashboard-ingress.yaml
 kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # dashboard setup is buggy; flopping it disable/enable seems to fix it:
 kubectl -n rook-ceph patch cephcluster.ceph.rook.io/rook-ceph --type merge -p '{"spec":{"dashboard": {"enabled": false}}}'
