@@ -10,7 +10,8 @@ helm repo update
 kubectl create namespace kube-prometheus-stack --dry-run -o yaml | kubectl apply -f -
 
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
-  --namespace kube-prometheus-stack
+  --namespace kube-prometheus-stack \
+  -f ./values.yaml
 
 # sanity check
 kubectl --namespace kube-prometheus-stack get pods -l "release=kube-prometheus-stack"

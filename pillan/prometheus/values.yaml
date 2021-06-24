@@ -1,0 +1,29 @@
+---
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    paths:
+      - /
+    pathType: prefix
+    hosts:
+      - prometheus.tu.lsst.org
+    tls:
+      - secretName: tls-prometheus-ingress
+        hosts:
+          - prometheus.tu.lsst.org
+grafana:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    paths:
+      - /
+    pathType: prefix
+    hosts:
+      - grafana.tu.lsst.org
+    tls:
+      - secretName: tls-grafana-ingress
+        hosts:
+          - grafana.tu.lsst.org
