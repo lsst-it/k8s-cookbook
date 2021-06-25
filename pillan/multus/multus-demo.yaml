@@ -6,6 +6,11 @@ metadata:
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/auxtel-dds
 spec:
+  initContainers:
+    - name: ddsnet4u
+      image: lsstit/ddsnet4u:latest
+      securityContext:
+        privileged: true
   containers:
   - name: iperf
     command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
@@ -18,6 +23,11 @@ metadata:
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/comcam-dds
 spec:
+  initContainers:
+    - name: ddsnet4u
+      image: lsstit/ddsnet4u:latest
+      securityContext:
+        privileged: true
   containers:
   - name: iperf
     command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
@@ -30,6 +40,11 @@ metadata:
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/misc-dds
 spec:
+  initContainers:
+    - name: ddsnet4u
+      image: lsstit/ddsnet4u:latest
+      securityContext:
+        privileged: true
   containers:
   - name: iperf
     command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
