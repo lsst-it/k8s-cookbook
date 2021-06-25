@@ -5,6 +5,8 @@ metadata:
   name: multus-demo-auxtel
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/auxtel-dds
+  labels:
+    app: multus-demo
 spec:
   initContainers:
     - name: ddsnet4u
@@ -22,6 +24,8 @@ metadata:
   name: multus-demo-comcam
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/comcam-dds
+  labels:
+    app: multus-demo
 spec:
   initContainers:
     - name: ddsnet4u
@@ -39,6 +43,8 @@ metadata:
   name: multus-demo-misc
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/misc-dds
+  labels:
+    app: multus-demo
 spec:
   initContainers:
     - name: ddsnet4u
