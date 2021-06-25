@@ -2,9 +2,33 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: multus1
+  name: multus-demo-auxtel
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/auxtel-dds
+spec:
+  containers:
+  - name: iperf
+    command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+    image: jhoblitt/iperf
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multus-demo-comcam
+  annotations:
+    k8s.v1.cni.cncf.io/networks: kube-system/comcam-dds
+spec:
+  containers:
+  - name: iperf
+    command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+    image: jhoblitt/iperf
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multus-demo-misc
+  annotations:
+    k8s.v1.cni.cncf.io/networks: kube-system/misc-dds
 spec:
   containers:
   - name: iperf
