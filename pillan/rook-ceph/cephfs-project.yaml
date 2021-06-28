@@ -1,0 +1,32 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: project
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+  dataPools:
+    - failureDomain: host
+      replicated:
+        size: 3
+  metadataServer:
+    activeCount: 3
+    activeStandby: true
+  preserveFilesystemOnDelete: false
+---
+apiVersion: ceph.rook.io/v1
+kind: CephNFS
+metadata:
+  name: project
+  namespace: rook-ceph
+spec:
+  rados:
+    pool: project-data0
+    # RADOS namespace where NFS client recovery data is stored in the pool.
+    namespace: nfs-ns
+  server:
+    active: 3
