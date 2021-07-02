@@ -2,7 +2,7 @@
 
 set -ex
 
-#kubectl -n rook-ceph patch crd cephclusters.ceph.rook.io --type merge -p '{"metadata":{"finalizers": [null]}}'
+# kubectl -n rook-ceph patch cephclusters.ceph.rook.io rook-ceph --type merge -p '{"metadata":{"finalizers": [null]}}'
 
 kubectl delete -f ceph-storageclass.yaml
 kubectl delete -f cephblockpool.yaml
