@@ -4,18 +4,22 @@ set -ex
 
 helm repo add rook-release https://charts.rook.io/release
 helm repo update
-kubectl create namespace rook-ceph --dry-run -o yaml | kubectl apply -f -
 
-helm install rook-ceph rook-release/rook-ceph \
-  --namespace rook-ceph \
-  --version v1.6.5 \
+helm upgrade --install \
+  rook-ceph rook-release/rook-ceph \
+  --create-namespace --namespace rook-ceph \
+  --version v1.6.6 \
   -f ./values.yaml
 
-# toolbox needs affinity & tolerations
-# https://raw.githubusercontent.com/rook/rook/v1.6.5/cluster/examples/kubernetes/ceph/toolbox.yaml
-kubectl apply -f toolbox.yaml
+helm repo add rook-master https://charts.rook.io/master
+helm repo update
 
-kubectl apply -f cephcluster.yaml
+helm upgrade --install \
+  rook-ceph-cluster rook-master/rook-ceph-cluster \
+  --create-namespace --namespace rook-ceph \
+  --set operatorNamespace=rook-ceph \
+  -f ./rook-ceph-cluster-values.yaml
+
 kubectl apply -f ceph-dashboard-ingress.yaml
 kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
