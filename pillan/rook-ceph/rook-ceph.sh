@@ -9,7 +9,7 @@ helm upgrade --install \
   rook-ceph rook-release/rook-ceph \
   --create-namespace --namespace rook-ceph \
   --version v1.6.7 \
-  -f ./values.yaml
+  -f ./rook-ceph-values.yaml
 
 helm repo add rook-master https://charts.rook.io/master
 helm repo update
