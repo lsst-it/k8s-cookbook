@@ -14,6 +14,10 @@ kubectl delete -f cephblockpool.yaml
 helm delete -n rook-ceph rook-ceph-cluster
 helm delete -n rook-ceph rook-ceph
 
+# sanity check for any remaining resources
+kubectl api-resources --verbs=list --namespaced -o name \
+  | xargs -n 1 kubectl get --show-kind --ignore-not-found -n rook-ceph
+
 kubectl delete ns rook-ceph
 
 # vim: tabstop=2 shiftwidth=2 expandtab
