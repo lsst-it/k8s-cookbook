@@ -1,11 +1,13 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 kubectl delete -f cephfs-jhome.yaml
 kubectl delete -f cephfs-lsstdata.yaml
 kubectl delete -f cephfs-project.yaml
 kubectl delete -f cephfs-scratch.yaml
+
+set -ex
 
 # to cleanup/delete OSDs as part of the teardown
 kubectl -n rook-ceph patch cephcluster.ceph.rook.io/rook-ceph --type merge -p '{"spec":{"cleanupPolicy": {"confirmation": "yes-really-destroy-data"}}}'
