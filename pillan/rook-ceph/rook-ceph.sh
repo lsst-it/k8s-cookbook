@@ -25,11 +25,18 @@ kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-# dashboard setup is buggy; flopping it disable/enable seems to fix it:
-kubectl -n rook-ceph patch cephcluster.ceph.rook.io/rook-ceph --type merge -p '{"spec":{"dashboard": {"enabled": false}}}'
-kubectl -n rook-ceph patch cephcluster.ceph.rook.io/rook-ceph --type merge -p '{"spec":{"dashboard": {"enabled": true}}}'
+# dashboard creds
+while :; do
+  kubectl -n rook-ceph get pod -l app=rook-ceph-mgr,ceph_daemon_id=a,rook_cluster=rook-ceph && break
+  sleep 3
+done
+kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod -l app=rook-ceph-mgr,ceph_daemon_id=a,rook_cluster=rook-ceph
 
-# dashboard creds:
+set +x
+echo "===================="
+echo "dashboard passphrase"
+echo "===================="
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
+echo "===================="
 
 # vim: tabstop=2 shiftwidth=2 expandtab
