@@ -8,3 +8,6 @@ rules:
   comments-indentation: false
   comments:
     require-starting-space: false
+  indentation:
+    spaces: consistent
+    indent-sequences: consistent
