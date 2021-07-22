@@ -21,8 +21,6 @@ export KUBECONFIG=/home/rke/k8s-cookbook/pillan/rke/kube_config_cluster.yml
 (cd prometheus; ./prometheus.sh)
 
 (cd rook-ceph; ./rook-ceph.sh)
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
 ```
 
 import pillan cluster into rancher via this url:
