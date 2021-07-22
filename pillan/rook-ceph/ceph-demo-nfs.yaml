@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cephnfs-demo
+  name: ceph-nfs-demo
   labels:
-    app: cephnfs-demo
+    app: ceph-nfs-demo
 spec:
   containers:
     - name: alpine
