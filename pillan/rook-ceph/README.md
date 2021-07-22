@@ -25,7 +25,7 @@ simple test deployment to verify that ceph backed PVs can be created
 ---
 
 ```bash
-kubectl apply -f ceph-pvc-demo.yaml
+kubectl apply -f ./demo/ceph-demo-pvc.yaml
 ```
 
 complete ceph cluster tear down (will loose all data)
