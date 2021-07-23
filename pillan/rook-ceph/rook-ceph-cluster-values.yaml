@@ -111,6 +111,9 @@ cephClusterSpec:
     - name: pillan03
       devices:
       - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01690H
+    - name: pillan04
+      devices:
+      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01744N
     - name: pillan06
       devices:
       - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01747H
