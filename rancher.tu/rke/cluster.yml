@@ -97,7 +97,7 @@ authorization:
   mode: rbac
   options: {}
 ignore_docker_version: false
-kubernetes_version: "v1.20.6-rancher1-1"
+kubernetes_version: "v1.20.9-rancher1-1"
 private_registries: []
 ingress:
   provider: none
