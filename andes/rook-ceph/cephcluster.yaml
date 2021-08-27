@@ -18,7 +18,7 @@ spec:
     useAllNodes: false
     useAllDevices: false
     nodes:
-    - name: andes03.cp.lsst.org
+    - name: andes04.cp.lsst.org
       devices:
       - name: sdb
         config:
