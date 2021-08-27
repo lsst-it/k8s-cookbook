@@ -7,4 +7,4 @@ metadata:
 spec:
   failureDomain: host
   replicated:
-    size: 3
+    size: 2
