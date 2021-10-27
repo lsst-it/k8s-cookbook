@@ -49,7 +49,7 @@ cephClusterSpec:
     disable: false
   logCollector:
     enabled: true
-    periodicity: 30d # SUFFIX may be 'h' for hours or 'd' for days.
+    periodicity: 1d # SUFFIX may be 'h' for hours or 'd' for days.
   cleanupPolicy:
     #confirmation: "yes-really-destroy-data"
     sanitizeDisks:
