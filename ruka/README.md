@@ -12,9 +12,9 @@ export KUBECONFIG=/home/rke/k8s-cookbook/ruka/rke/kube_config_cluster.yml
 
 (cd metallb; ./metallb.sh)
 
-(cd cert-manager; ./cm-and-clusterissuer.sh)
+(cd cert-manager; ./cert-manager.sh)
 
-(cd ingress; ./nginx-ingress-helm.sh)
+(cd ingress; ./ingress-nginx-helm.sh)
 
 (cd rook-ceph; ./rook-ceph.sh)
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
