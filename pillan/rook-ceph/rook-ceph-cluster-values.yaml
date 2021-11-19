@@ -28,7 +28,7 @@ monitoring:
 
 cephClusterSpec:
   cephVersion:
-    image: ceph/ceph:v16.2.4
+    image: ceph/ceph:v16.2.5
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
