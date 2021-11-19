@@ -12,8 +12,8 @@ spec:
   dataPool:
     failureDomain: host
     erasureCoded:
-      dataChunks: 2
-      codingChunks: 1
+      dataChunks: 3
+      codingChunks: 2
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
