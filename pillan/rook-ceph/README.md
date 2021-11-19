@@ -42,6 +42,13 @@ NFS Exports
 
 https://rook-ceph.tu.lsst.org/#/nfs/create
 
+Create in order:
+
+- jhome
+- lsstdata
+- project
+- scratch
+
 ```
 "Create NFS export"
 
