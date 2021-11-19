@@ -97,6 +97,8 @@ spec:
             key: aws_key
 END
 
+kubectl create namespace rook-ceph --dry-run=client -o yaml | kubectl apply -f -
+
 kubectl apply -f secret.yaml
 # need to wait for the CA to be injected
 sleep 20
