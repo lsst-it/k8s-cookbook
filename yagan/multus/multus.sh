@@ -9,9 +9,7 @@ set -ex
 )
 
 NADS=(
-  multus-nad-auxtel-dds.yaml
-  multus-nad-comcam-dds.yaml
-  multus-nad-misc-dds.yaml
+  multus-nad-dds.yaml
 )
 
 for n in "${NADS[@]}"; do

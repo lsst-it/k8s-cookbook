@@ -18,8 +18,6 @@ export KUBECONFIG=/home/rke/k8s-cookbook/yagan/rke/kube_config_cluster.yml
 
 (cd multus; ./multus.sh)
 
-(cd prometheus; ./prometheus.sh)
-
 (cd rook-ceph; ./rook-ceph.sh)
 ```
 
