@@ -48,9 +48,13 @@ kubectl apply -f cephfs-scratch.yaml
 # no spaces after `,`s is allowed
 kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
 ceph dashboard set-ganesha-clusters-rados-pool-namespace \
-scratch:scratch-data0/nfs-ns,\
-jhome:jhome-data0/nfs-ns,\
-lsstdata:lsstdata-data0/nfs-ns,\
-project:project-data0/nfs-ns
+scratch:nfs-ganesha/scratch,\
+jhome:nfs-ganesha/jhome,\
+lsstdata:nfs-ganesha/lsstdata,\
+project:nfs-ganesha/project
+
+# XXX post rook 1.7.x we are suppose to unset the manual dashboard... but it doesn't work
+#kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
+#  ceph dashboard set-ganesha-clusters-rados-pool-namespace ""
 
 # vim: tabstop=2 shiftwidth=2 expandtab
