@@ -40,10 +40,10 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 echo "===================="
 
 # cephfs w/ nfs
-kubectl apply -f cephfs-jhome.yaml
-kubectl apply -f cephfs-lsstdata.yaml
-kubectl apply -f cephfs-project.yaml
-kubectl apply -f cephfs-scratch.yaml
+kubectl apply -f nfs/cephfs-jhome.yaml
+kubectl apply -f nfs/cephfs-lsstdata.yaml
+kubectl apply -f nfs/cephfs-project.yaml
+kubectl apply -f nfs/cephfs-scratch.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
