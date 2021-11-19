@@ -104,32 +104,32 @@ cephClusterSpec:
     nodes:
     - name: yagan01
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703118
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703123
     - name: yagan02
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703121
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703128
     - name: yagan03
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605075
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703127
     - name: yagan04
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703122
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703125
     - name: yagan05
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703108
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703130
     - name: yagan06
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703106
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703131
     - name: yagan07
       devices:
-      - name: nvme0n1
-      - name: nvme1n1
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
+      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
