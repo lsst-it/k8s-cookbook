@@ -8,13 +8,6 @@ set -ex
   kubectl apply -f images/multus-daemonset.yml
 )
 
-NADS=(
-  multus-nad-dds.yaml
-)
-
-for n in "${NADS[@]}"; do
-  kubectl apply -f "${n}"
-done
-
+kubectl apply -f multus-nad-default.yaml
 
 # vim: tabstop=2 shiftwidth=2 expandtab
