@@ -20,6 +20,7 @@ export KUBECONFIG=/home/rke/k8s-cookbook/pillan/rke/kube_config_cluster.yml
 
 (cd prometheus; ./prometheus.sh)
 
+(cd rook-ceph; ./cert-manager.sh)
 (cd rook-ceph; ./rook-ceph.sh)
 ```
 

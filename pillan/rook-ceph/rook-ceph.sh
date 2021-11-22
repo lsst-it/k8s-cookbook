@@ -8,7 +8,7 @@ helm repo update
 helm upgrade --install \
   rook-ceph rook-release/rook-ceph \
   --create-namespace --namespace rook-ceph \
-  --version v1.6.8 \
+  --version v1.7.8 \
   -f ./rook-ceph-values.yaml
 
 helm repo add rook-master https://charts.rook.io/master
@@ -40,17 +40,29 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 echo "===================="
 
 # cephfs w/ nfs
-kubectl apply -f cephfs-jhome.yaml
-kubectl apply -f cephfs-lsstdata.yaml
-kubectl apply -f cephfs-project.yaml
-kubectl apply -f cephfs-scratch.yaml
+kubectl apply -f nfs/cephfs-jhome.yaml
+kubectl apply -f nfs/cephfs-lsstdata.yaml
+kubectl apply -f nfs/cephfs-project.yaml
+kubectl apply -f nfs/cephfs-scratch.yaml
+
+# lfa/s3
+kubectl apply -f s3/object_store.yaml
+kubectl apply -f s3/ingress.yaml
 
 # no spaces after `,`s is allowed
 kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
 ceph dashboard set-ganesha-clusters-rados-pool-namespace \
-scratch:scratch-data0/nfs-ns,\
-jhome:jhome-data0/nfs-ns,\
-lsstdata:lsstdata-data0/nfs-ns,\
-project:project-data0/nfs-ns
+scratch:nfs-ganesha/scratch,\
+jhome:nfs-ganesha/jhome,\
+lsstdata:nfs-ganesha/lsstdata,\
+project:nfs-ganesha/project
+
+# XXX post rook 1.7.x we are suppose to unset the manual dashboard... but it doesn't work
+#kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
+#  ceph dashboard set-ganesha-clusters-rados-pool-namespace ""
+
+# XXX at least rook 1.7.[78] do not set the application type on the nfs-ganesha pool. This causes a ceph health warning.
+kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
+  ceph osd pool application enable nfs-ganesha nfs
 
 # vim: tabstop=2 shiftwidth=2 expandtab
