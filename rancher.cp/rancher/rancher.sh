@@ -12,6 +12,6 @@ helm upgrade rancher rancher-stable/rancher \
   --set hostname=rancher.cp.lsst.org \
   --set ingress.tls.source=secret \
   --set ingress.extraAnnotations."cert-manager\.io/cluster-issuer"=letsencrypt \
-  --version v2.5.8
+  --version v2.6.2
 
 kubectl -n cattle-system rollout status deploy/rancher
