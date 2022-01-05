@@ -1,22 +1,6 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: kueyen01.ls.lsst.org
-  port: "22"
-  internal_address: ""
-  role:
-  - controlplane
-  - worker
-  - etcd
-  hostname_override: "kueyen01"
-  user: rke
-  docker_socket: /var/run/docker.sock
-  ssh_key: ""
-  ssh_key_path: ~/.ssh/id_rsa
-  ssh_cert: ""
-  ssh_cert_path: ""
-  labels:
-    role: storage-node 
 - address: kueyen02.ls.lsst.org
   port: "22"
   internal_address: ""
