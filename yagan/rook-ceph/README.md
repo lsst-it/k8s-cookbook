@@ -50,7 +50,7 @@ NFS Exports
 
 https://rook-ceph.tu.lsst.org/#/nfs/create
 
-```
+```text
 "Create NFS export"
 
 Cluster: lsstdata
