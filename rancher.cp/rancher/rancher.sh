@@ -5,13 +5,12 @@ set -ex
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 helm repo update
 
-kubectl create namespace cattle-system --dry-run -o yaml | kubectl apply -f -
-
-helm upgrade rancher rancher-stable/rancher \
-  --namespace cattle-system \
+helm upgrade --install \
+  rancher rancher-stable/rancher \
+  --create-namespace --namespace cattle-system \
   --set hostname=rancher.cp.lsst.org \
   --set ingress.tls.source=secret \
   --set ingress.extraAnnotations."cert-manager\.io/cluster-issuer"=letsencrypt \
-  --version v2.6.2
+  --version v2.6.3
 
 kubectl -n cattle-system rollout status deploy/rancher
