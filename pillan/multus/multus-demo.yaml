@@ -14,9 +14,9 @@ spec:
       securityContext:
         privileged: true
   containers:
-  - name: iperf
-    command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
-    image: jhoblitt/iperf
+    - name: iperf
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      image: jhoblitt/iperf
 ---
 apiVersion: v1
 kind: Pod
@@ -33,9 +33,9 @@ spec:
       securityContext:
         privileged: true
   containers:
-  - name: iperf
-    command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
-    image: jhoblitt/iperf
+    - name: iperf
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      image: jhoblitt/iperf
 ---
 apiVersion: v1
 kind: Pod
@@ -52,6 +52,6 @@ spec:
       securityContext:
         privileged: true
   containers:
-  - name: iperf
-    command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
-    image: jhoblitt/iperf
+    - name: iperf
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      image: jhoblitt/iperf

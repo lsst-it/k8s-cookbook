@@ -50,7 +50,7 @@ kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
 
 # no spaces after `,`s is allowed
-kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
+kubectl -n rook-ceph exec -it "$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')" -- \
 ceph dashboard set-ganesha-clusters-rados-pool-namespace \
 scratch:nfs-ganesha/scratch,\
 jhome:nfs-ganesha/jhome,\
@@ -62,7 +62,7 @@ project:nfs-ganesha/project
 #  ceph dashboard set-ganesha-clusters-rados-pool-namespace ""
 
 # XXX at least rook 1.7.[78] do not set the application type on the nfs-ganesha pool. This causes a ceph health warning.
-kubectl -n rook-ceph exec -it $(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- \
+kubectl -n rook-ceph exec -it "$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')" -- \
   ceph osd pool application enable nfs-ganesha nfs
 
 # vim: tabstop=2 shiftwidth=2 expandtab

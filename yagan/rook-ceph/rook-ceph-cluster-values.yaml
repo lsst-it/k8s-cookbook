@@ -1,3 +1,4 @@
+---
 operatorNamespace: rook-ceph
 
 toolbox:
@@ -17,10 +18,10 @@ toolbox:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-            - key: role
-              operator: In
-              values:
-                - storage-node
+              - key: role
+                operator: In
+                values:
+                  - storage-node
 
 monitoring:
   enabled: true
@@ -49,7 +50,7 @@ cephClusterSpec:
     disable: false
   logCollector:
     enabled: true
-    periodicity: 1d # SUFFIX may be 'h' for hours or 'd' for days.
+    periodicity: 1d  # SUFFIX may be 'h' for hours or 'd' for days.
   cleanupPolicy:
     #confirmation: "yes-really-destroy-data"
     sanitizeDisks:
@@ -62,16 +63,16 @@ cephClusterSpec:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-          - matchExpressions:
-            - key: role
-              operator: In
-              values:
-              - storage-node
+            - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - storage-node
       tolerations:
-      - key: role
-        operator: Equal
-        value: storage-node
-        effect: NoSchedule
+        - key: role
+          operator: Equal
+          value: storage-node
+          effect: NoSchedule
   resources:
   # The requests and limits set here, allow the mgr pod to use half of one CPU core and 1 gigabyte of memory
   #    mgr:
@@ -102,34 +103,34 @@ cephClusterSpec:
     config:
       osdsPerDevice: "4"
     nodes:
-    - name: yagan01
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703118
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703123
-    - name: yagan02
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703121
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703128
-    - name: yagan03
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605075
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703127
-    - name: yagan04
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703122
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703125
-    - name: yagan05
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703108
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703130
-    - name: yagan06
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703106
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703131
-    - name: yagan07
-      devices:
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
-      - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
+      - name: yagan01
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703118
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703123
+      - name: yagan02
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703121
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703128
+      - name: yagan03
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605075
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703127
+      - name: yagan04
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703122
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703125
+      - name: yagan05
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703108
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703130
+      - name: yagan06
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703106
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703131
+      - name: yagan07
+        devices:
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30

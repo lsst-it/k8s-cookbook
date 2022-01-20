@@ -1,3 +1,4 @@
+---
 tolerations:
   - &storage_node_tol
     key: role

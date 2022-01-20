@@ -1,3 +1,4 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -7,17 +8,17 @@ metadata:
     cert-manager.io/issuer: letsencrypt
 spec:
   tls:
-   - hosts:
-     - rook-ceph.tu.lsst.org
-     secretName: tls-rook-ceph-ingress
+    - hosts:
+        - rook-ceph.tu.lsst.org
+      secretName: tls-rook-ceph-ingress
   rules:
-  - host: rook-ceph.tu.lsst.org
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-mgr-dashboard
-            port:
-              name: http-dashboard
+    - host: rook-ceph.tu.lsst.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-mgr-dashboard
+                port:
+                  name: http-dashboard

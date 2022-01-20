@@ -44,12 +44,12 @@ https://rook-ceph.tu.lsst.org/#/nfs/create
 
 Create in order:
 
-- jhome
-- lsstdata
-- project
-- scratch
+* jhome
+* lsstdata
+* project
+* scratch
 
-```
+```text
 "Create NFS export"
 
 Cluster: lsstdata
