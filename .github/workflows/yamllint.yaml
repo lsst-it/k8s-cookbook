@@ -1,0 +1,15 @@
+---
+# yamllint disable rule:quoted-strings
+name: yamllint
+
+"on":
+  - push
+
+jobs:
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run yamllint
+        uses: bewuethr/yamllint-action@v1

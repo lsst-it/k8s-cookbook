@@ -1,0 +1,15 @@
+---
+# yamllint disable rule:quoted-strings
+name: markdownlint
+
+"on":
+  - push
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run mdl
+        uses: actionshub/markdownlint@main
