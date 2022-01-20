@@ -46,10 +46,10 @@ metadata:
   namespace: rook-ceph
 spec:
   ports:
-  - name: nfs
-    port: 2049
-    protocol: TCP
-    targetPort: 2049
+    - name: nfs
+      port: 2049
+      protocol: TCP
+      targetPort: 2049
   selector:
     app: rook-ceph-nfs
     ceph_daemon_id: a

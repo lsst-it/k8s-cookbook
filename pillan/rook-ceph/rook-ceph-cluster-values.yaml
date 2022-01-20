@@ -1,3 +1,4 @@
+---
 operatorNamespace: rook-ceph
 
 toolbox:
@@ -17,10 +18,10 @@ toolbox:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-            - key: role
-              operator: In
-              values:
-                - storage-node
+              - key: role
+                operator: In
+                values:
+                  - storage-node
 
 monitoring:
   enabled: true
@@ -49,7 +50,7 @@ cephClusterSpec:
     disable: false
   logCollector:
     enabled: true
-    periodicity: 1d # SUFFIX may be 'h' for hours or 'd' for days.
+    periodicity: 1d  # SUFFIX may be 'h' for hours or 'd' for days.
   cleanupPolicy:
     #confirmation: "yes-really-destroy-data"
     sanitizeDisks:
@@ -62,16 +63,16 @@ cephClusterSpec:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
-          - matchExpressions:
-            - key: role
-              operator: In
-              values:
-              - storage-node
+            - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - storage-node
       tolerations:
-      - key: role
-        operator: Equal
-        value: storage-node
-        effect: NoSchedule
+        - key: role
+          operator: Equal
+          value: storage-node
+          effect: NoSchedule
   resources:
   # The requests and limits set here, allow the mgr pod to use half of one CPU core and 1 gigabyte of memory
   #    mgr:
@@ -102,24 +103,24 @@ cephClusterSpec:
     config:
       osdsPerDevice: "4"
     nodes:
-    - name: pillan01
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01685F
-    - name: pillan02
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01695D
-    - name: pillan03
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01690H
-    - name: pillan04
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01744N
-    - name: pillan05
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB00905W
-    - name: pillan06
-      devices:
-      - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01747H
+      - name: pillan01
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01685F
+      - name: pillan02
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01695D
+      - name: pillan03
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01690H
+      - name: pillan04
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01744N
+      - name: pillan05
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB00905W
+      - name: pillan06
+        devices:
+          - name: /dev/disk/by-id/nvme-Samsung_SSD_983_DCT_1.92TB_S48BNG0MB01747H
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30

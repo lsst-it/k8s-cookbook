@@ -1,3 +1,4 @@
+---
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
@@ -10,9 +11,9 @@ nodes:
   labels:
     role: storage-node
   taints:
-    - key: role
-      value: storage-node
-      effect: NoSchedule
+  - key: role
+    value: storage-node
+    effect: NoSchedule
 - address: antu02.ls.lsst.org
   user: rke
   role:
@@ -22,9 +23,9 @@ nodes:
   labels:
     role: storage-node
   taints:
-    - key: role
-      value: storage-node
-      effect: NoSchedule
+  - key: role
+    value: storage-node
+    effect: NoSchedule
 - address: antu03.ls.lsst.org
   user: rke
   role:
@@ -34,9 +35,9 @@ nodes:
   labels:
     role: storage-node
   taints:
-    - key: role
-      value: storage-node
-      effect: NoSchedule
+  - key: role
+    value: storage-node
+    effect: NoSchedule
 - address: antu04.ls.lsst.org
   user: rke
   role:

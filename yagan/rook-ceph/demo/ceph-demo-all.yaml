@@ -44,7 +44,7 @@ metadata:
   name: ceph-demo-all-pvc2
 spec:
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 200Gi
