@@ -1,8 +1,8 @@
 ruka cluster deployment
-========================
+=========================
 
 ```bash
-ssh ruka01.ls.lsst.org
+ssh ruka01.dev.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
 cd k8s-cookbook/ruka/
@@ -16,10 +16,11 @@ export KUBECONFIG=/home/rke/k8s-cookbook/ruka/rke/kube_config_cluster.yml
 
 (cd ingress; ./ingress-nginx-helm.sh)
 
+(cd multus; ./multus.sh)
+
 (cd rook-ceph; ./rook-ceph.sh)
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-import andes cluster into rancher via this url:
+import ruka cluster into rancher via this url:
 
-https://rancher.ls.lsst.org/g/clusters/add/launch/import
+https://rancher.ls.lsst.org/g/clusters/add/launch/import?importProvider=other
