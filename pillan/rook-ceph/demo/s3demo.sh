@@ -35,7 +35,7 @@ check_vars
 set -x
 
 tmpdir=$(mktemp -d -t "$(basename BASH_SOURCE)-XXXXXXXX")
-tmpfile="$tmpdir/foo}"
+tmpfile="$tmpdir/foo"
 # shellcheck disable=SC2064
 trap "{ rm -rf $tmpdir; }" EXIT
 
