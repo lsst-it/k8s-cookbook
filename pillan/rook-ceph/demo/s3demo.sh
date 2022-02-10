@@ -34,9 +34,22 @@ check_vars
 
 set -x
 
-aws s3 --endpoint-url https://s3.tu.lsst.org --region lfa mb s3://s3demo
-touch foo
-aws s3 --endpoint-url https://s3.tu.lsst.org cp foo s3://s3demo
-aws s3 --endpoint-url https://s3.tu.lsst.org ls s3://s3demo
-aws s3 --endpoint-url https://s3.tu.lsst.org rm s3://s3demo/foo
-aws s3 --endpoint-url https://s3.tu.lsst.org rb s3://s3demo
+tmpdir=$(mktemp -d -t "$(basename BASH_SOURCE)-XXXXXXXX")
+tmpfile="$tmpdir/foo}"
+# shellcheck disable=SC2064
+trap "{ rm -rf $tmpdir; }" EXIT
+
+ENDPOINT='--ca-bundle /etc/ssl/certs/ca-bundle.crt --endpoint-url https://s3.tu.lsst.org'
+
+# shellcheck disable=SC2086
+aws s3 $ENDPOINT --region lfa mb s3://s3demo
+dd if=/dev/zero of="$tmpfile" bs=1M count=1K
+# shellcheck disable=SC2086
+time aws s3 $ENDPOINT cp "$tmpfile" s3://s3demo
+rm "$tmpfile"
+# shellcheck disable=SC2086
+aws s3 $ENDPOINT ls s3://s3demo
+# shellcheck disable=SC2086
+aws s3 $ENDPOINT rm s3://s3demo/foo
+# shellcheck disable=SC2086
+aws s3 $ENDPOINT rb s3://s3demo
