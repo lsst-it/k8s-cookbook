@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - rook-ceph.cp.lsst.org
+        - rook-ceph.yagan.cp.lsst.org
       secretName: tls-rook-ceph-ingress
   rules:
-    - host: rook-ceph.cp.lsst.org
+    - host: rook-ceph.yagan.cp.lsst.org
       http:
         paths:
           - path: /
