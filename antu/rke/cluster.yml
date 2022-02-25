@@ -46,11 +46,10 @@ nodes:
   user: rke
   role:
   - worker
-# disable antu06 - https://jira.lsstcorp.org/browse/IT-1975
-#- address: antu06.ls.lsst.org
-#  user: rke
-#  role:
-#  - worker
+- address: antu06.ls.lsst.org
+  user: rke
+  role:
+  - worker
 - address: antu07.ls.lsst.org
   user: rke
   role:
