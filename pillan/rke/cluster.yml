@@ -100,7 +100,8 @@ services:
     extra_env: []
   kubelet:
     image: ""
-    extra_args: {}
+    extra_args:
+      node-status-max-images: "-1"
     extra_binds: []
     extra_env: []
     cluster_domain: cluster.local
