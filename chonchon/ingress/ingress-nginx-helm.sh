@@ -9,7 +9,7 @@ kubectl create namespace ingress-nginx
 
 helm install ingress-nginx ingress-nginx/ingress-nginx \
   --namespace ingress-nginx \
-  --version v3.23.0 \
+  --version v4.0.18 \
   --set controller.kind=DaemonSet \
   --set defaultBackend.replicaCount=3 \
   --set rbac.create=true
