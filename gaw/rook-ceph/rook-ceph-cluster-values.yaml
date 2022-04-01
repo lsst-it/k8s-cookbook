@@ -97,7 +97,7 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "3"
     nodes:
       - name: gaw01
         devices:
