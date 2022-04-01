@@ -1,12 +1,4 @@
-#!/bin/bash
-
-set -x
-
-kubectl delete -f cephfs-jhome.yaml
-kubectl delete -f cephfs-lsstdata.yaml
-kubectl delete -f cephfs-project.yaml
-kubectl delete -f cephfs-scratch.yaml
-
+#!/usr/bin/env bash
 set -ex
 
 # to cleanup/delete OSDs as part of the teardown

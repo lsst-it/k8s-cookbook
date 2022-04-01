@@ -3,7 +3,7 @@ operatorNamespace: rook-ceph
 
 toolbox:
   enabled: true
-  image: rook/ceph:v1.6.8
+  image: rook/ceph:v1.7.8
   tolerations:
     - key: node.kubernetes.io/unreachable
       operator: Exists
@@ -24,11 +24,12 @@ toolbox:
                   - storage-node
 
 monitoring:
-  enabled: false
+  enabled: true
+  rulesNamespaceOverride: rook-ceph
 
 cephClusterSpec:
   cephVersion:
-    image: ceph/ceph:v16.2.4
+    image: ceph/ceph:v16.2.5
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
@@ -42,6 +43,9 @@ cephClusterSpec:
     modules:
       - name: pg_autoscaler
         enabled: true
+  dashboard:
+    enabled: true
+    ssl: false
   crashCollector:
     disable: false
   logCollector:
@@ -87,7 +91,7 @@ cephClusterSpec:
   #    logcollector:
   #    cleanup:
   # The option to automatically remove OSDs that are out and are safe to destroy.
-  removeOSDsIfOutAndSafeToRemove: false
+  removeOSDsIfOutAndSafeToRemove: true
   #  priorityClassNames:
   #    all: rook-ceph-default-priority-class
   #    mon: rook-ceph-mon-priority-class
@@ -106,6 +110,11 @@ cephClusterSpec:
           - name: sdc
           - name: sdd
           - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
       - name: gaw02
         devices:
           - name: sda
@@ -113,6 +122,11 @@ cephClusterSpec:
           - name: sdc
           - name: sdd
           - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
       - name: gaw03
         devices:
           - name: sda
@@ -120,6 +134,11 @@ cephClusterSpec:
           - name: sdc
           - name: sdd
           - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
       - name: gaw04
         devices:
           - name: sda
@@ -127,6 +146,11 @@ cephClusterSpec:
           - name: sdc
           - name: sdd
           - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
       - name: gaw05
         devices:
           - name: sda
@@ -134,6 +158,11 @@ cephClusterSpec:
           - name: sdc
           - name: sdd
           - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30

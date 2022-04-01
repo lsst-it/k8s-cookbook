@@ -21,6 +21,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: it-s3
+            name: rook-ceph-rgw-it-s3
             port:
               number: 80

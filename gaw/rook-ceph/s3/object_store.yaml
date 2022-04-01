@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: it-backup
+  name: it-s3
   namespace: rook-ceph
 spec:
   metadataPool:
