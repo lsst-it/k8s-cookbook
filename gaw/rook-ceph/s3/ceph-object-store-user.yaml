@@ -1,9 +1,0 @@
----
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
-metadata:
-  name: rubinobs-it
-  namespace: rook-ceph
-spec:
-  store: it-s3
-  displayName: "RubinObs IT"
