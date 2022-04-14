@@ -8,7 +8,7 @@ spec:
   config: '{
       "cniVersion": "0.3.0",
       "type": "macvlan",
-      "master": "eno2d1.1201",
+      "master": "enp1s0f1.1201",
       "mode": "bridge",
       "ipam": {
         "type": "dhcp"
