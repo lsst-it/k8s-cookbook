@@ -1,0 +1,49 @@
+---
+tolerations:
+  - &storage_node_tol
+    key: role
+    operator: Equal
+    value: storage-node
+    effect: NoSchedule
+nodeSelector: &storage_node_aff
+  role: storage-node
+agent:
+  tolerations:
+    - <<: *storage_node_tol
+  nodeAffinity:
+    <<: *storage_node_aff
+discover:
+  tolerations:
+    - <<: *storage_node_tol
+  nodeAffinity:
+    <<: *storage_node_aff
+csi:
+  provisionerTolerations:
+    - <<: *storage_node_tol
+  provisionerNodeAffinity:
+    <<: *storage_node_aff
+  rbdProvisionerTolerations:
+    - <<: *storage_node_tol
+  rbdProvisionerNodeAffinity:
+    <<: *storage_node_aff
+  cephFSProvisionerTolerations:
+    - <<: *storage_node_tol
+  cephFSProvisionerNodeAffinity:
+    <<: *storage_node_aff
+  pluginTolerations:
+    - <<: *storage_node_tol
+  pluginNodeAffinity:
+    <<: *storage_node_aff
+  rbdPluginTolerations:
+    - <<: *storage_node_tol
+  rbdPluginNodeAffinity:
+    <<: *storage_node_aff
+  cephFSPluginTolerations:
+    - <<: *storage_node_tol
+  cephFSPluginNodeAffinity:
+    <<: *storage_node_aff
+admissionController:
+  tolerations:
+    - <<: *storage_node_tol
+  nodeAffinity:
+    <<: *storage_node_aff
