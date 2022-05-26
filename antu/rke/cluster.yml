@@ -3,6 +3,7 @@
 # please consult the documentation on how to configure custom RKE images.
 nodes:
 - address: antu01.ls.lsst.org
+  hostname_override: antu01
   user: rke
   role:
   - controlplane
@@ -15,6 +16,7 @@ nodes:
     value: storage-node
     effect: NoSchedule
 - address: antu02.ls.lsst.org
+  hostname_override: antu02
   user: rke
   role:
   - controlplane
@@ -27,6 +29,7 @@ nodes:
     value: storage-node
     effect: NoSchedule
 - address: antu03.ls.lsst.org
+  hostname_override: antu03
   user: rke
   role:
   - controlplane
@@ -39,42 +42,52 @@ nodes:
     value: storage-node
     effect: NoSchedule
 - address: antu04.ls.lsst.org
+  hostname_override: antu04
   user: rke
   role:
   - worker
 - address: antu05.ls.lsst.org
+  hostname_override: antu05
   user: rke
   role:
   - worker
 - address: antu06.ls.lsst.org
+  hostname_override: antu06
   user: rke
   role:
   - worker
 - address: antu07.ls.lsst.org
+  hostname_override: antu07
   user: rke
   role:
   - worker
 - address: antu08.ls.lsst.org
+  hostname_override: antu08
   user: rke
   role:
   - worker
 - address: antu09.ls.lsst.org
+  hostname_override: antu09
   user: rke
   role:
   - worker
 - address: ls-dtn01.ls.lsst.org
+  hostname_override: ls-dtn01
   user: rke
   role:
   - worker
 - address: ls-dtn02.ls.lsst.org
+  hostname_override: ls-dtn02
   user: rke
   role:
   - worker
 - address: ls-efdetl01.ls.lsst.org
+  hostname_override: ls-efdtl01
   user: rke
   role:
   - worker
 - address: ls-fwdr02.ls.lsst.org
+  hostname_override: ls-fwdr02
   user: rke
   role:
   - worker
