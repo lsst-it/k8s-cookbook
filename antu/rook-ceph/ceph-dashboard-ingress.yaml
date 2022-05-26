@@ -5,7 +5,7 @@ metadata:
   name: rook-ceph-mgr-dashboard
   namespace: rook-ceph
   annotations:
-    cert-manager.io/issuer: "rook-ceph-letsencrypt"
+    cert-manager.io/issuer: "letsencrypt-rook-ceph"
     kubernetes.io/ingress.class: "nginx"
 spec:
   tls:
