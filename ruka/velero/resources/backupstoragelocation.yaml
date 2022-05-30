@@ -1,0 +1,22 @@
+---
+# Source: velero/templates/backupstoragelocation.yaml
+apiVersion: velero.io/v1
+kind: BackupStorageLocation
+metadata:
+  name: it-backup
+  namespace: velero
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade,post-rollback
+    "helm.sh/hook-delete-policy": before-hook-creation
+  labels:
+    app.kubernetes.io/name: velero
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: velero-2.29.7
+spec:
+  provider: aws
+  accessMode: ReadWrite
+  objectStorage:
+    bucket: "it-backup"
+  config:
+    s3Url: "it-s3.ls.lsst.org"
