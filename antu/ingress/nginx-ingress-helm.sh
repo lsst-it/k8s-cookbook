@@ -2,13 +2,12 @@
 
 set -ex
 
-helm repo add stable https://kubernetes-charts.storage.googleapis.com
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 
-kubectl create namespace nginx-ingress
-
-helm install nginx-ingress stable/nginx-ingress \
-  --namespace nginx-ingress \
+helm upgrade --install \
+  ingress-nginx ingress-nginx/ingress-nginx \
+  --create-namespace --namespace ingress-nginx \
   --set controller.kind=DaemonSet \
   --set defaultBackend.replicaCount=3 \
   --set rbac.create=true
