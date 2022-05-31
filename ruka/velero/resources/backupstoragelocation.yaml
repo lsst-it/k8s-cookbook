@@ -3,7 +3,7 @@
 apiVersion: velero.io/v1
 kind: BackupStorageLocation
 metadata:
-  name: it-backup
+  name: default
   namespace: velero
   annotations:
     "helm.sh/hook": post-install,post-upgrade,post-rollback

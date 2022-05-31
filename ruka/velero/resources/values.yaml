@@ -139,7 +139,7 @@ configuration:
   backupStorageLocation:
     # name is the name of the backup storage location where backups should be stored. If a name is not provided,
     # a backup storage location will be created with the name "default". Optional.
-    name: it-backup
+    name:
     # provider is the name for the backup storage location provider. If omitted
     # `configuration.provider` will be used instead.
     provider: aws
