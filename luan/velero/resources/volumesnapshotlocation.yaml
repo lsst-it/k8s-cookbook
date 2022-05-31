@@ -1,7 +1,7 @@
 ---
-# Source: velero/templates/backupstoragelocation.yaml
+# Source: velero/templates/volumesnapshotlocation.yaml
 apiVersion: velero.io/v1
-kind: BackupStorageLocation
+kind: VolumeSnapshotLocation
 metadata:
   name: default
   namespace: velero
@@ -15,8 +15,6 @@ metadata:
     helm.sh/chart: velero-2.29.7
 spec:
   provider: aws
-  accessMode: ReadWrite
-  objectStorage:
-    bucket: "it-backup"
   config:
-    s3Url: "it-s3.ls.lsst.org"
+    profile: default
+    region: "us-east-1"

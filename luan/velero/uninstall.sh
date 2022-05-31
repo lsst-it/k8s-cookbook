@@ -10,6 +10,5 @@ kubectl delete -f resources/svc.yaml
 kubectl delete -f resources/rolebinding.yaml
 kubectl delete -f resources/role.yaml
 kubectl delete -f resources/clusterrolebinding.yaml
-kubectl delete -f resources/secret.yaml
 kubectl delete -f resources/svc_account.yaml
 kubectl delete ns velero
