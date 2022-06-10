@@ -1,6 +1,6 @@
-ruka cluster deployment
-=========================
+# Ruka Cluster Deployment
 
+```bash
 ssh ruka01.dev.lsst.org
 sudo -iu rke
 git clone https://github.com/lsst-it/k8s-cookbook
@@ -23,8 +23,8 @@ READ BACKUP SECTION BEFORE RUNNING!
 (cd velero; ./velero.sh)
 ```
 
-Backups
--------
+## Backups
+
 In order to run the velero script, the secret file must be created first:
 
 ```yaml
