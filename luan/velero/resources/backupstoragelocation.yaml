@@ -19,7 +19,7 @@ spec:
   accessMode: ReadWrite
   objectStorage:
     bucket: "it-backup"
-    prefix: "k8s"
+    prefix: "luan"
   config:
     profile: default
     insecureSkipTLSVerify: "true"

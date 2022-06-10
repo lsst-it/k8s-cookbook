@@ -2,7 +2,6 @@
 
 set -ex
 
-kubectl create ns velero
 kubectl apply -f resources/svc_account.yaml
 kubectl apply -f resources/clusterrolebinding.yaml
 kubectl apply -f resources/role.yaml

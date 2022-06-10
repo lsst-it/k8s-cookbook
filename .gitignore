@@ -1,3 +1,4 @@
 creds.sh
-*/velero/secret.yaml
-*/velero/values.yaml
+secret.yaml
+values.yaml
+template.yaml

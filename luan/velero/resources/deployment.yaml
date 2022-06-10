@@ -77,12 +77,12 @@ spec:
           imagePullPolicy: IfNotPresent
           name: velero-plugin-for-aws
           volumeMounts:
-          - mountPath: /target
-            name: plugins
+            - mountPath: /target
+              name: plugins
       volumes:
         - name: cloud-credentials
           secret:
-            secretName: release-name-velero
+            secretName: aws-credentials
         - name: plugins
           emptyDir: {}
         - name: scratch

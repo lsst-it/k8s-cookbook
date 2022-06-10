@@ -13,8 +13,8 @@ metadata:
     helm.sh/chart: velero-2.29.7
 rules:
 - apiGroups:
-    - "*"
+  - "*"
   resources:
-    - "*"
+  - "*"
   verbs:
-    - "*"
+  - "*"
