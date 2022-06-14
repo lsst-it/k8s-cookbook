@@ -24,6 +24,6 @@ spec:
     profile: default
     insecureSkipTLSVerify: "true"
     s3ForcePathStyle: 'true'
-    s3Url: "https://it-s3.ls.lsst.org"
-    publicUrl: "https://it-s3.ls.lsst.org"
+    s3Url: "https://it-s3.cp.lsst.org"
+    publicUrl: "https://it-s3.cp.lsst.org"
     region: "us-east-1"
