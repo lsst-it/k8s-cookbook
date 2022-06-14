@@ -47,6 +47,10 @@ stringData:
 END
 ```
 
+```bash
+velero schedule create daily --schedule="@every 24h" --ttl 336h0m0s
+```
+
 Import lukay cluster into rancher via this url:
 
 https://rancher.cp.lsst.org/g/clusters/add/launch/import?importProvider=other
