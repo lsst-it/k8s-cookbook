@@ -27,9 +27,9 @@ MUST BACKUP SECTION FIRST!
 
 In order to run the velero script, the secret file must be created first:
 
-```yaml
+```bash
+cat >resources/secret.yaml <<END
 ---
-# Source: velero/templates/secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -38,14 +38,13 @@ metadata:
   labels:
     app.kubernetes.io/name: velero
     app.kubernetes.io/instance: release-name
-    app.kubernetes.io/managed-by: Helm
-    helm.sh/chart: velero-2.29.7
 type: Opaque
 stringData:
   cloud: |
     [default]
     aws_access_key_id=<ACCESS_KEY>
     aws_secret_access_key=<SECRET_KEY>
+END
 ```
 
 Import lukay cluster into rancher via this url:
