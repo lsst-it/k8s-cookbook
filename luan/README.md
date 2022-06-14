@@ -18,6 +18,9 @@ export KUBECONFIG=/home/rke/k8s-cookbook/luan/rke/kube_config_cluster.yml
 (cd multus; ./multus.sh)
 
 (cd rook-ceph; ./rook-ceph.sh)
+
+MUST BACKUP SECTION FIRST!
+(cd velero; ./velero.sh)
 ```
 
 ## Backups
@@ -30,7 +33,7 @@ In order to run the velero script, the secret file must be created first:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: release-name-velero
+  name: aws-credentials
   namespace: velero
   labels:
     app.kubernetes.io/name: velero
@@ -38,10 +41,18 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     helm.sh/chart: velero-2.29.7
 type: Opaque
-data:
-  base: <Insert AWS Secret>
+stringData:
+  cloud: |
+    [default]
+    aws_access_key_id=<ACCESS_KEY>
+    aws_secret_access_key=<SECRET_KEY>
+```
+
+
+
+```bash
+velero schedule create luan --schedule="@every 24h" --ttl 336h0m0s
 ```
 
 import luan cluster into rancher via this url:
-
 https://rancher.ls.lsst.org/g/clusters/add/launch/import?importProvider=other
