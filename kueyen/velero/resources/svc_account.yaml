@@ -1,0 +1,12 @@
+---
+# Source: velero/templates/serviceaccount-server.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-velero-server
+  namespace: velero
+  labels:
+    app.kubernetes.io/name: velero
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: velero-2.29.7

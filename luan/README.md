@@ -48,11 +48,9 @@ stringData:
     aws_secret_access_key=<SECRET_KEY>
 ```
 
-
-
 ```bash
-velero schedule create luan --schedule="@every 24h" --ttl 336h0m0s
+velero schedule create daily --schedule="@every 24h" --ttl 336h0m0s
 ```
 
-import luan cluster into rancher via this url:
+Import luan cluster into rancher via this url:
 https://rancher.ls.lsst.org/g/clusters/add/launch/import?importProvider=other
