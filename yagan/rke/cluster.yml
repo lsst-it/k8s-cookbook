@@ -65,6 +65,24 @@ nodes:
   - etcd
   labels:
     role: storage-node
+- address: yagan08.cp.lsst.org
+  hostname_override: yagan08
+  user: rke
+  role:
+  - controlplane
+  - worker
+  - etcd
+  labels:
+    role: storage-node
+- address: yagan09.cp.lsst.org
+  hostname_override: yagan09
+  user: rke
+  role:
+  - controlplane
+  - worker
+  - etcd
+  labels:
+    role: storage-node
 services:
   etcd:
     image: ""

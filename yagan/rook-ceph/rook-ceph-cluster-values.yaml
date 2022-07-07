@@ -131,6 +131,14 @@ cephClusterSpec:
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
+      - name: yagan08
+        devices:
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56A01
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D57152
+      - name: yagan09
+        devices:
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56B58
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DDC
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
