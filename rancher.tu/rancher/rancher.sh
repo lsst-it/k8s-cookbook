@@ -10,7 +10,7 @@ helm upgrade --install \
   --create-namespace --namespace cattle-system \
   --set hostname=rancher.tu.lsst.org \
   --set ingress.tls.source=secret \
-  --set ingress.extraAnnotations."cert-manager\.io/cluster-issuer"=letsencrypt \
-  --version v2.6.3
+  --version v2.6.6 \
+  -f ./values.yaml
 
 kubectl -n cattle-system rollout status deploy/rancher
