@@ -10,7 +10,7 @@ helm upgrade --install cnpg \
   cnpg/cloudnative-pg
 
 # create namespace for deployment
-kubectl create namespace cloudnativePG
+kubectl create namespace cloudnativepg
 
 # Secrets - app user - postgres user - AWS account for backups
 cat << END | kubectl apply -f -
@@ -21,7 +21,7 @@ data:
 kind: Secret
 metadata:
   name: cnpg-cluster-app-user
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
@@ -31,7 +31,7 @@ data:
 kind: Secret
 metadata:
   name: cnpg-cluster-superuser
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
@@ -41,7 +41,7 @@ data:
 kind: Secret
 metadata:
   name: cnpg-aws-creds
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: Opaque
 END
 
@@ -52,7 +52,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 spec:
   instances: 3
   #startDelay: 300

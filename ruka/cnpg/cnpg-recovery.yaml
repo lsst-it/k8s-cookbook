@@ -2,6 +2,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster
+  namespace: cloudnativepg
 spec:
   instances: 3
   #startDelay: 300
