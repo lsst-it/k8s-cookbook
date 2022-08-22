@@ -16,7 +16,7 @@ kubectl create namespace cloudnativepg
 cat << END | kubectl apply -f -
 apiVersion: v1
 data:
-  password: $(echo -n ${USER_PASSWORD}" | base64)
+  password: $(echo -n "${USER_PASSWORD}" | base64)
   username: $(echo "app" | base64)
 kind: Secret
 metadata:
