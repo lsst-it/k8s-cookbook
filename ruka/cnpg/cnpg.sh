@@ -16,7 +16,7 @@ kubectl create namespace cloudnativepg
 cat << END | kubectl apply -f -
 apiVersion: v1
 data:
-  password: $(${USER_PASSWORD} | base64)
+  password: $(echo ${USER_PASSWORD} | base64)
   username: $(echo "app" | base64)
 kind: Secret
 metadata:
@@ -26,7 +26,7 @@ type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  password: $(${SUPERUSER_PASSWORD} | base64)
+  password: $(echo ${SUPERUSER_PASSWORD} | base64)
   username: $(echo "postgres" | base64)
 kind: Secret
 metadata:
@@ -36,8 +36,8 @@ type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  ACCESS_KEY_ID:  ${AWS_ACCESS_KEY_ID}
-  ACCESS_SECRET_KEY:  ${AWS_ACCESS_SECRET_KEY}
+  ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  ACCESS_SECRET_KEY: ${AWS_ACCESS_SECRET_KEY}
 kind: Secret
 metadata:
   name: cnpg-aws-creds
@@ -67,7 +67,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: $(${AWS_ACCESS_BUCKET})
+      destinationPath: ${AWS_ACCESS_BUCKET}
       s3Credentials:
         accessKeyId:
           name: cnpg-aws-creds
