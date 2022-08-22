@@ -17,7 +17,7 @@ cat << END | kubectl apply -f -
 apiVersion: v1
 data:
   password: $(echo -n "${USER_PASSWORD}" | base64)
-  username: $(echo "app" | base64)
+  username: $(echo -n "app" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-app-user
@@ -27,7 +27,7 @@ type: kubernetes.io/basic-auth
 apiVersion: v1
 data:
   password: $(echo -n "${SUPERUSER_PASSWORD}" | base64)
-  username: $(echo "postgres" | base64)
+  username: $(echo -n "postgres" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-superuser
