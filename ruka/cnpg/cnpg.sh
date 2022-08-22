@@ -10,38 +10,38 @@ helm upgrade --install cnpg \
   cnpg/cloudnative-pg
 
 # create namespace for deployment
-kubectl create namespace cloudnativePG
+kubectl create namespace cloudnativepg
 
 # Secrets - app user - postgres user - AWS account for backups
 cat << END | kubectl apply -f -
 apiVersion: v1
 data:
-  password: $(${USER_PASSWORD} | base64)
+  password: $(echo "${USER_PASSWORD}" | base64)
   username: $(echo "app" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-app-user
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  password: $(${SUPERUSER_PASSWORD} | base64)
+  password: $(echo "${SUPERUSER_PASSWORD}" | base64)
   username: $(echo "postgres" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-superuser
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  ACCESS_KEY_ID:  ${AWS_ACCESS_KEY_ID}
-  ACCESS_SECRET_KEY:  ${AWS_ACCESS_SECRET_KEY}
+  ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  ACCESS_SECRET_KEY: ${AWS_ACCESS_SECRET_KEY}
 kind: Secret
 metadata:
   name: cnpg-aws-creds
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 type: Opaque
 END
 
@@ -52,7 +52,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster
-  namespace: cloudnativePG
+  namespace: cloudnativepg
 spec:
   instances: 3
   #startDelay: 300
@@ -67,7 +67,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: $(${AWS_ACCESS_BUCKET})
+      destinationPath: ${AWS_ACCESS_BUCKET}
       s3Credentials:
         accessKeyId:
           name: cnpg-aws-creds
