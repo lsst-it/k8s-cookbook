@@ -1,0 +1,5 @@
+---
+ingress:
+  extraAnnotations:
+    "cert-manager.io/cluster-issuer": letsencrypt
+    "kubernetes.io/ingress.class": nginx
