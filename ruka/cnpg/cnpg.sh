@@ -10,35 +10,38 @@ helm upgrade --install cnpg \
   cnpg/cloudnative-pg
 
 # create namespace for deployment
-# kubectl create namespace
+kubectl create namespace cloudnativePG
 
 # Secrets - app user - postgres user - AWS account for backups
 cat << END | kubectl apply -f -
 apiVersion: v1
 data:
-  password: $(printf "${USER_PASSWORD}" | base64)
-  username: $(printf "app" | base64)
+  password: $(${USER_PASSWORD} | base64)
+  username: $(echo "app" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-app-user
+  namespace: cloudnativePG
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  password: $(printf "${SUPERUSER_PASSWORD}" | base64)
-  username: $(printf "postgres" | base64)
+  password: $(${SUPERUSER_PASSWORD} | base64)
+  username: $(echo "postgres" | base64)
 kind: Secret
 metadata:
   name: cnpg-cluster-superuser
+  namespace: cloudnativePG
 type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  ACCESS_KEY_ID:  $(printf "${AWS_ACCESS_KEY_ID}")
-  ACCESS_SECRET_KEY:  $(printf "${AWS_ACCESS_SECRET_KEY}")
+  ACCESS_KEY_ID:  ${AWS_ACCESS_KEY_ID}
+  ACCESS_SECRET_KEY:  ${AWS_ACCESS_SECRET_KEY}
 kind: Secret
 metadata:
   name: cnpg-aws-creds
+  namespace: cloudnativePG
 type: Opaque
 END
 
@@ -49,6 +52,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster
+  namespace: cloudnativePG
 spec:
   instances: 3
   #startDelay: 300
@@ -63,7 +67,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: $(printf "${AWS_ACCESS_BUCKET}")
+      destinationPath: $(${AWS_ACCESS_BUCKET})
       s3Credentials:
         accessKeyId:
           name: cnpg-aws-creds
@@ -86,17 +90,8 @@ spec:
   
   monitoring:
     enablePodMonitor: true
----
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: cnpg-backup-scheduled
-spec:
-  schedule: "0 0 0 * * *"
-  backupOwnerReference: self
-  cluster:
-    name: cnpg-cluster
 END
 kubectl apply -f deploy.yaml
+kubectl apply -f cnpg-scheduledbackups.yaml
 
 # We need to setup ingress and expose the service
