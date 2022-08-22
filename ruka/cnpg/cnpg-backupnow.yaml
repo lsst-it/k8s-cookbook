@@ -1,0 +1,8 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: cnpg-backup
+  namespace: cloudnativepg
+spec:
+  cluster:
+    name: cnpg-cluster
