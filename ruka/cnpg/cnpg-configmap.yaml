@@ -5,4 +5,4 @@ metadata:
   name: tcp-services
   namespace: ingress-nginx
 data:
-  "5432": cloudnativepg/cnpg-cluster-rw:5432
+  5432: cloudnativepg/cnpg-cluster-rw:5432
