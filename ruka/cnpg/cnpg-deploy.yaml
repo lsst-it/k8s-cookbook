@@ -1,33 +1,4 @@
-apiVersion: v1
-data:
-  password: cGFzc3dvcmQ=
-  username: YXBw
-kind: Secret
-metadata:
-  name: cnpg-cluster-app-user
-  namespace: cloudnativepg
-type: kubernetes.io/basic-auth
----
-apiVersion: v1
-data:
-  password: cGFzc3dvcmQ=
-  username: cG9zdGdyZXM=
-kind: Secret
-metadata:
-  name: cnpg-cluster-superuser
-  namespace: cloudnativepg
-type: kubernetes.io/basic-auth
----
-apiVersion: v1
-data:
-  ACCESS_KEY_ID: QUtJQVI2RUhPRENYVjVKUDMyNVQ=
-  ACCESS_SECRET_KEY: VmNCUS9zN2VCelVmWHl2bUI3UzVKOWJvT1I3bGRCam5zWlhhSGhwSQ==
-kind: Secret
-metadata:
-  name: cnpg-aws-creds
-  namespace: cloudnativepg
-type: Opaque
----
+--
 # Cluster Definition
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
