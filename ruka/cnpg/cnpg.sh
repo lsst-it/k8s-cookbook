@@ -97,5 +97,4 @@ spec:
 END
 kubectl apply -f deploy.yaml
 kubectl apply -f cnpg-scheduledbackups.yaml
-
-# We need to setup ingress and expose the service
+kubectl apply -f cnpg-loadbalancer.yaml
