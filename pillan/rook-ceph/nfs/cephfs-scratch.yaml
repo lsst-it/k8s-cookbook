@@ -9,10 +9,14 @@ spec:
     failureDomain: host
     replicated:
       size: 3
+    quotas:
+      maxSize: 10Gi
   dataPools:
     - failureDomain: host
       replicated:
         size: 3
+      quotas:
+        maxSize: 2Ti
   metadataServer:
     activeCount: 3
     activeStandby: true
