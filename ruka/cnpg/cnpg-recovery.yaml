@@ -38,13 +38,13 @@ spec:
           name: cnpg-aws-creds
           key: ACCESS_SECRET_KEY
       wal:
-          compression: gzip
+        compression: gzip
 
     retentionPolicy: "90d"
- 
+
   superuserSecret:
     name: cnpg-cluster-superuser
-  
+
 # Resources and Storage needs tuning
 
   storage:
