@@ -2,3 +2,4 @@ creds.sh
 cnpg-backupnow.yaml
 cnpg-deploy.yaml
 deploy.yaml
+ingress-nginx-ns-service.yaml.backup
