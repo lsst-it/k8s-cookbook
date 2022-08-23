@@ -58,6 +58,10 @@ spec:
   #startDelay: 300
   #stopDelay: 300
 
+  postgresql:
+    pg_hba:
+      - host all all 0.0.0.0/0 md5
+
   bootstrap:
     initdb:
       database: app
