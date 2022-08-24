@@ -2,22 +2,22 @@
 
 set -ex
 
+VERSION='1.9.9'
+
 helm repo add rook-release https://charts.rook.io/release
 helm repo update
 
 helm upgrade --install \
   rook-ceph rook-release/rook-ceph \
   --create-namespace --namespace rook-ceph \
-  --version v1.8.10 \
+  --version "v${VERSION}" \
   -f ./rook-ceph-values.yaml
 
-helm repo add rook-master https://charts.rook.io/master
-helm repo update
-
 helm upgrade --install \
-  rook-ceph-cluster rook-master/rook-ceph-cluster \
+  rook-ceph-cluster rook-release/rook-ceph-cluster \
   --create-namespace --namespace rook-ceph \
   --set operatorNamespace=rook-ceph \
+  --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
 kubectl apply -f ceph-dashboard-ingress.yaml

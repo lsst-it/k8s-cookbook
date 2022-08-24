@@ -3,7 +3,6 @@ operatorNamespace: rook-ceph
 
 toolbox:
   enabled: true
-  image: rook/ceph:v1.6.8
   tolerations:
     - key: node.kubernetes.io/unreachable
       operator: Exists
