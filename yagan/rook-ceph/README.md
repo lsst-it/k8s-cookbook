@@ -1,14 +1,6 @@
 rook-ceph
 =========
 
-update from 1.3.1 to 1.3.4
----
-
-```bash
-kubectl -n rook-ceph set image deploy/rook-ceph-operator rook-ceph-operator=rook/ceph:v1.3.4
-bash
-```
-
 how to access ceph toolbox pod
 ---
 
