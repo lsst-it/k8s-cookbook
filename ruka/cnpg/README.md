@@ -13,33 +13,33 @@ this deployment is cluster database with the following features:
 
 ## Instructions
 
-1. Set enviroment variables for secrets creation.
+1.    Set enviroment variables for secrets creation.
 
-    ```bash
-    export USER_PASSWORD=("password for app user")
-    export SUPERUSER_PASSWORD=("password for postgre user")
-    export AWS_ACCESS_KEY_ID=("insert access key here")
-    export AWS_ACCESS_SECRET_KEY=("insert access secret key here")
-    export AWS_ACCESS_BUCKET=("s3:// insert bucket folder address")
-    ```
+      ```bash
+      export USER_PASSWORD=("password for app user")
+      export SUPERUSER_PASSWORD=("password for postgre user")
+      export AWS_ACCESS_KEY_ID=("insert access key here")
+      export AWS_ACCESS_SECRET_KEY=("insert access secret key here")
+      export AWS_ACCESS_BUCKET=("s3:// insert bucket folder address")
+      ```
 
-2. RUN deployment script
+2.    RUN deployment script
 
-    ```bash
-    ./cnpg.sh
-    ```
+      ```bash
+      ./cnpg.sh
+      ```
 
-3. Following command will provide the external ip for the service.
+3.    Following command will provide the external ip for the service.
 
-    ```bash
-    kubectl -n cloudnativepg get services
-    ```
+      ```bash
+      kubectl -n cloudnativepg get services
+      ```
 
-4. Test connectivity providing information on the following command line:
+4.    Test connectivity providing information on the following command line:
 
-    ```bash
-    PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
-    ```
+      ```bash
+      PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
+      ```
 
 ## Recovery from Backup
 
