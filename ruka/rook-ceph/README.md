@@ -40,7 +40,14 @@ Run from workstation with personal ssh-agent setup:
 NFS Exports
 -----------
 
-https://rook-ceph.tu.lsst.org/#/nfs/create
+https://ceph.ruka.dev.lsst.org/#/nfs/create
+
+Create in order:
+
+* jhome
+* lsstdata
+* project
+* scratch
 
 ```text
 "Create NFS export"
