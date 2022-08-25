@@ -68,4 +68,11 @@ project:nfs-ganesha/project
 # XXX at least rook 1.7.[78] do not set the application type on the nfs-ganesha pool. This causes a ceph health warning.
 cephtoolbox ceph osd pool application enable nfs-ganesha nfs
 
+# enable ceph orchestrator for nfs
+# as of 1.9.9, this is needed to enable configuration of nfs exports via the dashboard
+# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+cephtoolbox ceph mgr module enable rook
+cephtoolbox ceph mgr module enable nfs
+cephtoolbox ceph orch set backend rook
+
 # vim: tabstop=2 shiftwidth=2 expandtab
