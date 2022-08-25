@@ -54,25 +54,21 @@ kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
 
-# no spaces after `,`s is allowed
-cephtoolbox \
-ceph dashboard set-ganesha-clusters-rados-pool-namespace \
-scratch:nfs-ganesha/scratch,\
-jhome:nfs-ganesha/jhome,\
-lsstdata:nfs-ganesha/lsstdata,\
-project:nfs-ganesha/project
-
-# XXX post rook 1.7.x we are suppose to unset the manual dashboard... but it doesn't work
-# cephtoolbox ceph dashboard set-ganesha-clusters-rados-pool-namespace ""
-
-# XXX at least rook 1.7.[78] do not set the application type on the nfs-ganesha pool. This causes a ceph health warning.
-cephtoolbox ceph osd pool application enable nfs-ganesha nfs
-
 # enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via the dashboard
+# as of 1.9.9, this is needed to enable configuration of nfs exports via both
+# the dashboard and the cli
 # https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
 cephtoolbox ceph mgr module enable rook
 cephtoolbox ceph mgr module enable nfs
 cephtoolbox ceph orch set backend rook
+
+cephtoolbox ceph nfs export rm jhome /jhome
+cephtoolbox ceph nfs export create cephfs jhome /jhome jhome
+cephtoolbox ceph nfs export rm lsstdata /lsstdata
+cephtoolbox ceph nfs export create cephfs lsstdata /lsstdata lsstdata
+cephtoolbox ceph nfs export rm project /project
+cephtoolbox ceph nfs export create cephfs project /project project
+cephtoolbox ceph nfs export rm scratch /scratch
+cephtoolbox ceph nfs export create cephfs scratch /scratch scratch
 
 # vim: tabstop=2 shiftwidth=2 expandtab
