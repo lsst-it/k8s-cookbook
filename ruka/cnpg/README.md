@@ -30,7 +30,9 @@ this deployment is cluster database with the following features:
    kubectl -n cloudnativepg get services
    ```
 4. Test connectivity providing information on the following command line:
-   ```PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres ```
+   ```bash
+   PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres 
+   ```
 
 # Recovery from Backup
 
