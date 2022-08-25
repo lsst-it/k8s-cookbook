@@ -29,12 +29,16 @@ this deployment is cluster database with the following features:
    ```bash
    kubectl -n cloudnativepg get services
    ```
+4. Test connectivity providing information on the following command line:
+   ```PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres ```
 
 # Recovery from Backup
 
 To restore the database, the cluster needs to be started in recovery mode.
+
 There is a yaml file provided for restoring the database from the S3
 (new empty bucket for storage needs to be provided to avoid overwrite on previous backups)
-   ```bash
-   kubectl apply -f cnpg-recovery.yaml
-   ```
+
+fill the correct information inside the file ```cnpg-recovery.yaml``` (buckets directory)
+replace ```kubectl apply -f deploy.yaml``` for ```kubectl apply -f cnpg-recovery.yaml```
+inside ```cnpg.sh``` and then execute the script to start the cluster in recovery mode with previous backup.
