@@ -47,11 +47,9 @@ kind: Service
 metadata:
   labels:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
     ceph_nfs: scratch
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
   name: rook-ceph-nfs-scratch
   namespace: rook-ceph
@@ -63,10 +61,8 @@ spec:
       targetPort: 2049
   selector:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
     ceph_nfs: scratch
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
   type: LoadBalancer
