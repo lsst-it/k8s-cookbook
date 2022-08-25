@@ -36,31 +36,3 @@ Run from workstation with personal ssh-agent setup:
 ```bash
 ./scripts/rook-ceph-node-cleanup.sh
 ```
-
-NFS Exports
------------
-
-https://rook-ceph.tu.lsst.org/#/nfs/create
-
-```text
-"Create NFS export"
-
-Cluster: lsstdata
-Daemons: nfs.lsstdata
-Storage Backend: CephFS
-CephFS User ID: admin
-CephFS Name: lsstdata
-Security Label: <unchecked>
-CephFS Path: /lsstdata
-NFS Protocol:
-       NFSv3: <checked>
-       NFSv4: <checked>
-NFS Tag: lsstdata
-Pseudo: /lsstdata
-Access Type: RW
-Squash: no_root_squash
-Transport Protocol:
-       UDP: <checked>
-       TCP: <checked>
-Clients: <Any client can access>
-```
