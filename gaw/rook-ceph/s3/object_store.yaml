@@ -9,11 +9,15 @@ spec:
     failureDomain: host
     replicated:
       size: 3
+    quotas:
+      maxSize: 10Gi
   dataPool:
     failureDomain: host
     erasureCoded:
       dataChunks: 3
       codingChunks: 2
+    quotas:
+      maxSize: 100Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
