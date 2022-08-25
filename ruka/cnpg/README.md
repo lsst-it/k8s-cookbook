@@ -15,14 +15,26 @@ this deployment is cluster database with the following features:
 
 1. Set enviroment variables for secrets creation.
    ```bash
-   export USER_PASSWORD=(password for app user)
-   export SUPERUSER_PASSWORD=(password for postgre use)
-   export AWS_ACCESS_KEY_ID=(insert access key here)
-   export AWS_ACCESS_SECRET_KEY=(insert access secret key here)
-   export AWS_ACCESS_BUCKET=(s3:// insert bucket folder address)
+   export USER_PASSWORD=("password for app user")
+   export SUPERUSER_PASSWORD=("password for postgre user")
+   export AWS_ACCESS_KEY_ID=("insert access key here")
+   export AWS_ACCESS_SECRET_KEY=("insert access secret key here")
+   export AWS_ACCESS_BUCKET=("s3:// insert bucket folder address")
    ```
 2. RUN deployment script
    ```bash
    ./cnpg.sh
    ```
+3. Following command will provide the external ip for the service.
+   ```bash
+   kubectl -n cloudnativepg get services
+   ```
 
+# Recovery from Backup
+
+To restore the database, the cluster needs to be started in recovery mode.
+There is a yaml file provided for restoring the database from the S3
+(new empty bucket for storage needs to be provided to avoid overwrite on previous backups)
+   ```bash
+   kubectl apply -f cnpg-recovery.yaml
+   ```
