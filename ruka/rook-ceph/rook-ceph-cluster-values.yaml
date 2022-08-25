@@ -117,9 +117,6 @@ cephClusterSpec:
       - name: ruka05
         devices:
           - name: sdb
-      - name: ruka06
-        devices:
-          - name: sdb
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
