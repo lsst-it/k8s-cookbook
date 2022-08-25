@@ -16,7 +16,7 @@ spec:
   externalClusters:
     - name: cnpg-cluster
       barmanObjectStore:
-        destinationPath: "s3://cnpg-test-cbarria/"
+        destinationPath: ${AWS_ACCESS_BUCKET}
         s3Credentials:
           accessKeyId:
             name: cnpg-aws-creds
@@ -29,7 +29,7 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: "s3://cnpg-test-cbarria/backup"
+      destinationPath: ${AWS_ACCESS_BUCKET}/newbackup
       s3Credentials:
         accessKeyId:
           name: cnpg-aws-creds
