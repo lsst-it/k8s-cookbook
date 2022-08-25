@@ -13,7 +13,7 @@ this deployment is cluster database with the following features:
 
 ## Instructions
 
-1. Set enviroment variables for secrets creation.
+- Set enviroment variables for secrets creation.
 
    ```bash
    export USER_PASSWORD=("password for app user")
@@ -23,19 +23,19 @@ this deployment is cluster database with the following features:
    export AWS_ACCESS_BUCKET=("s3:// insert bucket folder address")
    ```
 
-2. RUN deployment script
+- RUN deployment script
 
    ```bash
    ./cnpg.sh
    ```
 
-3. Following command will provide the external ip for the service.
+- Following command will provide the external ip for the service.
 
    ```bash
    kubectl -n cloudnativepg get services
    ```
 
-4. Test connectivity providing information on the following command line:
+- Test connectivity providing information on the following command line:
 
    ```bash
    PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
