@@ -140,3 +140,18 @@ cephClusterSpec:
         disabled: false
       osd:
         disabled: false
+
+ingress:
+  dashboard:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      #nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      #nginx.ingress.kubernetes.io/server-snippet: |
+      #  proxy_ssl_verify off;
+    host:
+      name: ceph.ruka.dev.lsst.org
+    tls:
+      - hosts:
+          - ceph.ruka.dev.lsst.org
+        secretName: rook-ceph-mgr-dashboard-ingress-tls

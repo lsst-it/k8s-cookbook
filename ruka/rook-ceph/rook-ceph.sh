@@ -20,7 +20,6 @@ helm upgrade --install \
   --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
-kubectl apply -f ceph-dashboard-ingress.yaml
 kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
