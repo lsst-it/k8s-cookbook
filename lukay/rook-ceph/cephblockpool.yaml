@@ -7,5 +7,7 @@ metadata:
 spec:
   failureDomain: host
   replicated:
-    size: 2
+    size: 3
     requireSafeReplicaSize: true
+  quotas:
+    maxSize: 2Ti
