@@ -1,4 +1,6 @@
 ---
+monitoring:
+  enabled: true
 tolerations:
   - &storage_node_tol
     key: role
@@ -10,40 +12,33 @@ nodeSelector: &storage_node_aff
 agent:
   tolerations:
     - <<: *storage_node_tol
-  nodeAffinity:
-    <<: *storage_node_aff
+  nodeAffinity: &storage_node_aff "role=storage-node"
 discover:
   tolerations:
     - <<: *storage_node_tol
-  nodeAffinity:
-    <<: *storage_node_aff
+  nodeAffinity: *storage_node_aff
 csi:
+  cephcsi:
+    image: quay.io/cephcsi/cephcsi:v3.6.2
   provisionerTolerations:
     - <<: *storage_node_tol
-  provisionerNodeAffinity:
-    <<: *storage_node_aff
+  provisionerNodeAffinity: *storage_node_aff
   rbdProvisionerTolerations:
     - <<: *storage_node_tol
-  rbdProvisionerNodeAffinity:
-    <<: *storage_node_aff
+  rbdProvisionerNodeAffinity: *storage_node_aff
   cephFSProvisionerTolerations:
     - <<: *storage_node_tol
-  cephFSProvisionerNodeAffinity:
-    <<: *storage_node_aff
+  cephFSProvisionerNodeAffinity: *storage_node_aff
   pluginTolerations:
     - <<: *storage_node_tol
-  pluginNodeAffinity:
-    <<: *storage_node_aff
+  pluginNodeAffinity: *storage_node_aff
   rbdPluginTolerations:
     - <<: *storage_node_tol
-  rbdPluginNodeAffinity:
-    <<: *storage_node_aff
+  rbdPluginNodeAffinity: *storage_node_aff
   cephFSPluginTolerations:
     - <<: *storage_node_tol
-  cephFSPluginNodeAffinity:
-    <<: *storage_node_aff
+  cephFSPluginNodeAffinity: *storage_node_aff
 admissionController:
   tolerations:
     - <<: *storage_node_tol
-  nodeAffinity:
-    <<: *storage_node_aff
+  nodeAffinity: *storage_node_aff
