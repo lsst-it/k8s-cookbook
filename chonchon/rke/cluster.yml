@@ -9,6 +9,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: chonchon02.cp.lsst.org
   hostname_override: chonchon02
   user: rke
@@ -16,6 +18,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 - address: chonchon03.cp.lsst.org
   hostname_override: chonchon03
   user: rke
@@ -23,6 +27,8 @@ nodes:
   - controlplane
   - worker
   - etcd
+  labels:
+    role: storage-node
 services:
   etcd:
     image: ""
