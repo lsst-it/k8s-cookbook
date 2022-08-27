@@ -51,6 +51,10 @@ require_cmds helm kubectl
 helm repo add rook-release https://charts.rook.io/release
 helm repo update
 
+# Uncomment to manually update CRDs.  If this is run prior to helm as a clean
+# install, helm will error as the CRDs will not be correctly labeled.
+#kubectl apply -f https://raw.githubusercontent.com/rook/rook/v${VERSION}/deploy/examples/crds.yaml
+
 helm upgrade --install \
   rook-ceph rook-release/rook-ceph \
   --create-namespace --namespace rook-ceph \
