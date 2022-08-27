@@ -56,12 +56,14 @@ helm repo update
 #kubectl apply -f https://raw.githubusercontent.com/rook/rook/v${VERSION}/deploy/examples/crds.yaml
 
 helm upgrade --install \
+  --atomic \
   rook-ceph rook-release/rook-ceph \
   --create-namespace --namespace rook-ceph \
   --version "v${VERSION}" \
   -f ./rook-ceph-values.yaml
 
 helm upgrade --install \
+  --atomic \
   rook-ceph-cluster rook-release/rook-ceph-cluster \
   --create-namespace --namespace rook-ceph \
   --set operatorNamespace=rook-ceph \
