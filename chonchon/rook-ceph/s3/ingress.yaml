@@ -21,6 +21,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-my-store
+            name: rook-ceph-rgw-lfa
             port:
               number: 80
