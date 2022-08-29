@@ -31,10 +31,10 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 
 # dashboard creds
 while :; do
-  kubectl -n rook-ceph get pod -l app=rook-ceph-mgr,ceph_daemon_id=a,rook_cluster=rook-ceph && break
+  kubectl -n rook-ceph get pod -l app=rook-ceph-mgr,rook_cluster=rook-ceph && break
   sleep 3
 done
-kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod -l app=rook-ceph-mgr,ceph_daemon_id=a,rook_cluster=rook-ceph
+kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod -l app=rook-ceph-mgr,rook_cluster=rook-ceph
 
 set +x
 echo "===================="
