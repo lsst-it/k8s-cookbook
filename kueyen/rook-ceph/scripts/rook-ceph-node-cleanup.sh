@@ -4,9 +4,9 @@ set -x
 
 SSH_USER=jhoblitt_b
 
-for n in $(seq 1 3);
+for n in $(seq 2 4);
 do
-    HOST="kueyen${n}.ls.lsst.org"
+    HOST="kueyen0${n}.ls.lsst.org"
     SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
 
     ${SSH_CMD} sudo rm -rf /var/lib/rook
