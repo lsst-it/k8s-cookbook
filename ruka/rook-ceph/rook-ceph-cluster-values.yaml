@@ -155,3 +155,9 @@ ingress:
       - hosts:
           - *hostname
         secretName: rook-ceph-mgr-dashboard-ingress-tls
+
+cephBlockPools:
+cephFileSystems:
+cephFileSystemVolumeSnapshotClass:
+cephBlockPoolsVolumeSnapshotClass:
+cephObjectStores:
