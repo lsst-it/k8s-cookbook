@@ -42,8 +42,37 @@ require_cmds() {
 }
 
 cephtoolbox() {
-  # shellcheck disable=SC2068
-  kubectl -n rook-ceph exec -it "$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')" -- $@
+  kubectl -n rook-ceph exec -it "$(kubectl -n rook-ceph get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}')" -- "$@"
+}
+
+ceph() {
+  cephtoolbox ceph "$@"
+}
+
+waitfor() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local ns=${1?namespace is required}; shift
+  local type=${1?type is required}; shift
+
+  echo "Waiting for $type $*"
+  # wait for resource to exist. See: https://github.com/kubernetes/kubernetes/issues/83242
+  until kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}' >/dev/null 2>&1; do
+    echo "Waiting for $type $*"
+    sleep 1
+  done
+  eval "$xtrace"
+}
+
+waitforpod() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local ns=${1?namespace is required}; shift
+
+  # wait for pod to exist
+  waitfor "$ns" pod "$@"
+
+  # wait for pod to be ready
+  kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod "$@"
+  eval "$xtrace"
 }
 
 require_cmds helm kubectl
@@ -74,13 +103,7 @@ kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-# dashboard creds
-while :; do
-  kubectl -n rook-ceph get pod -l app=rook-ceph-mgr,rook_cluster=rook-ceph && break
-  sleep 3
-done
-kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod -l app=rook-ceph-mgr,rook_cluster=rook-ceph
-
++waitfor rook-ceph secret rook-ceph-dashboard-password
 set +x
 echo "===================="
 echo "dashboard passphrase"
@@ -103,17 +126,18 @@ kubectl apply -f s3/ingress.yaml
 # as of 1.9.9, this is needed to enable configuration of nfs exports via both
 # the dashboard and the cli
 # https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
-cephtoolbox ceph mgr module enable rook
-cephtoolbox ceph mgr module enable nfs
-cephtoolbox ceph orch set backend rook
+waitforpod rook-ceph -l app=rook-ceph-tools
+ceph mgr module enable rook
+ceph mgr module enable nfs
+ceph orch set backend rook
 
-cephtoolbox ceph nfs export rm jhome /jhome
-cephtoolbox ceph nfs export create cephfs jhome /jhome jhome
-cephtoolbox ceph nfs export rm lsstdata /lsstdata
-cephtoolbox ceph nfs export create cephfs lsstdata /lsstdata lsstdata
-cephtoolbox ceph nfs export rm project /project
-cephtoolbox ceph nfs export create cephfs project /project project
-cephtoolbox ceph nfs export rm scratch /scratch
-cephtoolbox ceph nfs export create cephfs scratch /scratch scratch
+ceph nfs export rm jhome /jhome
+ceph nfs export create cephfs jhome /jhome jhome
+ceph nfs export rm lsstdata /lsstdata
+ceph nfs export create cephfs lsstdata /lsstdata lsstdata
+ceph nfs export rm project /project
+ceph nfs export create cephfs project /project project
+ceph nfs export rm scratch /scratch
+ceph nfs export create cephfs scratch /scratch scratch
 
 # vim: tabstop=2 shiftwidth=2 expandtab
