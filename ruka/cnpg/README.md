@@ -41,6 +41,8 @@ this deployment is cluster database with the following features:
    PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
    ```
 
+   *DNS needs to be setup for this, use the external IP address.*
+
 ## Recovery from Backup
 
 To restore the database, the cluster needs to be started in recovery mode.

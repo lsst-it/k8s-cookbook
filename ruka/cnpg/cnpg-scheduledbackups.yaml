@@ -5,7 +5,7 @@ metadata:
   name: cnpg-backup-scheduled
   namespace: cloudnativepg
 spec:
-  schedule: "0 0 0 * * *"
+  schedule: "0 12,21 * * * *" #8AM CLT - 5PM CLT (after nightwork and daywork at the summit)
   backupOwnerReference: self
   cluster:
     name: cnpg-cluster
