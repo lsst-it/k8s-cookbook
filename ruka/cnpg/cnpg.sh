@@ -7,7 +7,8 @@ helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
   --namespace cnpg-system \
   --create-namespace \
-  cnpg/cloudnative-pg
+  cnpg/cloudnative-pg \
+  --atomic
 
 # create namespace for deployment
 kubectl create namespace cloudnativepg
@@ -60,7 +61,12 @@ spec:
 
   postgresql:
     pg_hba:
-      - host all all 0.0.0.0/0 md5
+      - host all all 139.229.134.0/23 md5
+      - host all all 139.229.136.0/21 md5
+      - host all all 139.229.144.0/20 md5
+      - host all all 139.229.160.0/19 md5
+      - host all all 139.229.192.0/18 md5
+      - host all all 140.252.146.0/23 md5
 
   bootstrap:
     initdb:

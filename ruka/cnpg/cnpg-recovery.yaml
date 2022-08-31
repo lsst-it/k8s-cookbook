@@ -16,7 +16,7 @@ spec:
   externalClusters:
     - name: cnpg-cluster
       barmanObjectStore:
-        destinationPath: ${AWS_ACCESS_BUCKET}
+        destinationPath: $AWS_ACCESS_BUCKET
         s3Credentials:
           accessKeyId:
             name: cnpg-aws-creds
@@ -29,7 +29,9 @@ spec:
 
   backup:
     barmanObjectStore:
-      destinationPath: ${AWS_ACCESS_BUCKET}/newbackup
+      # this needs to point into a different folder than the recovery folder to avoid overwrite (AWS_ACCESS_BUCKET)
+      # https://www.enterprisedb.com/docs/postgres_for_kubernetes/latest/backup_recovery/ search for "Expected empty archive" Error
+      destinationPath: "$(AWS_ACCESS_BUCKET)/newbackup"
       s3Credentials:
         accessKeyId:
           name: cnpg-aws-creds
