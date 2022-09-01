@@ -2,7 +2,7 @@
 
 set -ex
 
-CHART_VERSION="1.6.1"
+CHART_VERSION="1.9.1"
 
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
@@ -12,6 +12,7 @@ kubectl create namespace cert-manager --dry-run -o yaml | kubectl apply -f -
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v${CHART_VERSION}/cert-manager.crds.yaml
 
 helm upgrade --install \
+  --atomic \
   cert-manager jetstack/cert-manager \
   --create-namespace --namespace cert-manager \
   --version v${CHART_VERSION} \
