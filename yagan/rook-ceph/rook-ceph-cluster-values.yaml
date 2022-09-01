@@ -120,6 +120,10 @@ cephClusterSpec:
         devices:
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56B58
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DDC
+      - name: yagan10
+        devices:
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190120D61699
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DE7
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
