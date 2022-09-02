@@ -187,8 +187,8 @@ cephClusterSpec:
         cpu: "2000m"
         memory: "8Gi"
       requests:
-        cpu: "1000m"
-        memory: "8Gi"
+        cpu: "100m"
+        memory: "4Gi"
     prepareosd:
       limits:
         cpu: "500m"
