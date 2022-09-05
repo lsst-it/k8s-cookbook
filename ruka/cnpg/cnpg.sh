@@ -38,7 +38,7 @@ type: kubernetes.io/basic-auth
 apiVersion: v1
 data:
   ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-  ACCESS_SECRET_KEY: ${AWS_ACCESS_SECRET_KEY}
+  ACCESS_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
 kind: Secret
 metadata:
   name: cnpg-aws-creds
