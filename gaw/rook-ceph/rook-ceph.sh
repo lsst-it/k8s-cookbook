@@ -130,8 +130,8 @@ kubectl apply -f s3/ingress.yaml
 # cephfs w/ nfs
 kubectl apply -f nfs/cephfs-backup.yaml
 
-
 ceph nfs export rm backup /backup
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=backup
 ceph nfs export create cephfs backup /backup backup
 
 # vim: tabstop=2 shiftwidth=2 expandtab

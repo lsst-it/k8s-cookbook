@@ -134,12 +134,16 @@ kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
 
 ceph nfs export rm jhome /jhome
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=jhome
 ceph nfs export create cephfs jhome /jhome jhome /jhome
 ceph nfs export rm lsstdata /lsstdata
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=lsstdata
 ceph nfs export create cephfs lsstdata /lsstdata lsstdata # no /lsstdata relative export
 ceph nfs export rm project /project
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=project
 ceph nfs export create cephfs project /project project /project
 ceph nfs export rm scratch /scratch
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=scratch
 ceph nfs export create cephfs scratch /scratch scratch /scratch
 
 # vim: tabstop=2 shiftwidth=2 expandtab
