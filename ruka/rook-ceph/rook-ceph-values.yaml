@@ -1,4 +1,5 @@
 ---
+priorityClassName: system-node-critical
 monitoring:
   enabled: true
 tolerations:
