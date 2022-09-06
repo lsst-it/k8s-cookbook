@@ -99,11 +99,7 @@ helm upgrade --install \
   --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
-kubectl apply -f cephblockpool.yaml
-kubectl apply -f ceph-storageclass.yaml
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
-+waitfor rook-ceph secret rook-ceph-dashboard-password
+waitfor rook-ceph secret rook-ceph-dashboard-password
 set +x
 echo "===================="
 echo "dashboard passphrase"
@@ -111,6 +107,21 @@ echo "===================="
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 echo "===================="
 set -x
+
+# enable ceph orchestrator for nfs
+# as of 1.9.9, this is needed to enable configuration of nfs exports via both
+# the dashboard and the cli
+# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+waitforpod rook-ceph -l app=rook-ceph-tools
+ceph mgr module enable rook
+ceph mgr module enable nfs
+ceph orch set backend rook
+
+# --- customize below this line ---
+
+kubectl apply -f cephblockpool.yaml
+kubectl apply -f ceph-storageclass.yaml
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # cephfs w/ nfs
 kubectl apply -f nfs/cephfs-jhome.yaml
@@ -121,15 +132,6 @@ kubectl apply -f nfs/cephfs-scratch.yaml
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
-
-# enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via both
-# the dashboard and the cli
-# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
-waitforpod rook-ceph -l app=rook-ceph-tools
-ceph mgr module enable rook
-ceph mgr module enable nfs
-ceph orch set backend rook
 
 ceph nfs export rm jhome /jhome
 ceph nfs export create cephfs jhome /jhome jhome

@@ -99,11 +99,7 @@ helm upgrade --install \
   --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
-kubectl apply -f cephblockpool.yaml
-kubectl apply -f ceph-storageclass.yaml
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
-+waitfor rook-ceph secret rook-ceph-dashboard-password
+waitfor rook-ceph secret rook-ceph-dashboard-password
 set +x
 echo "===================="
 echo "dashboard passphrase"
@@ -120,5 +116,11 @@ waitforpod rook-ceph -l app=rook-ceph-tools
 ceph mgr module enable rook
 ceph mgr module enable nfs
 ceph orch set backend rook
+
+# --- customize below this line ---
+
+kubectl apply -f cephblockpool.yaml
+kubectl apply -f ceph-storageclass.yaml
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # vim: tabstop=2 shiftwidth=2 expandtab
