@@ -23,19 +23,19 @@ spec:
     - name: jhome
       nfs:
         path: /jhome
-        server: nfs-jhome.tu.lsst.org
+        server: jhome.nfs.ruka.dev.lsst.org
     - name: lsstdata
       nfs:
         path: /lsstdata
-        server: nfs-lsstdata.tu.lsst.org
+        server: lsstdata.nfs.ruka.dev.lsst.org
     - name: project
       nfs:
         path: /project
-        server: nfs-project.tu.lsst.org
+        server: project.nfs.ruka.dev.lsst.org
     - name: scratch
       nfs:
         path: /scratch
-        server: nfs-scratch.tu.lsst.org
+        server: scratch.nfs.ruka.dev.lsst.org
       #csi:
       #  driver: nfs.csi.k8s.io
       #  volumeAttributes:

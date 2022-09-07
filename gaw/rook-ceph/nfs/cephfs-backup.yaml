@@ -30,17 +30,22 @@ spec:
     namespace: nfs-ns
   server:
     active: 1
+    resources:
+      limits:
+        cpu: "1.5"
+        memory: 2Gi
+      requests:
+        cpu: "1.5"
+        memory: 2Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
     ceph_nfs: backup
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
   name: rook-ceph-nfs-backup
   namespace: rook-ceph
@@ -52,10 +57,8 @@ spec:
       targetPort: 2049
   selector:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
     ceph_nfs: backup
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
   type: LoadBalancer

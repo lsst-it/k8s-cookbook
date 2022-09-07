@@ -3,7 +3,6 @@ operatorNamespace: rook-ceph
 
 toolbox:
   enabled: true
-  image: rook/ceph:v1.7.8
   tolerations:
     - key: node.kubernetes.io/unreachable
       operator: Exists
@@ -29,7 +28,7 @@ monitoring:
 
 cephClusterSpec:
   cephVersion:
-    image: ceph/ceph:v16.2.5
+    image: quay.io/ceph/ceph:v16.2.10
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
@@ -45,7 +44,7 @@ cephClusterSpec:
         enabled: true
   dashboard:
     enabled: true
-    ssl: false
+    ssl: true
   crashCollector:
     disable: false
   logCollector:
@@ -73,25 +72,7 @@ cephClusterSpec:
           operator: Equal
           value: storage-node
           effect: NoSchedule
-  resources:
-  # The requests and limits set here, allow the mgr pod to use half of one CPU core and 1 gigabyte of memory
-  #    mgr:
-  #      limits:
-  #        cpu: "500m"
-  #        memory: "1024Mi"
-  #      requests:
-  #        cpu: "500m"
-  #        memory: "1024Mi"
-  # The above example requests/limits can also be added to the other components
-  #    mon:
-  #    osd:
-  #    prepareosd:
-  #    mgr-sidecar:
-  #    crashcollector:
-  #    logcollector:
-  #    cleanup:
-  # The option to automatically remove OSDs that are out and are safe to destroy.
-  removeOSDsIfOutAndSafeToRemove: true
+  removeOSDsIfOutAndSafeToRemove: false
   #  priorityClassNames:
   #    all: rook-ceph-default-priority-class
   #    mon: rook-ceph-mon-priority-class
@@ -186,3 +167,82 @@ cephClusterSpec:
         disabled: false
       osd:
         disabled: false
+  resources:
+    mgr:
+      limits:
+        cpu: "1000m"
+        memory: "1Gi"
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
+    mon:
+      limits:
+        cpu: "2000m"
+        memory: "2Gi"
+      requests:
+        cpu: "1000m"
+        memory: "1Gi"
+    osd:
+      limits:
+        cpu: "2000m"
+        memory: "8Gi"
+      requests:
+        cpu: "100m"
+        memory: "4Gi"
+    prepareosd:
+      limits:
+        cpu: "500m"
+        memory: "400Mi"
+      requests:
+        cpu: "500m"
+        memory: "50Mi"
+    mgr-sidecar:
+      limits:
+        cpu: "500m"
+        memory: "100Mi"
+      requests:
+        cpu: "100m"
+        memory: "40Mi"
+    crashcollector:
+      limits:
+        cpu: "500m"
+        memory: "60Mi"
+      requests:
+        cpu: "100m"
+        memory: "60Mi"
+    logcollector:
+      limits:
+        cpu: "500m"
+        memory: "1Gi"
+      requests:
+        cpu: "100m"
+        memory: "100Mi"
+    cleanup:
+      limits:
+        cpu: "500m"
+        memory: "1Gi"
+      requests:
+        cpu: "500m"
+        memory: "100Mi"
+
+ingress:
+  dashboard:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    host:
+      # XXX rename to ceph.gaw.ls.lsst.org
+      name: &hostname it-rook-ceph.ls.lsst.org
+    tls:
+      - hosts:
+          - *hostname
+        secretName: rook-ceph-mgr-dashboard-ingress-tls
+
+cephBlockPools:
+cephFileSystems:
+cephFileSystemVolumeSnapshotClass:
+cephBlockPoolsVolumeSnapshotClass:
+cephObjectStores:

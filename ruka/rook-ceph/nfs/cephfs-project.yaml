@@ -2,17 +2,21 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: data
+  name: project
   namespace: rook-ceph
 spec:
   metadataPool:
     failureDomain: host
     replicated:
       size: 3
+    quotas:
+      maxSize: 10Gi
   dataPools:
     - failureDomain: host
       replicated:
         size: 3
+      quotas:
+        maxSize: 500Gi
   metadataServer:
     activeCount: 3
     activeStandby: true
@@ -21,29 +25,33 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: data
+  name: project
   namespace: rook-ceph
 spec:
   rados:
-    pool: data-data0
+    pool: project-data0
     # RADOS namespace where NFS client recovery data is stored in the pool.
     namespace: nfs-ns
   server:
     active: 1
-
+    resources:
+      limits:
+        cpu: "1.5"
+        memory: 2Gi
+      requests:
+        cpu: "1.5"
+        memory: 2Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
-    ceph_nfs: data
+    ceph_nfs: project
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-data
+  name: rook-ceph-nfs-project
   namespace: rook-ceph
 spec:
   ports:
@@ -53,10 +61,8 @@ spec:
       targetPort: 2049
   selector:
     app: rook-ceph-nfs
-    ceph_daemon_id: a
     ceph_daemon_type: nfs
-    ceph_nfs: data
+    ceph_nfs: project
     instance: a
-    nfs: a
     rook_cluster: rook-ceph
   type: LoadBalancer

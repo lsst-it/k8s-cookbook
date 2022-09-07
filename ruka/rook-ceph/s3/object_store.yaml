@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: it
+  name: lfa
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -17,7 +17,7 @@ spec:
       dataChunks: 3
       codingChunks: 2
     quotas:
-      maxSize: 100Ti
+      maxSize: 1Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:

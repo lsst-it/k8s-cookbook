@@ -119,31 +119,8 @@ ceph orch set backend rook
 
 # --- customize below this line ---
 
-kubectl apply -f cephblockpool.yaml
-kubectl apply -f ceph-storageclass.yaml
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
-# cephfs w/ nfs
-kubectl apply -f nfs/cephfs-jhome.yaml
-kubectl apply -f nfs/cephfs-lsstdata.yaml
-kubectl apply -f nfs/cephfs-project.yaml
-kubectl apply -f nfs/cephfs-scratch.yaml
-
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
-
-ceph nfs export rm jhome /jhome
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=jhome
-ceph nfs export create cephfs jhome /jhome jhome /jhome
-ceph nfs export rm lsstdata /lsstdata
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=lsstdata
-ceph nfs export create cephfs lsstdata /lsstdata lsstdata # no /lsstdata relative export
-ceph nfs export rm project /project
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=project
-ceph nfs export create cephfs project /project project /project
-ceph nfs export rm scratch /scratch
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=scratch
-ceph nfs export create cephfs scratch /scratch scratch /scratch
 
 # vim: tabstop=2 shiftwidth=2 expandtab

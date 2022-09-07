@@ -84,25 +84,14 @@ cephClusterSpec:
     config:
       osdsPerDevice: "4"
     nodes:
-      - name: luan01
+      - name: kueyen02
         devices:
-          - name: sda
           - name: sdb
-      - name: luan02
+      - name: kueyen03
         devices:
-          - name: sda
           - name: sdb
-      - name: luan03
+      - name: kueyen04
         devices:
-          - name: sda
-          - name: sdb
-      - name: luan04
-        devices:
-          - name: sda
-          - name: sdb
-      - name: luan05
-        devices:
-          - name: sda
           - name: sdb
   disruptionManagement:
     managePodBudgets: true
@@ -194,7 +183,7 @@ ingress:
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      name: &hostname ceph.luan.ls.lsst.org
+      name: &hostname ceph.kueyen.ls.lsst.org
     tls:
       - hosts:
           - *hostname

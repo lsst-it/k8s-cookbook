@@ -1,9 +1,0 @@
----
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
-metadata:
-  name: lfa-cp-test
-  namespace: rook-ceph
-spec:
-  store: my-store
-  displayName: "CP LFA User"

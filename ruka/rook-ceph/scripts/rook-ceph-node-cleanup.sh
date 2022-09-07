@@ -4,7 +4,7 @@ set -x
 
 DEV1=/dev/sda
 DEV2=/dev/sdb
-SSH_CMD='clush -g luan'
+SSH_CMD='clush -g ruka'
 
 ${SSH_CMD} sudo rm -rf /var/lib/rook
 ${SSH_CMD} 'ls /dev/mapper/ceph-* | xargs -I% -- echo /sbin/dmsetup remove %'
