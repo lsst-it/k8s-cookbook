@@ -56,6 +56,7 @@ metadata:
   namespace: cloudnativepg
 spec:
   instances: 3
+  logLevel: debug
   #startDelay: 300
   #stopDelay: 300
 
