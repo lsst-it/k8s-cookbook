@@ -5,6 +5,7 @@ set -xe
 # Install cloudnativePG on cluster
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
+  --version="0.14.0" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
@@ -98,10 +99,10 @@ spec:
 
   storage:
     size: 10Gi
-  
+
   monitoring:
     enablePodMonitor: true
 END
 kubectl apply -f deploy.yaml
-kubectl apply -f cnpg-scheduledbackups.yaml
+#kubectl apply -f cnpg-scheduledbackups.yaml
 kubectl apply -f cnpg-loadbalancer.yaml
