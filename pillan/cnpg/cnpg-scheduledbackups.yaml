@@ -1,0 +1,11 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: cnpg-backup-scheduled
+  namespace: cloudnativepg
+spec:
+  schedule: "0 12,21 * * * *" #8AM CLT - 5PM CLT (after nightwork and daywork at the summit)
+  backupOwnerReference: self
+  cluster:
+    name: cnpg-cluster
