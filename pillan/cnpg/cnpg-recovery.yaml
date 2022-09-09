@@ -1,0 +1,56 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster
+  namespace: cloudnativepg
+spec:
+  instances: 3
+  #startDelay: 300
+  #stopDelay: 300
+
+  bootstrap:
+    recovery:
+      source: cnpg-cluster
+
+  externalClusters:
+    - name: cnpg-cluster
+      barmanObjectStore:
+        destinationPath: $AWS_ACCESS_BUCKET
+        s3Credentials:
+          accessKeyId:
+            name: cnpg-aws-creds
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: cnpg-aws-creds
+            key: ACCESS_SECRET_KEY
+        wal:
+          compression: gzip
+
+  backup:
+    barmanObjectStore:
+      # this needs to point into a different folder than the recovery folder to avoid overwrite (AWS_ACCESS_BUCKET)
+      # https://www.enterprisedb.com/docs/postgres_for_kubernetes/latest/backup_recovery/ search for "Expected empty archive" Error
+      destinationPath: "$(AWS_ACCESS_BUCKET)/newbackup"
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-aws-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: cnpg-aws-creds
+          key: ACCESS_SECRET_KEY
+      wal:
+        compression: gzip
+
+    retentionPolicy: "90d"
+
+  superuserSecret:
+    name: cnpg-cluster-superuser
+
+# Resources and Storage needs tuning
+
+  storage:
+    size: 10Gi
+
+  monitoring:
+    enablePodMonitor: true
