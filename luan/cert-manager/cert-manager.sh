@@ -12,8 +12,9 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3
 helm upgrade --install \
   cert-manager jetstack/cert-manager \
   --create-namespace --namespace cert-manager \
-  --version v1.4.0 \
-  --set installCRDS=false
+  --version v1.9.1 \
+  --set installCRDS=false \
+  --atomic
 
 cat > secret.yaml << END
 apiVersion: v1
