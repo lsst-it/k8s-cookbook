@@ -9,7 +9,7 @@ helm repo update
 kubectl create namespace cert-manager --dry-run -o yaml | kubectl apply -f -
 
 # helm managment of the CRDs did not work when tested
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v{CHART_VERSION}/cert-manager.crds.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v${CHART_VERSION}/cert-manager.crds.yaml
 
 helm upgrade --install \
   cert-manager jetstack/cert-manager \
