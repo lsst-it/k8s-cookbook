@@ -2,17 +2,19 @@
 
 set -ex
 
+CHART_VERSION="1.9.1"
+
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
 kubectl create namespace cert-manager --dry-run -o yaml | kubectl apply -f -
 
 # helm managment of the CRDs did not work when tested
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v${CHART_VERSION}/cert-manager.crds.yaml
 
 helm upgrade --install \
   cert-manager jetstack/cert-manager \
   --create-namespace --namespace cert-manager \
-  --version v1.9.1 \
+  --version v${CHART_VERSION} \
   --set installCRDS=false \
   --atomic
 
