@@ -1,4 +1,5 @@
 ---
+logLevel: DEBUG
 priorityClassName: system-node-critical
 monitoring:
   enabled: true
