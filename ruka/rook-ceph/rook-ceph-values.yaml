@@ -1,4 +1,8 @@
 ---
+image:
+  repository: jhoblitt/rook
+  tag: ceph-amd64-ldaprgwsupport-6201bfdd1
+
 logLevel: DEBUG
 priorityClassName: system-node-critical
 monitoring:

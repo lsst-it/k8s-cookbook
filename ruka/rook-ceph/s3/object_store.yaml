@@ -28,3 +28,9 @@ spec:
     bucket:
       disabled: false
       interval: 60s
+  ldap:
+    uri: ldap://ipa1.ls.lsst.org
+    binddn: uid=svc_rancher,cn=users,cn=accounts,dc=lsst,dc=cloud
+    searchdn: dc=lsst,dc=cloud
+    dnattr: uid
+    credentialsecret: lfa-ldap
