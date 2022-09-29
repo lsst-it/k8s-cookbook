@@ -7,9 +7,9 @@ metadata:
   namespace: cloudnativepg
 type: Opaque
 stringData:
-    ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-    SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-    password: ${SUPERUSER_PASSWORD}
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  PGPASSWORD: ${SUPERUSER_PASSWORD}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -21,29 +21,19 @@ spec:
   schedule: "0 12,21 * * *" #8AM CLT - 5PM CLT
   jobTemplate:
     spec:
+      ttlSecondsAfterFinished: 172800
       template:
         spec:
+          activeDeadlineSeconds: 3600
           containers:
           - name: cnpg-backup
             image: docker.io/cbarria/cnpg-backup:0.1
             imagePullPolicy: IfNotPresent
+            envFrom:
+            - secretRef:
+                name: cnpg-backup-secrets
             env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: cnpg-backup-secrets
-                  key: ACCESS_KEY_ID
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cnpg-backup-secrets
-                  key: SECRET_ACCESS_KEY
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cnpg-backup-secrets
-                  key: password
             - name: HOST
-              value: "139.229.134.157"
+              value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
           restartPolicy: OnFailure
 END
