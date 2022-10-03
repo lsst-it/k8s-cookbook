@@ -11,4 +11,5 @@ helm upgrade --install \
   --version v3.23.0 \
   --set controller.kind=DaemonSet \
   --set defaultBackend.replicaCount=3 \
-  --set rbac.create=true
+  --set rbac.create=true \
+  --atomic
