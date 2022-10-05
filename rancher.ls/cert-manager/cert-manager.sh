@@ -15,7 +15,8 @@ helm upgrade --install \
   cert-manager jetstack/cert-manager \
   --create-namespace --namespace cert-manager \
   --version v${CHART_VERSION} \
-  --set installCRDS=false
+  --set installCRDS=false \
+  --atomic
 
 cat > secret.yaml << END
 apiVersion: v1
