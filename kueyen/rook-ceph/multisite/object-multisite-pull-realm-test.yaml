@@ -1,0 +1,50 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: realm-a
+  namespace: rook-ceph
+spec:
+  pull:
+    endpoint: "https://s3test.ruka.dev.lsst.org"
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: zonegroup-a
+  namespace: rook-ceph
+spec:
+  realm: realm-a
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: zone-b
+  namespace: rook-ceph
+spec:
+  zoneGroup: zonegroup-a
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+      requireSafeReplicaSize: false
+  dataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+      requireSafeReplicaSize: false
+  customEndpoints:
+    - "https://s3test.kueyen.ls.lsst.org"
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: zone-b-multisite-store
+  namespace: rook-ceph
+spec:
+  gateway:
+    port: 80
+    # securePort: 443
+    instances: 1
+  zone:
+    name: zone-b

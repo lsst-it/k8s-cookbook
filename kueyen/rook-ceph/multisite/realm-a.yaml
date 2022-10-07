@@ -1,0 +1,9 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: realm-a
+  namespace: rook-ceph
+spec:
+  pull:
+    endpoint: "https://s3test.ruka.dev.lsst.org"

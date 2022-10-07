@@ -1,0 +1,8 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: zonegroup-a
+  namespace: rook-ceph
+spec:
+  realm: realm-a

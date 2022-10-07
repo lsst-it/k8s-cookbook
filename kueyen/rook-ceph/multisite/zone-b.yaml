@@ -1,0 +1,20 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: zone-b
+  namespace: rook-ceph
+spec:
+  zoneGroup: zonegroup-a
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+      requireSafeReplicaSize: false
+  dataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+      requireSafeReplicaSize: false
+  customEndpoints:
+    - "https://s3test.kueyen.ls.lsst.org"
