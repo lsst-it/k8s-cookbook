@@ -2,9 +2,9 @@
 
 set -ex
 
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-# On first install only
-kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
-
-kubectl apply -f ./mlb-l2.yaml
+elm repo add metallb https://metallb.github.io/metallb
+helm upgrade --install --namespace metallb-system \
+    --create-namespace \
+    metallb metallb/metallb \
+    --atomic --version 0.13.7
+kubectl apply -f ippool.yaml
