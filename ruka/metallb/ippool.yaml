@@ -1,7 +1,18 @@
 ---
-configInline:
-  address-pools:
-   - name: default
-     protocol: layer2
-     addresses:
-     - 139.229.134.150-139.229.134.200
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: one-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 139.229.134.150-139.229.134.200
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: L2Ad
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - one-pool
