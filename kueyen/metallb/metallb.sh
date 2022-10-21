@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -ex
-
-kubectl apply -f https://raw.githubusercontent.com/google/metallb/v0.8.3/manifests/metallb.yaml
-kubectl apply -f ./mlb-l2.yaml
+helm repo add metallb https://metallb.github.io/metallb
+helm upgrade --install --namespace metallb-system \
+    --create-namespace \
+    metallb metallb/metallb \
+    --atomic --version 0.13.7
+kubectl apply -f ippool.yaml
