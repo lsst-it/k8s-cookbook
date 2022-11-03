@@ -29,14 +29,9 @@ spec:
           containers:
           - name: cnpg-backup
             image: docker.io/cbarria/cnpg-backup:0.3
-            resources:
-              requests:
-                ephemeral-storage: "6Gi"
-              limits:
-                ephemeral-storage: "8Gi"
             volumeMounts:
-              - name: ephemeral
-                mountPath: "/tmp"
+            - name: ephemeral
+              mountPath: "/tmp"  
             imagePullPolicy: IfNotPresent
             envFrom:
             - secretRef:
@@ -44,5 +39,14 @@ spec:
             env:
             - name: HOST
               value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
+          volumes:
+            - name: ephemeral
+              ephemeral:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: [ "ReadWriteOnce" ]
+                    resources:
+                      requests:
+                        storage: 5Gi
           restartPolicy: OnFailure
 END
