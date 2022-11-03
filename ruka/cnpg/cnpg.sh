@@ -5,7 +5,7 @@ set -xe
 # Install cloudnativePG on cluster
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
-  --version="0.14.0" \
+  --version="0.15.0" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
@@ -57,7 +57,7 @@ metadata:
   namespace: cloudnativepg
 spec:
   instances: 3
-  logLevel: debug
+  #logLevel: debug
   #startDelay: 300
   #stopDelay: 300
 
@@ -77,20 +77,20 @@ spec:
       secret:
         name: cnpg-cluster-app-user
 
-  backup:
-    barmanObjectStore:
-      destinationPath: ${AWS_ACCESS_BUCKET}
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-aws-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: cnpg-aws-creds
-          key: ACCESS_SECRET_KEY
-      wal:
-          compression: gzip
-
-    retentionPolicy: "90d"
+#  backup:
+#    barmanObjectStore:
+#      destinationPath: ${AWS_ACCESS_BUCKET}
+#      s3Credentials:
+#        accessKeyId:
+#          name: cnpg-aws-creds
+#          key: ACCESS_KEY_ID
+#        secretAccessKey:
+#          name: cnpg-aws-creds
+#          key: ACCESS_SECRET_KEY
+#      wal:
+#          compression: gzip
+#
+#    retentionPolicy: "90d"
 
   superuserSecret:
     name: cnpg-cluster-superuser
@@ -98,7 +98,7 @@ spec:
 # Resources and Storage Needs to be Adjust!
 
   storage:
-    size: 10Gi
+    size: 5Gi
 
   monitoring:
     enablePodMonitor: true
