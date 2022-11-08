@@ -88,42 +88,62 @@ cephClusterSpec:
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703118
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703123
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2202062X3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206NF3P8CGN
       - name: yagan02
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703121
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703128
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220202T43P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2202043E3P8CGN
       - name: yagan03
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605075
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703127
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2202041Z3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2202043D3P8CGN
       - name: yagan04
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703122
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703125
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102ER3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220202S53P8CGN
       - name: yagan05
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703108
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703130
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102HH3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220202S63P8CGN
       - name: yagan06
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703106
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703131
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102FE3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102GL3P8CGN
       - name: yagan07
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102BC3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102KZ3P8CGN
       - name: yagan08
         devices:
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56A01
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D57152
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2201029T3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220103XG3P8CGN
       - name: yagan09
         devices:
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56B58
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DDC
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102BR3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220103XE3P8CGN
       - name: yagan10
         devices:
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190120D61699
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DE7
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102JB3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206313P8CGN
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
