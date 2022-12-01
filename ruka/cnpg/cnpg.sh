@@ -47,7 +47,7 @@ metadata:
 type: Opaque
 END
 
-# deployment - first time? or recovery? (use cnpg-recovery.yaml for recovery)
+#Deployment
 cat > deploy.yaml << END
 # Cluster Definition
 apiVersion: postgresql.cnpg.io/v1
@@ -56,12 +56,17 @@ metadata:
   name: cnpg-cluster
   namespace: cloudnativepg
 spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
   instances: 3
   #logLevel: debug
   #startDelay: 300
   #stopDelay: 300
 
   postgresql:
+    parameters:
+      max_connections: "500"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
     pg_hba:
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
@@ -104,5 +109,4 @@ spec:
     enablePodMonitor: true
 END
 kubectl apply -f deploy.yaml
-#kubectl apply -f cnpg-scheduledbackups.yaml
 kubectl apply -f cnpg-loadbalancer.yaml
