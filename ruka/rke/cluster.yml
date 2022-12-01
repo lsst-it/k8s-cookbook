@@ -33,18 +33,14 @@ nodes:
   hostname_override: ruka04
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 - address: ruka05.dev.lsst.org
   hostname_override: ruka05
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 #- address: ruka06.dev.lsst.org
