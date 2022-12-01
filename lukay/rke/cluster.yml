@@ -33,14 +33,18 @@ nodes:
   hostname_override: lukay04
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 - address: lukay05.cp.lsst.org
   hostname_override: lukay05
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 services:
