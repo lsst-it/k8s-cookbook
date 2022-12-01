@@ -33,14 +33,18 @@ nodes:
   hostname_override: luan04
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 - address: luan05.ls.lsst.org
   hostname_override: luan05
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 services:

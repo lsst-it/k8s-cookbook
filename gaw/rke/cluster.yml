@@ -33,14 +33,18 @@ nodes:
   hostname_override: gaw04
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 - address: gaw05.ls.lsst.org
   hostname_override: gaw05
   user: rke
   role:
+  - controlplane
   - worker
+  - etcd
   labels:
     role: storage-node
 services:
