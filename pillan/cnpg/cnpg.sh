@@ -5,7 +5,7 @@ set -xe
 # Install cloudnativePG on cluster
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
-  --version="0.14.0" \
+  --version="0.15.0" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
@@ -47,7 +47,7 @@ metadata:
 type: Opaque
 END
 
-# deployment - first time? or recovery? (use cnpg-recovery.yaml for recovery)
+# Deployment
 cat > deploy.yaml << END
 # Cluster Definition
 apiVersion: postgresql.cnpg.io/v1
@@ -57,11 +57,16 @@ metadata:
   namespace: cloudnativepg
 spec:
   instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
   #logLevel: debug
   #startDelay: 300
   #stopDelay: 300
 
   postgresql:
+    parameters:
+      max_connections: "500"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
     pg_hba:
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
@@ -98,7 +103,7 @@ spec:
 # Resources and Storage Needs to be Adjust!
 
   storage:
-    size: 10Gi
+    size: 5Gi
 
   monitoring:
     enablePodMonitor: true
