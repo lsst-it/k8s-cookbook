@@ -56,7 +56,14 @@ metadata:
   name: cnpg-cluster
   namespace: cloudnativepg
 spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
   instances: 3
+
+  postgresql:
+    parameters:
+      max_connections: "500"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
 
   postgresql:
     pg_hba:
