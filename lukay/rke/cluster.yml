@@ -50,7 +50,8 @@ nodes:
 services:
   etcd:
     image: ""
-    extra_args: {}
+    extra_args:
+      listen-metrics-urls: http://0.0.0.0:2381
     extra_binds: []
     extra_env: []
     external_urls: []
