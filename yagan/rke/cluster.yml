@@ -67,9 +67,7 @@ nodes:
   hostname_override: yagan08
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 - address: yagan09.cp.lsst.org
