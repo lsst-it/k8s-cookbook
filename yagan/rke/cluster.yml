@@ -51,9 +51,7 @@ nodes:
   hostname_override: yagan06
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 - address: yagan07.cp.lsst.org
@@ -69,18 +67,14 @@ nodes:
   hostname_override: yagan08
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 - address: yagan09.cp.lsst.org
   hostname_override: yagan09
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 - address: yagan10.cp.lsst.org
@@ -95,7 +89,8 @@ nodes:
 services:
   etcd:
     image: ""
-    extra_args: {}
+    extra_args:
+      listen-metrics-urls: http://0.0.0.0:2381
     extra_binds: []
     extra_env: []
     external_urls: []
