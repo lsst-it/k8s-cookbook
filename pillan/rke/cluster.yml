@@ -56,6 +56,20 @@ nodes:
   - etcd
   labels:
     role: storage-node
+- address: pillan07.tu.lsst.org
+  hostname_override: pillan07
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: pillan08.tu.lsst.org
+  hostname_override: pillan08
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
 - address: pillan09.tu.lsst.org
   hostname_override: pillan09
   user: rke
