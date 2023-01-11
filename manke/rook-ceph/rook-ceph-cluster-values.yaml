@@ -214,7 +214,7 @@ ingress:
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      name: &hostname rook-ceph.manke.cp.lsst.org
+      name: &hostname rook-ceph-manke.ls.lsst.org
     tls:
       - hosts:
           - *hostname
