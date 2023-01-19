@@ -2,7 +2,7 @@
 
 set -ex
 
-VERSION='1.10.8'
+VERSION='1.10.10'
 
 print_error() {
   >&2 echo -e "$@"
