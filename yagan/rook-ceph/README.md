@@ -28,7 +28,7 @@ Run from rke user env:
 _Must be run prior to the node cleanup._
 
 ```bash
-./scripts/rook-ceph-k8s-cleanup.sh
+rook-remover
 ```
 
 Run from workstation with personal ssh-agent setup:
