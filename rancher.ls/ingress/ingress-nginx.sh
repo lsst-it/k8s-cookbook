@@ -12,4 +12,5 @@ helm upgrade --install \
   --set controller.kind=DaemonSet \
   --set defaultBackend.replicaCount=3 \
   --set rbac.create=true \
+  --set controller.config.proxy-body-size=10m \
   --atomic
