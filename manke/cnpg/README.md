@@ -45,7 +45,6 @@ this deployment is cluster database with the following features:
    *DNS needs to be setup for this, use the external IP address.*
    *psql binary must exist in your local computer*
 
-
 ## Backup installation (temporary)
 
 - RUN
@@ -53,4 +52,3 @@ this deployment is cluster database with the following features:
  ```bash
    ./cnpg-backup.sh
    ```
-
