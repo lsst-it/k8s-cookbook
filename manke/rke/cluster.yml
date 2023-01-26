@@ -69,27 +69,27 @@ nodes:
   hostname_override: manke08
   user: rke
   role:
-  - controlplane
+  #- controlplane
   - worker
-  - etcd
+  #- etcd
   labels:
     role: storage-node
 - address: manke09.ls.lsst.org
   hostname_override: manke09
   user: rke
   role:
-  - controlplane
+  #- controlplane
   - worker
-  - etcd
+  #- etcd
   labels:
     role: storage-node
 - address: manke10.ls.lsst.org
   hostname_override: manke10
   user: rke
   role:
-  - controlplane
+  #- controlplane
   - worker
-  - etcd
+  #- etcd
   labels:
     role: storage-node
 services:
