@@ -23,7 +23,7 @@ toolbox:
                   - storage-node
 
 monitoring:
-  enabled: true
+  enabled: false
   rulesNamespaceOverride: rook-ceph
 
 cephClusterSpec:
