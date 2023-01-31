@@ -2,7 +2,7 @@
 
 set -ex
 
-VERSION='2.6.1'
+VERSION='2.6.5'
 
 print_error() {
   >&2 echo -e "$@"
@@ -52,7 +52,7 @@ helm upgrade --install \
   kyverno kyverno/kyverno \
   --create-namespace --namespace kyverno \
   --version "v${VERSION}" \
-  --set image.tag='v1.8.1' \
+  --set image.tag='v1.8.5' \
   --set replicaCount=3
 
 kubectl apply -f policies
