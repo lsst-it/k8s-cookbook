@@ -7,6 +7,7 @@ metadata:
 spec:
   addresses:
   - 139.229.134.150-139.229.134.200
+  autoAssign: true
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -16,3 +17,22 @@ metadata:
 spec:
   ipAddressPools:
   - one-pool
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: lhn
+  namespace: metallb-system
+spec:
+  addresses:
+  - 139.229.153.1-139.229.153.250
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: lhn
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - lhn
