@@ -36,3 +36,5 @@ metadata:
 spec:
   ipAddressPools:
   - lhn
+  interfaces:
+  - br2505
