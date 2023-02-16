@@ -126,7 +126,8 @@ kubectl apply -f s3/ingress.yaml
 # cephfs w/ nfs
 kubectl apply -f nfs/cephfs-obsenv.yaml
 
-ceph nfs export rm obs-env /obs-env
 waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=obs-env
-ceph nfs export create cephfs obs-env /obs-env obs-env /obs-env
+ceph fs subvolume create obs-env obs-env
+# Use output and add it at the Ceph FS Path
+ceph fs subvolume getpath obs-env obs-env
 # vim: tabstop=2 shiftwidth=2 expandtab
