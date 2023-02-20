@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multus-lhn-demo
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    k8s.v1.cni.cncf.io/networks: '[ { "name" : "lhn", "namespace": "kube-system" } ]'
+  name: multus-lhn-demo
+  namespace: multus-lhn-demo
+spec:
+  containers:
+    - command:
+        - /sbin/init
+      image: docker.io/centos/tools:latest
+      imagePullPolicy: Always
+      name: main
