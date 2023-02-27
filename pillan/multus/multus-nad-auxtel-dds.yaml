@@ -11,6 +11,11 @@ spec:
       "master": "br3065",
       "mode": "bridge",
       "ipam": {
-        "type": "dhcp"
+        "type": "dhcp",
+        "request": [
+          {
+            "option": "121"
+          }
+        ]
       }
     }'

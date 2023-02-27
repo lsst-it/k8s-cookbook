@@ -1,18 +1,19 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: multus-dds-demo
+---
+apiVersion: v1
 kind: Pod
 metadata:
   name: multus-demo-auxtel
+  namespace: multus-dds-demo
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/auxtel-dds
   labels:
     app: multus-demo
 spec:
-  initContainers:
-    - name: ddsnet4u
-      image: lsstit/ddsnet4u:latest
-      securityContext:
-        privileged: true
   containers:
     - name: iperf
       command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
@@ -22,16 +23,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: multus-demo-comcam
+  namespace: multus-dds-demo
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/comcam-dds
   labels:
     app: multus-demo
 spec:
-  initContainers:
-    - name: ddsnet4u
-      image: lsstit/ddsnet4u:latest
-      securityContext:
-        privileged: true
   containers:
     - name: iperf
       command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
@@ -41,16 +38,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: multus-demo-misc
+  namespace: multus-dds-demo
   annotations:
     k8s.v1.cni.cncf.io/networks: kube-system/misc-dds
   labels:
     app: multus-demo
 spec:
-  initContainers:
-    - name: ddsnet4u
-      image: lsstit/ddsnet4u:latest
-      securityContext:
-        privileged: true
   containers:
     - name: iperf
       command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
