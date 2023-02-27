@@ -7,5 +7,6 @@ set -ex
 )
 
 kubectl apply -f multus-nad-lhn.yaml
+kubectl apply -f multus-nad-dds.yaml
 
 # vim: tabstop=2 shiftwidth=2 expandtab
