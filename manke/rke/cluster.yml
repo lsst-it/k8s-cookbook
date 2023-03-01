@@ -11,6 +11,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke02.ls.lsst.org
   hostname_override: manke02
   user: rke
@@ -20,6 +21,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke03.ls.lsst.org
   hostname_override: manke03
   user: rke
@@ -29,6 +31,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke04.ls.lsst.org
   hostname_override: manke04
   user: rke
@@ -38,6 +41,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke05.ls.lsst.org
   hostname_override: manke05
   user: rke
@@ -47,6 +51,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke06.ls.lsst.org
   hostname_override: manke06
   user: rke
@@ -56,6 +61,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke07.ls.lsst.org
   hostname_override: manke07
   user: rke
@@ -65,6 +71,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke08.ls.lsst.org
   hostname_override: manke08
   user: rke
@@ -74,6 +81,7 @@ nodes:
   #- etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke09.ls.lsst.org
   hostname_override: manke09
   user: rke
@@ -83,6 +91,7 @@ nodes:
   #- etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 - address: manke10.ls.lsst.org
   hostname_override: manke10
   user: rke
@@ -92,6 +101,7 @@ nodes:
   #- etcd
   labels:
     role: storage-node
+    jupyterlab: ok
 services:
   etcd:
     image: ""
