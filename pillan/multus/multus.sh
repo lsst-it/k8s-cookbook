@@ -9,8 +9,6 @@ set -ex
 )
 
 NADS=(
-  multus-nad-auxtel-dds.yaml
-  multus-nad-comcam-dds.yaml
   multus-nad-dds.yaml
   multus-nad-misc-dds.yaml
 )
