@@ -11,6 +11,11 @@ spec:
       "master": "enp1s0f1.1201",
       "mode": "bridge",
       "ipam": {
-        "type": "dhcp"
+        "type": "dhcp",
+        "request": [
+          {
+            "option": "121"
+          }
+        ]
       }
     }'
