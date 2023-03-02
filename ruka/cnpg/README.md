@@ -3,13 +3,14 @@
 The cloudnativePG is a K8s Operator for PostgreSQL
 this deployment is cluster database with the following features:
 
+- PGsphere extension 1.2.0 included in custom image with postgreSQL 14.5
 - 3 POD cluster
 - 3 read/write services (rw service is exposed)
 - S3 AWS backup capabilities (multiple instances can use same the bucket but different path folders)
 - Backups are gziped for storage optimization
-- 90 Days backup retention policy
-- 10Gi initial storage dedicated PVCs (can be resized)
-- dB monitoring stats ready in Prometheus format (```curl http://<pod_ip>:9187/metrics```)
+- 60 Days backup retention policy
+- 5Gi initial storage dedicated PVCs (can be resized)
+- dB monitoring stats ready in Prometheus format with PodMonitor (```curl http://<pod_ip>:9187/metrics```)
 
 ## Instructions
 
