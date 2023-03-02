@@ -8,6 +8,7 @@ set -ex
   kubectl apply -f images/multus-daemonset.yml
 )
 
+kubectl apply -f multus-nad-dds.yaml
 kubectl apply -f multus-nad-default.yaml
 
 # vim: tabstop=2 shiftwidth=2 expandtab

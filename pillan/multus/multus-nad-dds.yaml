@@ -2,13 +2,13 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: auxtel-dds
+  name: dds
   namespace: kube-system
 spec:
   config: '{
       "cniVersion": "0.3.0",
       "type": "macvlan",
-      "master": "br3065",
+      "master": "br3085",
       "mode": "bridge",
       "ipam": {
         "type": "dhcp",
