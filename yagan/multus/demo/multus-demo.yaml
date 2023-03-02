@@ -10,7 +10,7 @@ metadata:
   name: multus-demo
   namespace: multus-demo-dds
   annotations:
-    k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf
+    k8s.v1.cni.cncf.io/networks: kube-system/dds
   labels:
     app: multus-demo
 spec:
