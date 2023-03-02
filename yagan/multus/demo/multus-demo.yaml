@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multus-demo-dds
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multus-demo
+  namespace: multus-demo-dds
+  annotations:
+    k8s.v1.cni.cncf.io/networks: kube-system/macvlan-conf
+  labels:
+    app: multus-demo
+spec:
+  containers:
+    - name: iperf
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      image: jhoblitt/iperf
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: multus-demo-lhn
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multus-demo
+  namespace: multus-demo-lhn
+  annotations:
+    k8s.v1.cni.cncf.io/networks: kube-system/lhn
+  labels:
+    app: multus-demo
+spec:
+  containers:
+    - name: iperf
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      image: jhoblitt/iperf
