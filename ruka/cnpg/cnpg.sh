@@ -2,14 +2,18 @@
 
 set -xe
 
-# Install cloudnativePG on cluster
+# Install cloudnativePG on cluster (chart 0.17.0 installs 1.19.0 cnpg)
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
-  --version="0.15.0" \
+  --version="0.17.0" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
   --atomic
+
+# Install cnpg-plugin for kubectl (future reference)
+# curl -L https://github.com/cloudnative-pg/cloudnative-pg/releases/download/v1.19.0/kubectl-cnpg_1.19.0_linux_x86_64.rpm --output kube-plugin.rpm
+# yum -y --disablerepo=* localinstall kube-plugin.rpm #needs sudo
 
 # create namespace for deployment
 kubectl create namespace cloudnativepg
@@ -22,7 +26,7 @@ data:
   username: $(echo -n "app" | base64)
 kind: Secret
 metadata:
-  name: cnpg-cluster-app-user
+  name: cnpg-cluster-app
   namespace: cloudnativepg
 type: kubernetes.io/basic-auth
 ---
@@ -38,8 +42,8 @@ type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
-  ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-  ACCESS_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
+  ACCESS_KEY_ID: $(echo -n "${AWS_ACCESS_KEY_ID}" | base64)
+  ACCESS_SECRET_KEY: $(echo -n "${AWS_SECRET_ACCESS_KEY}" | base64)
 kind: Secret
 metadata:
   name: cnpg-aws-creds
@@ -47,7 +51,7 @@ metadata:
 type: Opaque
 END
 
-# Deployment
+# Deployment FIRST TIME ONLY
 cat > deploy.yaml << END
 # Cluster Definition
 apiVersion: postgresql.cnpg.io/v1
@@ -56,11 +60,10 @@ metadata:
   name: cnpg-cluster
   namespace: cloudnativepg
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
+  imageName: docker.io/cbarria/cnpgsphere:14.5
+  imagePullPolicy: Always
+
   instances: 3
-  #logLevel: debug
-  #startDelay: 300
-  #stopDelay: 300
 
   postgresql:
     parameters:
@@ -80,22 +83,22 @@ spec:
       database: app
       owner: app
       secret:
-        name: cnpg-cluster-app-user
+        name: cnpg-cluster-app
 
-#  backup:
-#    barmanObjectStore:
-#      destinationPath: ${AWS_ACCESS_BUCKET}
-#      s3Credentials:
-#        accessKeyId:
-#          name: cnpg-aws-creds
-#          key: ACCESS_KEY_ID
-#        secretAccessKey:
-#          name: cnpg-aws-creds
-#          key: ACCESS_SECRET_KEY
-#      wal:
-#          compression: gzip
-#
-#    retentionPolicy: "90d"
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://cnpg-backups-dev
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-aws-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: cnpg-aws-creds
+          key: ACCESS_SECRET_KEY
+      wal:
+          compression: gzip
+
+    retentionPolicy: "60d"
 
   superuserSecret:
     name: cnpg-cluster-superuser
@@ -108,6 +111,10 @@ spec:
   monitoring:
     enablePodMonitor: true
 END
-kubectl apply -f deploy.yaml
-#kubectl apply -f cnpg-scheduledbackups.yaml
-kubectl apply -f cnpg-loadbalancer.yaml
+#this needs to be changed to apply cnpg-recovery.yaml for recovery on existing cluster, 
+#refer to the file because s3 backup folder needs to be changed.
+kubectl apply -f cnpg-recovery.yaml
+#pgBouncer exposed with loadBalancer
+kubectl apply -f pgbouncer-loadbalancer.yaml
+#Schedule Backup Jobs to S3
+kubectl apply -f cnpg-scheduledbackups.yaml
