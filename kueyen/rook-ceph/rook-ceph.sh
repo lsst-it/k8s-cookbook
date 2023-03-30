@@ -2,7 +2,7 @@
 
 set -ex
 
-VERSION='1.9.9'
+VERSION='1.10.10'
 
 print_error() {
   >&2 echo -e "$@"
@@ -107,20 +107,12 @@ echo "===================="
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 echo "===================="
 set -x
-
-# enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via both
-# the dashboard and the cli
-# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
-waitforpod rook-ceph -l app=rook-ceph-tools
-ceph mgr module enable rook
-ceph mgr module enable nfs
-ceph orch set backend rook
+#as for version 16.2.8 rook and nfs module is optional to load manually
+#https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
 
 # --- customize below this line ---
 
-kubectl apply -f cephblockpool.yaml
+kubectl apply -f ceph-blockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
 # vim: tabstop=2 shiftwidth=2 expandtab

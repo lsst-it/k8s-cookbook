@@ -2,20 +2,28 @@
 
 set -x
 
-SSH_USER=jhoblitt_b
+DEVS=(
+  nvme0n1
+)
 
-for n in $(seq 2 4);
-do
-    HOST="kueyen0${n}.ls.lsst.org"
-    SSH_CMD="ssh ${HOST} -l ${SSH_USER}"
+HOSTS=(
+  kueyen03
+  kueyen02
+  kueyen01
+)
 
-    ${SSH_CMD} sudo rm -rf /var/lib/rook
-    ${SSH_CMD} sudo sh -c 'ls /dev/mapper/ceph-* | xargs -I% -- dmsetup remove %'
-    ${SSH_CMD} sudo rm -rf /dev/ceph-*
-    ${SSH_CMD} sudo sgdisk --zap-all /dev/sdb
-    ${SSH_CMD} sudo dd if=/dev/zero of=/dev/sdb bs=1M count=100 oflag=direct,dsync
-    ${SSH_CMD} sudo blockdev --rereadpt /dev/sdb
-    # reboot still seems to be required to clear the disk label
-    # DO NOT reboot all controlplane/etcd hosts at the same time
-    #${SSH_CMD} sudo reboot
+for H in "${HOSTS[@]}"; do
+  SSH_CMD="ssh ${H}"
+
+  ${SSH_CMD} sudo rm -rf /var/lib/rook
+  ${SSH_CMD} 'ls /dev/mapper/ceph-* | xargs -I% -- echo /sbin/dmsetup remove %'
+  ${SSH_CMD} sudo rm -rf /dev/ceph-*
+  for D in "${DEVS[@]}"; do
+    ${SSH_CMD} sudo sgdisk --zap-all "/dev/${D}"
+    ${SSH_CMD} sudo dd if=/dev/zero "of=/dev/${D}" bs=1M count=100 oflag=direct,dsync
+    ${SSH_CMD} sudo blockdev --rereadpt "/dev/${D}"
+  done
+  ${SSH_CMD} lsblk
+  # sometimes dm devices aren't cleaned up for unknown reason(s)
+  ${SSH_CMD} sudo reboot
 done

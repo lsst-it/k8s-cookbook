@@ -23,7 +23,7 @@ toolbox:
                   - storage-node
 
 monitoring:
-  enabled: true
+  enabled: false
   rulesNamespaceOverride: rook-ceph
 
 cephClusterSpec:
@@ -44,7 +44,7 @@ cephClusterSpec:
         enabled: true
   dashboard:
     enabled: true
-    ssl: true
+    ssl: false
   crashCollector:
     disable: false
   logCollector:
@@ -84,15 +84,15 @@ cephClusterSpec:
     config:
       osdsPerDevice: "4"
     nodes:
+      - name: kueyen01
+        devices:
+          - name: /dev/nvme0n1
       - name: kueyen02
         devices:
-          - name: sdb
+          - name: /dev/nvme0n1
       - name: kueyen03
         devices:
-          - name: sdb
-      - name: kueyen04
-        devices:
-          - name: sdb
+          - name: /dev/nvme0n1
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
@@ -134,7 +134,7 @@ cephClusterSpec:
     osd:
       limits:
         cpu: "2000m"
-        memory: "8Gi"
+        memory: "12Gi"
       requests:
         cpu: "1000m"
         memory: "8Gi"
@@ -177,9 +177,9 @@ cephClusterSpec:
 ingress:
   dashboard:
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt
+      cert-manager.io/issuer: letsencrypt
       kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
