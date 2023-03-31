@@ -71,6 +71,7 @@ spec:
       shared_buffers: 256MB
       idle_session_timeout: 4h
     pg_hba:
+      - host replication postgres all md5
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
       - host all all 139.229.144.0/20 md5
@@ -116,5 +117,7 @@ END
 kubectl apply -f cnpg-recovery.yaml
 #pgBouncer exposed with loadBalancer
 kubectl apply -f pgbouncer-loadbalancer.yaml
+#loadBalancer for the replica cluster connection
+kubectl apply -f cnpg-replica-lb.yaml
 #Schedule Backup Jobs to S3
 kubectl apply -f cnpg-scheduledbackups.yaml

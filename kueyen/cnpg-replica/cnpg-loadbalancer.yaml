@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cnpg.io/cluster: replica-cluster
+  name: cnpg-loadbalancer
+  namespace: cloudnativepg
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 32509
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    postgresql: replica-cluster
+    role: primary
+  sessionAffinity: None
+  type: LoadBalancer
+  #loadBalancerIP: 139.229.xxx.xxx
