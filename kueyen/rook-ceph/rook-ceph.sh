@@ -115,4 +115,8 @@ set -x
 kubectl apply -f ceph-blockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+# lfa/s3
+kubectl apply -f s3/object_store.yaml
+
 # vim: tabstop=2 shiftwidth=2 expandtab
