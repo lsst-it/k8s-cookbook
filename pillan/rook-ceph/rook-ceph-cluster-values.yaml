@@ -219,8 +219,7 @@ ingress:
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      # XXX change this to ceph.pillan.tu.lsst.org
-      name: &hostname rook-ceph.tu.lsst.org
+      name: &hostname ceph.pillan.tu.lsst.org
     tls:
       - hosts:
           - *hostname
