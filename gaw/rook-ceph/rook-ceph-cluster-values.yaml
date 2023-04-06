@@ -234,8 +234,7 @@ ingress:
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      # XXX rename to ceph.gaw.ls.lsst.org
-      name: &hostname it-rook-ceph.ls.lsst.org
+      name: &hostname ceph.gaw.ls.lsst.org
     tls:
       - hosts:
           - *hostname
