@@ -107,8 +107,15 @@ echo "===================="
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 echo "===================="
 set -x
-#as for version 16.2.8 rook and nfs module is optional to load manually
-#https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+
+# enable ceph orchestrator for nfs
+# as of 1.9.9, this is needed to enable configuration of nfs exports via both
+# the dashboard and the cli
+# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+waitforpod rook-ceph -l app=rook-ceph-tools
+ceph mgr module enable rook
+ceph mgr module enable nfs
+ceph orch set backend rook
 
 # --- customize below this line ---
 
@@ -116,7 +123,35 @@ kubectl apply -f ceph-blockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
+# cephfs w/ nfs
+kubectl apply -f nfs/cephfs-jhome.yaml
+kubectl apply -f nfs/cephfs-lsstdata.yaml
+kubectl apply -f nfs/cephfs-project.yaml
+kubectl apply -f nfs/cephfs-scratch.yaml
+kubectl apply -f nfs/cephfs-obsenv.yaml
+
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
+
+# Use output and add it at the Ceph FS Path
+ceph nfs export rm jhome /jhome
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=jhome
+ceph nfs export create cephfs jhome /jhome jhome
+
+ceph nfs export rm lsstdata /lsstdata
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=lsstdata
+ceph nfs export create cephfs lsstdata /lsstdata lsstdata
+
+ceph nfs export rm project /project
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=project
+ceph nfs export create cephfs project /project project
+
+ceph nfs export rm scratch /scratch
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=scratch
+ceph nfs export create cephfs scratch /scratch scratch
+
+ceph nfs export rm obs-env /obs-env
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=obs-env
+ceph nfs export create cephfs obs-env /obs-env obs-env
 
 # vim: tabstop=2 shiftwidth=2 expandtab
