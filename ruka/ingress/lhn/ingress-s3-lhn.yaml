@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx-lhn
+  name: rook-ceph-rgw-ingress-lhn
+  namespace: rook-ceph
+spec:
+  rules:
+  - host: s3-lhn.ruka.dev.lsst.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: rook-ceph-rgw-lfa
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - s3-lhn.ruka.dev.lsst.org
+    secretName: rook-ceph-rgw-ingress-lhn-tls
