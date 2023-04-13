@@ -128,6 +128,7 @@ kubectl apply -f nfs/cephfs-jhome.yaml
 kubectl apply -f nfs/cephfs-lsstdata.yaml
 kubectl apply -f nfs/cephfs-project.yaml
 kubectl apply -f nfs/cephfs-scratch.yaml
+kubectl apply -f nfs/cephfs-obsenv.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
@@ -135,18 +136,22 @@ kubectl apply -f s3/ingress.yaml
 
 ceph nfs export rm jhome /jhome
 waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=jhome
-ceph nfs export create cephfs jhome /jhome jhome /jhome
+ceph nfs export create cephfs jhome /jhome jhome /volumes/_nogroup/jhome/edbad2c0-fd61-4cef-abcc-612656dd0acd
 
 ceph nfs export rm lsstdata /lsstdata
 waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=lsstdata
-ceph nfs export create cephfs lsstdata /lsstdata lsstdata # no /lsstdata relative export
+ceph nfs export create cephfs lsstdata /lsstdata lsstdata /volumes/_nogroup/lsstdata/9a3a6099-59c3-4d9d-b43d-c8b85c213382
 
 ceph nfs export rm project /project
 waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=project
-ceph nfs export create cephfs project /project project /project
+ceph nfs export create cephfs project /project project /volumes/_nogroup/project/bee6346d-ea45-421b-9293-425fc7a0a3b3
 
 ceph nfs export rm scratch /scratch
 waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=scratch
-ceph nfs export create cephfs scratch /scratch scratch /scratch
+ceph nfs export create cephfs scratch /scratch scratch /volumes/_nogroup/scratch/d4551663-82aa-482c-8bb1-2d5561cca50d
+
+ceph nfs export rm obs-env /obs-env
+waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=obs-env
+ceph nfs export create cephfs obs-env /obs-env obs-env
 
 # vim: tabstop=2 shiftwidth=2 expandtab
