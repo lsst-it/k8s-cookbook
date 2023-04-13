@@ -2,7 +2,7 @@
 
 set -ex
 
-VERSION='1.10.10'
+VERSION='1.11.2'
 
 print_error() {
   >&2 echo -e "$@"
@@ -115,4 +115,5 @@ set -x
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
+
 # vim: tabstop=2 shiftwidth=2 expandtab

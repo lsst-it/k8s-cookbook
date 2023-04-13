@@ -35,7 +35,7 @@ cephClusterSpec:
   continueUpgradeAfterChecksEvenIfNotHealthy: false
   waitTimeoutForHealthyOSDInMinutes: 10
   mon:
-    count: 3
+    count: 5
     allowMultiplePerNode: false
   mgr:
     count: 2

@@ -28,14 +28,14 @@ monitoring:
 
 cephClusterSpec:
   cephVersion:
-    image: quay.io/ceph/ceph:v17.2.5
+    image: quay.io/ceph/ceph:v16.2.10
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
   waitTimeoutForHealthyOSDInMinutes: 10
   mon:
-    count: 3
+    count: 5
     allowMultiplePerNode: false
   mgr:
     count: 2

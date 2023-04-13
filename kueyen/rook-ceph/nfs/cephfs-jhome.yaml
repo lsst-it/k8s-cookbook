@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: obs-env
+  name: jhome
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -16,7 +16,7 @@ spec:
       replicated:
         size: 3
       quotas:
-        maxSize: 2Ti
+        maxSize: 250Gi
   metadataServer:
     activeCount: 3
     activeStandby: true
@@ -25,11 +25,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: obs-env
+  name: jhome
   namespace: rook-ceph
 spec:
   rados:
-    pool: obs-env-data0
+    pool: jhome-data0
     # RADOS namespace where NFS client recovery data is stored in the pool.
     namespace: nfs-ns
   server:
@@ -48,10 +48,10 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: jhome
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-obs-env
+  name: rook-ceph-nfs-jhome
   namespace: rook-ceph
 spec:
   ports:
@@ -62,7 +62,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: jhome
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer

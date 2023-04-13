@@ -14,10 +14,10 @@ spec:
   dataPool:
     failureDomain: host
     erasureCoded:
-      dataChunks: 3
-      codingChunks: 2
+      dataChunks: 2
+      codingChunks: 1
     quotas:
-      maxSize: 1.01Ti
+      maxSize: 1Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:

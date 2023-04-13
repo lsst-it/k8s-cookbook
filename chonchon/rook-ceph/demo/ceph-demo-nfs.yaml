@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ceph-nfs-demo
+  labels:
+    app: ceph-nfs-demo
+spec:
+  containers:
+    - name: alpine
+      image: alpine
+      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+      volumeMounts:
+        - name: obs-env
+          mountPath: /data/obs-env
+  volumes:
+    - name: obs-env
+      nfs:
+        path: /obs-env
+        server: nfs-obsenv.cp.lsst.org
