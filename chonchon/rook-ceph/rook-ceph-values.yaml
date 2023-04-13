@@ -20,7 +20,7 @@ discover:
   nodeAffinity: *storage_node_aff
 csi:
   cephcsi:
-    image: quay.io/cephcsi/cephcsi:v3.6.2
+    image: quay.io/cephcsi/cephcsi:v3.8.0
   provisionerTolerations:
     - <<: *storage_node_tol
   provisionerNodeAffinity: *storage_node_aff
