@@ -52,7 +52,18 @@ helm upgrade --install \
   kyverno kyverno/kyverno \
   --create-namespace --namespace kyverno \
   --version "v${VERSION}" \
-  --set image.tag='v1.8.5' \
-  --set replicaCount=3
+  --values - <<EOF
+image:
+  tag: 'v1.8.5'
+replicaCount: 3
+resources:
+  limits:
+    cpu: '100m'
+    memory: '1Gi'
+initResources:
+  limits:
+    cpu: '100m'
+    memory: '1Gi'
+EOF
 
 kubectl apply -f policies
