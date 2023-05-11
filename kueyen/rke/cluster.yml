@@ -2,7 +2,7 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: kueyen01.ls.lsst.org
+- address: kueyen01.dev.lsst.org
   port: "22"
   internal_address: ""
   role:
@@ -18,7 +18,7 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node
-- address: kueyen02.ls.lsst.org
+- address: kueyen02.dev.lsst.org
   port: "22"
   internal_address: ""
   role:
@@ -34,7 +34,7 @@ nodes:
   ssh_cert_path: ""
   labels:
     role: storage-node
-- address: kueyen03.ls.lsst.org
+- address: kueyen03.dev.lsst.org
   port: "22"
   internal_address: ""
   role:

@@ -183,7 +183,7 @@ ingress:
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      name: &hostname ceph.kueyen.ls.lsst.org
+      name: &hostname ceph.kueyen.dev.lsst.org
     tls:
       - hosts:
           - *hostname
