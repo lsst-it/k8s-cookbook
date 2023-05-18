@@ -65,6 +65,7 @@ spec:
       shared_buffers: 256MB
       idle_session_timeout: 4h
     pg_hba:
+      - host replication replicauser all md5
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
       - host all all 139.229.144.0/20 md5
@@ -90,3 +91,4 @@ spec:
 END
 kubectl apply -f deploy.yaml
 kubectl apply -f cnpg-loadbalancer.yaml
+kubectl apply -f cnpg-replica-lb.yaml
