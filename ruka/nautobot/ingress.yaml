@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  name: it-nautobot-dashboard
+  namespace: nautobot
+spec:
+  rules:
+  - host: it-nautobot.dev.lsst.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: nautobot-default
+            port:
+              name:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - it-nautobot.dev.lsst.org
+    secretName: it-nautobot-dashboard-ingress-tls
