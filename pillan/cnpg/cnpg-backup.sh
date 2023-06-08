@@ -9,6 +9,7 @@ type: Opaque
 stringData:
   AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
   AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  AWS_ACCESS_BUCKET: ${AWS_ACCESS_BUCKET}
   PGPASSWORD: ${SUPERUSER_PASSWORD}
 ---
 apiVersion: batch/v1
@@ -27,7 +28,10 @@ spec:
           activeDeadlineSeconds: 3600
           containers:
           - name: cnpg-backup
-            image: docker.io/cbarria/cnpg-backup:0.1
+            image: docker.io/lsstit/cnpg-backup:0.3
+            volumeMounts:
+            - name: ephemeral
+              mountPath: "/tmp"  
             imagePullPolicy: IfNotPresent
             envFrom:
             - secretRef:
@@ -35,5 +39,14 @@ spec:
             env:
             - name: HOST
               value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
+          volumes:
+            - name: ephemeral
+              ephemeral:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: [ "ReadWriteOnce" ]
+                    resources:
+                      requests:
+                        storage: 5Gi
           restartPolicy: OnFailure
 END
