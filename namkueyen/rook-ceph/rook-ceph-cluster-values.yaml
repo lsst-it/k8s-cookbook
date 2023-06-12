@@ -28,7 +28,7 @@ monitoring:
 
 cephClusterSpec:
   cephVersion:
-    image: quay.io/ceph/ceph:v16.2.10
+    image: quay.io/ceph/ceph:v17.2.5
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
