@@ -108,14 +108,12 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 echo "===================="
 set -x
 
-# enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via both
-# the dashboard and the cli
-# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+# disable ceph rook orechestrator for >= 17.2.1 and >= 16.2.11
+# https://rook.io/docs/rook/latest/CRDs/ceph-nfs-crd/#ceph-v1721
 waitforpod rook-ceph -l app=rook-ceph-tools
-ceph mgr module enable rook
 ceph mgr module enable nfs
-ceph orch set backend rook
+ceph orch set backend ""
+ceph mgr module disable rook
 
 # --- customize below this line ---
 
