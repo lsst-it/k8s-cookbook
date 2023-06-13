@@ -145,4 +145,11 @@ kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
+# cephfs w/ nfs
+kubectl apply -f nfs/cephfs-auxtel.yaml
+
+waitfornfs auxtel
+ceph nfs export rm auxtel /auxtel
+ceph nfs export create cephfs auxtel /auxtel auxtel
+
 # vim: tabstop=2 shiftwidth=2 expandtab
