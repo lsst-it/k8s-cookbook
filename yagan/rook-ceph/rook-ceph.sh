@@ -49,17 +49,29 @@ ceph() {
   cephtoolbox ceph "$@"
 }
 
-waitfor() {
+# run command until it exits 0
+waitforcmd() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local wait=${1?sleep interval}; shift
+
+  echo "Waiting for $*"
+
+  until "$@" > /dev/null 2>&1; do
+    echo "Waiting for $*"
+    sleep "$wait";
+  done
+
+  eval "$xtrace"
+}
+
+waitforkube() {
   xtrace=$(set +o|grep xtrace); set +x
   local ns=${1?namespace is required}; shift
   local type=${1?type is required}; shift
 
-  echo "Waiting for $type $*"
   # wait for resource to exist. See: https://github.com/kubernetes/kubernetes/issues/83242
-  until kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}' >/dev/null 2>&1; do
-    echo "Waiting for $type $*"
-    sleep 1
-  done
+  waitforcmd 2 kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}'
+
   eval "$xtrace"
 }
 
@@ -68,10 +80,22 @@ waitforpod() {
   local ns=${1?namespace is required}; shift
 
   # wait for pod to exist
-  waitfor "$ns" pod "$@"
+  waitforkube "$ns" pod "$@"
 
   # wait for pod to be ready
   kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod "$@"
+  eval "$xtrace"
+}
+
+# wait for ceph nfs related resources to be ready
+waitfornfs() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local fs=${1?fs name}; shift
+
+  waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs="$fs"
+  waitforpod rook-ceph -l app=rook-ceph-mds,rook_file_system="$fs"
+  waitforcmd 2 ceph fs get "$fs"
+
   eval "$xtrace"
 }
 
@@ -99,7 +123,7 @@ helm upgrade --install \
   --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
-waitfor rook-ceph secret rook-ceph-dashboard-password
+waitforkube rook-ceph secret rook-ceph-dashboard-password
 set +x
 echo "===================="
 echo "dashboard passphrase"
@@ -108,19 +132,24 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 echo "===================="
 set -x
 
-# enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via both
-# the dashboard and the cli
-# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+# disable ceph rook orechestrator for >= 17.2.1 and >= 16.2.11
+# https://rook.io/docs/rook/latest/CRDs/ceph-nfs-crd/#ceph-v1721
 waitforpod rook-ceph -l app=rook-ceph-tools
-ceph mgr module enable rook
 ceph mgr module enable nfs
-ceph orch set backend rook
+ceph orch set backend ""
+ceph mgr module disable rook
 
 # --- customize below this line ---
 
 kubectl apply -f cephblockpool.yaml
 kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+# cephfs w/ nfs
+kubectl apply -f nfs/cephfs-auxtel.yaml
+
+waitfornfs auxtel
+ceph nfs export rm auxtel /auxtel
+ceph nfs export create cephfs auxtel /auxtel auxtel
 
 # vim: tabstop=2 shiftwidth=2 expandtab
