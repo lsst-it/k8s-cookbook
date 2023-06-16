@@ -53,6 +53,8 @@ metadata:
     rook_cluster: rook-ceph
   name: rook-ceph-nfs-jhome
   namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.151.151
 spec:
   ports:
     - name: nfs
