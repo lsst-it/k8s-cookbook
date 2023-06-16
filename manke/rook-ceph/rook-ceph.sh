@@ -151,6 +151,7 @@ kubectl apply -f nfs/cephfs-lsstdata.yaml
 kubectl apply -f nfs/cephfs-project.yaml
 kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f nfs/cephfs-obsenv.yaml
+kubectl apply -f nfs/cephfs-auxtel.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
@@ -175,5 +176,9 @@ ceph nfs export create cephfs scratch /scratch scratch /volumes/_nogroup/scratch
 waitfornfs obs-env
 ceph nfs export rm obs-env /obs-env
 ceph nfs export create cephfs obs-env /obs-env obs-env
+
+waitfornfs auxtel
+ceph nfs export rm auxtel /auxtel
+ceph nfs export create cephfs auxtel /auxtel auxtel
 
 # vim: tabstop=2 shiftwidth=2 expandtab
