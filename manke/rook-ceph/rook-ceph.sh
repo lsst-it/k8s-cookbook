@@ -49,17 +49,29 @@ ceph() {
   cephtoolbox ceph "$@"
 }
 
-waitfor() {
+# run command until it exits 0
+waitforcmd() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local wait=${1?sleep interval}; shift
+
+  echo "Waiting for $*"
+
+  until "$@" > /dev/null 2>&1; do
+    echo "Waiting for $*"
+    sleep "$wait";
+  done
+
+  eval "$xtrace"
+}
+
+waitforkube() {
   xtrace=$(set +o|grep xtrace); set +x
   local ns=${1?namespace is required}; shift
   local type=${1?type is required}; shift
 
-  echo "Waiting for $type $*"
   # wait for resource to exist. See: https://github.com/kubernetes/kubernetes/issues/83242
-  until kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}' >/dev/null 2>&1; do
-    echo "Waiting for $type $*"
-    sleep 1
-  done
+  waitforcmd 2 kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}'
+
   eval "$xtrace"
 }
 
@@ -68,10 +80,22 @@ waitforpod() {
   local ns=${1?namespace is required}; shift
 
   # wait for pod to exist
-  waitfor "$ns" pod "$@"
+  waitforkube "$ns" pod "$@"
 
   # wait for pod to be ready
   kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod "$@"
+  eval "$xtrace"
+}
+
+# wait for ceph nfs related resources to be ready
+waitfornfs() {
+  xtrace=$(set +o|grep xtrace); set +x
+  local fs=${1?fs name}; shift
+
+  waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs="$fs"
+  waitforpod rook-ceph -l app=rook-ceph-mds,rook_file_system="$fs"
+  waitforcmd 2 ceph fs get "$fs"
+
   eval "$xtrace"
 }
 
@@ -99,7 +123,7 @@ helm upgrade --install \
   --version "v${VERSION}" \
   -f ./rook-ceph-cluster-values.yaml
 
-waitfor rook-ceph secret rook-ceph-dashboard-password
+waitforkube rook-ceph secret rook-ceph-dashboard-password
 set +x
 echo "===================="
 echo "dashboard passphrase"
@@ -108,14 +132,12 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 echo "===================="
 set -x
 
-# enable ceph orchestrator for nfs
-# as of 1.9.9, this is needed to enable configuration of nfs exports via both
-# the dashboard and the cli
-# https://rook.io/docs/rook/v1.9/CRDs/ceph-nfs-crd/?h=nfs#enable-the-ceph-orchestrator-if-necessary
+# disable ceph rook orechestrator for >= 17.2.1 and >= 16.2.11
+# https://rook.io/docs/rook/latest/CRDs/ceph-nfs-crd/#ceph-v1721
 waitforpod rook-ceph -l app=rook-ceph-tools
-ceph mgr module enable rook
 ceph mgr module enable nfs
-ceph orch set backend rook
+ceph orch set backend ""
+ceph mgr module disable rook
 
 # --- customize below this line ---
 
@@ -129,29 +151,34 @@ kubectl apply -f nfs/cephfs-lsstdata.yaml
 kubectl apply -f nfs/cephfs-project.yaml
 kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f nfs/cephfs-obsenv.yaml
+kubectl apply -f nfs/cephfs-auxtel.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
 
+waitfornfs jhome
 ceph nfs export rm jhome /jhome
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=jhome
 ceph nfs export create cephfs jhome /jhome jhome /volumes/_nogroup/jhome/edbad2c0-fd61-4cef-abcc-612656dd0acd
 
+waitfornfs lsstdata
 ceph nfs export rm lsstdata /lsstdata
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=lsstdata
 ceph nfs export create cephfs lsstdata /lsstdata lsstdata /volumes/_nogroup/lsstdata/9a3a6099-59c3-4d9d-b43d-c8b85c213382
 
+waitfornfs project
 ceph nfs export rm project /project
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=project
 ceph nfs export create cephfs project /project project /volumes/_nogroup/project/bee6346d-ea45-421b-9293-425fc7a0a3b3
 
+waitfornfs scratch
 ceph nfs export rm scratch /scratch
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=scratch
 ceph nfs export create cephfs scratch /scratch scratch /volumes/_nogroup/scratch/d4551663-82aa-482c-8bb1-2d5561cca50d
 
+waitfornfs obs-env
 ceph nfs export rm obs-env /obs-env
-waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=obs-env
 ceph nfs export create cephfs obs-env /obs-env obs-env
+
+waitfornfs auxtel
+ceph nfs export rm auxtel /auxtel
+ceph nfs export create cephfs auxtel /auxtel auxtel
 
 # vim: tabstop=2 shiftwidth=2 expandtab
