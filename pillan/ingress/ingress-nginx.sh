@@ -10,6 +10,7 @@ helm upgrade --install \
   --create-namespace --namespace ingress-nginx \
   --version v4.2.1 \
   --set controller.kind=DaemonSet \
+  --set controller.service.annotations."metallb\.universe\.tf\/loadBalancerIPs"=140.252.146.50 \
   --set defaultBackend.replicaCount=3 \
   --set rbac.create=true \
   --atomic

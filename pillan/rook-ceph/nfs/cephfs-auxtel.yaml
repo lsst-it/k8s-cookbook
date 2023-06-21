@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: scratch
+  name: auxtel
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -25,11 +25,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: scratch
+  name: auxtel
   namespace: rook-ceph
 spec:
   rados:
-    pool: scratch-data0
+    pool: auxtel-data0
     # RADOS namespace where NFS client recovery data is stored in the pool.
     namespace: nfs-ns
   server:
@@ -48,13 +48,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: scratch
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-scratch
+  name: rook-ceph-nfs-auxtel
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 140.252.146.54
+    metallb.universe.tf/loadBalancerIPs: 140.252.147.196
 spec:
   ports:
     - name: nfs
@@ -64,7 +64,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: scratch
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer
