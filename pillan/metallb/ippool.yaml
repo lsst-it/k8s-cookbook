@@ -37,6 +37,6 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - generic
+  - general
   interfaces:
   - br3035
