@@ -37,6 +37,15 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - generic
+  - general
   interfaces:
   - br3035
+  # restrict this pool to EL9 nodes to avoid having to setup ip rules on EL7
+  # XXX should a new node label be used instead of pinning to specific nodes?
+  nodeSelectors:
+  - matchLabels:
+      kubernetes.io/hostname: pillan07
+  - matchLabels:
+      kubernetes.io/hostname: pillan08
+  - matchLabels:
+      kubernetes.io/hostname: pillan09
