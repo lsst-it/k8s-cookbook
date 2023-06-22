@@ -147,9 +147,14 @@ kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"sto
 
 # cephfs w/ nfs
 kubectl apply -f nfs/cephfs-auxtel.yaml
+kubectl apply -f nfs/cephfs-comcam.yaml
 
 waitfornfs auxtel
 ceph nfs export rm auxtel /auxtel
 ceph nfs export create cephfs auxtel /auxtel auxtel
+
+waitfornfs comcam
+ceph nfs export rm comcam /comcam
+ceph nfs export create cephfs comcam /comcam comcam
 
 # vim: tabstop=2 shiftwidth=2 expandtab
