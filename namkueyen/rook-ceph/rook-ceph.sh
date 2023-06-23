@@ -151,12 +151,13 @@ kubectl apply -f nfs/cephfs-lsstdata.yaml
 kubectl apply -f nfs/cephfs-project.yaml
 kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f nfs/cephfs-obsenv.yaml
+kubectl apply -f nfs/cephfs-auxtel.yaml
+kubectl apply -f nfs/cephfs-comcam.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
 
-# Use output and add it at the Ceph FS Path
 waitfornfs jhome
 ceph nfs export rm jhome /jhome
 ceph nfs export create cephfs jhome /jhome jhome /jhome
@@ -176,5 +177,13 @@ ceph nfs export create cephfs scratch /scratch scratch /scratch
 waitfornfs obs-env
 ceph nfs export rm obs-env /obs-env
 ceph nfs export create cephfs obs-env /obs-env obs-env
+
+waitfornfs auxtel
+ceph nfs export rm auxtel /auxtel
+ceph nfs export create cephfs auxtel /auxtel auxtel
+
+waitfornfs comcam
+ceph nfs export rm comcam /comcam
+ceph nfs export create cephfs comcam /comcam comcam
 
 # vim: tabstop=2 shiftwidth=2 expandtab
