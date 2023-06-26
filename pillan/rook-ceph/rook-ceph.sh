@@ -186,4 +186,9 @@ waitfornfs comcam
 ceph nfs export rm comcam /comcam
 ceph nfs export create cephfs comcam /comcam comcam
 
+ceph mgr module enable rook
+ceph orch set backend rook
+ceph device monitoring on
+ceph config set global device_failure_prediction_mode local
+
 # vim: tabstop=2 shiftwidth=2 expandtab
