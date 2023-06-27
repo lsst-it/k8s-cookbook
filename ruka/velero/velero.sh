@@ -28,7 +28,7 @@ while true; do
     fi
 done
 
-# Rest of the script continues here...
+# rest of the script continues here...
 echo -e "Continuing with the installation.\n"
 
 #make sure the S3 credentials are setup as env. variable
@@ -64,6 +64,7 @@ stringData:
 END
 
 #deploy velero
+echo "installing velero..(it could take a few mins.)"
 helm install velero vmware-tanzu/velero \
 --namespace ${NAMESPACE} \
 --set credentials.useSecret=true \
