@@ -1,7 +1,5 @@
 #!/bin/env bash
 
-set -ex
-
 #confirm these variables before installing
 NAMESPACE='velero'
 BUCKET='it-backup-test'
@@ -17,8 +15,9 @@ echo "namespace: $NAMESPACE"
 echo "prefix: $PREFIX"
 echo "bucket: $BUCKET"
 echo "S3 Url: $S3Url"
+echo "Are these values correct? (Y/N): "
 while true; do
-    read -p "Are these values correct? (Y/N): " input
+    read -r input
     if [ "$input" = "N" ] || [ "$input" = "n" ]; then
         echo "Installation stopped."
         exit 0
@@ -87,21 +86,20 @@ helm install velero vmware-tanzu/velero \
 --set initContainers[0].volumeMounts[0].mountPath=/target \
 --set initContainers[0].volumeMounts[0].name=plugins
 
-
 #notes
-ns_pvc=`kubectl get pvc --all-namespaces --no-headers -o custom-columns=":metadata.namespace" | sort -u`
+ns_pvc=$(kubectl get pvc --all-namespaces --no-headers -o custom-columns=":metadata.namespace" | sort -u)
 
 echo -e "\nThe following namespaces have PVCs configured, consider them for a backup job" 
 
-echo $ns_pvc | tr '  ' '\n'
+echo "$ns_pvc" | tr '  ' '\n'
 
-formatted_ns_pvc=$(printf "%s," $ns_pvc)
-formatted_ns_pvc=${formatted_ns_pvc%,} 
+formatted_ns_pvc=$(echo "$ns_pvc" | tr '\n' ','| sed 's/,$//') 
 
 echo -e "\n---Examples:\n"
 
 echo -e "Create a daily backup of all those namespaces every 4 hours and retained for 10 days "
-echo -e 'velero schedule create daily --include-namespaces $formatted_ns_pvc  --default-volumes-to-restic --schedule="@every 4h" --ttl 240h0m0s'
+echo -e "velero schedule create daily --include-namespaces $formatted_ns_pvc  --default-volumes-to-restic --schedule=\"@every 4h\" --ttl 240h0m0s"
+
 echo -e "\nOr Create single backups every 24h and retained for 15 days"
 
 for var in $ns_pvc; do
