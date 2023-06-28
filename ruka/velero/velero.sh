@@ -1,6 +1,6 @@
 #!/bin/env bash
 
-#confirm these variables before installing
+# confirm these variables before installing
 NAMESPACE='velero'
 BUCKET='it-backup-test'
 BKP_NAME='default'
@@ -9,29 +9,9 @@ PREFIX='ruka'
 S3Url='https://it-s3.ls.lsst.org'
 RGW_SECRET='it-s3-credentials'
 REGION='default'
+VERSION='4.1.0'
 
-echo -e "\nPlease review these values before installing velero"
-echo "namespace: $NAMESPACE"
-echo "prefix: $PREFIX"
-echo "bucket: $BUCKET"
-echo "S3 Url: $S3Url"
-echo "Are these values correct? (Y/N): "
-while true; do
-    read -r input
-    if [ "$input" = "N" ] || [ "$input" = "n" ]; then
-        echo "Installation stopped."
-        exit 0
-    elif [ "$input" = "Y" ] || [ "$input" = "y" ]; then
-        break
-    else
-        echo "Invalid input. Please enter Y or N."
-    fi
-done
-
-# rest of the script continues here...
-echo -e "Continuing with the installation.\n"
-
-#make sure the S3 credentials are setup as env. variable
+# make sure the S3 credentials are setup as env. variable
 if [[ -v IT_S3_ACCESSKEY && -v IT_S3_SECRET ]]; then
     echo "AccessKey and Secret key exist, carry on..."
 else
@@ -39,13 +19,14 @@ else
     exit 1
 fi
 
-#add repo
+# add repo
 helm repo add vmware-tanzu https://vmware-tanzu.github.io/helm-charts
+helm repo update
 
-#create namespace if it doesn't exist
+# create namespace if it doesn't exist
 kubectl create namespace ${NAMESPACE} || true
 
-#add secret
+# add secret
 cat << END | kubectl apply -f -
 apiVersion: v1
 kind: Secret
@@ -63,10 +44,11 @@ stringData:
     aws_secret_access_key=${IT_S3_SECRET}
 END
 
-#deploy velero
+# deploy velero
 echo "installing velero..(it could take a few mins.)"
-helm install velero vmware-tanzu/velero \
+helm upgrade --install velero vmware-tanzu/velero \
 --namespace ${NAMESPACE} \
+--version ${VERSION} \
 --set credentials.useSecret=true \
 --set credentials.existingSecret=${RGW_SECRET} \
 --set snapshotsEnabled=true \
@@ -87,7 +69,7 @@ helm install velero vmware-tanzu/velero \
 --set initContainers[0].volumeMounts[0].mountPath=/target \
 --set initContainers[0].volumeMounts[0].name=plugins
 
-#notes
+# notes
 ns_pvc=$(kubectl get pvc --all-namespaces --no-headers -o custom-columns=":metadata.namespace" | sort -u)
 
 echo -e "\nThe following namespaces have PVCs configured, consider them for a backup job" 
