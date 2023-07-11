@@ -19,7 +19,14 @@ spec:
         maxSize: 15Ti
   metadataServer:
     activeCount: 3
-    activeStandby: true
+    activeStandby: false
+    resources:
+      limits:
+        cpu: "4"
+        memory: 2Gi
+      requests:
+        cpu: "4"
+        memory: 2Gi
   preserveFilesystemOnDelete: false
 ---
 apiVersion: ceph.rook.io/v1
@@ -36,11 +43,11 @@ spec:
     active: 1
     resources:
       limits:
-        cpu: "1.5"
-        memory: 2Gi
+        cpu: "3"
+        memory: 8Gi
       requests:
-        cpu: "1.5"
-        memory: 2Gi
+        cpu: "3"
+        memory: 8Gi
 ---
 apiVersion: v1
 kind: Service
