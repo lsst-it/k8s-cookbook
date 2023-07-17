@@ -10,4 +10,4 @@ spec:
     size: 3
     requireSafeReplicaSize: true
   quotas:
-    maxSize: 8Ti
+    maxSize: 15Ti
