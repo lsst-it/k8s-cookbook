@@ -16,10 +16,10 @@ Execute and follow the prompts:
  ./velero-aws.sh <- for AWS S3 Installations.
 
 Create backup for single namespace:
-velero backup create test-backup --include-namespaces namespace1 --default-volumes-to-restic
+velero backup create test-backup --include-namespaces namespace1 --default-volumes-to-fs-backup
 
 Create backup for multiple namespaces:
-velero backup create test-backup --include-namespaces namespace1,namespace2 --default-volumes-to-restic
+velero backup create test-backup --include-namespaces namespace1,namespace2 --default-volumes-to-fs-backup
 
 Restore backup:
 velero restore create --from-backup test-backup
