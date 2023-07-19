@@ -2,11 +2,11 @@
 
 # confirm these variables before installing
 NAMESPACE='velero'
-BUCKET='it-backup-test'
+BUCKET='it-backup'
 BKP_NAME='default'
 VOL_NAME='default'
-PREFIX='ruka'
-S3Url='https://it-s3.ls.lsst.org'
+PREFIX='yagan'
+S3Url='https://it-s3.cp.lsst.org'
 RGW_SECRET='it-s3-credentials'
 REGION='default'
 VERSION='4.1.0'
@@ -67,7 +67,9 @@ helm upgrade --install velero vmware-tanzu/velero \
 --set initContainers[0].name=velero-plugin-for-aws \
 --set initContainers[0].image=velero/velero-plugin-for-aws:v1.7.0 \
 --set initContainers[0].volumeMounts[0].mountPath=/target \
---set initContainers[0].volumeMounts[0].name=plugins
+--set initContainers[0].volumeMounts[0].name=plugins \
+--set nodeAgent.resources.limits.memory=4096Mi \
+--set nodeAgent.resources.limits.cpu=4
 
 # notes
 ns_pvc=$(kubectl get pvc --all-namespaces --no-headers -o custom-columns=":metadata.namespace" | sort -u)
