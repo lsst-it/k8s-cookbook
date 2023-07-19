@@ -44,6 +44,11 @@ stringData:
     aws_secret_access_key=${IT_S3_SECRET}
 END
 
+# create crds
+kubectl apply -f volumesnapshots/crd/
+kubectl apply -f volumesnapshots/controller/
+kubectl apply -f volumesnapclass-rbd.yaml
+
 # deploy velero
 echo "installing velero..(it could take a few mins.)"
 helm upgrade --install velero vmware-tanzu/velero \
@@ -64,10 +69,15 @@ helm upgrade --install velero vmware-tanzu/velero \
 --set configuration.volumeSnapshotLocation[0].name=${VOL_NAME} \
 --set configuration.volumeSnapshotLocation[0].provider=aws \
 --set configuration.volumeSnapshotLocation[0].config.region=${REGION} \
+--set configuration.features=EnableCSI \
 --set initContainers[0].name=velero-plugin-for-aws \
 --set initContainers[0].image=velero/velero-plugin-for-aws:v1.7.0 \
 --set initContainers[0].volumeMounts[0].mountPath=/target \
 --set initContainers[0].volumeMounts[0].name=plugins \
+--set initContainers[1].name=velero-plugin-for-csi \
+--set initContainers[1].image=velero/velero-plugin-for-csi:v0.5.0 \
+--set initContainers[1].volumeMounts[0].mountPath=/target \
+--set initContainers[1].volumeMounts[0].name=plugins \
 --set nodeAgent.resources.limits.memory=4096Mi \
 --set nodeAgent.resources.limits.cpu=4
 
