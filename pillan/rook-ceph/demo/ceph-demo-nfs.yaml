@@ -4,64 +4,72 @@ kind: Namespace
 metadata:
   name: ceph-demo-nfs
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: DaemonSet
 metadata:
   name: ceph-demo-nfs
   namespace: ceph-demo-nfs
   labels:
     app: ceph-demo-nfs
 spec:
-  containers:
-    - name: alpine
-      image: alpine
-      command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
-      volumeMounts:
+  selector:
+    matchLabels:
+      name: ceph-demo-nfs
+  template:
+    metadata:
+      labels:
+        name: ceph-demo-nfs
+    spec:
+      containers:
+        - name: alpine
+          image: alpine
+          command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
+          volumeMounts:
+            - name: auxtel
+              mountPath: /data/auxtel
+            - name: comcam
+              mountPath: /data/comcam
+            - name: jhome
+              mountPath: /data/jhome
+            - name: lsstdata
+              mountPath: /data/lsstdata
+            - name: obs-env
+              mountPath: /data/obs-env
+            - name: project
+              mountPath: /data/project
+            - name: scratch
+              mountPath: /data/scratch
+      volumes:
         - name: auxtel
-          mountPath: /data/auxtel
+          nfs:
+            path: /auxtel
+            server: nfs-auxtel.tu.lsst.org
         - name: comcam
-          mountPath: /data/comcam
+          nfs:
+            path: /comcam
+            server: nfs-comcam.tu.lsst.org
         - name: jhome
-          mountPath: /data/jhome
+          nfs:
+            path: /jhome
+            server: nfs-jhome.tu.lsst.org
         - name: lsstdata
-          mountPath: /data/lsstdata
+          nfs:
+            path: /lsstdata
+            server: nfs-lsstdata.tu.lsst.org
         - name: obs-env
-          mountPath: /data/obs-env
+          nfs:
+            path: /obs-env
+            server: nfs-obsenv.tu.lsst.org
         - name: project
-          mountPath: /data/project
+          nfs:
+            path: /project
+            server: nfs-project.tu.lsst.org
         - name: scratch
-          mountPath: /data/scratch
-  volumes:
-    - name: auxtel
-      nfs:
-        path: /auxtel
-        server: nfs-auxtel.tu.lsst.org
-    - name: comcam
-      nfs:
-        path: /comcam
-        server: nfs-comcam.tu.lsst.org
-    - name: jhome
-      nfs:
-        path: /jhome
-        server: nfs-jhome.tu.lsst.org
-    - name: lsstdata
-      nfs:
-        path: /lsstdata
-        server: nfs-lsstdata.tu.lsst.org
-    - name: obs-env
-      nfs:
-        path: /obs-env
-        server: nfs-obsenv.tu.lsst.org
-    - name: project
-      nfs:
-        path: /project
-        server: nfs-project.tu.lsst.org
-    - name: scratch
-      nfs:
-        path: /scratch
-        server: nfs-scratch.tu.lsst.org
-      #csi:
-      #  driver: nfs.csi.k8s.io
-      #  volumeAttributes:
-      #    server: rook-ceph-nfs-jhome-a.rook-ceph.svc.cluster.local
-      #    share: /jhome
+          nfs:
+            path: /scratch
+            server: nfs-scratch.tu.lsst.org
+          #csi:
+          #  driver: nfs.csi.k8s.io
+          #  volumeAttributes:
+          #    server: rook-ceph-nfs-jhome-a.rook-ceph.svc.cluster.local
+          #    share: /jhome
