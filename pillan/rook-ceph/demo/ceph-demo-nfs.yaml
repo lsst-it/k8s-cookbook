@@ -1,25 +1,45 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: ceph-demo-nfs
+---
+apiVersion: v1
 kind: Pod
 metadata:
-  name: ceph-nfs-demo
+  name: ceph-demo-nfs
+  namespace: ceph-demo-nfs
   labels:
-    app: ceph-nfs-demo
+    app: ceph-demo-nfs
 spec:
   containers:
     - name: alpine
       image: alpine
       command: ["/bin/sh", "-c", "trap : TERM INT; sleep infinity & wait"]
       volumeMounts:
+        - name: auxtel
+          mountPath: /data/auxtel
+        - name: comcam
+          mountPath: /data/comcam
         - name: jhome
           mountPath: /data/jhome
         - name: lsstdata
           mountPath: /data/lsstdata
+        - name: obs-env
+          mountPath: /data/obs-env
         - name: project
           mountPath: /data/project
         - name: scratch
           mountPath: /data/scratch
   volumes:
+    - name: auxtel
+      nfs:
+        path: /auxtel
+        server: nfs-auxtel.tu.lsst.org
+    - name: comcam
+      nfs:
+        path: /comcam
+        server: nfs-comcam.tu.lsst.org
     - name: jhome
       nfs:
         path: /jhome
@@ -28,6 +48,10 @@ spec:
       nfs:
         path: /lsstdata
         server: nfs-lsstdata.tu.lsst.org
+    - name: obs-env
+      nfs:
+        path: /obs-env
+        server: nfs-obsenv.tu.lsst.org
     - name: project
       nfs:
         path: /project

@@ -1,8 +1,14 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: ceph-demo-pvc
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ceph-demo-pvc1
+  namespace: ceph-demo-pvc
 spec:
   storageClassName: rook-ceph-block
   accessModes:
@@ -14,7 +20,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo1
+  name: ceph-demo-pvc
+  namespace: ceph-demo-pvc
   labels:
     app: demo1
 spec:
