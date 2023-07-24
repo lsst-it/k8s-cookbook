@@ -2,7 +2,7 @@
 
 set -ex
 
-CHART_VERSION="1.9.1"
+CHART_VERSION="1.12.2"
 
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
