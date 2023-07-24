@@ -8,7 +8,7 @@ helm repo update
 helm upgrade --install \
   ingress-nginx ingress-nginx/ingress-nginx \
   --create-namespace --namespace ingress-nginx \
-  --version v4.2.1 \
+  --version v4.5.2 \
   --set controller.kind=DaemonSet \
   --set controller.service.annotations."metallb\.universe\.tf\/loadBalancerIPs"=140.252.146.50 \
   --set defaultBackend.replicaCount=3 \
