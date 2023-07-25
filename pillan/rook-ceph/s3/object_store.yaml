@@ -24,7 +24,3 @@ spec:
     port: 80
     # securePort: 443
     instances: 3
-  healthCheck:
-    bucket:
-      disabled: false
-      interval: 60s
