@@ -11,7 +11,7 @@ helm upgrade --install \
   --set controller.ingressClass="nginx-lhn" \
   --set controller.ingressClassResource.name="nginx-lhn" \
   --set controller.service.annotations."metallb\.universe\.tf\/address-pool"=lhn \
-  --version v4.2.1 \
+  --version v4.5.2 \
   --set controller.kind=DaemonSet \
   --set defaultBackend.replicaCount=3 \
   --set rbac.create=true \
