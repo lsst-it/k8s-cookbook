@@ -19,14 +19,14 @@ spec:
         maxSize: 15Ti
   metadataServer:
     activeCount: 3
-    activeStandby: false
+    activeStandby: true
     resources:
       limits:
         cpu: "4"
-        memory: 2Gi
+        memory: 4Gi
       requests:
         cpu: "4"
-        memory: 2Gi
+        memory: 4Gi
   preserveFilesystemOnDelete: false
 ---
 apiVersion: ceph.rook.io/v1

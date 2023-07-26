@@ -146,30 +146,10 @@ kubectl apply -f ceph-storageclass.yaml
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 # cephfs w/ nfs
-kubectl apply -f nfs/cephfs-jhome.yaml
-kubectl apply -f nfs/cephfs-lsstdata.yaml
-kubectl apply -f nfs/cephfs-project.yaml
-kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f nfs/cephfs-obsenv.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
-
-waitfornfs jhome
-ceph nfs export rm jhome /jhome
-ceph nfs export create cephfs jhome /jhome jhome
-
-waitfornfs lsstdata
-ceph nfs export rm lsstdata /lsstdata
-ceph nfs export create cephfs lsstdata /lsstdata lsstdata
-
-waitfornfs project
-ceph nfs export rm project /project
-ceph nfs export create cephfs project /project project
-
-waitfornfs scratch
-ceph nfs export rm scratch /scratch
-ceph nfs export create cephfs scratch /scratch scratch
 
 waitfornfs obs-env
 ceph nfs export rm obs-env /obs-env
