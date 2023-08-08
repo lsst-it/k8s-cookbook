@@ -144,6 +144,7 @@ ceph mgr module disable rook
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
 kubectl apply -f s3/ingress.yaml
+kubectl apply -f s3/rgw-o11y.yaml
 
 ceph mgr module enable rook
 ceph orch set backend rook
