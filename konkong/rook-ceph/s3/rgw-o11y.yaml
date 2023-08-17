@@ -35,17 +35,17 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-ingress
+  name: rook-ceph-rgw-ingress-o11y
   namespace: rook-ceph
   annotations:
-    cert-manager.io/issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
   tls:
   - hosts:
     - s3.o11y.ls.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls
+    secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
   - host: s3.o11y.ls.lsst.org
     http:
@@ -54,6 +54,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-lfa
+            name: rook-ceph-rgw-o11y
             port:
               number: 80
