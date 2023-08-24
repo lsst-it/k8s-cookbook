@@ -35,7 +35,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-ingress
+  name: rook-ceph-rgw-ingress-lfa
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
@@ -45,7 +45,7 @@ spec:
   tls:
   - hosts:
     - s3.ls.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls
+    secretName: rook-ceph-rgw-ingress-tls-lfa
   rules:
   - host: s3.ls.lsst.org
     http:

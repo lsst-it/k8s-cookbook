@@ -42,7 +42,7 @@ trap "{ rm -rf $tmpdir; }" EXIT
 ENDPOINT='--no-verify-ssl --ca-bundle /etc/ssl/certs/ca-bundle.crt --endpoint-url https://s3.o11y.ls.lsst.org'
 
 # shellcheck disable=SC2086
-aws s3 $ENDPOINT --region lfa mb s3://s3demo
+aws s3 $ENDPOINT --region o11y mb s3://s3demo
 dd if=/dev/zero of="$tmpfile" bs=1M count=1
 # shellcheck disable=SC2086
 time aws s3 $ENDPOINT cp "$tmpfile" s3://s3demo
