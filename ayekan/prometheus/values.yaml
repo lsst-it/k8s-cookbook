@@ -1,5 +1,8 @@
 ---
 prometheus:
+  prometheusSpec:
+    remoteWrite:
+      - url: http://ayekan-mimir-gateway.mimir.svc:80/api/v1/push
   ingress:
     enabled: true
     annotations:
