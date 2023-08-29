@@ -1,5 +1,11 @@
 ---
 prometheus:
+  prometheusSpec:
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        o11y.eu/monitor: "enabled"
+    remoteWrite:
+      - url: http://ayekan-mimir-gateway.mimir.svc:80/api/v1/push
   ingress:
     enabled: true
     annotations:
