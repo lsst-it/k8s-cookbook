@@ -32,6 +32,7 @@ spec:
         cpu: "4"
         memory: 4Gi
 ---
+# rm s3.o11y.ls.lsst.org after migration to s3.o11y.dev.lsst.org is complete
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -48,6 +49,32 @@ spec:
     secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
   - host: s3.o11y.ls.lsst.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rook-ceph-rgw-o11y
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-ingress-o11y-dev
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dev
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  tls:
+  - hosts:
+    - s3.o11y.dev.lsst.org
+    secretName: rook-ceph-rgw-ingress-tls-o11y-dev
+  rules:
+  - host: s3.o11y.dev.lsst.org
     http:
       paths:
       - path: /

@@ -54,6 +54,32 @@ spec:
             key: aws_key
 END
 
+cat > letsencrypt-dev.yaml << END
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dev
+  namespace: cert-manager
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt
+    email: ${EMAIL}
+    solvers:
+    - selector:
+        dnsZones:
+          - "dev.lsst.org"
+      dns01:
+        route53:
+          region: ${AWS_DEFAULT_REGION}
+          hostedZoneID: ZQGNOYQYRNW0C
+          accessKeyID: ${AWS_ACCESS_KEY_ID}
+          secretAccessKeySecretRef:
+            name: aws-route53
+            key: aws_key
+END
+
 cat > letsencrypt-staging.yaml << END
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -84,7 +110,9 @@ kubectl apply -f secret.yaml
 # need to wait for the CA to be injected
 sleep 20
 kubectl apply -f letsencrypt.yaml
+kubectl apply -f letsencrypt-dev.yaml
 kubectl apply -f letsencrypt-staging.yaml
 
 kubectl wait --for=condition=ready --timeout=180s clusterissuer/letsencrypt
+kubectl wait --for=condition=ready --timeout=180s clusterissuer/letsencrypt-dev
 kubectl wait --for=condition=ready --timeout=180s clusterissuer/letsencrypt-staging
