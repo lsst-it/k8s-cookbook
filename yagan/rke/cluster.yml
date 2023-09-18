@@ -82,6 +82,76 @@ nodes:
   - worker
   labels:
     role: storage-node
+- address: yagan11.cp.lsst.org
+  hostname_override: yagan11
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan12.cp.lsst.org
+  hostname_override: yagan12
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan13.cp.lsst.org
+  hostname_override: yagan13
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan14.cp.lsst.org
+  hostname_override: yagan14
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan15.cp.lsst.org
+  hostname_override: yagan15
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan16.cp.lsst.org
+  hostname_override: yagan16
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan17.cp.lsst.org
+  hostname_override: yagan17
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan18.cp.lsst.org
+  hostname_override: yagan18
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan19.cp.lsst.org
+  hostname_override: yagan19
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: yagan20.cp.lsst.org
+  hostname_override: yagan20
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
 services:
   etcd:
     image: ""
