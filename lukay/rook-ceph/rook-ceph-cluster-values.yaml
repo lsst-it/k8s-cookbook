@@ -132,18 +132,6 @@ cephClusterSpec:
           - name: sdh
           - name: sdi
           - name: sdj
-      - name: lukay05
-        devices:
-          - name: sda
-          - name: sdb
-          - name: sdc
-          - name: sdd
-          - name: sde
-          - name: sdf
-          - name: sdg
-          - name: sdh
-          - name: sdi
-          - name: sdj
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
