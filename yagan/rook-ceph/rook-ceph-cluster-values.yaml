@@ -144,6 +144,40 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DE7
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102JB3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206313P8CGN
+      - name: yagan11
+        config:
+          osdsPerDevice: "4"
+        devices:
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402R53P8CGN
+      - name: yagan12
+        config:
+          osdsPerDevice: "1"
+        devices:
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX235301FJ3P8CGN
+      #- name: yagan13
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402JT3P8CGN
+      #- name: yagan14
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX235300HB3P8CGN
+      #- name: yagan15
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402NF3P8CGN
+      #- name: yagan16
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402ME3P8CGN
+      #- name: yagan17
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236400K43P8CGN
+      #- name: yagan18
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX235300GA3P8CGN
+      #- name: yagan19
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236302WV3P8CGN
+      #- name: yagan20
+      #  devices:
+      #    - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236302LQ3P8CGN
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
