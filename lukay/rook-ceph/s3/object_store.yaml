@@ -17,7 +17,7 @@ spec:
       dataChunks: 3
       codingChunks: 2
     quotas:
-      maxSize: 1Ti
+      maxSize: 100Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
