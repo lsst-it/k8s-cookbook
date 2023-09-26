@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: htcondor-worker
+  namespace: htcondor
+  labels:
+    app: htcondor-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: htcondor-worker
+  template:
+    metadata:
+      labels:
+        app: htcondor-worker
+    spec:
+      containers:
+      - name: htcondor-worker
+        image: docker.io/lsstit/htcondor-worker:23
+        env:
+        - name: CONDOR_HOST
+          value: "htcondor-central-manager"
+        - name: SEC_PASSWORD_FILE
+          value: "/etc/condor/pool_password/password"
+        volumeMounts:
+        - name: pool-password
+          mountPath: /etc/condor/pool_password
+        ports:
+        - containerPort: 9618
+          protocol: TCP
+      volumes:
+      - name: pool-password
+        secret:
+          defaultMode: 0600
+          secretName: htcondor-pool-password
