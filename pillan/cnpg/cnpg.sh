@@ -16,15 +16,6 @@ kubectl create namespace cloudnativepg
 
 # Secrets - app user - postgres user - AWS account for backups
 cat << END | kubectl apply -f -
-apiVersion: v1
-data:
-  password: $(echo -n "${USER_PASSWORD}" | base64)
-  username: $(echo -n "app" | base64)
-kind: Secret
-metadata:
-  name: cnpg-cluster-app-user
-  namespace: cloudnativepg
-type: kubernetes.io/basic-auth
 ---
 apiVersion: v1
 data:
@@ -35,16 +26,6 @@ metadata:
   name: cnpg-cluster-superuser
   namespace: cloudnativepg
 type: kubernetes.io/basic-auth
----
-apiVersion: v1
-data:
-  ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-  ACCESS_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
-kind: Secret
-metadata:
-  name: cnpg-aws-creds
-  namespace: cloudnativepg
-type: Opaque
 END
 
 # Deployment
@@ -57,11 +38,8 @@ metadata:
   namespace: cloudnativepg
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.5
-  #logLevel: debug
-  #startDelay: 300
-  #stopDelay: 300
-
+  imageName: docker.io/lsstit/cnpgsphere:14.5
+ 
   postgresql:
     parameters:
       max_connections: "500"
@@ -75,32 +53,8 @@ spec:
       - host all all 139.229.192.0/18 md5
       - host all all 140.252.146.0/23 md5
 
-  bootstrap:
-    initdb:
-      database: app
-      owner: app
-      secret:
-        name: cnpg-cluster-app-user
-
-  backup:
-    barmanObjectStore:
-      destinationPath: ${AWS_ACCESS_BUCKET}
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-aws-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: cnpg-aws-creds
-          key: ACCESS_SECRET_KEY
-      wal:
-          compression: gzip
-
-    retentionPolicy: "90d"
-
   superuserSecret:
     name: cnpg-cluster-superuser
-
-# Resources and Storage Needs to be Adjust!
 
   storage:
     size: 5Gi
@@ -109,5 +63,4 @@ spec:
     enablePodMonitor: true
 END
 kubectl apply -f deploy.yaml
-#kubectl apply -f cnpg-scheduledbackups.yaml
 kubectl apply -f cnpg-loadbalancer.yaml
