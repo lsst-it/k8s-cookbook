@@ -41,15 +41,10 @@ this deployment is cluster database with the following features:
    PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
    ```
 
-   *DNS needs to be setup for this, use the external IP address.*
+## To set backups
 
-## Recovery from Backup
+  ```bash$
+  ./cnpg-backup.sh
+  ```$
 
-To restore the database, the cluster needs to be started in recovery mode.
-
-There is a yaml file provided for restoring the database from the S3
-(new empty folder needs to be provided to avoid overwrite on previous backups)
-
-fill the correct information inside the file ```cnpg-recovery.yaml``` (buckets directory)
-replace ```kubectl apply -f deploy.yaml``` for ```kubectl apply -f cnpg-recovery.yaml```
-inside ```cnpg.sh``` and then execute the script to start the cluster in recovery mode with previous backup.
+To restore the database, the cluster needs to be started and AWS Backup needs to be injected.
