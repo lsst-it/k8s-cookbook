@@ -9,8 +9,8 @@ nodes:
   - controlplane
   - worker
   - etcd
-- address: rancher2.cp.lsst.org
-  #hostname_override: "rancher2.cp"
+- address: rancher02.cp.lsst.org
+  hostname_override: rancher02.cp
   user: rke
   role:
   - controlplane
