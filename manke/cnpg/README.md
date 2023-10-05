@@ -37,18 +37,14 @@ this deployment is cluster database with the following features:
 
 - Test connectivity providing information on the following command line:
 
-   export PGPASSWORD=$SUPERUSER_PASSWORD
-
-   ```psql -h ("ip of the service") -U postgres
+   ```bash
+   PGPASSWORD='"insert superuser password"' psql -h ("ip of the service") -U postgres
    ```
 
-   *DNS needs to be setup for this, use the external IP address.*
-   *psql binary must exist in your local computer*
+## To set backups
 
-## Backup installation (temporary)
+  ```bash$
+  ./cnpg-backup.sh
+  ```$
 
-- RUN
-
- ```bash
-   ./cnpg-backup.sh
-   ```
+To restore the database, the cluster needs to be started and AWS Backup needs to be injected.
