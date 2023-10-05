@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 139.229.160.24/32
+    - 139.229.160.24/32
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
@@ -15,4 +15,27 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - one-pool
+    - one-pool
+  nodeSelectors:
+    - matchLabels:
+        kubernetes.io/hostname: rancher1.cp.lsst.org
+    - matchLabels:
+        kubernetes.io/hostname: rancher3.cp.lsst.org
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: new-core-vms
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - one-pool
+  nodeSelectors:
+    - matchLabels:
+        kubernetes.io/hostname: rancher01.cp
+    - matchLabels:
+        kubernetes.io/hostname: rancher02.cp
+    - matchLabels:
+        kubernetes.io/hostname: rancher03.cp
+  interfaces:
+    - enp2s0
