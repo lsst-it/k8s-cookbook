@@ -8,3 +8,7 @@ helm upgrade --install \
   --version v0.27.1 \
   --atomic \
   -f values.yaml
+
+#  --atomic \
+# Restart daemonset to apply new config; sidecar is not working
+kubectl rollout restart daemonset/grafana-agent
