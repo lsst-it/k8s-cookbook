@@ -1,0 +1,25 @@
+---
+agent:
+  mode: flow
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dev
+    kubernetes.io/ingress.class: nginx
+  faroPort: 80
+  path: /
+  pathType: Prefix
+  hosts:
+  - grafana-agent.o11y.dev.lsst.org
+  tls:
+  - hosts:
+    - grafana-agent.o11y.dev.lsst.org
+    secretName: grafana-agent-ingress-tls
