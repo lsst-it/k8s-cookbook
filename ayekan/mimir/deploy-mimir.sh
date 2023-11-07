@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 
 MIMIR_S3_CONFIG="mimir.structuredConfig.common.storage.s3"
 
