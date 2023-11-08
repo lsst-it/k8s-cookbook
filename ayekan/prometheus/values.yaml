@@ -185,3 +185,10 @@ grafana:
       - secretName: tls-grafana-ingress
         hosts:
           - grafana.ayekan.ls.lsst.org
+  sidecar:
+    alerts:
+      enabled: true
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
