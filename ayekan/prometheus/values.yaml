@@ -190,5 +190,32 @@ grafana:
       enabled: true
     dashboards:
       enabled: true
-    datasources:
-      enabled: true
+  datasources:
+    datasource.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          uid: prometheus
+          url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090/
+          access: proxy
+          jsonData:
+            httpMethod: POST
+            timeInterval: 30s
+        - name: Mimir
+          type: prometheus
+          uid: mimir
+          url: http://ayekan-mimir-gateway.mimir:80/prometheus
+          access: proxy
+          isDefault: true
+          jsonData:
+            httpMethod: POST
+            timeInterval: 30s
+        - name: Alertmanager
+          type: alertmanager
+          uid: alertmanager
+          url: http://kube-prometheus-stack-alertmanager.kube-prometheus-stack:9093/
+          access: proxy
+          jsonData:
+            handleGrafanaManagedAlerts: false
+            implementation: prometheus
