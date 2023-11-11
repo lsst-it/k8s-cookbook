@@ -1,0 +1,200 @@
+# Mimir components
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        backend: s3
+        s3:
+          region: "o11y"
+          bucket_name: "ayekan-mimir"
+    blocks_storage:
+      s3:
+        bucket_name: "ayekan-mimir-blocks"
+    alertmanager_storage:
+      s3:
+        bucket_name: "ayekan-mimir-alertmanager"
+    ruler_storage:
+      s3:
+        bucket_name: "ayekan-mimir-ruler"
+    limits:
+      ingestion_rate: 500000
+      ingestion_burst_size: 1000000
+      max_global_series_per_user: 0
+      max_global_series_per_metric: 0
+
+compactor:
+  persistentVolume:
+    size: 40Gi
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 3Gi
+distributor:
+  replicas: 2
+  resources:
+    limits:
+      memory: 5Gi
+    requests:
+      cpu: 1
+      memory: 5Gi
+ingester:
+  persistentVolume:
+    size: 50Gi
+  replicas: 3
+  resources:
+    limits:
+      memory: 12Gi
+    requests:
+      cpu: 2
+      memory: 12Gi
+  topologySpreadConstraints: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: target # support for enterprise.legacyLabels
+                operator: In
+                values:
+                  - ingester
+          topologyKey: 'kubernetes.io/hostname'
+
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                  - ingester
+          topologyKey: 'kubernetes.io/hostname'
+
+  zoneAwareReplication:
+    topologyKey: 'kubernetes.io/hostname'
+querier:
+  replicas: 1
+  resources:
+    limits:
+      memory: 5Gi
+    requests:
+      cpu: 2
+      memory: 5Gi
+query_frontend:
+  replicas: 1
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 2
+      memory: 3Gi
+ruler:
+  replicas: 1
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 1
+      memory: 3Gi
+store_gateway:
+  persistentVolume:
+    size: 10Gi
+  replicas: 3
+  resources:
+    limits:
+      memory: 2.5Gi
+    requests:
+      cpu: 1
+      memory: 2.5Gi
+  topologySpreadConstraints: {}
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: target # support for enterprise.legacyLabels
+                operator: In
+                values:
+                  - store-gateway
+          topologyKey: 'kubernetes.io/hostname'
+
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                  - store-gateway
+          topologyKey: 'kubernetes.io/hostname'
+  zoneAwareReplication:
+    topologyKey: 'kubernetes.io/hostname'
+
+## caching components
+admin-cache:
+  enabled: true
+  replicas: 2
+chunks-cache:
+  enabled: true
+  replicas: 2
+index-cache:
+  enabled: true
+  replicas: 3
+metadata-cache:
+  enabled: true
+results-cache:
+  enabled: true
+  replicas: 2
+
+## exporter
+overrides_exporter:
+  replicas: 1
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+# NGINX deperecated, use gateway instead
+nginx:
+  enabled: false
+gateway:
+  enabledNonEnterprise: true
+  replicas: 2
+  ingress:
+    enabled: true
+    nameOverride: "mimir-nginx"
+    classNameName: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-dev
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    hosts:
+      - host: mimir.o11y.dev.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-mimir-ingress
+        hosts:
+          - mimir.o11y.dev.lsst.org
+  resources:
+    limits:
+      memory: 1250Mi
+    requests:
+      cpu: 1500m
+      memory: 1250Mi
+
+# No use for minio, using the rook storage setup
+minio:
+  enabled: false
+
+# Disable the alertmanager
+alertmanager:
+  enabled: false
+
+# Grafana Enterprise Metrics feature related
+admin_api:
+  enabled: false
+enterprise:
+  enabeld: false
