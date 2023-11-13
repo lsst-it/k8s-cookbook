@@ -1,6 +1,6 @@
 extraEnv: |
   - name: KEYCLOAK_LOGLEVEL
-    value: DEBUG
+    value: INFO
   - name: PROXY_ADDRESS_FORWARDING
     value: "true"
 
