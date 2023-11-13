@@ -22,8 +22,6 @@ tls:
   ## @param tls.enabled Enable TLS encryption. Required for HTTPs traffic.
   ##
   enabled: true
-
-tls: true
   extraTls:
   - hosts:
     - keycloak.kind.cluster
@@ -36,4 +34,3 @@ externalDatabase:
   database: keycloak
   existingSecret: keycloak-pg
   existingSecretPasswordKey: password
-  
