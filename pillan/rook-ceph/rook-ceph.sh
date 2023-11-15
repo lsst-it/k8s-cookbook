@@ -155,8 +155,8 @@ kubectl apply -f nfs/cephfs-auxtel.yaml
 kubectl apply -f nfs/cephfs-comcam.yaml
 
 # lfa/s3
-kubectl apply -f s3/object_store.yaml
-kubectl apply -f s3/ingress.yaml
+kubectl apply -f s3/rgw-lfa.yaml
+kubectl apply -f s3/rgw-rubintv.yaml
 
 waitfornfs jhome
 ceph nfs export rm jhome /jhome
