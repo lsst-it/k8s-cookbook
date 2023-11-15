@@ -15,7 +15,7 @@ export POSTGRES_HOST=WWWWWWW
 Keycloak ingress
 export KEYCLOAK_INGRESS=ZZZZZ
 
-Execute and follow the prompts:
+Execute:
  ./keycloak.sh
 
-And login as admin:$KEYCLOAK_PASS
+And login as admin:$KEYCLOAK_PASS at https://KEYCLOAK_INGRESS
