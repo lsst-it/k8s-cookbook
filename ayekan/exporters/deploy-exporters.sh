@@ -10,9 +10,11 @@ kubectl --namespace monitoring apply -f snmp-configmap.yaml
 helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-exporter \
      --create-namespace --namespace monitoring \
      --atomic --timeout 15m0s \
+     --version "1.8.1" \
      -f ./snmp-exporter.yaml
 
 helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter \
      --create-namespace --namespace monitoring \
      --atomic --timeout 15m0s \
+     --version "8.4.0" \
      -f ./blackbox-exporter.yaml
