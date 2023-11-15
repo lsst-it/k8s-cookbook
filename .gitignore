@@ -2,3 +2,5 @@ creds.sh
 secret.yaml
 values.yaml
 template.yaml
+
+ayekan/exporters/snmp-configmap.yaml
