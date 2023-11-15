@@ -5,7 +5,38 @@ prometheus:
       matchLabels:
         o11y.eu/monitor: "enabled"
     remoteWrite:
-      - url: http://ayekan-mimir-gateway.mimir.svc:80/api/v1/push
+      - url: http://ayekan-mimir-gateway.mimir:80/api/v1/push
+    additionalScrapeConfigs:
+      - job_name: blackbox-ping-dev
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.dev.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs: &k8s-blackbox-monitoring
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: "blackbox-exporter-prometheus-blackbox-exporter.monitoring:9115"
+      - job_name: blackbox-ping-ls
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.ls.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs: *k8s-blackbox-monitoring
   ingress:
     enabled: true
     annotations:
