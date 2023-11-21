@@ -54,6 +54,31 @@ prometheus:
       - secretName: tls-prometheus-ingress
         hosts:
           - prometheus.ayekan.ls.lsst.org
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ["namespace", "cluster"]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: "slack-test"
+      routes:
+        - receiver: "null"
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
+    receivers:
+      - name: "null"
+      - name: "slack-test"
+        slack_configs:
+          - username: "ayekan-prometheus"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+    templates:
+      - "/etc/alertmanager/config/*.tmpl"
+
 grafana:
   ingress:
     enabled: true
