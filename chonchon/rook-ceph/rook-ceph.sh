@@ -141,9 +141,9 @@ ceph mgr module disable rook
 
 # --- customize below this line ---
 
-# lfa/s3
-kubectl apply -f s3/object_store.yaml
-kubectl apply -f s3/ingress.yaml
+# s3
+kubectl apply -f s3/rgw-lfa.yaml
+kubectl apply -f s3/rgw-rubintv.yaml
 
 # cephfs w/ nfs
 kubectl apply -f nfs/cephfs-obsenv.yaml

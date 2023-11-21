@@ -144,6 +144,7 @@ ceph mgr module disable rook
 # lfa/s3
 kubectl apply -f s3/rgw-lfa.yaml
 kubectl apply -f s3/rgw-o11y.yaml
+kubectl apply -f s3/rgw-rubintv.yaml
 
 ceph mgr module enable rook
 ceph orch set backend rook
