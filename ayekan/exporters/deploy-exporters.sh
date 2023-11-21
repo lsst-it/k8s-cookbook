@@ -13,7 +13,7 @@ fi
 
 if [ -z ${LSST_SNMP_COMMUNITY+x} ]; then
     echo "Please set the LSST_SNMP_COMMUNITY variable before deploying exporters"
-	exit -1
+	exit 1
 else
     envsubst -i ./snmp-configmap.tmpl -o ./snmp-configmap.yaml
 fi
