@@ -153,6 +153,7 @@ kubectl apply -f nfs/cephfs-scratch.yaml
 kubectl apply -f nfs/cephfs-obsenv.yaml
 kubectl apply -f nfs/cephfs-auxtel.yaml
 kubectl apply -f nfs/cephfs-comcam.yaml
+kubectl apply -f nfs/cephfs-rsphome.yaml
 
 # lfa/s3
 kubectl apply -f s3/object_store.yaml
