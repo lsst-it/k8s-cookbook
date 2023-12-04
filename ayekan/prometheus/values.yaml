@@ -1,6 +1,7 @@
 ---
 prometheus:
   prometheusSpec:
+    externalUrl: https://prometheus.ayekan.ls.lsst.org
     serviceMonitorNamespaceSelector:
       matchLabels:
         o11y.eu/monitor: "enabled"
@@ -56,6 +57,25 @@ prometheus:
           - prometheus.ayekan.ls.lsst.org
 
 alertmanager:
+  alertmanagerSpec:
+    externalUrl: https://alertmanager.ayekan.ls.lsst.org
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    paths:
+      - /
+    pathType: Prefix
+    hosts:
+      - alertmanager.ayekan.ls.lsst.org
+    tls:
+      - secretName: tls-alertmanager-ingress
+        hosts:
+          - alertmanager.ayekan.ls.lsst.org
   config:
     global:
       resolve_timeout: 5m
