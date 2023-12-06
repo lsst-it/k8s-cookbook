@@ -5,9 +5,29 @@ prometheus:
     serviceMonitorNamespaceSelector:
       matchLabels:
         o11y.eu/monitor: "enabled"
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
     remoteWrite:
       - url: http://ayekan-mimir-gateway.mimir:80/api/v1/push
     additionalScrapeConfigs:
+      - job_name: node_exporter_puppetdb_dev
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.dev.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            port: 9100
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+      - job_name: node_exporter_puppetdb_ls
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.ls.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            port: 9100
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
       - job_name: blackbox-ping-dev
         metrics_path: /probe
         params:
