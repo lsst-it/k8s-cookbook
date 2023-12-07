@@ -29,3 +29,6 @@ velero restore create --from-backup nginx-backup --include-namespaces namespace1
 
 Restore backup of a single namespace to a different namespace
 velero restore create --from-backup test-backup --include-namespaces namespace1 --namespace-mappings namespace1:namespace1-new
+
+To enable listing CSI details in the describe command:
+velero client config set features=EnableCSI

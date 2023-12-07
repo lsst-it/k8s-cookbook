@@ -1,0 +1,13 @@
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-cephfsplugin-snapclass
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
+driver: rook-ceph.cephfs.csi.ceph.com # driver:namespace:operator
+parameters:
+  clusterID: rook-ceph 
+  csi.storage.k8s.io/snapshotter-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph 
+deletionPolicy: Delete
+
