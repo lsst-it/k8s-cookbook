@@ -120,6 +120,8 @@ alertmanager:
       - "/etc/alertmanager/config/*.tmpl"
 
 grafana:
+  persistence:
+    enabled: true
   ingress:
     enabled: true
     annotations:
