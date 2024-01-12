@@ -55,6 +55,8 @@ prometheus:
         hosts:
           - prometheus.ayekan.ls.lsst.org
 grafana:
+  persistence:
+    enabled: true
   ingress:
     enabled: true
     annotations:
