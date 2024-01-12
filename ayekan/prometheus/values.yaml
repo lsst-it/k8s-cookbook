@@ -37,6 +37,63 @@ prometheus:
             include_parameters: true
             enable_http2: true
         relabel_configs: *k8s-blackbox-monitoring
+      - job_name: snmp-dev-static
+        metrics_path: /snmp
+        params:
+          module: [if_mib]
+        static_configs:
+          - targets:
+              - 10.48.1.4
+              - 10.48.1.5
+              - 10.49.0.101
+              - 10.49.0.103
+              - 10.49.0.129
+              - 10.49.0.130
+              - 10.49.0.131
+              - 10.49.0.132
+              - 10.49.0.2
+              - 10.49.0.1
+              - 10.49.0.102
+              - 10.49.0.104
+              - 10.49.0.107
+              - 10.49.0.108
+              - 10.49.0.109
+              - 10.49.0.110
+              - 10.17.0.11
+              - 10.17.0.21
+              - 10.17.0.22
+              - 10.17.0.62
+              - 10.17.0.91
+              - 10.17.0.85
+              - 10.17.0.93
+              - 10.17.0.101
+              - 10.17.0.102
+              - 10.17.0.109
+              - 10.17.0.113
+              - 10.17.0.114
+              - 10.17.0.115
+              - 10.17.0.117
+              - 10.17.0.120
+              - 10.17.0.119
+              - 10.17.0.124
+              - 10.17.0.123
+              - 10.17.0.127
+              - 10.17.0.128
+              - 10.17.0.3
+              - 10.17.0.4
+              - 10.17.0.53
+              - 10.17.0.81
+              - 10.17.0.71
+              - 10.17.0.87
+              - 10.17.0.1
+              - 10.17.0.2
+        relabel_configs: &k8s-snmp-monitoring
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
   ingress:
     enabled: true
     annotations:
