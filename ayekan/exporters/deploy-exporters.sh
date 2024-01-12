@@ -19,6 +19,8 @@ else
 fi
 
 kubectl create ns ${NAMESPACE} --dry-run=client -oyaml | kubectl apply -f -
+
+# SNMP configuration
 kubectl --namespace ${NAMESPACE} apply -f snmp-configmap.yaml
 helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-exporter \
      --create-namespace --namespace ${NAMESPACE} \
@@ -26,6 +28,7 @@ helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-export
      --version "1.8.1" \
      -f ./snmp-exporter.yaml
 
+# Blackbox configuration
 helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter \
      --create-namespace --namespace ${NAMESPACE} \
      --atomic --timeout 15m0s \
