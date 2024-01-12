@@ -95,6 +95,8 @@ prometheus:
 alertmanager:
   alertmanagerSpec:
     externalUrl: https://alertmanager.ayekan.ls.lsst.org
+    secrets:
+      - o11y-slack
   ingress:
     enabled: true
     annotations:
@@ -115,6 +117,7 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
+      slack_api_url_file: /etc/alertmanager/secrets/o11y-slack
     route:
       group_by: ["namespace", "cluster"]
       group_wait: 30s

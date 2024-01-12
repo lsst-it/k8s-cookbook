@@ -9,7 +9,6 @@ helm repo update
 helm upgrade --install \
   kube-prometheus-stack prometheus-community/kube-prometheus-stack \
   --create-namespace --namespace kube-prometheus-stack \
-  --set "alertmanager.config.receivers[1].slack_configs[0].api_url=${O11Y_SLACK_API_URL}" \
   -f ./values.yaml \
   --atomic
 
