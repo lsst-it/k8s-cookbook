@@ -45,7 +45,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: tls-snmp-exporter-ingress
+    - secretName: tls-blackbox-exporter-ingress
       hosts:
         - blackbox-exporter.o11y.dev.lsst.org
 
