@@ -1,4 +1,21 @@
 # Mimir components
+metaMonitoring:
+  dashboards:
+    enabled: true
+    labels:
+      o11y.eu/monitor: enabled
+      release: kube-prometheus-stack
+      grafana_dashboard: "1"
+  serviceMonitor:
+    enabled: true
+    labels:
+      o11y.eu/monitor: enabled
+      release: kube-prometheus-stack
+  prometheusRule:
+    enabled: true
+    labels:
+      o11y.eu/monitor: enabled
+      release: kube-prometheus-stack
 mimir:
   structuredConfig:
     common:
