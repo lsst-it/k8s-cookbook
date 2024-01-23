@@ -1,0 +1,104 @@
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  finalizers:
+  - Opster
+  name: ayekan-opensearch
+spec:
+  bootstrap:
+    resources: {}
+  confMgmt: {}
+  dashboards:
+    enable: true
+    opensearchCredentialsSecret: {}
+    replicas: 2
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    service:
+      type: ClusterIP
+    version: 2.3.0
+  general:
+    httpPort: 9200
+    monitoring: {}
+    serviceName: ayekan-opensearch
+    setVMMaxMapCount: true
+    version: 2.3.0
+  initHelper:
+    resources: {}
+  nodePools:
+  - component: nodes
+    diskSize: 20Gi
+    replicas: 3
+    resources:
+      limits:
+        cpu: "1"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 4Gi
+    roles:
+    - cluster_manager
+    - data
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUser
+metadata:
+  name: fluentbit
+spec:
+  opensearchCluster:
+    name: ayekan-opensearch
+  passwordFrom:
+    name: fluentbit-password
+    key: password
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fluentbit-password
+data:
+  password: cnViaW5vYnMK
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: fluentbit-writer
+spec:
+  opensearchCluster:
+    name: ayekan-opensearch
+  clusterPermissions:
+    - cluster_composite_ops
+  indexPermissions:
+  - indexPatterns:
+    - fluentbit-*
+    - fluent-bit-*
+    - logstash-*
+    allowedActions:
+    - crud
+    - create_index
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUserRoleBinding
+metadata:
+  name: fluentbit-binding
+spec:
+  opensearchCluster:
+    name: ayekan-opensearch
+  users:
+  - fluentbit
+  roles:
+  - fluentbit-writer
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchTenant
+metadata:
+  name: ayekan
+spec:
+  opensearchCluster:
+    name: ayekan-opensearch
+  description: "Ayekan cluster tenant"
