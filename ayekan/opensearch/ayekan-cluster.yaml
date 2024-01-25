@@ -33,7 +33,7 @@ spec:
     resources: {}
   nodePools:
   - component: nodes
-    diskSize: 20Gi
+    diskSize: 100Gi
     replicas: 3
     resources:
       limits:
@@ -72,7 +72,7 @@ spec:
   opensearchCluster:
     name: ayekan-opensearch
   clusterPermissions:
-    - cluster_composite_ops
+  - cluster_composite_ops
   indexPermissions:
   - indexPatterns:
     - fluentbit-*
