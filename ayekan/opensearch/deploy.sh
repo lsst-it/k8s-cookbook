@@ -11,6 +11,7 @@ helm repo update
 helm upgrade --install opensearch-operator opensearch-operator/opensearch-operator \
      --create-namespace --namespace "${NAMESPACE=}" \
      --atomic --timeout 15m0s \
-     --version "${VERSION=}"
+     --version "${VERSION=}" \
+     -f ./values.yaml
 
 kubectl --namespace "${NAMESPACE=}" apply -f ./ayekan-cluster.yaml
