@@ -215,3 +215,11 @@ grafana:
           - grafana.ayekan.ls.lsst.org
   plugins:
     - grafana-opensearch-datasource
+
+# these components are not present in the Rancher clusters
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
