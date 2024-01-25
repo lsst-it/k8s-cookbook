@@ -213,3 +213,5 @@ grafana:
       - secretName: tls-grafana-ingress
         hosts:
           - grafana.ayekan.ls.lsst.org
+  plugins:
+    - grafana-opensearch-datasource
