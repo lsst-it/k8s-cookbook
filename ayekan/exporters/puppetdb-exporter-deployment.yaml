@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    o11y.eu/exporter: "kafka"
+    o11y.eu/exporter: "puppetdb"
   name: puppetdb-exporter
 spec:
   replicas: 1
