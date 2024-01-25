@@ -115,6 +115,8 @@ alertmanager:
     externalUrl: https://alertmanager.ayekan.ls.lsst.org
     secrets:
       - o11y-webhooks
+    configMaps:
+      - alertmanager-templates
   ingress:
     enabled: true
     annotations:
@@ -137,7 +139,7 @@ alertmanager:
       resolve_timeout: 5m
       slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
     route:
-      group_by: ["namespace", "cluster"]
+      group_by: ["namespace","alertname"]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
@@ -161,6 +163,14 @@ alertmanager:
           - username: "ayekan-prometheus"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
+            icon_emoji: ':warning:'
+            title: '{{ .GroupLabels.alertname }}'
+            text: '{{ template "slack.o11y.listInstances" . }}'
+            actions:
+              - type: 'button'
+                text: 'Runbook'
+                url: '{{ .CommonAnnotations.runbook_url }}'
+                style: 'primary'
       - name: "squadcast-test"
         webhook_configs:
           - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
@@ -169,19 +179,19 @@ alertmanager:
           - alertname = "InfoInhibitor"
         target_matchers:
           - severity = "info"
-        equal: [ "namespace" ]
+        equal: ["namespace"]
       - source_matchers:
           - severity = "critical"
         target_matchers:
           - severity =~ "info|warning"
-        equal: [ "alertname" ]
+        equal: ["alertname"]
       - source_matchers:
           - severity = "warning"
         target_matchers:
           - severity = "info"
-        equal: [ "alertname" ]
+        equal: ["alertname"]
     templates:
-      - "/etc/alertmanager/config/*.tmpl"
+      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
 
 grafana:
   persistence:
