@@ -57,13 +57,6 @@ spec:
     name: fluentbit-password
     key: password
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: fluentbit-password
-data:
-  password: cnViaW5vYnMK
----
 apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
