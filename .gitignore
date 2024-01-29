@@ -4,3 +4,5 @@ values.yaml
 template.yaml
 
 ayekan/exporters/snmp-configmap.yaml
+
+*secret.yaml
