@@ -1,0 +1,31 @@
+---
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  hosts:
+    - nexus.cp.lsst.org
+  http:
+    paths:
+      - backend:
+          service:
+            name: my-nexus3
+            port:
+              name:
+              number: 8081
+        path: /
+        pathType: Prefix
+  tls:
+    - hosts:
+        - nexus.cp.lsst.org
+      secretName: nexus-dashboard-ingress-tls
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  storageClass: rook-ceph-block
+  size: 2Ti
