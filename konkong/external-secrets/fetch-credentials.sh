@@ -2,7 +2,9 @@
 
 set -e
 
-eval "$(op signin)"
+if ! env | grep OP_SESSION_ > /dev/null 2>&1; then
+  eval "$(op signin)"
+fi
 ONEPASS_TOKEN="$(op item get "connect.ls.lsst.org Access Token: konkong.ls.lsst.org" --fields credential)"
 
 cat > secret-onepassword-token.yaml << END
