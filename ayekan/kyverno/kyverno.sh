@@ -79,3 +79,4 @@ reportsController:
 EOF
 
 kubectl apply -f policies
+kubectl --namespace kyverno apply -f ./servicemonitor.yaml
