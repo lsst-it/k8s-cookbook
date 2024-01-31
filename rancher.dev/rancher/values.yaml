@@ -1,0 +1,12 @@
+---
+hostname: rancher.dev.lsst.org
+ingress:
+  tls:
+    source: secret
+  extraAnnotations:
+    "cert-manager.io/cluster-issuer": letsencrypt
+    "kubernetes.io/ingress.class": nginx
+global:
+  cattle:
+    psp:
+      enabled: false
