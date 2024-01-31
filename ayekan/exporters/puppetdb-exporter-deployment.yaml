@@ -1,0 +1,206 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    o11y.eu/exporter: puppetdb
+    environment: dev
+  name: puppetdb-dev-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: dev
+  template:
+    metadata:
+      labels:
+        prometheus.io/exporter: puppetdb-exporter
+        environment: dev
+    spec:
+      containers:
+      - image: camptocamp/prometheus-puppetdb-exporter
+        imagePullPolicy: IfNotPresent
+        name: puppetdb-exporter
+        args:
+        - "--puppetdb-url=http://puppetdb.dev.lsst.org:8080/pdb/query"
+        ports:
+        - containerPort: 9635
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 500m
+            memory: 256Mi
+      serviceAccount: puppetdb-dev-exporter
+      serviceAccountName: puppetdb-dev-exporter
+---
+# Source: puppetdb-exporter/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: puppetdb-dev-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9635
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  selector:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+---
+# Source: puppetdb-exporter/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: puppetdb-dev-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+    o11y.eu/monitor: enabled
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: dev
+  endpoints:
+  - port: metrics
+    path: /metrics
+    honorLabels: false
+    scrapeTimeout: 10s
+---
+# Source: puppetdb-exporter/templates/poddisruptionbudget.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: puppetdb-dev-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: dev
+---
+# Source: puppetdb-exporter/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: puppetdb-dev-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    o11y.eu/exporter: puppetdb
+    environment: ls
+  name: puppetdb-ls-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: ls
+  template:
+    metadata:
+      labels:
+        prometheus.io/exporter: puppetdb-exporter
+        environment: ls
+    spec:
+      containers:
+      - image: camptocamp/prometheus-puppetdb-exporter
+        imagePullPolicy: IfNotPresent
+        name: puppetdb-exporter
+        args:
+        - "--puppetdb-url=http://puppetdb.ls.lsst.org:8080/pdb/query"
+        ports:
+        - containerPort: 9635
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 256Mi
+          requests:
+            cpu: 500m
+            memory: 256Mi
+      serviceAccount: puppetdb-ls-exporter
+      serviceAccountName: puppetdb-ls-exporter
+---
+# Source: puppetdb-exporter/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: puppetdb-ls-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: ls
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9635
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  selector:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: dev
+---
+# Source: puppetdb-exporter/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: puppetdb-ls-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: ls
+    o11y.eu/monitor: enabled
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: ls
+  endpoints:
+  - port: metrics
+    path: /metrics
+    honorLabels: false
+    scrapeTimeout: 10s
+---
+# Source: puppetdb-exporter/templates/poddisruptionbudget.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: puppetdb-ls-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: ls
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      prometheus.io/exporter: puppetdb-exporter
+      environment: ls
+---
+# Source: puppetdb-exporter/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: puppetdb-ls-exporter
+  labels:
+    prometheus.io/exporter: puppetdb-exporter
+    environment: ls
