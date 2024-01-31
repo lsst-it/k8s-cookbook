@@ -9,16 +9,6 @@ Most probably you will need credentials which are in the vault.
 
 Adjust credentials and settings for the cluster to be replicated and then run the script:
 
-- ENV Variables
-
-  ```bash
-  export SUPERUSER_PASSWORD=passwordforpostgresuser
-  export CNPGHOST=iporurlofthehostservertoreplicate
-  ```
-
-  CNPGHOST needs to be a loadBalancer and not a pgBouncer sevice.
-  (pgBouncer is not compatible with postgres replication flag)
-
 - Replication postgres config on server needs following:
 
   ```bash
