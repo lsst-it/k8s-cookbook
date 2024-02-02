@@ -1,0 +1,7 @@
+---
+resources:
+  - ../../base
+patches:
+  - path: clusterissuer-letsencrypt-staging.yaml
+  - path: clusterissuer-letsencrypt.yaml
+  - path: externalsecret-route53.yaml
