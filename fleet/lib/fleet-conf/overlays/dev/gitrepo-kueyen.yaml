@@ -9,6 +9,9 @@ spec:
   branch: master
   keepResources: true
   paths:
+    - fleet/lib/cert-manager-crds
+    - fleet/lib/cert-manager
+    - fleet/lib/cert-manager-conf
   targets:
     - name: kueyen
       clusterName: kueyen

@@ -6,18 +6,14 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt
-    email: rubinobs-it-las@lsst.org
     solvers:
       - selector:
           dnsZones:
-            - dev.lsst.org
+            - cp.lsst.org
         dns01:
           route53:
             region: us-east-1
-            hostedZoneID: ZQGNOYQYRNW0C
+            hostedZoneID: Z2CCXZLXGUUYM5
             accessKeyIDSecretRef:
               name: route53
               key: AWS_ACCESS_KEY_ID
