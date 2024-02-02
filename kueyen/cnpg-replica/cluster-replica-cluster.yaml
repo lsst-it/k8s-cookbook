@@ -1,0 +1,47 @@
+---
+# Cluster Definition
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: replica-cluster
+  namespace: cloudnativepg
+spec:
+  imageName: docker.io/cbarria/cnpgsphere:14.5
+  imagePullPolicy: Always
+
+  instances: 3
+
+  postgresql:
+    parameters:
+      max_connections: "500"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
+    pg_hba:
+      - host all all 139.229.134.0/23 md5
+      - host all all 139.229.136.0/21 md5
+      - host all all 139.229.144.0/20 md5
+      - host all all 139.229.160.0/19 md5
+      - host all all 139.229.192.0/18 md5
+      - host all all 140.252.146.0/23 md5
+
+  bootstrap:
+    pg_basebackup:
+      source: cnpg-cluster
+
+  replica:
+    enabled: true
+    source: cnpg-cluster
+
+  externalClusters:
+    - name: cnpg-cluster
+      connectionParameters:
+        host: FIXME
+        user: postgres
+      password:
+        name: source-db-replica-user
+        key: password
+
+# Resources and Storage Needs to be Adjust!
+
+  storage:
+    size: 5Gi

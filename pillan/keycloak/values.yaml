@@ -1,0 +1,35 @@
+---
+extraEnvVars:
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+  - name: KEYCLOAK_LOGLEVEL
+    value: INFO
+  - name: KEYCLOAK_PRODUCTION
+    value: "true"
+  - name: KEYCLOAK_PROXY
+    value: "edge"
+
+ingress:
+  enabled: true
+  servicePort: http
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: letsencrypt
+  hostname: keycloak.tu.lsst.org
+  tls: true
+
+auth:
+  adminUser: admin
+  existingSecret: keycloak-admin
+  passwordSecretKey: password
+
+postgresql:
+  enabled: false
+
+externalDatabase:
+  host: postgresdb01.tu.lsst.org
+  port: 5432
+  user: keycloak
+  database: keycloak
+  existingSecret: keycloak-pg
+  existingSecretPasswordKey: password

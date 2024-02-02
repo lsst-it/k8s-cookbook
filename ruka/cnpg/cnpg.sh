@@ -19,100 +19,14 @@ helm upgrade --install cnpg \
 kubectl create namespace cloudnativepg
 
 # Secrets - app user - postgres user - AWS account for backups
-cat << END | kubectl apply -f -
-apiVersion: v1
-data:
-  password: $(echo -n "${USER_PASSWORD}" | base64)
-  username: $(echo -n "app" | base64)
-kind: Secret
-metadata:
-  name: cnpg-cluster-app
-  namespace: cloudnativepg
-type: kubernetes.io/basic-auth
----
-apiVersion: v1
-data:
-  password: $(echo -n "${SUPERUSER_PASSWORD}" | base64)
-  username: $(echo -n "postgres" | base64)
-kind: Secret
-metadata:
-  name: cnpg-cluster-superuser
-  namespace: cloudnativepg
-type: kubernetes.io/basic-auth
----
-apiVersion: v1
-data:
-  ACCESS_KEY_ID: $(echo -n "${AWS_ACCESS_KEY_ID}" | base64)
-  ACCESS_SECRET_KEY: $(echo -n "${AWS_SECRET_ACCESS_KEY}" | base64)
-kind: Secret
-metadata:
-  name: cnpg-aws-creds
-  namespace: cloudnativepg
-type: Opaque
-END
+kubectl apply -f externalsecret-cnpg-cluster-app.yaml
+kubectl apply -f externalsecret-cnpg-cluster-superuser.yaml
+kubectl apply -f externalsecret-cnpg-aws-creds.yaml
 
 # Deployment FIRST TIME ONLY
-cat > deploy.yaml << END
-# Cluster Definition
-apiVersion: postgresql.cnpg.io/v1
-kind: Cluster
-metadata:
-  name: cnpg-cluster
-  namespace: cloudnativepg
-spec:
-  imageName: docker.io/cbarria/cnpgsphere:14.5
-  imagePullPolicy: Always
+kubectl apply -f cluster-cnpg-cluster.yaml
 
-  instances: 3
-
-  postgresql:
-    parameters:
-      max_connections: "500"
-      shared_buffers: 256MB
-      idle_session_timeout: 4h
-    pg_hba:
-      - host replication postgres all md5
-      - host all all 139.229.134.0/23 md5
-      - host all all 139.229.136.0/21 md5
-      - host all all 139.229.144.0/20 md5
-      - host all all 139.229.160.0/19 md5
-      - host all all 139.229.192.0/18 md5
-      - host all all 140.252.146.0/23 md5
-
-  bootstrap:
-    initdb:
-      database: app
-      owner: app
-      secret:
-        name: cnpg-cluster-app
-
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://cnpg-backups-dev
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-aws-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: cnpg-aws-creds
-          key: ACCESS_SECRET_KEY
-      wal:
-          compression: gzip
-
-    retentionPolicy: "60d"
-
-  superuserSecret:
-    name: cnpg-cluster-superuser
-
-# Resources and Storage Needs to be Adjust!
-
-  storage:
-    size: 5Gi
-
-  monitoring:
-    enablePodMonitor: true
-END
-#this needs to be changed to apply cnpg-recovery.yaml for recovery on existing cluster, 
+#this needs to be changed to apply cnpg-recovery.yaml for recovery on existing cluster,
 #refer to the file because s3 backup folder needs to be changed.
 kubectl apply -f cnpg-recovery.yaml
 #pgBouncer exposed with loadBalancer
