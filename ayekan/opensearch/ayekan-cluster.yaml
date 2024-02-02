@@ -5,6 +5,7 @@ metadata:
   finalizers:
   - Opster
   name: ayekan-opensearch
+  namespace: opensearch
 spec:
   bootstrap:
     resources: {}
