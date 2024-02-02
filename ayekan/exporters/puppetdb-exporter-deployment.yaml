@@ -6,6 +6,7 @@ metadata:
     o11y.eu/exporter: puppetdb
     environment: dev
   name: puppetdb-dev-exporter
+  namespace: monitoring
 spec:
   replicas: 1
   selector:

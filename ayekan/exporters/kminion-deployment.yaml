@@ -5,6 +5,7 @@ metadata:
   labels:
     o11y.eu/exporter: "kafka"
   name: kminion
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
