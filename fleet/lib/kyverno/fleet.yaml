@@ -1,0 +1,23 @@
+---
+#paused: true
+defaultNamespace: &name kyverno
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://kyverno.github.io/kyverno/
+  version: v3.1.4
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false  # atomic was causes failures on updates?
+  values:
+    replicaCount: 3
+    resources:
+      limits:
+        cpu: '100m'
+        memory: '1Gi'
+    initResources:
+      limits:
+        cpu: '100m'
+        memory: '1Gi'
