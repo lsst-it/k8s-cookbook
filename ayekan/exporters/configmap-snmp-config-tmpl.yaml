@@ -2,19 +2,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: snmp-config
+  name: snmp-config-tmpl
   namespace: monitoring
 data:
   snmp.yml: |
     auths:
       public_v1:
-        community: ${LSST_SNMP_COMMUNITY}
+        community: {{ .snmpCommunity }}
         security_level: noAuthNoPriv
         auth_protocol: MD5
         priv_protocol: DES
         version: 1
       public_v2:
-        community: ${LSST_SNMP_COMMUNITY}
+        community: {{ .snmpCommunity }}
         security_level: noAuthNoPriv
         auth_protocol: MD5
         priv_protocol: DES
