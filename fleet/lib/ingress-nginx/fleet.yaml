@@ -1,0 +1,31 @@
+---
+defaultNamespace: &name ingress-nginx
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://kubernetes.github.io/ingress-nginx
+  version: v4.5.2
+  values:
+    controller:
+      kind: DaemonSet
+    rbac:
+      create: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: metallb
+targetCustomizations:
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        site: dev
+    helm:
+      values:
+        controller:
+          service:
+            annotations:
+              metallb.universe.tf/address-pool: ingress
