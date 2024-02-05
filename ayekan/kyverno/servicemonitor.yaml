@@ -3,6 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: kyverno-metrics
+  namespace: kyverno
   labels:
     o11y.eu/monitor: enabled
     release: kube-prometheus-stack
