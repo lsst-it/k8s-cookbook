@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kminion-config-tmpl
+  namespace: monitoring
+data:
+  config.yaml: |
+    kafka:
+      brokers:
+        - {{ .kafkaURL }}
+      sasl:
+        enabled: false
+        username: {{ .kafkaUsername }}
+        password: {{ .kafkaPassword }}
+        mechanism: "PLAIN"
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: kminion-config
+  namespace: monitoring
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: .kafkaUsername
+      remoteRef:
+        key: kminion-ayekan-demo-kafka
+        property: username
+    - secretKey: .kafkaPassword
+      remoteRef:
+        key: kminion-ayekan-demo-kafka
+        property: password
+    - secretKey: .kafkaURL
+      remoteRef:
+        key: kminion-ayekan-demo-kafka
+        property: website
+  target:
+    template:
+      templateFrom:
+        - configMap:
+            name: kminion-config-tmpl
+            items:
+              - key: config.yaml
