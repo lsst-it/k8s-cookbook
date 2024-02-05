@@ -5,6 +5,7 @@ metadata:
   labels:
     o11y.eu/exporter: "kafka"
   name: kminion
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -65,17 +66,17 @@ spec:
       serviceAccountName: kminion
       terminationGracePeriodSeconds: 30
       volumes:
-      - configMap:
-          defaultMode: 420
-          name: kminion
-        name: config
+      - name: config
+        defaultMode: 420
+        secret:
+          secret-name: kminion-config
 ---
 # Source: kminion/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: kminion
-  namespace: "monitoring"
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: kminion
     app.kubernetes.io/instance: kminion
@@ -95,6 +96,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kminion
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: kminion
     app.kubernetes.io/instance: kminion
@@ -126,6 +128,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: kminion
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: kminion
     app.kubernetes.io/instance: kminion
@@ -148,6 +151,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: kminion
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: kminion
     app.kubernetes.io/instance: kminion
@@ -163,6 +167,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: kminion
+  namespace: monitoring
   labels:
     app.kubernetes.io/name: kminion
     app.kubernetes.io/instance: kminion
