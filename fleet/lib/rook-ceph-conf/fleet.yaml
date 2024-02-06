@@ -1,0 +1,36 @@
+---
+defaultNamespace: rook-ceph
+labels:
+  bundle: &name rook-ceph-conf
+helm:
+  #chart: *name
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 3600
+  waitForJobs: false
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: rook-ceph-cluster
+diff:
+  comparePatches:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephFilesystem
+      namespace: rook-ceph
+      jsonPointers:
+        - /spec/preserveFilesystemOnDelete
+    - apiVersion: ceph.rook.io/v1
+      kind: CephObjectStore
+      namespace: rook-ceph
+      jsonPointers:
+        - /spec/preservePoolsOnDelete
+        - /spec/healthCheck
+targetCustomizations:
+  - name: kueyen
+    clusterName: kueyen
+    helm:
+      values:
+        subchart:
+          kueyen:
+            enabled: true

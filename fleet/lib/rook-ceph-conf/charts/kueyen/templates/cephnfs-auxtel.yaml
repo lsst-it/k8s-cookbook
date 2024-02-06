@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: obs-env
+  name: auxtel
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -12,9 +12,17 @@ spec:
     quotas:
       maxSize: 10Gi
   dataPools:
-    - failureDomain: host
+    - name: default
+      failureDomain: host
       replicated:
         size: 3
+      quotas:
+        maxSize: 200Gi
+    - name: ec
+      failureDomain: host
+      erasureCoded:
+        dataChunks: 2
+        codingChunks: 1
       quotas:
         maxSize: 2Ti
   metadataServer:
@@ -32,11 +40,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: obs-env
+  name: auxtel
   namespace: rook-ceph
 spec:
   rados:
-    pool: obs-env-data0
+    pool: auxtel-data0
     # RADOS namespace where NFS client recovery data is stored in the pool.
     namespace: nfs-ns
   server:
@@ -55,11 +63,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-obs-env
+  name: rook-ceph-nfs-auxtel
   namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.81
 spec:
   ports:
     - name: nfs
@@ -69,7 +79,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer
