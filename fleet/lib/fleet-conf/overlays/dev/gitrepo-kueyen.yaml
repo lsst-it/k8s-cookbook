@@ -18,6 +18,9 @@ spec:
     - fleet/lib/metallb-conf
     - fleet/lib/ingress-nginx
     - fleet/lib/kube-prometheus-stack
+    - fleet/lib/multus
+    - fleet/lib/multus-conf
+    - fleet/lib/multus-demo-dds
   targets:
     - name: kueyen
       clusterName: kueyen
