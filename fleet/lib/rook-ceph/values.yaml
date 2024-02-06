@@ -1,7 +1,7 @@
 ---
 priorityClassName: system-node-critical
 monitoring:
-  enabled: false
+  enabled: true
 tolerations:
   - &storage_node_tol
     key: role

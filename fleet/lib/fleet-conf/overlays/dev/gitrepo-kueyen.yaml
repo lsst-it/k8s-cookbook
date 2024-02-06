@@ -23,6 +23,9 @@ spec:
     - fleet/lib/multus-demo-dds
     - fleet/lib/velero
     - fleet/lib/velero-conf
+    - fleet/lib/rook-ceph
+    - fleet/lib/rook-ceph-cluster
+    - fleet/lib/rook-ceph-conf
   targets:
     - name: kueyen
       clusterName: kueyen
