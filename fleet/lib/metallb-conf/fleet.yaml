@@ -1,0 +1,20 @@
+---
+defaultNamespace: metallb-system
+labels:
+  bundle: &name metallb-conf
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: metallb
+targetCustomizations:
+  - name: kueyen
+    clusterName: kueyen
+    yaml:
+      overlays:
+        - kueyen
