@@ -21,6 +21,8 @@ spec:
     - fleet/lib/multus
     - fleet/lib/multus-conf
     - fleet/lib/multus-demo-dds
+    - fleet/lib/velero
+    - fleet/lib/velero-conf
   targets:
     - name: kueyen
       clusterName: kueyen
