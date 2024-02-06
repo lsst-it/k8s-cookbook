@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multus-demo-dds
+  labels:
+    app: multus-demo-dds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multus-demo-dds
+  template:
+    metadata:
+      name: multus-demo-dds
+      labels:
+        app: multus-demo-dds
+      annotations:
+        k8s.v1.cni.cncf.io/networks: kube-system/dds
+    spec:
+      containers:
+        - command:
+            - /sbin/init
+          image: docker.io/centos/tools:latest
+          imagePullPolicy: Always
+          name: main
