@@ -1,0 +1,23 @@
+---
+defaultNamespace: &name kube-prometheus-stack
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://prometheus-community.github.io/helm-charts
+  version: v44.2.1
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false
+targetCustomizations:
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        site: dev
+    helm:
+      values:
+        prometheus:
+          prometheusSpec:
+            remoteWrite:
+              - url: https://mimir.o11y.dev.lsst.org/api/v1/push
