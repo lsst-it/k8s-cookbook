@@ -18,3 +18,8 @@ targetCustomizations:
     yaml:
       overlays:
         - kueyen
+  - name: namkueyen
+    clusterName: namkueyen
+    yaml:
+      overlays:
+        - namkueyen
