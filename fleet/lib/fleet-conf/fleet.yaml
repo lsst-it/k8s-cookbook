@@ -1,0 +1,21 @@
+---
+paused: true
+defaultNamespace: fleet-default
+labels:
+  bundle: &name fleet-conf
+helm:
+  releaseName: *name
+  atomic: false
+ignore:
+  conditions:
+    - type: Ready
+      status: "False"
+      reason: Error
+targetCustomizations:
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        site: dev
+    yaml:
+      overlays:
+        - dev
