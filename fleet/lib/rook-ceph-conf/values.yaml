@@ -2,3 +2,5 @@
 subchart:
   kueyen:
     enabled: false
+  namkueyen:
+    enabled: false

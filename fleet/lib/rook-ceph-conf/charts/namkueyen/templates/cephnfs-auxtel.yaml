@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: comcam
+  name: auxtel
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -40,11 +40,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: comcam
+  name: auxtel
   namespace: rook-ceph
 spec:
   rados:
-    pool: comcam-data0
+    pool: auxtel-data0
     # RADOS namespace where NFS client recovery data is stored in the pool.
     namespace: nfs-ns
   server:
@@ -63,11 +63,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: comcam
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-comcam
+  name: rook-ceph-nfs-auxtel
   namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.221
 spec:
   ports:
     - name: nfs
@@ -77,7 +79,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: comcam
+    ceph_nfs: auxtel
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer

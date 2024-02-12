@@ -8,3 +8,5 @@ appVersion: 0.0.0
 dependencies:
   - name: kueyen
     condition: subchart.kueyen.enabled
+  - name: namkueyen
+    condition: subchart.namkueyen.enabled
