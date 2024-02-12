@@ -34,3 +34,10 @@ targetCustomizations:
         subchart:
           kueyen:
             enabled: true
+  - name: namkueyen
+    clusterName: namkueyen
+    helm:
+      values:
+        subchart:
+          namkueyen:
+            enabled: true
