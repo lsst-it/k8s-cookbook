@@ -16,35 +16,90 @@ spec:
     replicas: 2
     resources:
       limits:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 500m
+        memory: 1Gi
       requests:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 500m
+        memory: 1Gi
     service:
       type: ClusterIP
-    version: 2.3.0
+    version: 2.11.1
   general:
     httpPort: 9200
     monitoring: {}
     serviceName: ayekan-opensearch
     setVMMaxMapCount: true
-    version: 2.3.0
+    version: 2.11.1
+    pluginsList: ["repository-s3","https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"]
   initHelper:
-    resources: {}
-  nodePools:
-  - component: nodes
-    diskSize: 100Gi
-    replicas: 3
     resources:
-      limits:
-        cpu: "1"
-        memory: 4Gi
       requests:
+        memory: "256Mi"
+        cpu: "500m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+  nodePools:
+  - component: cluster-manager
+    replicas: 3
+    diskSize: 10Gi
+    jvm: -Xmx2G -Xms2G
+    resources:
+      requests:
+        memory: "4Gi"
         cpu: "1"
-        memory: 4Gi
+      limits:
+        memory: "4Gi"
+        cpu: "1"
     roles:
-    - cluster_manager
+      - cluster_manager
+    persistence:
+      emptyDir: {}
+  - component: coordinators
+    replicas: 3
+    diskSize: 50Gi
+    jvm: -Xmx2G -Xms2G
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "4"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+    roles:
+      - coordinating
+    persistence:
+      emptyDir: {}
+  - component: hot-nodes
+    replicas: 3
+    diskSize: 200Gi
+    jvm: -Xmx2G -Xms2G
+    resources:
+      requests:
+        memory: "12Gi"
+        cpu: "4"
+      limits:
+        memory: "12Gi"
+        cpu: "4"
+    additionalConfig:
+      node.attr.temp: "hot"
+    roles:
+      - data
+      - ingest
+  - component: cold-nodes
+    replicas: 3
+    diskSize: 200Gi
+    jvm: -Xmx2G -Xms2G
+    resources:
+      requests:
+        memory: "8Gi"
+        cpu: "2"
+      limits:
+        memory: "8Gi"
+        cpu: "2"
+    additionalConfig:
+      node.attr.temp: "cold"
+    roles:
     - data
 ---
 apiVersion: opensearch.opster.io/v1
