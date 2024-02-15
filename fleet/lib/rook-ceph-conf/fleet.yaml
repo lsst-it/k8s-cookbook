@@ -41,3 +41,10 @@ targetCustomizations:
         subchart:
           namkueyen:
             enabled: true
+  - name: ayekan
+    clusterName: ayekan
+    helm:
+      values:
+        subchart:
+          ayekan:
+            enabled: true
