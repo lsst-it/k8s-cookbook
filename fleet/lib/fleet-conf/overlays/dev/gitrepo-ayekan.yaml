@@ -19,6 +19,8 @@ spec:
     - fleet/lib/ingress-nginx
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/velero
+    - fleet/lib/velero-conf
   targets:
     - name: ayekan
       clusterName: ayekan
