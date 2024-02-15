@@ -10,3 +10,5 @@ dependencies:
     condition: subchart.kueyen.enabled
   - name: namkueyen
     condition: subchart.namkueyen.enabled
+  - name: ayekan
+    condition: subchart.ayekan.enabled

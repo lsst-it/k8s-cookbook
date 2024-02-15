@@ -4,3 +4,5 @@ subchart:
     enabled: false
   namkueyen:
     enabled: false
+  ayekan:
+    enabled: false
