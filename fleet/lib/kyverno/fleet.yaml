@@ -21,3 +21,15 @@ helm:
       limits:
         cpu: '100m'
         memory: '1Gi'
+    admissionController:
+      metricsService:
+        create: true
+    backgroundController:
+      metricsService:
+        create: true
+    cleanupController:
+      metricsService:
+        create: true
+    reportsController:
+      metricsService:
+        create: true
