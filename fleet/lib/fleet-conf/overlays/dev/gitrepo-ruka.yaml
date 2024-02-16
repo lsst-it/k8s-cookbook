@@ -14,6 +14,9 @@ spec:
     - fleet/lib/metallb-demo-lhn
     - fleet/lib/external-secrets
     - fleet/lib/external-secrets-conf
+    - fleet/lib/cert-manager-crds
+    - fleet/lib/cert-manager
+    - fleet/lib/cert-manager-conf
   targets:
     - name: ruka
       clusterName: ruka
