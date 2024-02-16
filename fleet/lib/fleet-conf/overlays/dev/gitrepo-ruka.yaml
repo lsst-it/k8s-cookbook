@@ -12,6 +12,8 @@ spec:
     - fleet/lib/metallb
     - fleet/lib/metallb-conf
     - fleet/lib/metallb-demo-lhn
+    - fleet/lib/external-secrets
+    - fleet/lib/external-secrets-conf
   targets:
     - name: ruka
       clusterName: ruka
