@@ -29,3 +29,11 @@ persistence:
   accessMode: ReadWriteOnce
   storageClass: rook-ceph-block
   size: 2Ti
+
+resources:
+  limits:
+    cpu: 4000m
+    memory: 16Gi
+  requests:
+    cpu: 4000m
+    memory: 16Gi
