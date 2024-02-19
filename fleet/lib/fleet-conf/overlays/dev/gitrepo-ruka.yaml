@@ -21,6 +21,8 @@ spec:
     - fleet/lib/kube-prometheus-stack
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/velero
+    - fleet/lib/velero-conf
   targets:
     - name: ruka
       clusterName: ruka
