@@ -1,0 +1,13 @@
+---
+defaultNamespace: &name metallb-demo-lhn
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  atomic: false
+  takeOwnership: true
+  force: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: metallb-conf
