@@ -28,3 +28,8 @@ targetCustomizations:
     yaml:
       overlays:
         - ayekan
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka
