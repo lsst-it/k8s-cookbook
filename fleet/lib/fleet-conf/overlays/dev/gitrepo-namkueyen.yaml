@@ -17,6 +17,7 @@ spec:
     - fleet/lib/metallb
     - fleet/lib/metallb-conf
     - fleet/lib/ingress-nginx
+    - fleet/lib/kube-prometheus-stack
   targets:
     - name: namkueyen
       clusterName: namkueyen
