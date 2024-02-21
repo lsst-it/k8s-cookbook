@@ -12,6 +12,8 @@ spec:
     - fleet/lib/cert-manager-crds
     - fleet/lib/cert-manager
     - fleet/lib/cert-manager-conf
+    - fleet/lib/external-secrets
+    - fleet/lib/external-secrets-conf
   targets:
     - name: namkueyen
       clusterName: namkueyen
