@@ -1,0 +1,57 @@
+---
+defaultNamespace: &name rook-ceph-demo
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: false
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: rook-ceph-conf
+targetCustomizations:
+  - name: kueyen
+    clusterName: kueyen
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: 139.229.134.81
+  - name: namkueyen
+    clusterName: namkueyen
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: 139.229.134.221
+  - name: ayekan
+    clusterName: ayekan
+    helm:
+      values:
+        pvc:
+          enabled: true
+  - name: ruka
+    clusterName: ruka
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: 139.229.134.151

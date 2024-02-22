@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rook-ceph-demo-pvc1
+spec:
+  storageClassName: rook-ceph-block
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rook-ceph-demo-pvc
+  labels:
+    app: rook-ceph-demo-pvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rook-ceph-demo-pvc
+  template:
+    metadata:
+      name: rook-ceph-demo-pvc
+      labels:
+        app: rook-ceph-demo-pvc
+    spec:
+      containers:
+        - command:
+            - /sbin/init
+          image: docker.io/centos/tools:latest
+          imagePullPolicy: Always
+          name: main
+          volumeMounts:
+            - name: rook-ceph-demo-pvc1
+              mountPath: /var/www/html
+      volumes:
+        - name: rook-ceph-demo-pvc1
+          persistentVolumeClaim:
+            claimName: rook-ceph-demo-pvc1
