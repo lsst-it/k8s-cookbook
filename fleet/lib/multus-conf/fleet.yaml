@@ -18,3 +18,8 @@ targetCustomizations:
     yaml:
       overlays:
         - kueyen
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka

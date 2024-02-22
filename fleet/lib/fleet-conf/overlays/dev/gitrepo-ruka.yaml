@@ -23,6 +23,9 @@ spec:
     - fleet/lib/kyverno-conf
     - fleet/lib/velero
     - fleet/lib/velero-conf
+    - fleet/lib/multus
+    - fleet/lib/multus-conf
+    - fleet/lib/multus-demo-lhn
   targets:
     - name: ruka
       clusterName: ruka
