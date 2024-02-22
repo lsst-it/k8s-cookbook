@@ -1,0 +1,39 @@
+# yamllint disable-file
+{{- range .Values.mounts }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rook-ceph-demo-nfs-{{ .name }}
+  labels:
+    app: rook-ceph-demo-nfs-{{ .name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: rook-ceph-demo-nfs-{{ .name }}
+  template:
+    metadata:
+      name: rook-ceph-demo-nfs-{{ .name }}
+      labels:
+        app: rook-ceph-demo-nfs-{{ .name }}
+    spec:
+      containers:
+        - command:
+            - /sbin/init
+          image: docker.io/centos/tools:latest
+          imagePullPolicy: Always
+          name: main
+          volumeMounts:
+            - name: {{ .name }}
+              mountPath: /data/{{ .name }}
+      volumes:
+        - name: {{ .name }}
+          nfs:
+            path: {{ .path }}
+            # nfs mounts can not use a k8s internal name.  An IP is used here so
+            # this test will work without external DNS configured. This is only
+            # acceptable for a test and should not be done for a production
+            # deployment.
+            server: {{ .server }}
+{{- end }}

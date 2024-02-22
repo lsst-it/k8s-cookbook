@@ -26,6 +26,10 @@ spec:
     - fleet/lib/multus
     - fleet/lib/multus-conf
     - fleet/lib/multus-demo-lhn
+    - fleet/lib/rook-ceph
+    - fleet/lib/rook-ceph-cluster
+    - fleet/lib/rook-ceph-conf
+    - fleet/lib/rook-ceph-demo
   targets:
     - name: ruka
       clusterName: ruka

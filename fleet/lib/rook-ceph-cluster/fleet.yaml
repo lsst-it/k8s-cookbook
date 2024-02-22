@@ -63,3 +63,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ayekan/values.yaml
+  - name: ruka
+    clusterName: ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml

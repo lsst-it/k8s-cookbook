@@ -48,3 +48,10 @@ targetCustomizations:
         subchart:
           ayekan:
             enabled: true
+  - name: ruka
+    clusterName: ruka
+    helm:
+      values:
+        subchart:
+          ruka:
+            enabled: true

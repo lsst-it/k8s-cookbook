@@ -6,3 +6,5 @@ subchart:
     enabled: false
   ayekan:
     enabled: false
+  ruka:
+    enabled: false

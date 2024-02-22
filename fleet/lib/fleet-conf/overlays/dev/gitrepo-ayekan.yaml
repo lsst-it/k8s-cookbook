@@ -24,6 +24,7 @@ spec:
     - fleet/lib/rook-ceph
     - fleet/lib/rook-ceph-cluster
     - fleet/lib/rook-ceph-conf
+    - fleet/lib/rook-ceph-demo
   targets:
     - name: ayekan
       clusterName: ayekan
