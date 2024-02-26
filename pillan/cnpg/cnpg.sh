@@ -5,7 +5,7 @@ set -xe
 # Install cloudnativePG on cluster
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
-  --version="0.15.0" \
+  --version="0.20.1" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
