@@ -18,7 +18,7 @@ spec:
     protocol: TCP
     targetPort: 5432
   selector:
-    postgresql: cnpg-cluster
+    cnpg.io/cluster: cnpg-cluster
     role: primary
   sessionAffinity: None
   type: LoadBalancer
