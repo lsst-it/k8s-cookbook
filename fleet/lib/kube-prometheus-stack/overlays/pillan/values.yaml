@@ -1,0 +1,91 @@
+---
+prometheus:
+  prometheusSpec:
+    configMaps:
+      - sd-snmp-network
+      - sd-snmp-raritan-pdu
+    additionalScrapeConfigs:
+      - job_name: blackbox-ping
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.${ .ClusterLabels.site }.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: snmp-network
+        metrics_path: /snmp
+        params:
+          module: [if_mib]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: blackbox-network
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: snmp-raritan-pdu
+        metrics_path: /snmp
+        params:
+          module: [raritan]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+grafana:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    paths:
+      - /
+    pathType: Prefix
+    hosts:
+      - grafana.tu.lsst.org
+    tls:
+      - secretName: tls-grafana-ingress
+        hosts:
+          - grafana.tu.lsst.org
