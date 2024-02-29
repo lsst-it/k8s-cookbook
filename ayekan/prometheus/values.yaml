@@ -74,6 +74,20 @@ prometheus:
             target_label: network_function
           - target_label: __address__
             replacement: "blackbox-exporter-prometheus-blackbox-exporter.monitoring:9115"
+      - job_name: snmp-raritan-pdu
+        metrics_path: /snmp
+        params:
+          module: [raritan]
+        file_sd_configs:
+          - files:
+              - "/etc/prometheus/configmaps/pdu-targets/pdu-targets.json"
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
   ingress:
     enabled: true
     annotations:

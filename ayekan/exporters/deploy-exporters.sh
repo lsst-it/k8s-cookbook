@@ -15,6 +15,7 @@ kubectl apply -f externalsecret-snmp-community.yaml
 
 # SNMP configuration
 kubectl --namespace ${NAMESPACE} apply -f snmp-configmap.yaml
+kubectl --namespace ${NAMESPACE} apply -f externalsecret-snmp-community.yaml
 helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-exporter \
      --create-namespace --namespace ${NAMESPACE=} \
      --atomic --timeout 15m \
