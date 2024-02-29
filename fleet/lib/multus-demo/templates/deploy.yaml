@@ -26,4 +26,11 @@ spec:
           image: docker.io/centos/tools:latest
           imagePullPolicy: Always
           name: main
+          resources:
+            limits:
+              cpu: 1
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
 {{- end }}
