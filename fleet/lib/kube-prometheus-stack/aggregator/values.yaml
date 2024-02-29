@@ -1,0 +1,246 @@
+---
+crds:
+  enabled: false
+
+prometheusOperator:
+  resources:
+    limits:
+      cpu: 1
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 128Mi
+  prometheusConfigReloader:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 128Mi
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 30s
+    resources:
+      limits:
+        cpu: 4
+        memory: 12Gi
+      requests:
+        cpu: 1
+        memory: 12Gi
+    externalUrl: "https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        o11y.eu/monitor: enabled
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    podMonitorNamespaceSelector:
+      matchLabels:
+        o11y.eu/monitor: enabled
+    podMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelector: {}
+    remoteWrite:
+      - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    paths:
+      - /
+    pathType: Prefix
+    hosts:
+      - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    tls:
+      - secretName: tls-prometheus-ingress
+        hosts:
+          - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+    externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    secrets:
+      - o11y-webhooks
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    paths:
+      - /
+    pathType: Prefix
+    hosts:
+      - "alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    tls:
+      - secretName: tls-alertmanager-ingress
+        hosts:
+          - "alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
+    route:
+      group_by: [namespace, cluster]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: slack-test
+      routes:
+        - receiver: "null"
+          matchers:
+            - alertname = "InfoInhibitor"
+        - receiver: watchdog
+          matchers:
+            - alertname = "Watchdog"
+        - receiver: squadcast-test
+          matchers:
+            - receiver =~ ".*,squadcast,.*"
+          continue: true
+    receivers:
+      - name: "null"
+      - name: watchdog
+      - name: slack-test
+        slack_configs:
+          - username: "${ .ClusterName }-prometheus"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+      - name: squadcast-test
+        webhook_configs:
+          - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
+    inhibit_rules:
+      - source_matchers:
+          - alertname = "InfoInhibitor"
+        target_matchers:
+          - severity = "info"
+        equal: [namespace]
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity =~ "info|warning"
+        equal: [alertname]
+      - source_matchers:
+          - severity = "warning"
+        target_matchers:
+          - severity = "info"
+        equal: [alertname]
+    templates:
+      - /etc/alertmanager/config/*.tmpl
+
+grafana:
+  resources:
+    limits:
+      cpu: 4
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  persistence:
+    enabled: true
+  deploymentStrategy:
+    type: Recreate  # default is RollingUpdate, which doesn't work w/ persistence enabled
+  grafana.ini:
+    auth.ldap:
+      enabled: true
+      allow_sign_up: true
+      config_file: /etc/grafana/ldap.toml
+  ldap:
+    enabled: true
+    existingSecret: grafana-ldap
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/server-snippet: |
+        proxy_ssl_verify off;
+    paths:
+      - /
+    pathType: Prefix
+    hosts:
+      - "grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    tls:
+      - secretName: tls-grafana-ingress
+        hosts:
+          - "grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+  sidecar:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    alerts:
+      enabled: true
+    dashboards:
+      enabled: true
+  datasources:
+    datasource.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          uid: prometheus
+          url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack:9090/
+          access: proxy
+          jsonData:
+            httpMethod: POST
+            timeInterval: 30s
+        - name: Mimir
+          type: prometheus
+          uid: mimir
+          url: http://mimir-distributed-gateway.mimir:80/prometheus
+          access: proxy
+          isDefault: true
+          jsonData:
+            httpMethod: POST
+            timeInterval: 30s
+        - name: Alertmanager
+          type: alertmanager
+          uid: alertmanager
+          url: http://kube-prometheus-stack-alertmanager.kube-prometheus-stack:9093/
+          access: proxy
+          jsonData:
+            handleGrafanaManagedAlerts: false
+            implementation: prometheus
+
+# these components are not present in the Rancher clusters
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+
+prometheus-node-exporter:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+kube-state-metrics:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 10m
+      memory: 256Mi
