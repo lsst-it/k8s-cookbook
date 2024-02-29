@@ -9,8 +9,10 @@ spec:
   branch: master
   keepResources: true
   paths:
+    - fleet/lib/external-secrets
+    - fleet/lib/external-secrets-conf
   targets:
     - name: pillan
-      clusterName: pillan
+      clusterName: c-st7p2
   correctDrift:
     enabled: false  # XXX do not enable because of rook
