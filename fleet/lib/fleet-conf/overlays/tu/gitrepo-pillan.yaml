@@ -19,6 +19,10 @@ spec:
     - fleet/lib/multus
     - fleet/lib/multus-conf
     - fleet/lib/multus-demo
+    - fleet/lib/rook-ceph
+    - fleet/lib/rook-ceph-cluster
+    - fleet/lib/rook-ceph-conf
+    - fleet/lib/rook-ceph-demo
   targets:
     - name: pillan
       clusterName: c-st7p2

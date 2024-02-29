@@ -55,3 +55,33 @@ targetCustomizations:
             - name: auxtel
               path: /auxtel
               server: 139.229.134.151
+  - name: pillan
+    clusterName: c-st7p2
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: nfs-auxtel.tu.lsst.org
+            - name: comcam
+              path: /comcam
+              server: nfs-comcam.tu.lsst.org
+            - name: jhome
+              path: /jhome
+              server: nfs-jhome.tu.lsst.org
+            - name: lsstdata
+              path: /lsstdata
+              server: nfs-lsstdata.tu.lsst.org
+            - name: obs-env
+              path: /obs-env
+              server: nfs-obsenv.tu.lsst.org
+            - name: project
+              path: /project
+              server: nfs-project.tu.lsst.org
+            - name: scratch
+              path: /scratch
+              server: nfs-scratch.tu.lsst.org

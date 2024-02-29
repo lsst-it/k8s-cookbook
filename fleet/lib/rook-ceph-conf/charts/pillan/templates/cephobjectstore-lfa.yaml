@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: rubintv
+  name: lfa
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -14,14 +14,15 @@ spec:
   dataPool:
     failureDomain: host
     erasureCoded:
-      dataChunks: 2
-      codingChunks: 1
+      dataChunks: 3
+      codingChunks: 2
     quotas:
-      maxSize: 1.5Ti
+      maxSize: 1.01Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
     port: 80
+    # securePort: 443
     instances: 3
     resources:
       limits:
@@ -34,25 +35,25 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-ingress-rubintv
+  name: rook-ceph-rgw-ingress
   namespace: rook-ceph
   annotations:
-    cert-manager.io/issuer: letsencrypt
+    cert-manager.io/cluster-issuer: letsencrypt
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
   tls:
   - hosts:
-    - s3.rubintv.tu.lsst.org
-    secretName: rook-ceph-rgw-ingress-rubintv-tls
+    - s3.tu.lsst.org
+    secretName: rook-ceph-rgw-ingress-tls
   rules:
-  - host: s3.rubintv.tu.lsst.org
+  - host: s3.tu.lsst.org
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-rubintv
+            name: rook-ceph-rgw-lfa
             port:
               number: 80
