@@ -2,14 +2,38 @@
 defaultNamespace: &name kube-prometheus-stack
 labels:
   bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
 helm:
   chart: *name
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
-  version: v44.2.1
+  version: v56.19.0
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false
+diff:
+  comparePatches:
+    - apiVersion: monitoring.coreos.com/v1
+      kind: Prometheus
+      name: kube-prometheus-stack-prometheus
+      namespace: kube-prometheus-stack
+      jsonPointers:
+        - /spec/hostNetwork
+        - /spec/scrapeConfigNamespaceSelector
+        - /spec/scrapeConfigSelector
+    - apiVersion: monitoring.coreos.com/v1
+      kind: ServiceMonitor
+      name: kube-prometheus-stack-alertmanager
+      namespace: kube-prometheus-stack
+      jsonPointers:
+        - /spec/endpoints
+    - apiVersion: monitoring.coreos.com/v1
+      kind: Alertmanager
+      name: kube-prometheus-stack-alertmanager
+      namespace: kube-prometheus-stack
+      jsonPointers:
+        - /spec/automountServiceAccountToken
 targetCustomizations:
   - name: default
     clusterSelector:
