@@ -23,6 +23,8 @@ spec:
     - fleet/lib/rook-ceph-cluster
     - fleet/lib/rook-ceph-conf
     - fleet/lib/rook-ceph-demo
+    # no cert-manager
+    - fleet/lib/cert-manager-conf
   targets:
     - name: pillan
       clusterName: c-st7p2
