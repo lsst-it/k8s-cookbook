@@ -27,6 +27,13 @@ spec:
           volumeMounts:
             - name: {{ .name }}
               mountPath: /data/{{ .name }}
+          resources:
+            limits:
+              cpu: 100m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
       volumes:
         - name: {{ .name }}
           nfs:
