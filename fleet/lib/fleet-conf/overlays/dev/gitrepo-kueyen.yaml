@@ -20,7 +20,7 @@ spec:
     - fleet/lib/kube-prometheus-stack
     - fleet/lib/multus
     - fleet/lib/multus-conf
-    - fleet/lib/multus-demo-dds
+    - fleet/lib/multus-demo
     - fleet/lib/velero
     - fleet/lib/velero-conf
     - fleet/lib/rook-ceph

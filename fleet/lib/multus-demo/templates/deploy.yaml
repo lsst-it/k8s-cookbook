@@ -1,22 +1,24 @@
+# yamllint disable-file
+{{- range $n := .Values.networks }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: multus-demo-lhn
+  name: multus-demo-{{ $n }}
   labels:
-    app: multus-demo-lhn
+    app: multus-demo-{{ $n }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: multus-demo-lhn
+      app: multus-demo-{{ $n }}
   template:
     metadata:
-      name: multus-demo-lhn
+      name: multus-demo-{{ $n }}
       labels:
-        app: multus-demo-lhn
+        app: multus-demo-{{ $n }}
       annotations:
-        k8s.v1.cni.cncf.io/networks: kube-system/lhn
+        k8s.v1.cni.cncf.io/networks: kube-system/{{ $n }}
     spec:
       containers:
         - command:
@@ -24,3 +26,4 @@ spec:
           image: docker.io/centos/tools:latest
           imagePullPolicy: Always
           name: main
+{{- end }}
