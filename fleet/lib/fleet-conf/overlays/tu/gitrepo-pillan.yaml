@@ -11,6 +11,8 @@ spec:
   paths:
     - fleet/lib/external-secrets
     - fleet/lib/external-secrets-conf
+    - fleet/lib/kyverno
+    - fleet/lib/kyverno-conf
   targets:
     - name: pillan
       clusterName: c-st7p2
