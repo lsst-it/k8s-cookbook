@@ -8,18 +8,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add kminion https://raw.githubusercontent.com/cloudhut/kminion/master/charts/archives
 helm repo update
 
-if [ -f ./snmp-configmap.yaml ]; then
-    rm ./snmp-configmap.yaml
-fi
-
-if [ -z ${LSST_SNMP_COMMUNITY+x} ]; then
-    echo "Please set the LSST_SNMP_COMMUNITY variable before deploying exporters"
-	exit 1
-else
-    envsubst -i ./snmp-configmap.tmpl -o ./snmp-configmap.yaml
-fi
-
 kubectl create ns ${NAMESPACE} --dry-run=client -oyaml | kubectl apply -f -
+
+kubectl apply -f configmap-snmp-config-tmpl.yaml
+kubectl apply -f externalsecret-snmp-community.yaml
 
 # SNMP configuration
 kubectl --namespace ${NAMESPACE} apply -f snmp-configmap.yaml

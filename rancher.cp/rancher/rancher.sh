@@ -9,7 +9,7 @@ helm upgrade --install \
   --atomic \
   rancher rancher-stable/rancher \
   --create-namespace --namespace cattle-system \
-  --version v2.6.6 \
+  --version v2.7.9 \
   -f ./values.yaml
 
 kubectl -n cattle-system rollout status deploy/rancher

@@ -1,5 +1,5 @@
 ---
-hostname: rancher.cp.lsst.org
+hostname: rancher.dev.lsst.org
 ingress:
   tls:
     source: secret
