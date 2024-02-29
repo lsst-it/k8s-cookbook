@@ -14,16 +14,6 @@ this deployment is cluster database with the following features:
 
 ## Instructions
 
-- Set enviroment variables for secrets creation.
-
-   ```bash
-   export USER_PASSWORD=("password for app user")
-   export SUPERUSER_PASSWORD=("password for postgre user")
-   export AWS_ACCESS_KEY_ID=("insert access key here")
-   export AWS_ACCESS_SECRET_KEY=("insert access secret key here")
-   export AWS_ACCESS_BUCKET=("s3:// insert bucket folder address")
-   ```
-
 - RUN deployment script
 
    ```bash
