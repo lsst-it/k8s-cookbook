@@ -1,3 +1,4 @@
+---
 image:
   tag: "v0.23.0"
 
@@ -12,14 +13,15 @@ resources:
 serviceMonitor:
   enabled: true
 
-extraConfigmapMounts:
+# The readonly snmp v1/v2 community string isn't strictly a "secret" but we
+# don't necessarily want to post it into a public github repo either.
+extraSecretMounts:
   - name: snmp-exporter-config
     mountPath: /etc/snmp_exporter/snmp.yml
     configMap: snmp-config
     subPath: snmp.yml
     readOnly: true
     defaultmode: 420
-extraSecretMounts: []
 
 ingress:
   enabled: true
