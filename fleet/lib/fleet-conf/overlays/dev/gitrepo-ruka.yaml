@@ -11,7 +11,7 @@ spec:
   paths:
     - fleet/lib/metallb
     - fleet/lib/metallb-conf
-    - fleet/lib/metallb-demo-lhn
+    - fleet/lib/metallb-demo
     - fleet/lib/external-secrets
     - fleet/lib/external-secrets-conf
     - fleet/lib/cert-manager-crds

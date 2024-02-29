@@ -13,6 +13,9 @@ spec:
     - fleet/lib/external-secrets-conf
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/metallb
+    - fleet/lib/metallb-conf
+    - fleet/lib/metallb-demo
   targets:
     - name: pillan
       clusterName: c-st7p2

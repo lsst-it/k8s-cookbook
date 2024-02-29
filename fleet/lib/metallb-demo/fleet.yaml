@@ -1,0 +1,27 @@
+---
+defaultNamespace: &name metallb-demo
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  atomic: false
+  takeOwnership: true
+  force: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: metallb-conf
+targetCustomizations:
+  - name: ruka
+    clusterName: ruka
+    helm:
+      values:
+        pools:
+          - default
+          - lhn
+  - name: pillan
+    clusterName: c-st7p2
+    helm:
+      values:
+        pools:
+          - general
