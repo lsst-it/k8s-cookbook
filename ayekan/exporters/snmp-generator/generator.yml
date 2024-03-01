@@ -1,0 +1,159 @@
+---
+auths:
+  public_v1:
+    version: 1
+    community: "public"
+  public_v2:
+    version: 2
+    community: "public"
+  rubin_v1:
+    version: 1
+    community: "{{.snmpRubinCommunity}}"
+  rubin_v2:
+    version: 2
+    community: "{{.snmpRubinCommunity}}"
+  lsst_v1:
+    version: 1
+    community: "{{.snmpLsstCommunity}}"
+  lsst_v2:
+    version: 2
+    community: "{{.snmpLsstCommunity}}"
+
+modules:
+  # Default IF-MIB interfaces table with ifIndex.
+  if_mib:
+    walk: [sysUpTime, interfaces, ifXTable]
+    lookups:
+      - source_indexes: [ifIndex]
+        lookup: ifAlias
+      - source_indexes: [ifIndex]
+        # Uis OID to avoid conflict with PaloAlto PAN-COMMON-MIB.
+        lookup: 1.3.6.1.2.1.2.2.1.2  # ifDescr
+      - source_indexes: [ifIndex]
+        # Use OID to avoid conflict with Netscaler NS-ROOT-MIB.
+        lookup: 1.3.6.1.2.1.31.1.1.1.1  # ifName
+    overrides:
+      ifAlias:
+        ignore: true  # Lookup metric
+      ifDescr:
+        ignore: true  # Lookup metric
+      ifName:
+        ignore: true  # Lookup metric
+      ifType:
+        type: EnumAsInfo
+  # Default IP-MIB with ipv4InterfaceTable for example.
+  ip_mib:
+    walk: [ipv4InterfaceTable]
+
+# Raritan
+#
+# https://cdn.raritan.com/download/PX/v1.5.20/PDU-MIB.txt
+# https://cdn1.raritan.com/download/src-g2/4.0.20/PDU2_MIB_4.0.20_49038.txt
+  raritan:
+    walk:
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.7  # inletCurrent
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.8  # inletVoltage
+      - 1.3.6.1.4.1.13742.4.1.20.2.1.9  # inletActivePower
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.31  # outletWattHours
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.3   # outletOperationalState
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.4   # outletCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.5   # outletMaxCurrent
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.6   # outletVoltage
+      - 1.3.6.1.4.1.13742.4.1.2.2.1.7   # outletActivePower
+      - 1.3.6.1.4.1.13742.4.1.3.1.5     # unitCpuTemp
+      - 1.3.6.1.4.1.13742.6.5.5.3.1     # externalSensors
+    lookups:
+      - source_indexes: [outletIndex]
+        lookup: outletLabel
+    overrides:
+      outletOperationalState:
+        type: EnumAsStateSet
+
+          # schneider_pm5xxx:
+          #   walk:
+          #     - vVan
+        # - vVbn
+        # - vVcn
+        # - vVab
+        # - vVbb
+        # - vVcb
+        # - lcIa
+        # - lcIb
+        # - lcIc
+        # - fFrequency
+        # - pActivePa
+        # - pActivePb
+        # - pActivePc
+        # - pReactivePa
+        # - pReactivePb
+        # - pReactivePc
+        # - pApparentPa
+        # - pApparentPb
+        # - pApparentPc
+        # - pfPfa
+        # - pfPfb
+        # - pfPfc
+        # - pfPfTot
+        # - pfPfDisplacementA
+        # - pfPfDisplacementB
+        # - pfPfDisplacementC
+        # - pfPfDisplacementTotal
+        # - pActivePtot
+        # - pReactivePtot
+        # - pApparentPtot
+        # - aeActiveEDelivered
+        # - aeReactiveEDelivered
+        # - aeApparentEDelivered
+        # - aeResetDateTime
+
+  xups:
+    max_repetitions: 5
+    walk:
+      - xupsBatCapacity
+      - xupsBatTimeRemaining
+      - xupsBatVoltage
+      - xupsBatCurrent
+      - xupsEnvAmbientTemp
+      - xupsInputTable
+      - xupsInputVoltage
+      - xupsInputFrequency
+      - xupsOutputTable
+      - xupsOutputVoltage
+      - xupsOutputFrequency
+      - xupsBypassTable
+      - xupsBypassFrequency
+      - xupsBatteryAbmStatus
+    lookups:
+      - source_indexes: [xupsInputTable]
+        lookup: xupsInputVoltage
+      - source_indexes: [xupsOutputTable]
+        lookup: xupsOutputVoltage
+      - source_indexes: [xupsBypassTable]
+        lookup: xupsBypassFrequency
+    filters:
+      static:
+        - targets:
+          - xupsBatCapacity
+          - xupsBatTimeRemaining
+          - xupsBatVoltage
+          - xupsBatCurrent
+          - xupsEnvAmbientTemp
+          - xupsInputVoltage
+          - xupsInputFrequency
+          - xupsOutputVoltage
+          - xupsOutputFrequency
+          - xupsBatteryAbmStatus
+          indices: ["0"]
+
+      # - 1.3.6.1.4.1.534.1.2.4      # xupsBatCapacity
+      # - 1.3.6.1.4.1.534.1.2.1      # xupsBatTimeRemaining
+      # - 1.3.6.1.4.1.534.1.2.2      # xupsBatVoltage
+      # - 1.3.6.1.4.1.534.1.2.3      # xupsBatCurrent
+      # - 1.3.6.1.4.1.534.1.6.1      # xupsEnvAmbientTemp
+      # - 1.3.6.1.4.1.534.1.3.4      # xupsInputTable
+      # - 1.3.6.1.4.1.534.1.3.4.1.2  # xupsInputVoltage
+      # - 1.3.6.1.4.1.534.1.3.1      # xupsInputFrequency
+      # - 1.3.6.1.4.1.534.1.4.4      # xupsOutputTable
+      # - 1.3.6.1.4.1.534.1.4.4.1.2  # xupsOutputVoltage
+      # - 1.3.6.1.4.1.534.1.4.2      # xupsOutputFrequency
+
