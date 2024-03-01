@@ -38,3 +38,8 @@ targetCustomizations:
     yaml:
       overlays:
         - pillan
+  - name: gaw
+    clusterName: gaw
+    yaml:
+      overlays:
+        - gaw

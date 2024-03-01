@@ -2,17 +2,18 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: one-pool
+  name: reserved
   namespace: metallb-system
 spec:
   addresses:
-  - 139.229.135.201-139.229.135.210
+    - 139.229.135.202-139.229.135.206
+  autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: l2ad
+  name: reserved
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - one-pool
+    - reserved
