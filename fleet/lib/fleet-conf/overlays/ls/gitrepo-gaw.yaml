@@ -1,0 +1,16 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: gaw
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: master
+  keepResources: true
+  paths:
+  targets:
+    - name: gaw
+      clusterName: gaw
+  correctDrift:
+    enabled: false  # XXX do not enable because of rook
