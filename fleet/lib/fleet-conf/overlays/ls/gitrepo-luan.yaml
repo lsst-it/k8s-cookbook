@@ -17,6 +17,7 @@ spec:
     - fleet/lib/cert-manager-crds
     - fleet/lib/cert-manager
     - fleet/lib/cert-manager-conf
+    - fleet/lib/kube-prometheus-stack
   targets:
     - name: luan
       clusterName: luan
