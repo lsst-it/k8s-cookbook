@@ -18,3 +18,5 @@ dependencies:
     condition: subchart.pillan.enabled
   - name: gaw
     condition: subchart.gaw.enabled
+  - name: luan
+    condition: subchart.luan.enabled

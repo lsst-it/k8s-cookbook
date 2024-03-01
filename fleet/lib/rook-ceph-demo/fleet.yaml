@@ -97,3 +97,9 @@ targetCustomizations:
             - name: backup
               path: /backup
               server: 139.229.135.203
+  - name: luan
+    clusterName: luan
+    helm:
+      values:
+        pvc:
+          enabled: true

@@ -69,3 +69,10 @@ targetCustomizations:
         subchart:
           gaw:
             enabled: true
+  - name: luan
+    clusterName: luan
+    helm:
+      values:
+        subchart:
+          luan:
+            enabled: true

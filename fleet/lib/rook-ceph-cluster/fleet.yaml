@@ -81,3 +81,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/gaw/values.yaml
+  - name: luan
+    clusterName: luan
+    helm:
+      valuesFiles:
+        - overlays/luan/values.yaml

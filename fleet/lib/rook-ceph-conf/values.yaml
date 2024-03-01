@@ -12,3 +12,5 @@ subchart:
     enabled: false
   gaw:
     enabled: false
+  luan:
+    enabled: false
