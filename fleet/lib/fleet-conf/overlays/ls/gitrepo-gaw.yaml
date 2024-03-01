@@ -11,6 +11,7 @@ spec:
   paths:
     - fleet/lib/metallb
     - fleet/lib/metallb-conf
+    - fleet/lib/ingress-nginx
   targets:
     - name: gaw
       clusterName: gaw
