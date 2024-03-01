@@ -18,6 +18,8 @@ spec:
     - fleet/lib/cert-manager
     - fleet/lib/cert-manager-conf
     - fleet/lib/kube-prometheus-stack
+    - fleet/lib/kyverno
+    - fleet/lib/kyverno-conf
   targets:
     - name: gaw
       clusterName: gaw
