@@ -1,0 +1,13 @@
+---
+defaultNamespace: &name multus-demo-lhn
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  takeOwnership: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: multus-conf

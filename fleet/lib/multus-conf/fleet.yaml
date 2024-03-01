@@ -1,0 +1,25 @@
+---
+defaultNamespace: kube-system
+labels:
+  bundle: &name multus-conf
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: multus
+targetCustomizations:
+  - name: kueyen
+    clusterName: kueyen
+    yaml:
+      overlays:
+        - kueyen
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka

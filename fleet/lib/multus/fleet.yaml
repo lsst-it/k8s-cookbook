@@ -1,0 +1,9 @@
+---
+defaultNamespace: kube-system
+labels:
+  bundle: &name multus
+helm:
+  releaseName: *name
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false

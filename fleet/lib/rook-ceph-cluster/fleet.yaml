@@ -1,0 +1,70 @@
+---
+defaultNamespace: rook-ceph
+labels:
+  bundle: &name rook-ceph-cluster
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.rook.io/release
+  version: v1.11.2
+  timeoutSeconds: 3600
+  waitForJobs: true
+  atomic: false  # rollback problematic
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: rook-ceph
+  - selector:
+      matchLabels:
+        bundle: ingress-nginx
+  #- selector:
+  #    matchLabels:
+  #      bundle: kube-prometheus-stack
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
+diff:
+  comparePatches:
+    - apiVersion: ceph.rook.io/v1
+      kind: CephCluster
+      name: rook-ceph
+      namespace: rook-ceph
+      jsonPointers:
+        - /spec/cephVersion/allowUnsupported
+        - /spec/cleanupPolicy
+        - /spec/continueUpgradeAfterChecksEvenIfNotHealthy
+        - /spec/healthCheck
+        - /spec/livenessProbe
+        - /spec/network/connections
+        - /spec/removeOSDsIfOutAndSafeToRemove
+        - /spec/resources
+        - /spec/skipUpgradeChecks
+        - /spec/mgr/allowMultiplePerNode
+        - /spec/mon/allowMultiplePerNode
+        - /spec/skipUpgradeChecks
+        - /spec/crashCollector/disable
+        - /spec/monitoring/enabled
+        - /spec/dashboard/ssl
+        - /spec/disruptionManagement/manageMachineDisruptionBudgets
+        - /spec/storage/useAllNodes
+targetCustomizations:
+  - name: kueyen
+    clusterName: kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
+  - name: namkueyen
+    clusterName: namkueyen
+    helm:
+      valuesFiles:
+        - overlays/namkueyen/values.yaml
+  - name: ayekan
+    clusterName: ayekan
+    helm:
+      valuesFiles:
+        - overlays/ayekan/values.yaml
+  - name: ruka
+    clusterName: ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml

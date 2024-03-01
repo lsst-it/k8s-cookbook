@@ -1,0 +1,12 @@
+---
+defaultNamespace: &name multus-demo-dds
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  atomic: false
+  takeOwnership: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: multus-conf

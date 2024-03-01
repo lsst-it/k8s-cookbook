@@ -1,0 +1,12 @@
+---
+defaultNamespace: &name external-secrets
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.external-secrets.io
+  version: v0.9.11
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false

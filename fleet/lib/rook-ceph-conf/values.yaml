@@ -1,0 +1,10 @@
+---
+subchart:
+  kueyen:
+    enabled: false
+  namkueyen:
+    enabled: false
+  ayekan:
+    enabled: false
+  ruka:
+    enabled: false

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: rook-ceph-conf
+description: rook config resources
+type: application
+version: 0.0.0
+appVersion: 0.0.0
+
+dependencies:
+  - name: kueyen
+    condition: subchart.kueyen.enabled
+  - name: namkueyen
+    condition: subchart.namkueyen.enabled
+  - name: ayekan
+    condition: subchart.ayekan.enabled
+  - name: ruka
+    condition: subchart.ruka.enabled
