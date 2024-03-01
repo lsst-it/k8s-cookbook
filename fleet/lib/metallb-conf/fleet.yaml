@@ -43,3 +43,8 @@ targetCustomizations:
     yaml:
       overlays:
         - gaw
+  - name: luan
+    clusterName: luan
+    yaml:
+      overlays:
+        - luan

@@ -9,6 +9,8 @@ spec:
   branch: master
   keepResources: true
   paths:
+    - fleet/lib/metallb
+    - fleet/lib/metallb-conf
   targets:
     - name: luan
       clusterName: luan
