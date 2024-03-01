@@ -31,3 +31,10 @@ targetCustomizations:
     yaml:
       overlays:
         - tu
+  - name: ls
+    clusterSelector:
+      matchLabels:
+        site: ls
+    yaml:
+      overlays:
+        - ls
