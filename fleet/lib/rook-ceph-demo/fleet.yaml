@@ -85,3 +85,15 @@ targetCustomizations:
             - name: scratch
               path: /scratch
               server: nfs-scratch.tu.lsst.org
+  - name: gaw
+    clusterName: gaw
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: backup
+              path: /backup
+              server: 139.229.135.203

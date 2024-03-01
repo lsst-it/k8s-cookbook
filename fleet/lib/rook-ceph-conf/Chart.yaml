@@ -16,3 +16,5 @@ dependencies:
     condition: subchart.ruka.enabled
   - name: pillan
     condition: subchart.pillan.enabled
+  - name: gaw
+    condition: subchart.gaw.enabled

@@ -76,3 +76,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
+  - name: gaw
+    clusterName: gaw
+    helm:
+      valuesFiles:
+        - overlays/gaw/values.yaml

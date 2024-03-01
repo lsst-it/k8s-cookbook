@@ -10,3 +10,5 @@ subchart:
     enabled: false
   pillan:
     enabled: false
+  gaw:
+    enabled: false

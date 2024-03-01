@@ -20,6 +20,10 @@ spec:
     - fleet/lib/kube-prometheus-stack
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/rook-ceph
+    - fleet/lib/rook-ceph-cluster
+    - fleet/lib/rook-ceph-conf
+    - fleet/lib/rook-ceph-demo
   targets:
     - name: gaw
       clusterName: gaw

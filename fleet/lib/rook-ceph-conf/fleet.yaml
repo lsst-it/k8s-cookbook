@@ -62,3 +62,10 @@ targetCustomizations:
         subchart:
           pillan:
             enabled: true
+  - name: gaw
+    clusterName: gaw
+    helm:
+      values:
+        subchart:
+          gaw:
+            enabled: true
