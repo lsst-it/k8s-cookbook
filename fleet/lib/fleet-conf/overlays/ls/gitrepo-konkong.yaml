@@ -21,6 +21,9 @@ spec:
     - fleet/lib/kube-prometheus-stack
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/multus
+    - fleet/lib/multus-conf
+    - fleet/lib/multus-demo
   targets:
     - name: konkong
       clusterName: konkong

@@ -28,3 +28,8 @@ targetCustomizations:
     yaml:
       overlays:
         - pillan
+  - name: konkong
+    clusterName: konkong
+    yaml:
+      overlays:
+        - konkong
