@@ -48,3 +48,8 @@ targetCustomizations:
     yaml:
       overlays:
         - luan
+  - name: konkong
+    clusterName: konkong
+    yaml:
+      overlays:
+        - konkong
