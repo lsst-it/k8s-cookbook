@@ -13,6 +13,8 @@ spec:
     - fleet/lib/metallb-conf
     - fleet/lib/metallb-demo
     - fleet/lib/ingress-nginx
+    - fleet/lib/external-secrets
+    - fleet/lib/external-secrets-conf
   targets:
     - name: konkong
       clusterName: konkong
