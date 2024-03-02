@@ -15,6 +15,9 @@ spec:
     - fleet/lib/ingress-nginx
     - fleet/lib/external-secrets
     - fleet/lib/external-secrets-conf
+    - fleet/lib/cert-manager-crds
+    - fleet/lib/cert-manager
+    - fleet/lib/cert-manager-conf
   targets:
     - name: konkong
       clusterName: konkong
