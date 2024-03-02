@@ -23,7 +23,7 @@ toolbox:
                   - storage-node
 
 monitoring:
-  enabled: false
+  enabled: true
   rulesNamespaceOverride: rook-ceph
 
 cephClusterSpec:
@@ -192,8 +192,8 @@ ingress:
           - *hostname
         secretName: rook-ceph-mgr-dashboard-ingress-tls
 
-cephBlockPools:
-cephFileSystems:
-cephFileSystemVolumeSnapshotClass:
-cephBlockPoolsVolumeSnapshotClass:
-cephObjectStores:
+cephBlockPools: {}
+cephFileSystems: {}
+cephFileSystemVolumeSnapshotClass: {}
+cephBlockPoolsVolumeSnapshotClass: {}
+cephObjectStores: {}

@@ -14,3 +14,5 @@ subchart:
     enabled: false
   luan:
     enabled: false
+  konkong:
+    enabled: false

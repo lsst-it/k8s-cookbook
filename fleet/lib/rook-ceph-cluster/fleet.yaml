@@ -86,3 +86,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/luan/values.yaml
+  - name: konkong
+    clusterName: konkong
+    helm:
+      valuesFiles:
+        - overlays/konkong/values.yaml

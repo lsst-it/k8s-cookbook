@@ -76,3 +76,10 @@ targetCustomizations:
         subchart:
           luan:
             enabled: true
+  - name: konkong
+    clusterName: konkong
+    helm:
+      values:
+        subchart:
+          konkong:
+            enabled: true
