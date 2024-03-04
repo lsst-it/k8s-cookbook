@@ -21,6 +21,7 @@ spec:
     - fleet/lib/multus-demo
     - fleet/lib/kyverno
     - fleet/lib/kyverno-conf
+    - fleet/lib/kube-prometheus-stack
   targets:
     - name: manke
       clusterName: manke
