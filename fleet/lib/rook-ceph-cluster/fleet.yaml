@@ -91,3 +91,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/konkong/values.yaml
+  - name: manke
+    clusterName: manke
+    helm:
+      valuesFiles:
+        - overlays/manke/values.yaml

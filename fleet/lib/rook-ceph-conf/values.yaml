@@ -16,3 +16,5 @@ subchart:
     enabled: false
   konkong:
     enabled: false
+  manke:
+    enabled: false

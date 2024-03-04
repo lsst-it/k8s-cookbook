@@ -83,3 +83,10 @@ targetCustomizations:
         subchart:
           konkong:
             enabled: true
+  - name: manke
+    clusterName: manke
+    helm:
+      values:
+        subchart:
+          manke:
+            enabled: true

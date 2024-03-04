@@ -22,3 +22,5 @@ dependencies:
     condition: subchart.luan.enabled
   - name: konkong
     condition: subchart.konkong.enabled
+  - name: manke
+    condition: subchart.manke.enabled
