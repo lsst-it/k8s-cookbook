@@ -19,6 +19,8 @@ spec:
     - fleet/lib/multus
     - fleet/lib/multus-conf
     - fleet/lib/multus-demo
+    - fleet/lib/kyverno
+    - fleet/lib/kyverno-conf
   targets:
     - name: manke
       clusterName: manke
