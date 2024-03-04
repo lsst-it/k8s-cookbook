@@ -1,0 +1,22 @@
+---
+defaultNamespace: mimir
+labels:
+  bundle: &name mimir-pre
+namespaceLabels:
+  o11y.eu/monitor: enabled
+helm:
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: false
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    yaml:
+      overlays:
+        - pillan
