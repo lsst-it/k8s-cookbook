@@ -32,3 +32,10 @@ targetCustomizations:
         pools:
           - default
           - lhn
+  - name: manke
+    clusterName: manke
+    helm:
+      values:
+        pools:
+          - general
+          - lhn

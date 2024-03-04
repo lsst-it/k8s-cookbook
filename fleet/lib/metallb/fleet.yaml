@@ -7,7 +7,8 @@ helm:
   releaseName: *name
   repo: https://metallb.github.io/metallb
   version: 0.14.3
-  timeoutSeconds: 300
+  # daemonset rollout may take > 300s on larger clusters
+  timeoutSeconds: 900
   waitForJobs: true
   atomic: false
 diff:

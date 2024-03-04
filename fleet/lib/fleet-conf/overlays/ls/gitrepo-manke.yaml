@@ -9,7 +9,9 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - 
+    - fleet/lib/metallb
+    - fleet/lib/metallb-conf
+    - fleet/lib/metallb-demo
   targets:
     - name: manke
       clusterName: manke
