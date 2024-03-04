@@ -16,6 +16,9 @@ spec:
     - fleet/lib/external-secrets-conf
     # no cert-manager
     - fleet/lib/cert-manager-conf
+    - fleet/lib/multus
+    - fleet/lib/multus-conf
+    - fleet/lib/multus-demo
   targets:
     - name: manke
       clusterName: manke

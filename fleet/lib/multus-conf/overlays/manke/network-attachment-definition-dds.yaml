@@ -1,14 +1,14 @@
 ---
-apiVersion: "k8s.cni.cncf.io/v1"
+apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: lhn
+  name: dds
   namespace: kube-system
 spec:
   config: '{
-      "cniVersion": "0.3.0",
+      "cniVersion": "0.3.1",
       "type": "macvlan",
-      "master": "br2505",
+      "master": "br2502",
       "mode": "bridge",
       "ipam": {
         "type": "dhcp",

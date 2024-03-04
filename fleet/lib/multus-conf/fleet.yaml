@@ -33,3 +33,8 @@ targetCustomizations:
     yaml:
       overlays:
         - konkong
+  - name: manke
+    clusterName: manke
+    yaml:
+      overlays:
+        - manke

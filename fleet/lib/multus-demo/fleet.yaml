@@ -37,3 +37,10 @@ targetCustomizations:
       values:
         networks:
           - lhn
+  - name: manke
+    clusterName: manke
+    helm:
+      values:
+        networks:
+          - dds
+          - lhn
