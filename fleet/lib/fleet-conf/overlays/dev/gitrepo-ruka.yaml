@@ -11,7 +11,7 @@ spec:
   paths:
     - fleet/lib/metallb
     - fleet/lib/metallb-conf
-    - fleet/lib/metallb-demo-lhn
+    - fleet/lib/metallb-demo
     - fleet/lib/external-secrets
     - fleet/lib/external-secrets-conf
     - fleet/lib/cert-manager-crds
@@ -25,7 +25,7 @@ spec:
     - fleet/lib/velero-conf
     - fleet/lib/multus
     - fleet/lib/multus-conf
-    - fleet/lib/multus-demo-lhn
+    - fleet/lib/multus-demo
     - fleet/lib/rook-ceph
     - fleet/lib/rook-ceph-cluster
     - fleet/lib/rook-ceph-conf

@@ -9,9 +9,10 @@ helm:
   waitForJobs: true
   atomic: false
 dependsOn:
-  - selector:
-      matchLabels:
-        bundle: cert-manager
+  # on pillan, fleet does not deploy cert-manager
+  #- selector:
+  #    matchLabels:
+  #      bundle: cert-manager
   - selector:
       matchLabels:
         bundle: external-secrets-conf

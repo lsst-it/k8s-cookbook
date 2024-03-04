@@ -15,12 +15,12 @@ helm:
     replicaCount: 3
     resources:
       limits:
-        cpu: '100m'
-        memory: '1Gi'
+        cpu: 100m
+        memory: 1Gi
     initResources:
       limits:
-        cpu: '100m'
-        memory: '1Gi'
+        cpu: 100m
+        memory: 1Gi
     admissionController:
       metricsService:
         create: true
@@ -31,5 +31,13 @@ helm:
       metricsService:
         create: true
     reportsController:
+      # OOMKilled on pillan with default memory limit
+      resources:
+        limits:
+          cpu: 2
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
       metricsService:
         create: true

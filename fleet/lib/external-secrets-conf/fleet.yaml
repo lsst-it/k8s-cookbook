@@ -24,3 +24,10 @@ targetCustomizations:
     yaml:
       overlays:
         - dev
+  - name: tu
+    clusterSelector:
+      matchLabels:
+        site: tu
+    yaml:
+      overlays:
+        - tu

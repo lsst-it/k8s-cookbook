@@ -8,3 +8,5 @@ subchart:
     enabled: false
   ruka:
     enabled: false
+  pillan:
+    enabled: false

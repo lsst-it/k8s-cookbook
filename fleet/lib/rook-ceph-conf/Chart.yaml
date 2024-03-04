@@ -14,3 +14,5 @@ dependencies:
     condition: subchart.ayekan.enabled
   - name: ruka
     condition: subchart.ruka.enabled
+  - name: pillan
+    condition: subchart.pillan.enabled
