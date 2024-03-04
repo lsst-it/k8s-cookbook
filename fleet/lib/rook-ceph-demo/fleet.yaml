@@ -75,6 +75,9 @@ targetCustomizations:
             - name: project
               path: /project
               server: nfs-project.tu.lsst.org
+            - name: rsphome
+              path: /rsphome
+              server: nfs-rsphome.tu.lsst.org
             - name: scratch
               path: /scratch
               server: nfs-scratch.tu.lsst.org
