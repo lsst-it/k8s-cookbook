@@ -1,0 +1,65 @@
+---
+image:
+  tag: v0.24.0
+
+replicas: 1
+
+resources:
+  limits:
+    memory: 500Mi
+  requests:
+    memory: 500Mi
+
+serviceMonitor:
+  enabled: true
+  selfMonitor:
+    enabled: true
+    labels:
+      monitor: enabled
+  defaults:
+    labels:
+      monitor: enabled
+  targets:
+    - name: googlehttpcheck
+      url: https://google.com
+      hostname: google.com
+      interval: 60s
+      module: http_2xx
+
+prometheusRule:
+  enabled: false
+
+extraConfigmapMounts: []
+extraSecretMounts: []
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  hosts:
+    - host: "blackbox-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: tls-snmp-exporter-ingress
+      hosts:
+        - "blackbox-expoter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+
+config:
+  modules:
+    http_2xx:
+      prober: http
+      timeout: 5s
+      http:
+        valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+        follow_redirects: true
+        preferred_ip_protocol: ip4
+    icmp:
+      prober: icmp
+      icmp:
+        preferred_ip_protocol: ip4
