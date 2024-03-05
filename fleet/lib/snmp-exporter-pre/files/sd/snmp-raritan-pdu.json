@@ -1,0 +1,10 @@
+[
+  {
+    "labels": {
+      "hostname": "b6-pdured.tu.lsst.org"
+    },
+    "targets": [
+      "b6-pdured.tu.lsst.org"
+    ]
+  }
+]
