@@ -1,0 +1,13 @@
+---
+defaultNamespace: snmp-exporter
+labels:
+  bundle: snmp-exporter-pre
+helm:
+  releaseName: prometheus-snmp-exporter-pre
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf

@@ -1,0 +1,14 @@
+# yamllint disable-file
+{{- $files := .Files.Glob "files/sd/*.json" }}
+{{- range $path, $fileContents := $files }}
+{{- $cmName := regexReplaceAll "(^.*/)(.*)\\.json$" $path "${2}" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sd-{{ $cmName }}
+  namespace: kube-prometheus-stack
+data:
+  {{ $cmName }}.json: |
+{{ $.Files.Get $path | indent 4 }}
+{{- end }}
