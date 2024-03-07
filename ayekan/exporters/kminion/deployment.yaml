@@ -69,7 +69,7 @@ spec:
       - name: config
         defaultMode: 420
         secret:
-          secret-name: kminion-config
+          secretName: kminion-config
 ---
 # Source: kminion/templates/service.yaml
 apiVersion: v1

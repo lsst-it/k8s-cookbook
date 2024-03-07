@@ -11,12 +11,17 @@ helm repo update
 kubectl create ns ${NAMESPACE} --dry-run=client -oyaml | kubectl apply -f -
 
 # SNMP configuration
-kubectl --namespace ${NAMESPACE} apply -f snmp-expoter/
+kubectl --namespace ${NAMESPACE} apply -f snmp-exporter/configmap.yaml
+kubectl --namespace ${NAMESPACE} apply -f snmp-exporter/xups-configmap.yaml
+kubectl --namespace ${NAMESPACE} apply -f snmp-exporter/schneider-configmap.yaml
+kubectl --namespace ${NAMESPACE} apply -f snmp-exporter/externalsecret.yaml
 helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-exporter \
      --create-namespace --namespace ${NAMESPACE=} \
      --atomic --timeout 15m \
      --version "1.8.1" \
      -f ./snmp-exporter/helm-values.yaml
+
+kubectl --namespace ${NAMESPACE} patch deployment snmp-exporter-prometheus-snmp-exporter --patch-file snmp-exporter/volume-patch.yaml
 
 # Blackbox configuration
 helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter \
@@ -26,4 +31,5 @@ helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbo
      -f ./blackbox-exporter/helm-values.yaml
 
 # kminion - kafka exporter
-kubectl --namespace ${NAMESPACE=} apply -f kminion/
+kubectl --namespace ${NAMESPACE=} apply -f kminion/config.yaml
+kubectl --namespace ${NAMESPACE=} apply -f kminion/deployment.yaml

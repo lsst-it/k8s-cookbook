@@ -7,14 +7,38 @@ metadata:
 data:
   snmp.yaml: |
     auths:
+      lsst_v1:
+        community: {{.snmpLsstCommunity}}
+        security_level: noAuthNoPriv
+        auth_protocol: MD5
+        priv_protocol: DES
+        version: 1
+      lsst_v2:
+        community: {{.snmpLsstCommunity}}
+        security_level: noAuthNoPriv
+        auth_protocol: MD5
+        priv_protocol: DES
+        version: 2
       public_v1:
-        community: {{ .snmpCommunity }}
+        community: public
         security_level: noAuthNoPriv
         auth_protocol: MD5
         priv_protocol: DES
         version: 1
       public_v2:
-        community: {{ .snmpCommunity }}
+        community: public
+        security_level: noAuthNoPriv
+        auth_protocol: MD5
+        priv_protocol: DES
+        version: 2
+      rubin_v1:
+        community: {{.snmpRubinCommunity}}
+        security_level: noAuthNoPriv
+        auth_protocol: MD5
+        priv_protocol: DES
+        version: 1
+      rubin_v2:
+        community: {{.snmpRubinCommunity}}
         security_level: noAuthNoPriv
         auth_protocol: MD5
         priv_protocol: DES
@@ -23,10 +47,10 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: snmp-power
+  name: snmp-raritan
   namespace: monitoring
 data:
-  snmp-power.yaml: |
+  snmp-raritan.yaml: |
     modules:
       raritan:
         walk:

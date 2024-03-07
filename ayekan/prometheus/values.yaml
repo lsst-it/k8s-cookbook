@@ -46,6 +46,7 @@ prometheus:
         metrics_path: /snmp
         params:
           module: [if_mib]
+          auth: [rubin_v2]
         file_sd_configs:
           - files:
               - "/etc/prometheus/configmaps/prometheus-snmp-csv-network/snmp-csv-network.json"
@@ -78,9 +79,61 @@ prometheus:
         metrics_path: /snmp
         params:
           module: [raritan]
+          auth: [rubin_v2]
         file_sd_configs:
           - files:
               - "/etc/prometheus/configmaps/pdu-targets/pdu-targets.json"
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+      - job_name: snmp-xups-public
+        metrics_path: /snmp
+        params:
+          module: [xups]
+          auth: [public_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.31
+            labels:
+              __meta_hostname: ups-01
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+      - job_name: snmp-xups
+        metrics_path: /snmp
+        params:
+          module: [xups]
+          auth: [lsst_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.62
+            labels:
+              __meta_hostname: ups-02
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+      - job_name: snmp-schneider-pm5xxx
+        metrics_path: /snmp
+        params:
+          module: [schneider_pm5xxx]
+          auth: [public_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.21
+            labels:
+              __meta_hostname: pdu-01
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target

@@ -69,42 +69,44 @@ modules:
       outletOperationalState:
         type: EnumAsStateSet
 
-          # schneider_pm5xxx:
-          #   walk:
-          #     - vVan
-        # - vVbn
-        # - vVcn
-        # - vVab
-        # - vVbb
-        # - vVcb
-        # - lcIa
-        # - lcIb
-        # - lcIc
-        # - fFrequency
-        # - pActivePa
-        # - pActivePb
-        # - pActivePc
-        # - pReactivePa
-        # - pReactivePb
-        # - pReactivePc
-        # - pApparentPa
-        # - pApparentPb
-        # - pApparentPc
-        # - pfPfa
-        # - pfPfb
-        # - pfPfc
-        # - pfPfTot
-        # - pfPfDisplacementA
-        # - pfPfDisplacementB
-        # - pfPfDisplacementC
-        # - pfPfDisplacementTotal
-        # - pActivePtot
-        # - pReactivePtot
-        # - pApparentPtot
-        # - aeActiveEDelivered
-        # - aeReactiveEDelivered
-        # - aeApparentEDelivered
-        # - aeResetDateTime
+  schneider_pm5xxx:
+    walk:
+      - midSerialNumber
+      - vVan
+      - vVbn
+      - vVcn
+      - vVab
+      - vVbc
+      - vVca
+      - lcIa
+      - lcIb
+      - lcIC
+      - lcIn
+      - fFrequency
+      - pActivePa
+      - pActivePb
+      - pActivePc
+      - pReactivePa
+      - pReactivePb
+      - pReactivePc
+      - pApparentPa
+      - pApparentPb
+      - pApparentPc
+      - pfPfa
+      - pfPfb
+      - pfPfc
+      - pfPfDisplacementA
+      - pfPfDisplacementB
+      - pfPfDisplacementC
+      - pfPftot
+      - pfPfDisplacementTotal
+      - pActivePtot
+      - pReactivePtot
+      - pApparentPtot
+      - aeActiveEDelivered
+      - aeReactiveEDelivered
+      - aeApparentEDelivered
+      - aeResetDateTime
 
   xups:
     max_repetitions: 5

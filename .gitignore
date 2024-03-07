@@ -2,4 +2,4 @@ creds.sh
 secret.yaml
 values.yaml
 template.yaml
-
+**/snmp-generator/mibs
