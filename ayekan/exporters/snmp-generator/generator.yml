@@ -135,18 +135,17 @@ modules:
     filters:
       static:
         - targets:
-          - xupsBatCapacity
-          - xupsBatTimeRemaining
-          - xupsBatVoltage
-          - xupsBatCurrent
-          - xupsEnvAmbientTemp
-          - xupsInputVoltage
-          - xupsInputFrequency
-          - xupsOutputVoltage
-          - xupsOutputFrequency
-          - xupsBatteryAbmStatus
+            - xupsBatCapacity
+            - xupsBatTimeRemaining
+            - xupsBatVoltage
+            - xupsBatCurrent
+            - xupsEnvAmbientTemp
+            - xupsInputVoltage
+            - xupsInputFrequency
+            - xupsOutputVoltage
+            - xupsOutputFrequency
+            - xupsBatteryAbmStatus
           indices: ["0"]
-
       # - 1.3.6.1.4.1.534.1.2.4      # xupsBatCapacity
       # - 1.3.6.1.4.1.534.1.2.1      # xupsBatTimeRemaining
       # - 1.3.6.1.4.1.534.1.2.2      # xupsBatVoltage
@@ -158,4 +157,3 @@ modules:
       # - 1.3.6.1.4.1.534.1.4.4      # xupsOutputTable
       # - 1.3.6.1.4.1.534.1.4.4.1.2  # xupsOutputVoltage
       # - 1.3.6.1.4.1.534.1.4.2      # xupsOutputFrequency
-
