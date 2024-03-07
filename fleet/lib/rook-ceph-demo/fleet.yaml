@@ -85,3 +85,51 @@ targetCustomizations:
             - name: scratch
               path: /scratch
               server: nfs-scratch.tu.lsst.org
+  - name: gaw
+    clusterName: gaw
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: backup
+              path: /backup
+              server: 139.229.135.203
+  - name: luan
+    clusterName: luan
+    helm:
+      values:
+        pvc:
+          enabled: true
+  - name: manke
+    clusterName: c-st7p2
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: nfs-auxtel.ls.lsst.org
+            - name: comcam
+              path: /comcam
+              server: nfs-comcam.ls.lsst.org
+            - name: jhome
+              path: /jhome
+              server: nfs-jhome.ls.lsst.org
+            - name: lsstdata
+              path: /lsstdata
+              server: nfs-lsstdata.ls.lsst.org
+            - name: obs-env
+              path: /obs-env
+              server: nfs-obsenv.ls.lsst.org
+            - name: project
+              path: /project
+              server: nfs-project.ls.lsst.org
+            - name: scratch
+              path: /scratch
+              server: nfs-scratch.ls.lsst.org

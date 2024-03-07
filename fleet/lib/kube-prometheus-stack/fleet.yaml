@@ -11,10 +11,15 @@ helm:
   waitForJobs: true
   atomic: false
 targetCustomizations:
-  - name: dev
+  - name: default
     clusterSelector:
       matchLabels:
-        site: dev
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - dev
+            - ls
     helm:
       values:
         prometheus:

@@ -38,3 +38,23 @@ targetCustomizations:
     yaml:
       overlays:
         - pillan
+  - name: gaw
+    clusterName: gaw
+    yaml:
+      overlays:
+        - gaw
+  - name: luan
+    clusterName: luan
+    yaml:
+      overlays:
+        - luan
+  - name: konkong
+    clusterName: konkong
+    yaml:
+      overlays:
+        - konkong
+  - name: manke
+    clusterName: manke
+    yaml:
+      overlays:
+        - manke

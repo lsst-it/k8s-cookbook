@@ -10,3 +10,11 @@ subchart:
     enabled: false
   pillan:
     enabled: false
+  gaw:
+    enabled: false
+  luan:
+    enabled: false
+  konkong:
+    enabled: false
+  manke:
+    enabled: false

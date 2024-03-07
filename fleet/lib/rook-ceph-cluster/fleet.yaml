@@ -76,3 +76,23 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
+  - name: gaw
+    clusterName: gaw
+    helm:
+      valuesFiles:
+        - overlays/gaw/values.yaml
+  - name: luan
+    clusterName: luan
+    helm:
+      valuesFiles:
+        - overlays/luan/values.yaml
+  - name: konkong
+    clusterName: konkong
+    helm:
+      valuesFiles:
+        - overlays/konkong/values.yaml
+  - name: manke
+    clusterName: manke
+    helm:
+      valuesFiles:
+        - overlays/manke/values.yaml

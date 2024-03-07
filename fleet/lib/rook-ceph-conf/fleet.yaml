@@ -62,3 +62,31 @@ targetCustomizations:
         subchart:
           pillan:
             enabled: true
+  - name: gaw
+    clusterName: gaw
+    helm:
+      values:
+        subchart:
+          gaw:
+            enabled: true
+  - name: luan
+    clusterName: luan
+    helm:
+      values:
+        subchart:
+          luan:
+            enabled: true
+  - name: konkong
+    clusterName: konkong
+    helm:
+      values:
+        subchart:
+          konkong:
+            enabled: true
+  - name: manke
+    clusterName: manke
+    helm:
+      values:
+        subchart:
+          manke:
+            enabled: true

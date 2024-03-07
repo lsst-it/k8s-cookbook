@@ -25,3 +25,17 @@ targetCustomizations:
       values:
         pools:
           - general
+  - name: konkong
+    clusterName: konkong
+    helm:
+      values:
+        pools:
+          - default
+          - lhn
+  - name: manke
+    clusterName: manke
+    helm:
+      values:
+        pools:
+          - general
+          - lhn

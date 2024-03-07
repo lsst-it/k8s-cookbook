@@ -1,0 +1,31 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: luan
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: master
+  keepResources: true
+  paths:
+    - fleet/lib/metallb
+    - fleet/lib/metallb-conf
+    - fleet/lib/ingress-nginx
+    - fleet/lib/external-secrets
+    - fleet/lib/external-secrets-conf
+    - fleet/lib/cert-manager-crds
+    - fleet/lib/cert-manager
+    - fleet/lib/cert-manager-conf
+    - fleet/lib/kube-prometheus-stack
+    - fleet/lib/kyverno
+    - fleet/lib/kyverno-conf
+    - fleet/lib/rook-ceph
+    - fleet/lib/rook-ceph-cluster
+    - fleet/lib/rook-ceph-conf
+    - fleet/lib/rook-ceph-demo
+  targets:
+    - name: luan
+      clusterName: luan
+  correctDrift:
+    enabled: false  # XXX do not enable because of rook

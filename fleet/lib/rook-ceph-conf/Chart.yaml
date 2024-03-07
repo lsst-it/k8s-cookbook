@@ -16,3 +16,11 @@ dependencies:
     condition: subchart.ruka.enabled
   - name: pillan
     condition: subchart.pillan.enabled
+  - name: gaw
+    condition: subchart.gaw.enabled
+  - name: luan
+    condition: subchart.luan.enabled
+  - name: konkong
+    condition: subchart.konkong.enabled
+  - name: manke
+    condition: subchart.manke.enabled
