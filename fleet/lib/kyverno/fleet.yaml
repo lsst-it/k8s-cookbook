@@ -3,6 +3,8 @@
 defaultNamespace: &name kyverno
 labels:
   bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
 helm:
   chart: *name
   releaseName: *name
