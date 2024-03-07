@@ -113,6 +113,40 @@ spec:
     name: fluentbit-password
     key: password
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  name: opensearch
+  namespace: opensearch
+spec:
+  rules:
+  - host: opensearch.ayekan.ls.lsst.org
+    http:
+      paths:
+      - backend:
+          service:
+            name: ayekan-opensearch-dashboards
+            port:
+              number: 5601
+        path: /dashboard
+        pathType: Prefix
+      - backend:
+          service:
+            name: ayekan-opensearch
+            port:
+              number: 9200
+        path: /logs
+        pathType: Prefix
+  tls:
+  - hosts:
+    - opensearch.ayekan.ls.lsst.org
+    secretName: tls-opensearch-ingress
+---
 apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
