@@ -1,0 +1,21 @@
+---
+spec:
+  template:
+    spec:
+      containers:
+        - name: snmp-exporter
+          volumeMounts:
+            - name: snmp-exporter-modules
+              mountPath: /etc/snmp-exporter/modules
+      volumes:
+        - name: snmp-exporter-modules
+          projected:
+            sources:
+              - configMap:
+                  name: snmp-network
+              - configMap:
+                  name: snmp-raritan
+              - configMap:
+                  name: snmp-xups
+              - configMap:
+                  name: snmp-schneider
