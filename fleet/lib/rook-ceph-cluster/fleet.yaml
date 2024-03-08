@@ -72,7 +72,7 @@ targetCustomizations:
       valuesFiles:
         - overlays/ruka/values.yaml
   - name: pillan
-    clusterName: c-st7p2
+    clusterName: pillan
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml

@@ -20,7 +20,7 @@ targetCustomizations:
           - default
           - lhn
   - name: pillan
-    clusterName: c-st7p2
+    clusterName: pillan
     helm:
       values:
         pools:
