@@ -1,5 +1,5 @@
 ---
 pvc:
   enabled: false
-nfs-auxtel:
+nfs:
   enabled: false
