@@ -2,6 +2,8 @@
 defaultNamespace: &name rook-ceph
 labels:
   bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
 helm:
   chart: *name
   releaseName: *name
