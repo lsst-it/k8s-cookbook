@@ -1,0 +1,87 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: rubin-base-routing
+  namespace: kube-prometheus-stack
+  labels:
+    alertmanagerConfig: ayekan
+  annotations:
+    o11y.eu/monitor: enabled
+    o11y.eu/author: francis.begyn
+spec:
+  route:
+    groupBy: ["namespace", "cluster"]
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 24h
+    receiver: "slack-test"
+    routes:
+      - receiver: "null"
+        matchers:
+          - alertname = "InfoInhibitor"
+      - receiver: "watchdog"
+        matchers:
+          - alertname = "Watchdog"
+      - receiver: "squadcast-test"
+        matchers:
+          - receiver =~ ".*,squadcast,.*"
+        continue: true
+  receivers:
+    - name: "null"
+    - name: "watchdog"
+    - name: "slack-test"
+      slackConfigs:
+        - username: "ayekan-prometheus"
+          channel: "#rubinobs-monitoring-test"
+          sendResolved: true
+    - name: "squadcast-test"
+      webhookConfigs:
+        - urlSecret:
+            key: squadcastURL
+            name: "o11y-squadcast-url"
+  inhibitRules:
+    - sourceMatch:
+        - name: "alertname"
+          matchType: "="
+          value: "InfoInhibitor"
+      targetMatch:
+        - name: "severity"
+          matchType: "="
+          value: "info"
+      equal: ["namespace"]
+    - sourceMatch:
+        - name: "severity"
+          matchType: "="
+          value: "critical"
+      targetMatch:
+        - name: "severity"
+          matchType: "=~"
+          value: "info|warning"
+      equal: ["alertname"]
+    - sourceMatch:
+        - name: "severity"
+          matchType: "="
+          value: "warning"
+      targetMatch:
+        - name: "severity"
+          matchType: "="
+          value: "info"
+      equal: ["alertname"]
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: o11y-squadcast
+  namespace: kube-prometheus-stack
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: squadcastURL
+      remoteRef:
+        key: squadcast prometheus service
+        property: credential
+  target:
+    name: o11y-squadcast-url

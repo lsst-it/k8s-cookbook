@@ -14,3 +14,6 @@ helm upgrade --install \
 
 # sanity check
 kubectl --namespace kube-prometheus-stack get pods -l "release=kube-prometheus-stack"
+
+kubectl --namespace kube-prometheus-stack apply -f alertmanager-config/
+kubectl --namespace kube-prometheus-stack apply -f prometheus-rules/

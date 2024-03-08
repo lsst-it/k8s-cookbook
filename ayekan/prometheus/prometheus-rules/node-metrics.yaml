@@ -1,0 +1,17 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-test-metrics
+  namespace: kube-prometheus-stack
+  labels:
+    release:  kube-prometheus-stack
+  annotations:
+    o11y.eu/monitor: enabled
+    o11y.eu/author: francis.begyn
+spec:
+  groups:
+    - name: node-test-metrics
+      rules:
+        - alert: KubeTestRule
+          expr: vector(1)

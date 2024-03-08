@@ -108,6 +108,9 @@ prometheus:
 
 alertmanager:
   alertmanagerSpec:
+    alertmanagerConfigSelector:
+      matchLabels:
+        alertmanagerConfig: ayekan
     externalUrl: https://alertmanager.ayekan.ls.lsst.org
     secrets:
       - o11y-webhooks
@@ -132,50 +135,6 @@ alertmanager:
     global:
       resolve_timeout: 5m
       slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
-    route:
-      group_by: ["namespace", "cluster"]
-      group_wait: 30s
-      group_interval: 5m
-      repeat_interval: 24h
-      receiver: "slack-test"
-      routes:
-        - receiver: "null"
-          matchers:
-            - alertname = "InfoInhibitor"
-        - receiver: "watchdog"
-          matchers:
-            - alertname = "Watchdog"
-        - receiver: "squadcast-test"
-          matchers:
-            - receiver =~ ".*,squadcast,.*"
-          continue: true
-    receivers:
-      - name: "null"
-      - name: "watchdog"
-      - name: "slack-test"
-        slack_configs:
-          - username: "ayekan-prometheus"
-            channel: "#rubinobs-monitoring-test"
-            send_resolved: true
-      - name: "squadcast-test"
-        webhook_configs:
-          - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
-    inhibit_rules:
-      - source_matchers:
-          - alertname = "InfoInhibitor"
-        target_matchers:
-          - severity = "info"
-        equal: ["namespace"]
-      - source_matchers:
-          - severity = "critical"
-        target_matchers:
-          - severity =~ "info|warning"
-        equal: ["alertname"]
-      - source_matchers:
-          - severity = "warning"
-        target_matchers:
-          - severity = "info"
-        equal: ["alertname"]
     templates:
       - "/etc/alertmanager/config/*.tmpl"
 
