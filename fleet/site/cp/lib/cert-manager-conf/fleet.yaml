@@ -1,0 +1,43 @@
+---
+defaultNamespace: cert-manager
+labels:
+  bundle: &name cert-manager-conf
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  # on pillan, fleet does not deploy cert-manager
+  #- selector:
+  #    matchLabels:
+  #      bundle: cert-manager
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf
+targetCustomizations:
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        site: dev
+    kustomize:
+      dir: overlays/dev
+  - name: tu
+    clusterSelector:
+      matchLabels:
+        site: tu
+    kustomize:
+      dir: overlays/tu
+  - name: ls
+    clusterSelector:
+      matchLabels:
+        site: ls
+    kustomize:
+      dir: overlays/ls
+  - name: cp
+    clusterSelector:
+      matchLabels:
+        site: cp
+    kustomize:
+      dir: overlays/cp

@@ -6,10 +6,6 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      name: letsencrypt
-    email: rubinobs-it-las@lsst.org
     solvers:
       - selector:
           dnsZones:
