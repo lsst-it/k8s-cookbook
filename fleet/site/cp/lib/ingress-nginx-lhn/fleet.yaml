@@ -1,15 +1,18 @@
 ---
-defaultNamespace: &name ingress-nginx
+defaultNamespace: &name ingress-nginx-lhn
 labels:
   bundle: *name
 helm:
-  chart: *name
+  chart: ingress-nginx
   releaseName: *name
   repo: https://kubernetes.github.io/ingress-nginx
   version: v4.5.2
   values:
     controller:
       kind: DaemonSet
+      ingressClass: nginx-lhn
+      ingressClassResource:
+        name: nginx-lhn
     rbac:
       create: true
   waitForJobs: true
@@ -34,4 +37,4 @@ targetCustomizations:
         controller:
           service:
             annotations:
-              metallb.universe.tf/address-pool: ingress
+              metallb.universe.tf/address-pool: ingress-lhn
