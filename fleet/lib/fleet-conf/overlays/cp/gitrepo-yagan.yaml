@@ -1,0 +1,17 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: yagan
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: cp_production
+  keepResources: true
+  paths:
+    - fleet/s/cp/c/yagan/*
+  targets:
+    - name: yagan
+      clusterName: yagan
+  correctDrift:
+    enabled: false  # XXX do not enable because of rook
