@@ -58,7 +58,7 @@ spec:
         - name: "severity"
           matchType: "=~"
           value: "info|warning"
-      equal: ["alertname"]
+      equal: ["alertname", "instance"]
     - sourceMatch:
         - name: "severity"
           matchType: "="
