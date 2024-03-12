@@ -1,0 +1,19 @@
+---
+defaultNamespace: &name rook-ceph
+labels:
+  bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.rook.io/release
+  version: v1.11.2
+  valuesFiles:
+    - values.yaml
+  waitForJobs: false
+  atomic: false
+dependsOn:
+  - selector:
+    matchLabels:
+      bundle: kube-prometheus-stack

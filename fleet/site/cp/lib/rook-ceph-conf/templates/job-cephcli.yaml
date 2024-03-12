@@ -1,0 +1,195 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cephcli
+  namespace: rook-ceph
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      name: cephcli
+    spec:
+      serviceAccountName: rook-ceph-system  # XXX excessive permissions...
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - storage-node
+      containers:
+      - command:
+        - /bin/bash
+        - -c
+        - |
+          # Replicate the script from toolbox.sh inline so the ceph image
+          # can be run directly, instead of requiring the rook toolbox
+          CEPH_CONFIG="/etc/ceph/ceph.conf"
+          MON_CONFIG="/etc/rook/mon-endpoints"
+          KEYRING_FILE="/etc/ceph/keyring"
+
+          # create a ceph config file in its default location so ceph/rados tools can be used
+          # without specifying any arguments
+          write_endpoints() {
+            endpoints=$(cat ${MON_CONFIG})
+
+            # filter out the mon names
+            # external cluster can have numbers or hyphens in mon names, handling them in regex
+            # shellcheck disable=SC2001
+            mon_endpoints=$(echo "${endpoints}"| sed 's/[a-z0-9_-]\+=//g')
+
+            DATE=$(date)
+            echo "$DATE writing mon endpoints to ${CEPH_CONFIG}: ${endpoints}"
+              cat <<EOF > ${CEPH_CONFIG}
+          [global]
+          mon_host = ${mon_endpoints}
+
+          [client.admin]
+          keyring = ${KEYRING_FILE}
+          EOF
+          }
+
+          # watch the endpoints config file and update if the mon endpoints ever change
+          watch_endpoints() {
+            # get the timestamp for the target of the soft link
+            real_path=$(realpath ${MON_CONFIG})
+            initial_time=$(stat -c %Z "${real_path}")
+            while true; do
+              real_path=$(realpath ${MON_CONFIG})
+              latest_time=$(stat -c %Z "${real_path}")
+
+              if [[ "${latest_time}" != "${initial_time}" ]]; then
+                write_endpoints
+                initial_time=${latest_time}
+              fi
+
+              sleep 10
+            done
+          }
+
+          # read the secret from an env var (for backward compatibility), or from the secret file
+          ceph_secret=${ROOK_CEPH_SECRET}
+          if [[ "$ceph_secret" == "" ]]; then
+            ceph_secret=$(cat /var/lib/rook-ceph-mon/secret.keyring)
+          fi
+
+          # create the keyring file
+          cat <<EOF > ${KEYRING_FILE}
+          [${ROOK_CEPH_USERNAME}]
+          key = ${ROOK_CEPH_SECRET}
+          key = ${ceph_secret}
+          EOF
+
+          # write the initial config file
+          write_endpoints
+
+          # continuously update the mon endpoints if they fail over
+          #watch_endpoints
+          waitforcmd() {
+            local wait=${1?sleep interval}; shift
+
+            echo "Waiting for $*"
+
+            until "$@" > /dev/null 2>&1; do
+              echo "Waiting for $*"
+              sleep "$wait";
+            done
+          }
+
+          waitforkube() {
+            local ns=${1?namespace is required}; shift
+            local type=${1?type is required}; shift
+
+            # wait for resource to exist. See: https://github.com/kubernetes/kubernetes/issues/83242
+            waitforcmd 2 kubectl -n "$ns" get "$type" "$@" -o=jsonpath='{.items[0].metadata.name}'
+          }
+
+          waitforpod() {
+            local ns=${1?namespace is required}; shift
+
+            # wait for pod to exist
+            waitforkube "$ns" pod "$@"
+
+            # wait for pod to be ready
+            kubectl -n rook-ceph wait --for=condition=ready --timeout=180s pod "$@"
+          }
+
+          # wait for ceph nfs related resources to be ready
+          waitfornfs() {
+            local fs=${1?fs name}; shift
+
+            waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs="$fs"
+            waitforpod rook-ceph -l app=rook-ceph-mds,rook_file_system="$fs"
+            waitforcmd 2 ceph fs get "$fs"
+          }
+
+          set -x
+
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+          echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+          chmod +x kubectl
+          mv kubectl /bin
+
+          source /var/lib/cephcli/*
+        env:
+        - name: ROOK_CEPH_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: ceph-username
+              name: rook-ceph-mon
+        image: quay.io/ceph/ceph:v17.2.6
+        imagePullPolicy: IfNotPresent
+        name: rook-ceph-tools
+        resources:
+          limits:
+            cpu: 500m
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        tty: true
+        volumeMounts:
+        - mountPath: /etc/ceph
+          name: ceph-config
+        - mountPath: /etc/rook
+          name: mon-endpoint-volume
+        - mountPath: /var/lib/rook-ceph-mon
+          name: ceph-admin-secret
+        - mountPath: /var/lib/cephcli
+          name: cephcli
+      dnsPolicy: ClusterFirstWithHostNet
+      restartPolicy: Never
+      tolerations:
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+        tolerationSeconds: 5
+      volumes:
+      - name: ceph-admin-secret
+        secret:
+          defaultMode: 420
+          items:
+          - key: ceph-secret
+            path: secret.keyring
+          optional: false
+          secretName: rook-ceph-mon
+      - configMap:
+          defaultMode: 420
+          items:
+          - key: data
+            path: mon-endpoints
+          name: rook-ceph-mon-endpoints
+        name: mon-endpoint-volume
+      - emptyDir: {}
+        name: ceph-config
+      - name: cephcli
+        configMap:
+          name: cephcli

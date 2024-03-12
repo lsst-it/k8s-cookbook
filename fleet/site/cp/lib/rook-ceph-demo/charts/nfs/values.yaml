@@ -1,0 +1,8 @@
+---
+mounts:
+  - name: foo
+    path: /foo
+    server: 127.0.0.1
+  - name: bar
+    path: /bar
+    server: 127.0.0.1
