@@ -101,3 +101,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/chonchon/values.yaml
+  - name: lukay
+    clusterName: lukay
+    helm:
+      valuesFiles:
+        - overlays/lukay/values.yaml

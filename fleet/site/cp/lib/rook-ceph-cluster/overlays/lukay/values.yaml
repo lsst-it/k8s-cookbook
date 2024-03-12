@@ -32,7 +32,8 @@ cephClusterSpec:
     allowUnsupported: false
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
-  continueUpgradeAfterChecksEvenIfNotHealthy: false
+  # XXX allow upgrade even if not healthy because lukay05 was removed
+  continueUpgradeAfterChecksEvenIfNotHealthy: true
   waitTimeoutForHealthyOSDInMinutes: 10
   mon:
     count: 3
@@ -44,7 +45,7 @@ cephClusterSpec:
         enabled: true
   dashboard:
     enabled: true
-    ssl: false
+    ssl: true
   crashCollector:
     disable: false
   logCollector:
@@ -82,20 +83,56 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "3"
     nodes:
-      - name: konkong01
+      - name: lukay01
         devices:
-          - name: /dev/nvme0n1
-          - name: /dev/nvme1n1
-      - name: konkong02
+          - name: sda
+          - name: sdb
+          - name: sdc
+          - name: sdd
+          - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
+      - name: lukay02
         devices:
-          - name: /dev/nvme0n1
-          - name: /dev/nvme1n1
-      - name: konkong03
+          - name: sda
+          - name: sdb
+          - name: sdc
+          - name: sdd
+          - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
+      - name: lukay03
         devices:
-          - name: /dev/nvme0n1
-          - name: /dev/nvme1n1
+          - name: sda
+          - name: sdb
+          - name: sdc
+          - name: sdd
+          - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
+      - name: lukay04
+        devices:
+          - name: sda
+          - name: sdb
+          - name: sdc
+          - name: sdd
+          - name: sde
+          - name: sdf
+          - name: sdg
+          - name: sdh
+          - name: sdi
+          - name: sdj
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
@@ -137,10 +174,10 @@ cephClusterSpec:
     osd:
       limits:
         cpu: "2000m"
-        memory: "12Gi"
-      requests:
-        cpu: "1000m"
         memory: "8Gi"
+      requests:
+        cpu: "100m"
+        memory: "4Gi"
     prepareosd:
       limits:
         cpu: "500m"
@@ -182,17 +219,43 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
     host:
-      name: &hostname ceph.konkong.ls.lsst.org
+      name: &hostname ceph.lukay.cp.lsst.org
     tls:
       - hosts:
           - *hostname
         secretName: rook-ceph-mgr-dashboard-ingress-tls
 
-cephBlockPools: {}
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      quotas:
+        maxSize: 2Ti
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4
 cephFileSystems: {}
 cephFileSystemVolumeSnapshotClass: {}
 cephBlockPoolsVolumeSnapshotClass: {}

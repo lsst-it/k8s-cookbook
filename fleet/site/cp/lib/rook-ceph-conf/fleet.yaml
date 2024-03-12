@@ -97,3 +97,10 @@ targetCustomizations:
         subchart:
           chonchon:
             enabled: true
+  - name: lukay
+    clusterName: lukay
+    helm:
+      values:
+        subchart:
+          lukay:
+            enabled: true

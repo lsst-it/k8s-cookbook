@@ -20,3 +20,5 @@ subchart:
     enabled: false
   chonchon:
     enabled: false
+  lukay:
+    enabled: false

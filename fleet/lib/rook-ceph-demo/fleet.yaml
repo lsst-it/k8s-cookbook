@@ -143,3 +143,15 @@ targetCustomizations:
             - name: obs-env
               path: /obs-env
               server: nfs-obsenv.cp.lsst.org
+  - name: gaw
+    clusterName: gaw
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: backup
+              path: /backup
+              server: it-nfs-backup.cp.lsst.org
