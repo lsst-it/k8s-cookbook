@@ -50,3 +50,10 @@ targetCustomizations:
       values:
         networks:
           - lhn
+  - name: yagan
+    clusterName: yagan
+    helm:
+      values:
+        networks:
+          - dds
+          - lhn
