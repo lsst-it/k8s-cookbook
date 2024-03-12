@@ -68,3 +68,8 @@ targetCustomizations:
     yaml:
       overlays:
         - lukay
+  - name: yagan
+    clusterName: yagan
+    yaml:
+      overlays:
+        - yagan

@@ -46,3 +46,10 @@ targetCustomizations:
         pools:
           - default
           - lhn
+  - name: yagan
+    clusterName: yagan
+    helm:
+      values:
+        pools:
+          - one-pool
+          - lhn
