@@ -1,0 +1,21 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: fluentbit-logging-credentials
+  namespace: fluent
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+  - secretKey: username
+    remoteRef:
+      key: ayekan-logging-os-fluentbit
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: ayekan-logging-os-fluentbit
+      property: password
+  target:
+    creationPolicy: Owner
