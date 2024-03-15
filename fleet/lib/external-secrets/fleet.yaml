@@ -12,3 +12,6 @@ helm:
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false
+  values:
+    serviceMonitor:
+      enabled: true
