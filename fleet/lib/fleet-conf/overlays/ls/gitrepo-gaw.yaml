@@ -9,21 +9,7 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - fleet/lib/metallb
-    - fleet/lib/metallb-conf
-    - fleet/lib/ingress-nginx
-    - fleet/lib/external-secrets
-    - fleet/lib/external-secrets-conf
-    - fleet/lib/cert-manager-crds
-    - fleet/lib/cert-manager
-    - fleet/lib/cert-manager-conf
-    - fleet/lib/kube-prometheus-stack
-    - fleet/lib/kyverno
-    - fleet/lib/kyverno-conf
-    - fleet/lib/rook-ceph
-    - fleet/lib/rook-ceph-cluster
-    - fleet/lib/rook-ceph-conf
-    - fleet/lib/rook-ceph-demo
+    - fleet/site/ls/cluster/gaw
   targets:
     - name: gaw
       clusterName: gaw
