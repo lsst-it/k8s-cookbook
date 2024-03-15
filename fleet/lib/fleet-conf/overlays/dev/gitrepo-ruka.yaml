@@ -3,10 +3,10 @@ apiVersion: fleet.cattle.io/v1alpha1
 kind: GitRepo
 metadata:
   name: ruka
-  namespace: fleet-default
+  namespace: fleet-it-5176
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: IT-5176/o11y-ruka
   keepResources: true
   paths:
     - fleet/s/dev/c/ruka/*
