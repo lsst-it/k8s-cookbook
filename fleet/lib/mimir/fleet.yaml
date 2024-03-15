@@ -1,0 +1,25 @@
+---
+# XXX automate provisioning of buckets and rgw user
+defaultNamespace: &name mimir
+labels:
+  bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
+helm:
+  chart: &chart mimir-distributed
+  releaseName: *chart
+  repo: https://grafana.github.io/helm-charts
+  version: 5.2.0
+  timeoutSeconds: 600
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: mimir-pre
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml
