@@ -9,7 +9,7 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - fleet/site/ls/cluster/gaw
+    - fleet/site/ls/cluster/gaw/*
   targets:
     - name: gaw
       clusterName: gaw
