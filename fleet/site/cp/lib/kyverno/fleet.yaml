@@ -1,0 +1,45 @@
+---
+#paused: true
+defaultNamespace: &name kyverno
+labels:
+  bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://kyverno.github.io/kyverno/
+  version: v3.1.4
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false  # atomic was causes failures on updates?
+  values:
+    replicaCount: 3
+    resources:
+      limits:
+        cpu: 100m
+        memory: 1Gi
+    initResources:
+      limits:
+        cpu: 100m
+        memory: 1Gi
+    admissionController:
+      metricsService:
+        create: true
+    backgroundController:
+      metricsService:
+        create: true
+    cleanupController:
+      metricsService:
+        create: true
+    reportsController:
+      # OOMKilled on pillan with default memory limit
+      resources:
+        limits:
+          cpu: 2
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 64Mi
+      metricsService:
+        create: true

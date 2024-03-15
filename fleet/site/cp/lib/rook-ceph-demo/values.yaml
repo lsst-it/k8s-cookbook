@@ -1,0 +1,5 @@
+---
+pvc:
+  enabled: false
+nfs:
+  enabled: false

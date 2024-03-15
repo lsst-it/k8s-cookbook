@@ -1,0 +1,12 @@
+apiVersion: v2
+name: rook-ceph-demo
+description: rook-ceph misc demo resources
+type: application
+version: 0.0.0
+appVersion: 0.0.0
+
+dependencies:
+  - name: pvc
+    condition: pvc.enabled
+  - name: nfs
+    condition: nfs.enabled

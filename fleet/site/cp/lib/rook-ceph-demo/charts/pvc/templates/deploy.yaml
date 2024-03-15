@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rook-ceph-demo-pvc
+  labels:
+    app: rook-ceph-demo-pvc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rook-ceph-demo-pvc
+  template:
+    metadata:
+      name: rook-ceph-demo-pvc
+      labels:
+        app: rook-ceph-demo-pvc
+    spec:
+      containers:
+        - command:
+            - /sbin/init
+          image: docker.io/centos/tools:latest
+          imagePullPolicy: Always
+          name: main
+          volumeMounts:
+            - name: rook-ceph-demo-pvc1
+              mountPath: /var/www/html
+          resources:
+            limits:
+              cpu: 100m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 64Mi
+      volumes:
+        - name: rook-ceph-demo-pvc1
+          persistentVolumeClaim:
+            claimName: rook-ceph-demo-pvc1
