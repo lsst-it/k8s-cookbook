@@ -69,45 +69,6 @@ modules:
       outletOperationalState:
         type: EnumAsStateSet
 
-  schneider_pm5xxx:
-    walk:
-      - midSerialNumber
-      - vVan
-      - vVbn
-      - vVcn
-      - vVab
-      - vVbc
-      - vVca
-      - lcIa
-      - lcIb
-      - lcIC
-      - lcIn
-      - fFrequency
-      - pActivePa
-      - pActivePb
-      - pActivePc
-      - pReactivePa
-      - pReactivePb
-      - pReactivePc
-      - pApparentPa
-      - pApparentPb
-      - pApparentPc
-      - pfPfa
-      - pfPfb
-      - pfPfc
-      - pfPfDisplacementA
-      - pfPfDisplacementB
-      - pfPfDisplacementC
-      - pfPftot
-      - pfPfDisplacementTotal
-      - pActivePtot
-      - pReactivePtot
-      - pApparentPtot
-      - aeActiveEDelivered
-      - aeReactiveEDelivered
-      - aeApparentEDelivered
-      - aeResetDateTime
-
   xups:
     max_repetitions: 5
     walk:
@@ -157,3 +118,216 @@ modules:
       # - 1.3.6.1.4.1.534.1.4.4      # xupsOutputTable
       # - 1.3.6.1.4.1.534.1.4.4.1.2  # xupsOutputVoltage
       # - 1.3.6.1.4.1.534.1.4.2      # xupsOutputFrequency
+
+  # due to the bad practice of the manufacturer, it labels all objects as a
+  # DisplayString in the MIB. We need to override these to the correct data types
+  # as gauges, counter, ...
+  schneider_pm5xxx:
+    walk:
+      - midSerialNumber
+      - vVan
+      - vVbn
+      - vVcn
+      - vVab
+      - vVbc
+      - vVca
+      - lcIa
+      - lcIb
+      - lcIC
+      - lcIn
+      - fFrequency
+      - pActivePa
+      - pActivePb
+      - pActivePc
+      - pReactivePa
+      - pReactivePb
+      - pReactivePc
+      - pApparentPa
+      - pApparentPb
+      - pApparentPc
+      - pfPfa
+      - pfPfb
+      - pfPfc
+      - pfPfDisplacementA
+      - pfPfDisplacementB
+      - pfPfDisplacementC
+      - pfPftot
+      - pfPfDisplacementTotal
+      - pActivePtot
+      - pReactivePtot
+      - pApparentPtot
+      - aeActiveEDelivered
+      - aeReactiveEDelivered
+      - aeApparentEDelivered
+      - aeResetDateTime
+    overrides:
+      vVan:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVbn:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVcn:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVab:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVbc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      vVca:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIC:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      lcIn:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      fFrequency:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pReactivePa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pReactivePb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pReactivePc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pApparentPa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pApparentPb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pApparentPc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfa:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfb:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfc:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfDisplacementA:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfDisplacementB:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfDisplacementC:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pfPfDisplacementTotal:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pActivePtot:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pReactivePtot:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      pApparentPtot:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      aeActiveEDelivered:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      aeReactiveEDelivered:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      aeApparentEDelivered:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1
+      aeResetDateTime:
+        regex_extracts:
+          '':
+            - regex: '(.*)'
+              value: $1

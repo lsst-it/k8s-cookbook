@@ -8,185 +8,321 @@ data:
   snmp-schneider.yaml: |
     modules:
       schneider_pm5xxx:
-          get:
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.1.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7.0
-          - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8.0
-          metrics:
-          - name: midSerialNumber
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.1.1
-            type: DisplayString
-            help: PM556x - Unit Serial Number - 1.3.6.1.4.1.3833.1.100.1.3.1.1.1
-          - name: aeResetDateTime
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1
-            type: DisplayString
-            help: Accumulated Energy - Date /Time of Last Reset - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1
-          - name: aeApparentEDelivered
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10
-            type: DisplayString
-            help: Accumulated Energy - Apparent Energy Delivered - (VAh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10
-          - name: aeActiveEDelivered
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2
-            type: DisplayString
-            help: Accumulated Energy - Active Energy Delivered - (Wh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2
-          - name: aeReactiveEDelivered
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6
-            type: DisplayString
-            help: Accumulated Energy - Reactive Energy Delivered - (VARh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6
-          - name: fFrequency
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1
-            type: DisplayString
-            help: Measured System Frequency (Hz) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1
-          - name: lcIa
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1
-            type: DisplayString
-            help: Measured Load Current - Phase A - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1
-          - name: lcIb
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2
-            type: DisplayString
-            help: Measured Load Current - Phase B - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2
-          - name: lcIC
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3
-            type: DisplayString
-            help: Measured Load Current - Phase C - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3
-          - name: lcIn
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4
-            type: DisplayString
-            help: Measured Neutral Current - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4
-          - name: vVan
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1
-            type: DisplayString
-            help: Measured Line Voltage - Van - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1
-          - name: vVbn
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2
-            type: DisplayString
-            help: Measured Line Voltage - Vbn - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2
-          - name: vVcn
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3
-            type: DisplayString
-            help: Measured Line Voltage - Vcn - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3
-          - name: vVab
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5
-            type: DisplayString
-            help: Measured Line Voltage - Vab - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5
-          - name: vVbc
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6
-            type: DisplayString
-            help: Measured Line Voltage - Vbc - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6
-          - name: vVca
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7
-            type: DisplayString
-            help: Measured Line Voltage - Vca - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7
-          - name: pActivePa
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1
-            type: DisplayString
-            help: Active Power - Phase A - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1
-          - name: pApparentPb
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10
-            type: DisplayString
-            help: Apparent Power - Phase B - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10
-          - name: pApparentPc
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11
-            type: DisplayString
-            help: Apparent Power - Phase C - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11
-          - name: pApparentPtot
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12
-            type: DisplayString
-            help: Total Apparent Power - Phase (A,B,C) - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12
-          - name: pActivePb
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2
-            type: DisplayString
-            help: Active Power - Phase B - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2
-          - name: pActivePc
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3
-            type: DisplayString
-            help: Active Power - Phase C - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3
-          - name: pActivePtot
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4
-            type: DisplayString
-            help: Total Active Power - Phase (A,B,C) - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4
-          - name: pReactivePa
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5
-            type: DisplayString
-            help: Reactive Power - Phase A - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5
-          - name: pReactivePb
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6
-            type: DisplayString
-            help: Reactive Power - Phase B - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6
-          - name: pReactivePc
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7
-            type: DisplayString
-            help: Reactive Power - Phase C - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7
-          - name: pReactivePtot
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8
-            type: DisplayString
-            help: Total Reactive Power - Phase (A,B,C) - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8
-          - name: pApparentPa
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9
-            type: DisplayString
-            help: Apparent Power - Phase A - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9
-          - name: pfPfa
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1
-            type: DisplayString
-            help: Power Factor - Phase A - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1
-          - name: pfPfb
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2
-            type: DisplayString
-            help: Power Factor - Phase B - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2
-          - name: pfPfc
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3
-            type: DisplayString
-            help: Power Factor - Phase C - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3
-          - name: pfPftot
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4
-            type: DisplayString
-            help: Total Power Factor - Phase (A, B, C) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4
-          - name: pfPfDisplacementA
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5
-            type: DisplayString
-            help: Displacement Power Factor - Phase A - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5
-          - name: pfPfDisplacementB
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6
-            type: DisplayString
-            help: Displacement Power Factor - Phase B - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6
-          - name: pfPfDisplacementC
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7
-            type: DisplayString
-            help: Displacement Power Factor - Phase C - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7
-          - name: pfPfDisplacementTotal
-            oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8
-            type: DisplayString
-            help: Total Displacement Power Factor - Phase (A, B, C) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8
+        get:
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.1.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7.0
+        - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8.0
+        metrics:
+        - name: midSerialNumber
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.1.1
+          type: DisplayString
+          help: PM556x - Unit Serial Number - 1.3.6.1.4.1.3833.1.100.1.3.1.1.1
+        - name: aeResetDateTime
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1
+          type: DisplayString
+          help: Accumulated Energy - Date /Time of Last Reset - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: aeApparentEDelivered
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10
+          type: DisplayString
+          help: Accumulated Energy - Apparent Energy Delivered - (VAh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.10
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: aeActiveEDelivered
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2
+          type: DisplayString
+          help: Accumulated Energy - Active Energy Delivered - (Wh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.2
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: aeReactiveEDelivered
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6
+          type: DisplayString
+          help: Accumulated Energy - Reactive Energy Delivered - (VARh) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.10.6
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: fFrequency
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1
+          type: DisplayString
+          help: Measured System Frequency (Hz) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.2.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: lcIa
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1
+          type: DisplayString
+          help: Measured Load Current - Phase A - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: lcIb
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2
+          type: DisplayString
+          help: Measured Load Current - Phase B - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.2
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: lcIC
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3
+          type: DisplayString
+          help: Measured Load Current - Phase C - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.3
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: lcIn
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4
+          type: DisplayString
+          help: Measured Neutral Current - (Amps) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.3.4
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVan
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1
+          type: DisplayString
+          help: Measured Line Voltage - Van - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVbn
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2
+          type: DisplayString
+          help: Measured Line Voltage - Vbn - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.2
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVcn
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3
+          type: DisplayString
+          help: Measured Line Voltage - Vcn - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.3
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVab
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5
+          type: DisplayString
+          help: Measured Line Voltage - Vab - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.5
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVbc
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6
+          type: DisplayString
+          help: Measured Line Voltage - Vbc - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.6
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: vVca
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7
+          type: DisplayString
+          help: Measured Line Voltage - Vca - (Volts) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.5.7
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pActivePa
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1
+          type: DisplayString
+          help: Active Power - Phase A - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pApparentPb
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10
+          type: DisplayString
+          help: Apparent Power - Phase B - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.10
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pApparentPc
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11
+          type: DisplayString
+          help: Apparent Power - Phase C - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.11
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pApparentPtot
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12
+          type: DisplayString
+          help: Total Apparent Power - Phase (A,B,C) - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.12
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pActivePb
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2
+          type: DisplayString
+          help: Active Power - Phase B - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.2
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pActivePc
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3
+          type: DisplayString
+          help: Active Power - Phase C - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.3
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pActivePtot
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4
+          type: DisplayString
+          help: Total Active Power - Phase (A,B,C) - (kW) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.4
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pReactivePa
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5
+          type: DisplayString
+          help: Reactive Power - Phase A - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.5
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pReactivePb
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6
+          type: DisplayString
+          help: Reactive Power - Phase B - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.6
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pReactivePc
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7
+          type: DisplayString
+          help: Reactive Power - Phase C - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.7
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pReactivePtot
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8
+          type: DisplayString
+          help: Total Reactive Power - Phase (A,B,C) - (kVar) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.8
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pApparentPa
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9
+          type: DisplayString
+          help: Apparent Power - Phase A - (kVA) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.7.9
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfa
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1
+          type: DisplayString
+          help: Power Factor - Phase A - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.1
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfb
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2
+          type: DisplayString
+          help: Power Factor - Phase B - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.2
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfc
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3
+          type: DisplayString
+          help: Power Factor - Phase C - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.3
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPftot
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4
+          type: DisplayString
+          help: Total Power Factor - Phase (A, B, C) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.4
+        - name: pfPfDisplacementA
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5
+          type: DisplayString
+          help: Displacement Power Factor - Phase A - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.5
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfDisplacementB
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6
+          type: DisplayString
+          help: Displacement Power Factor - Phase B - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.6
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfDisplacementC
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7
+          type: DisplayString
+          help: Displacement Power Factor - Phase C - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.7
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
+        - name: pfPfDisplacementTotal
+          oid: 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8
+          type: DisplayString
+          help: Total Displacement Power Factor - Phase (A, B, C) - 1.3.6.1.4.1.3833.1.100.1.3.1.3.8.8
+          regex_extracts:
+            "":
+            - value: $1
+              regex: ^(?:(.*))$
