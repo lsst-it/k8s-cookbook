@@ -45,8 +45,6 @@ cephClusterSpec:
   dashboard:
     enabled: true
     ssl: false
-  network:
-    provider: host
   crashCollector:
     disable: false
   logCollector:

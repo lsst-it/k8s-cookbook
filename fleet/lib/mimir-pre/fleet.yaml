@@ -20,3 +20,8 @@ targetCustomizations:
     yaml:
       overlays:
         - pillan
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka
