@@ -5,7 +5,7 @@ metadata:
   name: snmp-schneider
   namespace: monitoring
 data:
-  snmp-xups.yaml: |
+  snmp-schneider.yaml: |
     modules:
       schneider_pm5xxx:
           get:

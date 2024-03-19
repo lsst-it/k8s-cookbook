@@ -10,6 +10,12 @@ resources:
   requests:
     memory: 500Mi
 
+extraArgs:
+  - "--config.file"
+  - "/etc/snmp-exporter/snmp.yaml"
+  - "--config.file"
+  - "/etc/snmp-exporter/modules/snmp-*.yaml"
+
 serviceMonitor:
   enabled: true
 
@@ -20,11 +26,24 @@ extraSecretMounts:
     readOnly: true
     defaultmode: 420
 
-extraArgs:
-  - "--config.file"
-  - "/etc/snmp-exporter/snmp.yaml"
-  - "--config.file"
-  - "/etc/snmp-exporter/modules/snmp-*.yaml"
+extraVolumes:
+  - name: snmp-exporter-modules
+    projected:
+      sources:
+        - configMap:
+            name: snmp-network
+        - configMap:
+            name: snmp-raritan
+        - configMap:
+            name: snmp-xups
+        - configMap:
+            name: snmp-schneider
+
+extraVolumeMounts:
+  - name: snmp-exporter
+    volumeMounts:
+      - name: snmp-exporter-modules
+        mountPath: /etc/snmp-exporter/modules
 
 ingress:
   enabled: true

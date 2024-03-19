@@ -67,7 +67,6 @@ spec:
       terminationGracePeriodSeconds: 30
       volumes:
       - name: config
-        defaultMode: 420
         secret:
           secretName: kminion-config
 ---

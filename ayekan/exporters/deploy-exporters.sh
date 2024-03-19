@@ -21,8 +21,6 @@ helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-export
      --version "1.8.1" \
      -f ./snmp-exporter/helm-values.yaml
 
-kubectl --namespace ${NAMESPACE} patch deployment snmp-exporter-prometheus-snmp-exporter --patch-file snmp-exporter/volume-patch.yaml
-
 # Blackbox configuration
 helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter \
      --create-namespace --namespace ${NAMESPACE=} \
