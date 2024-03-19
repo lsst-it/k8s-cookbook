@@ -10,25 +10,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SOURCE: https://raw.githubusercontent.com/prometheus/snmp_exporter/main/generator/Makefile
 
 MIBDIR   := mibs
 MIB_PATH := 'mibs'
 
-CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail
-
-REPO_TAG ?= $(shell git rev-parse --abbrev-ref HEAD)
-
-DOCKER_IMAGE_NAME ?= snmp-generator
-DOCKER_IMAGE_TAG  ?= $(subst /,-,$(REPO_TAG))
-DOCKER_REPO       ?= prom
-
-SANITIZED_DOCKER_IMAGE_TAG := $(subst +,-,$(DOCKER_IMAGE_TAG))
-
-SELINUX_ENABLED := $(shell cat /sys/fs/selinux/enforce 2> /dev/null || echo 0)
-
-ifeq ($(SELINUX_ENABLED),1)
-  DOCKER_VOL_OPTS ?= :z
-endif
+CURL_OPTS ?= -L -sS --retry 3 --retry-delay 3 --fail -A "Prometheus SNMP generator Makefile"
 
 APC_URL           := https://download.schneider-electric.com/files?p_enDocType=Firmware&p_File_Name=powernet451.mib&p_Doc_Ref=APC_POWERNETMIB_451_EN
 ARISTA_URL        := https://www.arista.com/assets/data/docs/MIBS
@@ -86,14 +74,17 @@ clean:
 generate: generator mibs
 	MIBDIRS=$(MIB_PATH) generator --fail-on-parse-errors generate
 
+create_dir:
+	mkdir -p $(MIBDIR)
+
 parse_errors: generator mibs
 	MIBDIRS=$(MIB_PATH) generator --fail-on-parse-errors parse_errors
 
-mibs: \
+mibs: create_dir \
   $(MIBDIR)/apc-powernet-mib \
   $(MIBDIR)/readynas \
   $(MIBDIR)/readydataos \
-  $(MIBDIR)/XUPS-MIB \
+  $(MIBDIR)/XUPS-MIB.mib \
   $(MIBDIR)/AIRESPACE-REF-MIB \
   $(MIBDIR)/AIRESPACE-WIRELESS-MIB \
   $(MIBDIR)/ARISTA-ENTITY-SENSOR-MIB \
@@ -351,6 +342,6 @@ $(MIBDIR)/readydataos:
 	@echo ">> Downloading readydataos"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/readydataos "$(READYDATAOS_URL)"
 
-$(MIBDIR)/XUPS-MIB:
+$(MIBDIR)/XUPS-MIB.mib:
 	@echo ">> Downloading XUPS-MIB.mib"
 	@curl $(CURL_OPTS) -o $(MIBDIR)/XUPS-MIB.mib "$(XUPS_URL)"
