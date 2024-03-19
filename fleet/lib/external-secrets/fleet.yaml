@@ -2,6 +2,8 @@
 defaultNamespace: &name external-secrets
 labels:
   bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
 helm:
   chart: *name
   releaseName: *name
@@ -10,3 +12,6 @@ helm:
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false
+  values:
+    serviceMonitor:
+      enabled: true
