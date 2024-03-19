@@ -36,7 +36,7 @@ spec:
     - secretKey: .kafkaURL
       remoteRef:
         key: kminion-ayekan-demo-kafka
-        property: website
+        property: host
   target:
     template:
       templateFrom:
