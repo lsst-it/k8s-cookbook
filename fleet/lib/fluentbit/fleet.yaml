@@ -1,0 +1,13 @@
+---
+defaultNamespace: &name fluent-operator
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://fluent.github.io/helm-charts
+  version: "2.7.0"
+  valuesFiles:
+    - values.yaml
+  timeoutSeconds: 600
+  atomic: true
