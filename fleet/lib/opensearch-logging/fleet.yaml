@@ -1,13 +1,17 @@
 ---
-defaultNamespace: opensearch-logging
+defaultNamespace: logging
 labels:
-  bundle: &name opensearch-logging
+  bundle: &name logging
 helm:
   releaseName: *name
   takeOwnership: true
   force: true
   waitForJobs: true
   atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: opensearch-operator
 targetCustomizations:
   # first match is used
   - name: ayekan
