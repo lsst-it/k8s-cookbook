@@ -2,8 +2,25 @@
 crds:
   enabled: true
 
+prometheusOperator:
+  prometheusConfigReloader:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 128Mi
+
 prometheus:
   prometheusSpec:
+    resources:
+      limits:
+        cpu: 4
+        memory: 2Gi
+      requests:
+        cpu: 1
+        memory: 2Gi
     scrapeInterval: 15s
     externalUrl: "https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     serviceMonitorNamespaceSelector:
@@ -38,6 +55,13 @@ prometheus:
 
 alertmanager:
   alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
     externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     secrets:
       - o11y-webhooks
