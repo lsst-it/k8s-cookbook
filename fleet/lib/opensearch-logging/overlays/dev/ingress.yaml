@@ -11,7 +11,7 @@ metadata:
   namespace: logging
 spec:
   rules:
-  - host: logging.cp.lsst.org
+  - host: logging.dev.lsst.org
     http:
       paths:
       - backend:
@@ -23,7 +23,7 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - logging.cp.lsst.org
+    - logging.dev.lsst.org
     secretName: tls-logging-ingress
 ---
 apiVersion: networking.k8s.io/v1
@@ -39,7 +39,7 @@ metadata:
   namespace: logging
 spec:
   rules:
-  - host: logging.cp.lsst.org
+  - host: logging.dev.lsst.org
     http:
       paths:
       - backend:
@@ -51,5 +51,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - logging.cp.lsst.org
+    - logging.dev.lsst.org
     secretName: tls-logging-ingress
