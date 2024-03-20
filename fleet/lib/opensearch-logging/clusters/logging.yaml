@@ -1,11 +1,19 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: logging
+  labels:
+    lsst.io/author: "fbegyn"
+    lsst.io/discover: "true"
+---
 apiVersion: opensearch.opster.io/v1
 kind: OpenSearchCluster
 metadata:
   finalizers:
   - Opster
   name: logging
-  namespace: opensearch
+  namespace: logging
 spec:
   bootstrap:
     resources: {}
@@ -16,8 +24,8 @@ spec:
     opensearchCredentialsSecret: {}
     replicas: 2
     labels:
-      lsst.org/author: "fbegyn"
-      lsst.org/monitor: "true"
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       limits:
@@ -35,7 +43,7 @@ spec:
     serviceName: logging
     setVMMaxMapCount: true
     version: 2.11.1
-    # pluginsList: ["repository-s3", "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"]
+    pluginsList: ["repository-s3", "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"]
   initHelper:
     resources:
       requests:
@@ -49,8 +57,8 @@ spec:
     replicas: 3
     diskSize: 10Gi
     labels:
-      lsst.org/author: "fbegyn"
-      lsst.org/monitor: "true"
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     jvm: -Xmx2G -Xms2G
     resources:
@@ -69,8 +77,8 @@ spec:
     diskSize: 50Gi
     jvm: -Xmx2G -Xms2G
     labels:
-      lsst.org/author: "fbegyn"
-      lsst.org/monitor: "true"
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
@@ -88,8 +96,8 @@ spec:
     diskSize: 200Gi
     jvm: -Xmx2G -Xms2G
     labels:
-      lsst.org/author: "fbegyn"
-      lsst.org/monitor: "true"
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
@@ -108,8 +116,8 @@ spec:
     diskSize: 200Gi
     jvm: -Xmx2G -Xms2G
     labels:
-      lsst.org/author: "fbegyn"
-      lsst.org/monitor: "true"
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
@@ -123,66 +131,11 @@ spec:
     roles:
     - data
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
-    cert-manager.io/cluster-issuer: letsencrypt-dev
-  name: logging-os-api
-  namespace: opensearch
-spec:
-  rules:
-  - host: opensearch.ayekan.dev.lsst.org
-    http:
-      paths:
-      - backend:
-          service:
-            name: logging-hot-nodes
-            port:
-              number: 9200
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - opensearch.ayekan.dev.lsst.org
-    secretName: tls-logging-opensearch-ingress
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/cluster-issuer: letsencrypt-dev
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-  name: logging-dashboard
-  namespace: opensearch
-spec:
-  rules:
-  - host: opensearch.ayekan.dev.lsst.org
-    http:
-      paths:
-      - backend:
-          service:
-            name: logging-dashboards
-            port:
-              number: 5601
-        path: /dashboard(/|$)(.*)
-        pathType: Prefix
-  tls:
-  - hosts:
-    - opensearch.ayekan.dev.lsst.org
-    secretName: tls-logging-opensearch-ingress
----
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: fluentbit-logging-credentials
-  namespace: opensearch
+  namespace: logging
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -190,11 +143,11 @@ spec:
   data:
   - secretKey: username
     remoteRef:
-      key: ayekan-logging-os-fluentbit
+      key: logging-os-fluentbit
       property: username
   - secretKey: password
     remoteRef:
-      key: ayekan-logging-os-fluentbit
+      key: logging-os-fluentbit
       property: password
   target:
     creationPolicy: Owner
@@ -203,7 +156,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUser
 metadata:
   name: fluentbit-logging
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -215,7 +168,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: fluentbit-logging-writer
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -239,7 +192,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUserRoleBinding
 metadata:
   name: fluentbit-logging-binding
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -252,7 +205,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: external-logging-credentials
-  namespace: opensearch
+  namespace: logging
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -260,11 +213,11 @@ spec:
   data:
   - secretKey: username
     remoteRef:
-      key: ayekan-logging-os-external
+      key: logging-os-external
       property: username
   - secretKey: password
     remoteRef:
-      key: ayekan-logging-os-external
+      key: logging-os-external
       property: password
   target:
     creationPolicy: Owner
@@ -273,7 +226,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUser
 metadata:
   name: external-logging
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -285,7 +238,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: external-logging-writer
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -310,7 +263,7 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUserRoleBinding
 metadata:
   name: external-logging-binding
-  namespace: opensearch
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -322,29 +275,9 @@ spec:
 apiVersion: opensearch.opster.io/v1
 kind: OpensearchTenant
 metadata:
-  name: ayekan-logging
-  namespace: opensearch
+  name: logging
+  namespace: logging
 spec:
   opensearchCluster:
     name: logging
-  description: "ayekan cluster tenant"
----
-apiVersion: opensearch.opster.io/v1
-kind: OpensearchTenant
-metadata:
-  name: dev-logging
-  namespace: opensearch
-spec:
-  opensearchCluster:
-    name: logging
-  description: "dev cluster tenant"
----
-apiVersion: opensearch.opster.io/v1
-kind: OpensearchTenant
-metadata:
-  name: ls-logging
-  namespace: opensearch
-spec:
-  opensearchCluster:
-    name: logging
-  description: "ls cluster tenant"
+  description: "logging cluster tenant"
