@@ -1,0 +1,15 @@
+---
+defaultNamespace: &name opensearch-operator
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://opensearch-project.github.io/opensearch-k8s-operator
+  version: "2.5.1"
+  values:
+    installCRDs: true
+    manager:
+      logLevel: warn
+  timeoutSeconds: 900
+  atomic: true

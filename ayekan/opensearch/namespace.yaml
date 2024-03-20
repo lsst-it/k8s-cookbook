@@ -1,9 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: opensearch
-  labels:
-    lsst.org/author: "fbegyn"
-    lsst.org/discover: "true"
-    lsst.org/monitor: "true"
