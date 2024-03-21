@@ -1,0 +1,690 @@
+[
+  {
+    "labels": {
+      "hostname": "pdu1-b01.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.1"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b01.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.2"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b02.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.3"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b02.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.4"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b03.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.5"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b03.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.6"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b04.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.7"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b04.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.8"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b05.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.9"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b05.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.10"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b06.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.11"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b06.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.12"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b07.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.13"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b07.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.14"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b08.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.15"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b08.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.16"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b09.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.17"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b09.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.18"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b10.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.19"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b10.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.20"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b11.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.21"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b11.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.22"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b12.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.23"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b12.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.24"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b13.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.25"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b13.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.26"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b14.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.27"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b14.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.28"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b15.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.29"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b15.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.30"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.31"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.32"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.33"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.34"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.35"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b16.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.36"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a01.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.37"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a01.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.38"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a04.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.39"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a04.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.1.40"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.1"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.2"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.3"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.4"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a03.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.5"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a03.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.6"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a04.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.7"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a04.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.8"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a05.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.9"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a05.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.10"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a06.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.11"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a06.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.12"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-a07.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.13"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-a07.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.14"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.15"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.16"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.17"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.18"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b03.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.19"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b03.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.20"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b04.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.21"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b04.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.22"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b05.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.23"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b05.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.24"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b06.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.25"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b06.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.26"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-b07.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.27"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-b07.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.28"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main1-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.111"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main3-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.131"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main3-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.132"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main5-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.151"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main5-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.152"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main5-as03.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.153"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main6-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.161"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main6-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.162"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-main7-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.171"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-tea-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.181"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-aux-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.201"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu2-aux-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.202"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-dimm-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.203"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-penon-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.204"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-warehouse-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.205"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-villa-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.206"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu1-casino-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.207"
+    ]
+  },
+  {
+    "labels": {
+      "hostname": "pdu-1-main8-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.1.208"
+    ]
+  }
+]

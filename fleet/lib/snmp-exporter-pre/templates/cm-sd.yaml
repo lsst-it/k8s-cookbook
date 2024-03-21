@@ -1,5 +1,5 @@
 # yamllint disable-file
-{{- $files := .Files.Glob "files/sd/*.json" }}
+{{- $files := .Files.Glob (print "files/sd/" .Values.site "/*.json") }}
 {{- range $path, $fileContents := $files }}
 {{- $cmName := regexReplaceAll "(^.*/)(.*)\\.json$" $path "${2}" }}
 ---
