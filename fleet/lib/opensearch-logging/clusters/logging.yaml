@@ -152,6 +152,9 @@ spec:
       node.attr.temp: "cold"
     roles:
     - data
+  monitoring:
+    enable: true
+    scrapeInterval: 30s
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
