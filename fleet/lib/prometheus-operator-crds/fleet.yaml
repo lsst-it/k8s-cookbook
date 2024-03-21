@@ -1,0 +1,14 @@
+---
+defaultNamespace: kube-prometheus-stack
+labels:
+  bundle: &name prometheus-operator-crds
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://prometheus-community.github.io/helm-charts
+  version: v9.0.1
+  takeOwnership: true
+  force: false
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false
