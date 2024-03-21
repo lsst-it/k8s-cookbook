@@ -29,13 +29,43 @@ spec:
     service:
       type: ClusterIP
     version: 2.11.1
+    additionalConfig:
+      opensearch_security.auth.type: "openid"
+      opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
+      opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
+      opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
+      opensearch.requestHeadersWhitelist: "[authorization, securitytenant]"
+      opensearch.ssl.verificationMode: "none"
+      opensearch_security.openid.scope: "openid profile email address phone groups"
+    env:
+    - name: KEYCLOACK_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: CLIENT_ID
+    - name: KEYCLOACK_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: CLIENT_SECRET
+    - name: KEYCLOACK_URL
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: url
+  security:
+    config:
+      securityConfigSecret:
+        name: os-security-config
+      adminCredentialsSecret:
+        name: os-admin-credentials
   general:
     httpPort: 9200
     monitoring: {}
     serviceName: logging
     setVMMaxMapCount: true
     version: 2.11.1
-    pluginsList: ["repository-s3", "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"]
+    pluginsList: ["repository-s3"]
   initHelper:
     resources:
       requests:
@@ -143,6 +173,104 @@ spec:
       property: password
   target:
     creationPolicy: Owner
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: os-dashboard-keycloack-credentials
+  namespace: logging
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+  - secretKey: CLIENT_ID
+    remoteRef:
+      key: os-dashboard-keycloack-credentials
+      property: username
+  - secretKey: CLIENT_SECRET
+    remoteRef:
+      key: os-dashboard-keycloack-credentials
+      property: credential
+  - secretKey: url
+    remoteRef:
+      key: os-dashboard-keycloack-credentials
+      property: url
+  target:
+    creationPolicy: Owner
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: os-admin-credentials
+  namespace: logging
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+  - secretKey: username
+    remoteRef:
+      key: os-logging-admin
+      property: username
+  - secretKey: password
+    remoteRef:
+      key: os-logging-admin
+      property: password
+  target:
+    creationPolicy: Owner
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: os-security-config
+  namespace: logging
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+  - secretKey: keycloackURL
+    remoteRef:
+      key: os-dashboard-keycloack-credentials
+      property: url
+  target:
+    template:
+      templateFrom:
+      - configMap:
+          name: security-config-tmpl
+          items:
+          - key: config.yml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-config-tmpl
+  namespace: logging
+data:
+  config.yml: |
+    basic_internal_auth_domain:
+      http_enabled: true
+      transport_enabled: true
+      order: 0
+      http_authenticator:
+        type: basic
+        challenge: false
+      authentication_backend:
+        type: internal
+    openid_auth_domain:
+      http_enabled: true
+      transport_enabled: true
+      order: 1
+      http_authenticator:
+        type: openid
+        challenge: false
+        config:
+          subject_key: preferred_username
+          roles_key: roles
+          openid_connect_url: "{{ .keycloackURL }}"
+      authentication_backend:
+        type: noop
 ---
 apiVersion: opensearch.opster.io/v1
 kind: OpensearchUser
