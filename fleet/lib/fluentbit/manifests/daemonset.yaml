@@ -1,0 +1,108 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    lsst.io/name: "fluent-bit"
+    lsst.io/namespace: "fluent-bit"
+  labels:
+    lsst.io/role: "logging"
+    lsst.io/component: "fluent-bit"
+    lsst.io/project: "o11y"
+  name: fluent-bit
+  namespace: fluent-bit
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      lsst.io/role: "logging"
+      lsst.io/component: "fluent-bit"
+      lsst.io/project: "o11y"
+  template:
+    metadata:
+      labels:
+        lsst.io/role: "logging"
+        lsst.io/component: "fluent-bit"
+        lsst.io/project: "o11y"
+      name: fluent-bit
+      namespace: fluent-bit
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: DoesNotExist
+      containers:
+      - env:
+        - name: OS_LOGGING_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: fluentbit-logging-credentials
+              key: username
+        - name: OS_LOGGING_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fluentbit-logging-credentials
+              key: password
+        image: kubesphere/fluent-bit:v2.2.2
+        imagePullPolicy: IfNotPresent
+        name: fluent-bit
+        ports:
+        - containerPort: 2020
+          name: metrics
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 200Mi
+          requests:
+            cpu: 10m
+            memory: 25Mi
+        volumeMounts:
+        - mountPath: /fluent-bit/config
+          name: config
+          readOnly: true
+        - mountPath: /fluent-bit/lua
+          name: lua
+          readOnly: true
+        - mountPath: /var/lib/docker/containers
+          mountPropagation: None
+          name: varlibcontainers
+          readOnly: true
+        - mountPath: /var/log/
+          mountPropagation: None
+          name: varlogs
+          readOnly: true
+        - mountPath: /var/log/journal
+          mountPropagation: None
+          name: systemd
+          readOnly: true
+        - mountPath: /fluent-bit/tail
+          name: positions
+      serviceAccount: fluent-bit
+      serviceAccountName: fluent-bit
+      volumes:
+      - name: config
+        configMap:
+          name: fluent-bit-config
+      - name: lua
+        configMap:
+          name: fluent-bit-luascripts
+      - hostPath:
+          path: /var/lib/docker/containers
+          type: ""
+        name: varlibcontainers
+      - hostPath:
+          path: /var/log
+          type: ""
+        name: varlogs
+      - hostPath:
+          path: /var/log/journal
+          type: ""
+        name: systemd
+      - hostPath:
+          path: /var/lib/fluent-bit/
+          type: ""
+        name: positions

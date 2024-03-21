@@ -1,0 +1,7 @@
+---
+defaultNamespace: &name fluent-bit
+namespaceLabels:
+  lsst.io/discover: "true"
+  lsst.io/author: "fbegyn"
+labels:
+  bundle: *name
