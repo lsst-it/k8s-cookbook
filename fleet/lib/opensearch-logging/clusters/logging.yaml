@@ -61,10 +61,13 @@ spec:
         name: os-admin-credentials
   general:
     httpPort: 9200
-    monitoring: {}
     serviceName: logging
     setVMMaxMapCount: true
     version: 2.11.1
+    monitoring:
+      enable: true
+      scrapeInterval: 30s
+      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"
     pluginsList: ["repository-s3"]
   initHelper:
     resources:
@@ -152,9 +155,6 @@ spec:
       node.attr.temp: "cold"
     roles:
     - data
-  monitoring:
-    enable: true
-    scrapeInterval: 30s
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
