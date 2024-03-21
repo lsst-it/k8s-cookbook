@@ -1,0 +1,139 @@
+---
+prometheus:
+  prometheusSpec:
+    configMaps:
+      - sd-snmp-network
+      - sd-snmp-raritan-pdu
+    additionalScrapeConfigs:
+      - job_name: blackbox-ping-dev
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.${ .ClusterLabels.site }.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: blackbox-ping-ls
+        puppetdb_sd_configs:
+          - url: http://puppetdb.ls.lsst.org:8080
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: snmp-network
+        metrics_path: /snmp
+        params:
+          module: [if_mib]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: blackbox-network
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: snmp-raritan-pdu
+        metrics_path: /snmp
+        params:
+          module: [raritan]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: snmp-xups-public
+        metrics_path: /snmp
+        params:
+          module: [xups]
+          auth: [public_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.31
+            labels:
+              __meta_hostname: ups-01
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: snmp-xups
+        metrics_path: /snmp
+        params:
+          module: [xups]
+          auth: [lsst_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.62
+            labels:
+              __meta_hostname: ups-02
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: snmp-schneider-pm5xxx
+        metrics_path: /snmp
+        params:
+          module: [schneider_pm5xxx]
+          auth: [public_v1]
+        static_configs:
+          - targets:
+              - 10.18.3.21
+            labels:
+              __meta_hostname: pdu-01
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
