@@ -43,3 +43,7 @@ helm:
           memory: 64Mi
       metricsService:
         create: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds

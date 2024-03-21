@@ -17,6 +17,9 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: mimir-pre
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
 targetCustomizations:
   - name: pillan
     clusterName: pillan
