@@ -1,0 +1,398 @@
+[
+  {
+    "labels": {
+      "__meta_hostname": "rubinobs-br01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.48.1.4"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "rubinobs-br02",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.48.1.5"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b01-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.101"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b02-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.103"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b15-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.129"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b15-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.130"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b16-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.131"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b16-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.132"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b02-sp02",
+      "__meta_network_function": "mlag"
+    },
+    "targets": [
+      "10.49.0.252"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b01-sp01",
+      "__meta_network_function": "mlag"
+    },
+    "targets": [
+      "10.49.0.251"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b01-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.102"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b02-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.104"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b04-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.107"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b04-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.108"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b05-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.109"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b05-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.110"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "main1-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.11"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.21"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-as02",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.22"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "dome-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.62"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "auxtel-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.91"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "m1m3-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.85"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "dimm-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.93"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a01-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.101"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a01-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.102"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a05-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.109"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a07-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.113"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a07-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.114"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b01-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.115"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b02-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.117"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b03-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.120"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b03-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.119"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b05-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.124"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b05-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.123"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b07-lf1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.127"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b07-lf2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.128"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a02-ipsec-01",
+      "__meta_network_function": "ipsec tunnel"
+    },
+    "targets": [
+      "10.17.0.3"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a02-ipsec-02",
+      "__meta_network_function": "ipsec tunnel"
+    },
+    "targets": [
+      "10.17.0.4"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "main5-as03",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.53"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "tea-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.81"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "main7-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.71"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "main8-as01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.17.0.87"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a05-sp01",
+      "__meta_network_function": "mlag"
+    },
+    "targets": [
+      "10.17.0.251"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a06-sp02",
+      "__meta_network_function": "mlag"
+    },
+    "targets": [
+      "10.17.0.252"
+    ]
+  }
+]

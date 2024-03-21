@@ -1,0 +1,7 @@
+---
+site: ~
+community:
+  snmpRubinCommunity:
+    enabled: false
+  snmpLsstCommunity:
+    enabled: false
