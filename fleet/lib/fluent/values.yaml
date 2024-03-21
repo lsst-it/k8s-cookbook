@@ -1,0 +1,43 @@
+---
+operator:
+  labels:
+    lsst.io/author: "fbegyn"
+    lsst.io/monitor: "true"
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+fluentbit:
+  labels:
+    lsst.io/author: "fbegyn"
+    lsst.io/monitor: "true"
+  image:
+    # when using the fluent repo, drop the v prefix on the tag
+    # repository: "cr.fluentbit.io/fluent/fluent-bit"
+    tag: "v2.2.2"
+  serviceMonitor:
+    enable: true
+  output:
+    opensearch:
+      host: logging.logging
+      port: 9200
+      httpUser:
+        valueFrom:
+          secretKeyRef:
+            name: fluentbit-logging-credentials
+            key: username
+      httpPassword:
+        valueFrom:
+          secretKeyRef:
+            name: fluentbit-logging-credentials
+            key: password
+      logstashFormat: true
+      logstashPrefix: kubernetes-logs
+      tls:
+        verify: false
+      replaceDots: true
+      traceError: true
+      suppressTypeName: true
