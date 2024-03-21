@@ -81,6 +81,34 @@ spec:
           readOnly: true
         - mountPath: /fluent-bit/tail
           name: positions
+      - name: reloader
+        image: ghcr.io/jimmidyson/configmap-reload:v0.11.1
+        args:
+        - -webhook-url=http://localhost:2020/api/v2/reload
+        - -volume-dir=/watch/config
+        - -volume-dir=/watch/scripts
+        volumeMounts:
+        - name: config
+          mountPath: /watch/config
+        - name: lua
+          mountPath: /watch/scripts
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 128Mi
+        env:
+        - name: OS_LOGGING_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: fluentbit-logging-credentials
+              key: username
+        - name: OS_LOGGING_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: fluentbit-logging-credentials
+              key: password
       serviceAccount: fluent-bit
       serviceAccountName: fluent-bit
       volumes:
