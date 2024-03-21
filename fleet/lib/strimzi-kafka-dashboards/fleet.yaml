@@ -1,0 +1,12 @@
+---
+defaultNamespace: &name strimzi-kafka-dashboards
+labels:
+  bundle: *name
+namespaceLabels:
+  o11y.eu/monitor: enabled
+helm:
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: false
+  atomic: false
