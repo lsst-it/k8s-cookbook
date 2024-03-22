@@ -12,6 +12,13 @@ helm:
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false
+dependsOn:
+  # XXX An "aggegrator" cluster should also depend on snmp-exporter-pre but
+  # targetCustomizations for dependsOn is not implemented.
+  # https://github.com/rancher/fleet/issues/2193
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
 diff:
   comparePatches:
     - apiVersion: monitoring.coreos.com/v1
@@ -35,6 +42,12 @@ diff:
       jsonPointers:
         - /spec/automountServiceAccountToken
 targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - aggregator/values.yaml
+        - overlays/pillan/values.yaml
   - name: default
     clusterSelector:
       matchLabels:
@@ -47,6 +60,8 @@ targetCustomizations:
             - cp
     helm:
       values:
+        crds:
+          enabled: false
         prometheus:
           prometheusSpec:
             remoteWrite:
