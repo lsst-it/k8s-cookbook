@@ -6,7 +6,6 @@ metadata:
   namespace: kyverno
   labels:
     o11y.eu/monitor: enabled
-    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:

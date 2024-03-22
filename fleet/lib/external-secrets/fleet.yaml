@@ -15,3 +15,7 @@ helm:
   values:
     serviceMonitor:
       enabled: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds

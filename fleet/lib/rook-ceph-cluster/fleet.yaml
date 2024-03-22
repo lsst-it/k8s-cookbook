@@ -14,18 +14,16 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: rook-ceph
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
   # ingress-nginx isn't fleet deployed on pillan
   #- selector:
   #   matchLabels:
   #      bundle: ingress-nginx
-  # prometheus isn't fleet deployed on ayekan
-  #- selector:
-  #    matchLabels:
-  #      bundle: kube-prometheus-stack
-  # cert-manager isn't fleet deployed on pillan
-  #- selector:
-  #    matchLabels:
-  #      bundle: cert-manager-conf
 diff:
   comparePatches:
     - apiVersion: ceph.rook.io/v1

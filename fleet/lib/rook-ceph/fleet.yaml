@@ -16,4 +16,4 @@ helm:
 dependsOn:
   - selector:
     matchLabels:
-      bundle: kube-prometheus-stack
+      bundle: prometheus-operator-crds

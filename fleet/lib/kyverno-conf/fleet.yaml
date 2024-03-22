@@ -12,6 +12,6 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: kyverno
-  #- selector:
-  #    matchLabels:
-  #      bundle: kube-prometheus-stack
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
