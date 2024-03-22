@@ -1,0 +1,9 @@
+# yamllint disable-file
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: snmp-config-tmpl
+data:
+  snmp.yml: |
+{{ .Files.Get "files/snmp.yml" | indent 4}}

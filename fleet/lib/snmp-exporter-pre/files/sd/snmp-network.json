@@ -1,0 +1,65 @@
+[
+  {
+    "labels": {
+      "__meta_hostname": "b6-sw1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b6-sw1.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "b6-sw2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b6-sw2.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "b3-sw1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b3-sw1.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "b3-sw1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b3-sw1.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "lab-sw1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "lab-sw1.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "b6-mgt1",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b6-mgt1.tu.lsst.org"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "b6-mgt2",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "b6-mgt2.tu.lsst.org"
+    ]
+  }
+]

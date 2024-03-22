@@ -1,0 +1,28 @@
+---
+defaultNamespace: &name snmp-exporter
+labels:
+  bundle: *name
+helm:
+  chart: &chart prometheus-snmp-exporter
+  releaseName: *chart
+  repo: https://prometheus-community.github.io/helm-charts
+  version: 1.8.1
+  timeoutSeconds: 300
+  waitForJobs: true
+  atomic: false
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: snmp-exporter-pre
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
+  # ingress-nginx isn't fleet deployed on pillan
+  #- selector:
+  #   matchLabels:
+  #      bundle: ingress-nginx
