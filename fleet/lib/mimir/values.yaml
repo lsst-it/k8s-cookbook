@@ -1,3 +1,4 @@
+---
 # XXX to allow access to the s3 creds. Can this be more restrictively scoped?
 global:
   extraEnvFrom:
