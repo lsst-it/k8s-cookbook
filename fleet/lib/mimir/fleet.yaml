@@ -5,6 +5,9 @@ labels:
   bundle: *name
 namespaceLabels:
   o11y.eu/monitor: enabled
+  quix: fox
+  from: mimir
+  mimir: "true"
 helm:
   chart: &chart mimir-distributed
   releaseName: *chart
@@ -28,3 +31,6 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ruka/values.yaml
+    namespaceLabels:
+      foo: bar
+      this.is/a: test

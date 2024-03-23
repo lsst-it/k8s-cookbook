@@ -4,6 +4,9 @@ labels:
   bundle: &name mimir-pre
 namespaceLabels:
   o11y.eu/monitor: enabled
+  quix: fox
+  from: mimir-pre
+  mimir-pre: "true"
 helm:
   releaseName: *name
   takeOwnership: true
@@ -25,3 +28,6 @@ targetCustomizations:
     yaml:
       overlays:
         - ruka
+    namespaceLabels:
+      foo: bar
+      this.is/a: test
