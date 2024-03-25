@@ -14,7 +14,7 @@ prometheusOperator:
       lsst.io/monitor: "true"
 prometheus:
   prometheusSpec:
-    externalUrl: https://prometheus.ayekan.ls.lsst.org
+    externalUrl: https://prometheus.ayekan.dev.lsst.org
     serviceMonitorNamespaceSelector:
       matchLabels:
         lsst.io/discover: "true"
@@ -49,7 +49,7 @@ prometheus:
       - prometheus-snmp-csv-network
       - pdu-targets
     remoteWrite:
-      - url: http://ayekan-mimir-gateway.mimir:80/api/v1/push
+      - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
     additionalScrapeConfigs:
       - job_name: node-exporter-dev
         puppetdb_sd_configs:
@@ -92,7 +92,7 @@ prometheus:
           - source_labels: [__param_target]
             target_label: instance
           - target_label: __address__
-            replacement: "blackbox-exporter-prometheus-blackbox-exporter.monitoring:9115"
+            replacement: "prometheus-blackbox-exporter.blackbox-exporter:9115"
       - job_name: blackbox-ping-ls
         metrics_path: /probe
         params:
@@ -113,7 +113,7 @@ prometheus:
         file_sd_configs:
           - files:
               - "/etc/prometheus/configmaps/prometheus-snmp-csv-network/snmp-csv-network.json"
-        relabel_configs:
+        relabel_configs: &network-snmp-relabel
           - source_labels: [__address__]
             target_label: __param_target
           - source_labels: [__meta_hostname]
@@ -121,7 +121,7 @@ prometheus:
           - source_labels: [__meta_network_function]
             target_label: network_function
           - target_label: __address__
-            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+            replacement: "prometheus-snmp-exporter.snmp-exporter:9116"
       - job_name: blackbox-csv-network
         metrics_path: /probe
         params:
@@ -137,7 +137,7 @@ prometheus:
           - source_labels: [__meta_network_function]
             target_label: network_function
           - target_label: __address__
-            replacement: "blackbox-exporter-prometheus-blackbox-exporter.monitoring:9115"
+            replacement: "prometheus-blackbox-exporter.blackbox-exporter:9115"
       - job_name: snmp-raritan-pdu
         metrics_path: /snmp
         params:
@@ -146,13 +146,13 @@ prometheus:
         file_sd_configs:
           - files:
               - "/etc/prometheus/configmaps/pdu-targets/pdu-targets.json"
-        relabel_configs:
+        relabel_configs: &snmp-relabel
           - source_labels: [__address__]
             target_label: __param_target
           - source_labels: [__meta_hostname]
             target_label: instance
           - target_label: __address__
-            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+            replacement: "prometheus-snmp-exporter.snmp-exporter:9116"
       - job_name: snmp-xups-public
         metrics_path: /snmp
         params:
@@ -163,13 +163,7 @@ prometheus:
               - 10.18.3.31
             labels:
               __meta_hostname: ups-01
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - target_label: __address__
-            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+        relabel_configs: *snmp-relabel
       - job_name: snmp-xups
         metrics_path: /snmp
         params:
@@ -180,13 +174,7 @@ prometheus:
               - 10.18.3.62
             labels:
               __meta_hostname: ups-02
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - target_label: __address__
-            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+        relabel_configs: *snmp-relabel
       - job_name: snmp-schneider-pm5xxx
         metrics_path: /snmp
         params:
@@ -197,13 +185,7 @@ prometheus:
               - 10.18.3.21
             labels:
               __meta_hostname: pdu-01
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - target_label: __address__
-            replacement: "snmp-exporter-prometheus-snmp-exporter.monitoring:9116"
+        relabel_configs: *snmp-relabel
   ingress:
     enabled: true
     annotations:
@@ -216,20 +198,25 @@ prometheus:
       - /
     pathType: Prefix
     hosts:
-      - prometheus.ayekan.ls.lsst.org
+      - prometheus.ayekan.dev.lsst.org
     tls:
       - secretName: tls-prometheus-ingress
         hosts:
-          - prometheus.ayekan.ls.lsst.org
+          - prometheus.ayekan.dev.lsst.org
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 
 alertmanager:
   serviceMonitor:
     additionalLabels:
       lsst.io/monitor: "true"
   alertmanagerSpec:
-    externalUrl: https://alertmanager.ayekan.ls.lsst.org
+    externalUrl: https://alertmanager.ayekan.dev.lsst.org
     secrets:
       - o11y-webhooks
+    configMaps:
+      - alertmanager-templates
   ingress:
     enabled: true
     annotations:
@@ -242,17 +229,16 @@ alertmanager:
       - /
     pathType: Prefix
     hosts:
-      - alertmanager.ayekan.ls.lsst.org
+      - alertmanager.ayekan.dev.lsst.org
     tls:
       - secretName: tls-alertmanager-ingress
         hosts:
-          - alertmanager.ayekan.ls.lsst.org
+          - alertmanager.ayekan.dev.lsst.org
   config:
     global:
       resolve_timeout: 5m
       slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
     route:
-      group_by: ["namespace", "cluster"]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
@@ -268,14 +254,42 @@ alertmanager:
           matchers:
             - receiver =~ ".*,squadcast,.*"
           continue: true
+        - receiver: slack-kube-test
+          matchers:
+            - alertname =~ "Kube.*"
+        - receiver: slack-node-test
+          matchers:
+            - alertname =~ "Node.*"
+        - receiver: slack-network-test
+          matchers:
+            - alertname =~ "Network.*"
     receivers:
       - name: "null"
       - name: "watchdog"
       - name: "slack-test"
         slack_configs:
-          - username: "ayekan-prometheus"
+          - username: "ayekan-kube"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
+            text: '{{ template "slack.o11y.genericAlert" }}'
+      - name: "slack-kube-test"
+        slack_configs:
+          - username: "ayekan-kube"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.kubeAlert" }}'
+      - name: "slack-node-test"
+        slack_configs:
+          - username: "ayekan-nodes"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.nodeAlert" }}'
+      - name: "slack-network-test"
+        slack_configs:
+          - username: "ayekan-network"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.networkAlert" }}'
       - name: "squadcast-test"
         webhook_configs:
           - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
@@ -296,7 +310,7 @@ alertmanager:
           - severity = "info"
         equal: ["alertname"]
     templates:
-      - "/etc/alertmanager/config/*.tmpl"
+      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
 
 grafana:
   serviceMonitor:
@@ -316,11 +330,11 @@ grafana:
       - /
     pathType: Prefix
     hosts:
-      - grafana.ayekan.ls.lsst.org
+      - grafana.ayekan.dev.lsst.org
     tls:
       - secretName: tls-grafana-ingress
         hosts:
-          - grafana.ayekan.ls.lsst.org
+          - grafana.ayekan.dev.lsst.org
   sidecar:
     dashboards:
       enabled: true
@@ -341,7 +355,7 @@ grafana:
         - name: Mimir
           type: prometheus
           uid: mimir
-          url: http://ayekan-mimir-gateway.mimir:80/prometheus
+          url: http://mimir-distributed-gateway.mimir:80/prometheus
           access: proxy
           isDefault: true
           jsonData:
@@ -390,3 +404,10 @@ prometheus-node-exporter:
     monitor:
       additionalLabels:
         lsst.io/monitor: "true"
+kube-state-metrics:
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"
+  selfMonitor:
+    enabled: true
