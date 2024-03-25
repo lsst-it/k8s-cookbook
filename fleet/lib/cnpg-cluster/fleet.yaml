@@ -1,0 +1,19 @@
+---
+defaultNamespace: cloudnativepg
+labels:
+  bundle: &name cnpg-cluster
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds

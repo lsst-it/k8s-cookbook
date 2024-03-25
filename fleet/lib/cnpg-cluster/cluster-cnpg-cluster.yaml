@@ -4,9 +4,8 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: cnpg-cluster
-  namespace: cloudnativepg
 spec:
-  imageName: docker.io/cbarria/cnpgsphere:14.5
+  imageName: docker.io/lsstit/cnpgsphere:14.5
   imagePullPolicy: Always
 
   instances: 3
@@ -25,28 +24,6 @@ spec:
       - host all all 139.229.192.0/18 md5
       - host all all 140.252.146.0/23 md5
 
-  bootstrap:
-    initdb:
-      database: app
-      owner: app
-      secret:
-        name: cnpg-cluster-app
-
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://cnpg-backups-dev
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-aws-creds
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: cnpg-aws-creds
-          key: ACCESS_SECRET_KEY
-      wal:
-        compression: gzip
-
-    retentionPolicy: "60d"
-
   superuserSecret:
     name: cnpg-cluster-superuser
 
@@ -57,3 +34,11 @@ spec:
 
   monitoring:
     enablePodMonitor: true
+
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
