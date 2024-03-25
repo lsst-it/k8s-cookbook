@@ -2,20 +2,15 @@
 metaMonitoring:
   dashboards:
     labels:
-      lsst.io/author: fbegyn
-      lsst.io/discover: "true"
+      lsst.io/dashboard: "true"
       grafana_dashboard: "1"
   serviceMonitor:
     labels:
-      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
-      lsst.io/discover: "true"
   prometheusRule:
     labels:
-      lsst.io/author: fbegyn
-      lsst.io/discover: "true"
+      lsst.io/rule: "true"
 gateway:
   ingress:
     labels:
-      lsst.io/author: fbegyn
-      lsst.io/discover: "true"
+      lsst.io/monitor: "true"
