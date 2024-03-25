@@ -3,7 +3,7 @@ defaultNamespace: &name external-secrets
 labels:
   bundle: *name
 namespaceLabels:
-  o11y.eu/monitor: enabled
+  lsst.io/discover: "true"
 helm:
   chart: *name
   releaseName: *name
@@ -15,6 +15,9 @@ helm:
   values:
     serviceMonitor:
       enabled: true
+      labels:
+        lsst.io/monitor: "true"
+
 dependsOn:
   - selector:
       matchLabels:
