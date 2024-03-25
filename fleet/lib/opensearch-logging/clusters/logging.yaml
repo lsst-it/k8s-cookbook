@@ -187,6 +187,8 @@ spec:
       enable: true
       scrapeInterval: 30s
       pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"
+      tlsConfig:
+        insecureSkipVerify: true
     pluginsList: ["repository-s3"]
   initHelper:
     resources:
