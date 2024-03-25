@@ -18,8 +18,9 @@ helm:
           enabled: true
           additionalLabels:
             lsst.io/monitor: "true"
+        # TODO: handle error: cannot unmarshal rule from spec
         prometheusRule:
-          enabled: true
+          enabled: false
           additionalLabels:
             lsst.io/rule: "true"
     rbac:
