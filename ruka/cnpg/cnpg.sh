@@ -5,7 +5,7 @@ set -xe
 # Install cloudnativePG on cluster (chart 0.17.0 installs 1.19.0 cnpg)
 helm repo add cnpg https://cloudnative-pg.github.io/charts
 helm upgrade --install cnpg \
-  --version="0.17.0" \
+  --version="0.20.1" \
   --namespace cnpg-system \
   --create-namespace \
   cnpg/cloudnative-pg \
@@ -19,19 +19,15 @@ helm upgrade --install cnpg \
 kubectl create namespace cloudnativepg
 
 # Secrets - app user - postgres user - AWS account for backups
-kubectl apply -f externalsecret-cnpg-cluster-app.yaml
 kubectl apply -f externalsecret-cnpg-cluster-superuser.yaml
 kubectl apply -f externalsecret-cnpg-aws-creds.yaml
 
 # Deployment FIRST TIME ONLY
 kubectl apply -f cluster-cnpg-cluster.yaml
 
-#this needs to be changed to apply cnpg-recovery.yaml for recovery on existing cluster,
-#refer to the file because s3 backup folder needs to be changed.
-kubectl apply -f cnpg-recovery.yaml
 #pgBouncer exposed with loadBalancer
 kubectl apply -f pgbouncer-loadbalancer.yaml
 #loadBalancer for the replica cluster connection
 kubectl apply -f cnpg-replica-lb.yaml
-#Schedule Backup Jobs to S3
-kubectl apply -f cnpg-scheduledbackups.yaml
+#backups
+kubectl apply -f cnpg-backup.yaml
