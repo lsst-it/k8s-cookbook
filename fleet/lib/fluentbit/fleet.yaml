@@ -5,3 +5,13 @@ namespaceLabels:
   lsst.io/author: "fbegyn"
 labels:
   bundle: *name
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
