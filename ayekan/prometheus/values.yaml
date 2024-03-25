@@ -2,9 +2,9 @@
 commonLabels:
   lsst.io/author: "fbegyn"
 
-defaultRule:
+defaultRules:
   create: true
-  additionalLabels:
+  labels:
     lsst.io/rule: "true"
 
 prometheusOperator:
