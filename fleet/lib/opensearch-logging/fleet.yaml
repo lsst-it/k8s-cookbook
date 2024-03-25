@@ -15,6 +15,9 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: opensearch-operator
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
 targetCustomizations:
   # first match is used
   - name: ayekan
