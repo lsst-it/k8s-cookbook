@@ -1,0 +1,21 @@
+---
+# yamllint disable rule:quoted-strings
+name: helm chart lint
+
+"on":
+  - push
+
+jobs:
+  fleet-symlinks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/setup-helm@v4.1.0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.21
+
+      - name: helm chart lint
+        run: go run ./utils/chart-lint.go
