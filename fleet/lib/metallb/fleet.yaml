@@ -1,5 +1,7 @@
 ---
 defaultNamespace: metallb-system
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: &name metallb
 helm:
@@ -16,6 +18,19 @@ helm:
       priorityClassName: system-cluster-critical
     speaker:
       priorityClassName: system-node-critical
+    prometheus:
+      prometheusRule:
+        enabled: true
+        additionalLabels:
+          lsst.io/rule: "true"
+      serviceMonitor:
+        enabled: true
+        controller:
+          additionalLabels:
+            lsst.io/monitor: "true"
+        speaker:
+          additionalLabels:
+            lsst.io/monitor: "true"
 diff:
   comparePatches:
     - apiVersion: apiextensions.k8s.io/v1

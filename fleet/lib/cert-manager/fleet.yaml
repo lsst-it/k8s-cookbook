@@ -1,5 +1,7 @@
 ---
 defaultNamespace: &name cert-manager
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: *name
 helm:
@@ -9,6 +11,12 @@ helm:
   version: v1.12.2
   values:
     installCRDs: false
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        labels:
+          lsst.io/monitor: "true"
   waitForJobs: true
   timeoutSeconds: 900
   atomic: false
