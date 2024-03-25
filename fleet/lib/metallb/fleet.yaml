@@ -19,6 +19,8 @@ helm:
     speaker:
       priorityClassName: system-node-critical
     prometheus:
+      namespace: "kube-prometheus-stack"
+      serviceAccount: "kube-prometheus-stack-prometheus"
       prometheusRule:
         enabled: true
         additionalLabels:
