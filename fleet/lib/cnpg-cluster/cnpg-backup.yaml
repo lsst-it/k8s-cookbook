@@ -27,7 +27,7 @@ metadata:
   name: cnpg-backups
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 12,21 * * *" #9AM CLT - 6PM CLT
+  schedule: "* 12,21 * * *" #9AM CLT - 6PM CLT
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 172800
