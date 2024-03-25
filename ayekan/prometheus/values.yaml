@@ -1,17 +1,80 @@
 ---
+commonLabels:
+  lsst.io/author: "fbegyn"
+
+defaultRule:
+  create: true
+  additionalLabels:
+    lsst.io/rule: "true"
+
+prometheusOperator:
+  enabled: true
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 prometheus:
   prometheusSpec:
     externalUrl: https://prometheus.ayekan.ls.lsst.org
     serviceMonitorNamespaceSelector:
       matchLabels:
-        o11y.eu/monitor: "enabled"
-    serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {}
+        lsst.io/discover: "true"
+    serviceMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    podMonitorNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    podMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    ruleNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    ruleSelector:
+      matchLabels:
+        lsst.io/rule: "true"
+    scrapeConfigNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    scrapeConfigSelector:
+      matchLabels:
+        lsst.io/scrape: "true"
+    probeNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    probeSelector:
+      matchLabels:
+        lsst.io/probe: "true"
     configMaps:
       - prometheus-snmp-csv-network
+      - pdu-targets
     remoteWrite:
       - url: http://ayekan-mimir-gateway.mimir:80/api/v1/push
     additionalScrapeConfigs:
+      - job_name: node-exporter-dev
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.dev.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 9100
+        relabel_configs: &puppet-node-exporter
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_environment]
+            target_label: environment
+      - job_name: node-exporter-ls
+        puppetdb_sd_configs:
+          - url: "http://puppetdb.ls.lsst.org:8080"
+            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            refresh_interval: "30s"
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 9100
+        relabel_configs: *puppet-node-exporter
       - job_name: blackbox-ping-dev
         metrics_path: /probe
         params:
@@ -160,6 +223,9 @@ prometheus:
           - prometheus.ayekan.ls.lsst.org
 
 alertmanager:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
   alertmanagerSpec:
     externalUrl: https://alertmanager.ayekan.ls.lsst.org
     secrets:
@@ -233,6 +299,9 @@ alertmanager:
       - "/etc/alertmanager/config/*.tmpl"
 
 grafana:
+  serviceMonitor:
+    labels:
+      lsst.io/monitor: "true"
   persistence:
     enabled: true
   ingress:
@@ -253,9 +322,9 @@ grafana:
         hosts:
           - grafana.ayekan.ls.lsst.org
   sidecar:
-    alerts:
-      enabled: true
     dashboards:
+      enabled: true
+    datasources:
       enabled: true
   datasources:
     datasource.yaml:
@@ -294,3 +363,30 @@ kubeProxy:
   enabled: false
 kubeControllerManager:
   enabled: false
+
+# specify the needed label for the serviceMonitor
+kubeApiServer:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubelet:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+coreDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeEtcd:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+prometheus-node-exporter:
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"

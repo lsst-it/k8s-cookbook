@@ -9,16 +9,16 @@ metaMonitoring:
   dashboards:
     enabled: true
     labels:
-      o11y.eu/monitor: enabled
+      lsst.io/dashboard: "true"
       grafana_dashboard: "1"
   serviceMonitor:
     enabled: true
     labels:
-      o11y.eu/monitor: enabled
+      lsst.io/monitor: "true"
   prometheusRule:
     enabled: true
     labels:
-      o11y.eu/monitor: enabled
+      lsst.io/rule: "true"
 mimir:
   structuredConfig:
     common:
