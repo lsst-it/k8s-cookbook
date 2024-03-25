@@ -13,7 +13,7 @@ helm:
     installCRDs: false
     prometheus:
       enabled: true
-      serviceMonitor:
+      servicemonitor:
         enabled: true
         labels:
           lsst.io/monitor: "true"
