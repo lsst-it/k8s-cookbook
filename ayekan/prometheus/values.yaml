@@ -6,6 +6,8 @@ defaultRules:
   create: true
   labels:
     lsst.io/rule: "true"
+  additionalRuleLabels:
+    receivers: ",squadcast,"
 
 prometheusOperator:
   enabled: true
@@ -239,6 +241,7 @@ alertmanager:
       resolve_timeout: 5m
       slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
     route:
+      group_by: ["alertname", "namespace"]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
@@ -252,15 +255,17 @@ alertmanager:
             - alertname = "Watchdog"
         - receiver: "squadcast-test"
           matchers:
-            - receiver =~ ".*,squadcast,.*"
+            - receivers =~ ".*,squadcast,.*"
           continue: true
         - receiver: slack-kube-test
           matchers:
             - alertname =~ "Kube.*"
         - receiver: slack-node-test
+          group_by: ["instance"]
           matchers:
             - alertname =~ "Node.*"
         - receiver: slack-network-test
+          group_by: ["instance"]
           matchers:
             - alertname =~ "Network.*"
     receivers:
@@ -271,25 +276,25 @@ alertmanager:
           - username: "ayekan-kube"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.genericAlert" }}'
+            text: '{{ template "slack.o11y.genericAlert" . }}'
       - name: "slack-kube-test"
         slack_configs:
           - username: "ayekan-kube"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.kubeAlert" }}'
+            text: '{{ template "slack.o11y.kubeAlert" . }}'
       - name: "slack-node-test"
         slack_configs:
           - username: "ayekan-nodes"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.nodeAlert" }}'
+            text: '{{ template "slack.o11y.nodeAlert" . }}'
       - name: "slack-network-test"
         slack_configs:
           - username: "ayekan-network"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.networkAlert" }}'
+            text: '{{ template "slack.o11y.networkAlert" . }}'
       - name: "squadcast-test"
         webhook_configs:
           - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
