@@ -53,6 +53,9 @@ spec:
         - containerPort: 2020
           name: metrics
           protocol: TCP
+        - containerPort: 5140
+          name: syslog-udp
+          protocol: UDP
         resources:
           limits:
             cpu: 500m
