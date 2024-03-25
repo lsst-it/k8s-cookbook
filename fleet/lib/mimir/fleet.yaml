@@ -5,6 +5,10 @@ labels:
   bundle: *name
 namespaceLabels:
   o11y.eu/monitor: enabled
+  # https://github.com/rancher/fleet/issues/2262
+  lsst.io/author: fbegyn
+  lsst.io/discover: "true"
+  lsst.io/monitor: "true"
 helm:
   chart: &chart mimir-distributed
   releaseName: *chart
@@ -13,6 +17,8 @@ helm:
   timeoutSeconds: 600
   waitForJobs: true
   atomic: false
+  valuesFiles:
+    - values.yaml
 dependsOn:
   - selector:
       matchLabels:
@@ -21,13 +27,13 @@ dependsOn:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
-  - name: pillan
-    clusterName: pillan
-    helm:
-      valuesFiles:
-        - overlays/pillan/values.yaml
   - name: ruka
     clusterName: ruka
     helm:
       valuesFiles:
         - overlays/ruka/values.yaml
+  - name: ayekan
+    clusterName: ayekan
+    helm:
+      valuesFiles:
+        - overlays/ayekan/values.yaml
