@@ -32,6 +32,12 @@ data:
         Parser            docker
         Tag               kube.*
         storage.type      memory
+    [Input]
+        Name   syslog
+        Tag    syslog-udp.*
+        Listen 0.0.0.0
+        Port   5140
+        Mode   udp
     [Filter]
         Name          lua
         Match         kube.*
@@ -81,6 +87,20 @@ data:
         HTTP_Passwd        ${OS_LOGGING_PASSWORD}
         Logstash_Format    true
         Logstash_Prefix    kubernetes-logs
+        Replace_Dots       true
+        Trace_Error        true
+        Suppress_Type_Name true
+        tls                On
+        tls.verify         false
+    [Output]
+        Name               opensearch
+        Match_Regex        (?:syslog)\.(.*)
+        Host               logging.logging
+        Port               9200
+        HTTP_User          ${OS_LOGGING_USERNAME}
+        HTTP_Passwd        ${OS_LOGGING_PASSWORD}
+        Logstash_Format    true
+        Logstash_Prefix    syslog-udp
         Replace_Dots       true
         Trace_Error        true
         Suppress_Type_Name true
