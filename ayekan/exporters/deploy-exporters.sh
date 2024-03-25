@@ -28,6 +28,5 @@ helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbo
      --version "8.4.0" \
      -f ./blackbox-exporter/helm-values.yaml
 
-# kminion - kafka exporter
-kubectl --namespace ${NAMESPACE=} apply -f kminion/config.yaml
-kubectl --namespace ${NAMESPACE=} apply -f kminion/deployment.yaml
+# puppetdb exporter
+kubectl --namespace ${NAMESPACE=} apply -f puppetdb-exporter/deployment.yaml

@@ -14,10 +14,10 @@ serviceMonitor:
   selfMonitor:
     enabled: true
     labels:
-      monitor: enabled
+      lsst.io/monitor: "true"
   defaults:
     labels:
-      monitor: enabled
+      lsst.io/monitor: "true"
   targets:
     - name: googlehttpcheck
       url: https://google.com
@@ -25,8 +25,14 @@ serviceMonitor:
       interval: 60s
       module: http_2xx
 
+# TODO: Error: UPGRADE FAILED: release blackbox-exporter failed, and has been
+# rolled back due to atomic being set: failed to create resource: admission
+# webhook "prometheusrulemutate.monitoring.coreos.com" denied the request: Cannot
+# unmarshal rules from spec
 prometheusRule:
   enabled: false
+  labels:
+    lsst.io/discover: "true"
 
 extraConfigmapMounts: []
 extraSecretMounts: []
