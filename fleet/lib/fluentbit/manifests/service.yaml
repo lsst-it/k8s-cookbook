@@ -51,14 +51,26 @@ metadata:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
-  name: fluent-bit-syslog-udp
+  name: fluent-bit-syslog
   namespace: fluent-bit
 spec:
   ports:
-  - name: syslog-udp
+  - name: rsyslog-udp
     port: 5140
     protocol: UDP
     targetPort: 5140
+  - name: rsyslog-tcp
+    port: 5140
+    protocol: UDP
+    targetPort: 5140
+  - name: netlog-udp
+    port: 5141
+    protocol: UDP
+    targetPort: 5141
+  - name: netlog-tcp
+    port: 5141
+    protocol: UDP
+    targetPort: 5141
   selector:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
