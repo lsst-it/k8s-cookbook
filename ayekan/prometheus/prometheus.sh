@@ -6,6 +6,8 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics
 helm repo update
 
+kubectl --namespace kube-prometheus-stack apply -f ./webhooks-secret.yaml
+
 helm upgrade --install \
   kube-prometheus-stack prometheus-community/kube-prometheus-stack \
   --create-namespace --namespace kube-prometheus-stack \
