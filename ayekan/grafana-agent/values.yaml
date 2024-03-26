@@ -1,0 +1,79 @@
+---
+controller:
+  type: statefulset
+agent:
+  mode: flow
+  clustering:
+    enabled: true
+  resources:
+    limits:
+      cpu: 2
+      memory: 2Gi
+    requests:
+      cpu: 1
+      memory: 1Gi
+  configMap:
+    content: |
+      // Collect and send metrics to a Prometheus remote_write endpoint.
+      prometheus.remote_write "mimir_dev" {
+        endpoint {
+          url = "https://mimir.o11y.dev.lsst.org/api/v1/push"
+
+          enable_http2 = true
+        }
+      }
+
+      discovery.puppetdb "dev" {
+        url = "http://puppetdb.dev.lsst.org:8080"
+        query = "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+
+        port = 9100
+        refresh_interval = "30s"
+        follow_redirects = true
+        include_parameters = true
+        enable_http2 = true
+      }
+
+      discovery.puppetdb "ls" {
+        url = "http://puppetdb.ls.lsst.org:8080"
+        query = "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+
+        port = 9100
+        refresh_interval = "30s"
+        follow_redirects = true
+        include_parameters = true
+        enable_http2 = true
+      }
+
+      prometheus.scrape "blackbox_scraper_dev" {
+        targets = discovery.puppetdb.dev.targets
+
+        forward_to = [prometheus.remote_write.mimir_dev.receiver]
+
+        scrape_interval = "30s"
+        enable_http2 = true
+      }
+
+      prometheus.scrape "blackbox_scraper_ls" {
+        targets = discovery.puppetdb.ls.targets
+
+        forward_to = [prometheus.remote_write.mimir_dev.receiver]
+
+        scrape_interval = "30s"
+        enable_http2 = true
+      }
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-dev
+    kubernetes.io/ingress.class: nginx
+  faroPort: 80
+  path: /
+  pathType: Prefix
+  hosts:
+  - grafana-agent.o11y.dev.lsst.org
+  tls:
+  - hosts:
+    - grafana-agent.o11y.dev.lsst.org
+    secretName: grafana-agent-ingress-tls
