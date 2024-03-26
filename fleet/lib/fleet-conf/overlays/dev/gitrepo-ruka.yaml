@@ -9,7 +9,7 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - fleet/site/dev/cluster/ruka/*
+    - fleet/s/dev/c/ruka/*
   targets:
     - name: ruka
       clusterName: ruka

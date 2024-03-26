@@ -9,7 +9,7 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - fleet/site/dev/cluster/ayekan/*
+    - fleet/s/dev/c/ayekan/*
   targets:
     - name: ayekan
       clusterName: ayekan

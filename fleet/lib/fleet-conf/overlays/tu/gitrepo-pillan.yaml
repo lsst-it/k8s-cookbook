@@ -6,10 +6,10 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: tu_production
   keepResources: true
   paths:
-    - fleet/site/tu/cluster/pillan/*
+    - fleet/s/tu/c/pillan/*
   targets:
     - name: pillan
       clusterName: pillan
