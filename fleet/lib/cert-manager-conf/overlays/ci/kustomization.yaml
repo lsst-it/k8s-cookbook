@@ -1,0 +1,6 @@
+---
+resources:
+  - clusterissuer-letsencrypt-dev.yaml
+  - clusterissuer-letsencrypt-staging.yaml
+  - clusterissuer-letsencrypt.yaml
+  - externalsecret-route53.yaml
