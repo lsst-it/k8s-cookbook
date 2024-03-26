@@ -323,6 +323,43 @@ grafana:
       lsst.io/monitor: "true"
   persistence:
     enabled: true
+  grafana.ini:
+    analytics:
+      check_for_updates: true
+    log:
+      mode: console
+    paths:
+      data: /var/lib/grafana/
+      logs: /var/log/grafana
+      plugins: /var/lib/grafana/plugins
+      provisioning: /etc/grafana/provisioning
+    server:
+      domain: &grafanaDomain grafana.ayekan.dev.lsst.org
+      root_url: https://grafana.ayekan.dev.lsst.org
+    feature_toggles:
+      enable: autoMigrateOldPanels
+    auth.generic_oauth:
+      enabled: true
+      name: *grafanaDomain
+      allow_sign_up: true
+      allow_assign_grafana_admin: true
+      use_refresh_token: true
+      scopes: openid profile email groups roles offline_access
+      email_attribute_path: email
+      login_attribute_path: preferred_username
+      auth_url: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/auth"
+      token_url: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token"
+      api_url: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/userinfo"
+      client_id: "$__file{/etc/secrets/keycloack-credentials/client_id}"
+      client_secret: "$__file{/etc/secrets/keycloack-credentials/client_secret}"
+      role_attribute_path: "contains(groups[*], 'grafana-admin') && 'GrafanaAdmin' || contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'"
+      group_attribute_path: "groups"
+  extraSecretMounts:
+    - name: keycloack-credentials
+      secretName: grafana-keycloack-credentials
+      defaultMode: 440
+      mountPath: /etc/secrets/keycloack-credentials
+      readOnly: true
   ingress:
     enabled: true
     annotations:
@@ -335,11 +372,11 @@ grafana:
       - /
     pathType: Prefix
     hosts:
-      - grafana.ayekan.dev.lsst.org
+      - *grafanaDomain
     tls:
       - secretName: tls-grafana-ingress
         hosts:
-          - grafana.ayekan.dev.lsst.org
+          - *grafanaDomain
   sidecar:
     dashboards:
       enabled: true
