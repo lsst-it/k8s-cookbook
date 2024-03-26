@@ -216,7 +216,7 @@ alertmanager:
   alertmanagerSpec:
     externalUrl: https://alertmanager.ayekan.dev.lsst.org
     secrets:
-      - o11y-webhooks
+      - lsst-webhooks
     configMaps:
       - alertmanager-templates
   ingress:
@@ -239,7 +239,7 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-      slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
+      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
       group_by: ["alertname", "namespace"]
       group_wait: 30s
@@ -297,7 +297,7 @@ alertmanager:
             text: '{{ template "slack.o11y.networkAlert" . }}'
       - name: "squadcast-test"
         webhook_configs:
-          - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
