@@ -340,7 +340,7 @@ grafana:
       enable: autoMigrateOldPanels
     auth.generic_oauth:
       enabled: true
-      name: *grafanaDomain
+      name: keycloack.ls.lsst.org
       allow_sign_up: true
       allow_assign_grafana_admin: true
       use_refresh_token: true
