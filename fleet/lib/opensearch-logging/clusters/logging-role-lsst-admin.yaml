@@ -1,0 +1,11 @@
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst-admin
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  clusterPermissions:
+  - cluster_admin

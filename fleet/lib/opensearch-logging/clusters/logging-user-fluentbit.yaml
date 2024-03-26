@@ -1,0 +1,51 @@
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUser
+metadata:
+  name: fluentbit-logging
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  passwordFrom:
+    name: fluentbit-logging-credentials
+    key: password
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: fluentbit-logging-writer
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  clusterPermissions:
+  - cluster_composite_ops
+  indexPermissions:
+  - indexPatterns:
+    - cluster-logs-*
+    - kubernetes-logs-*
+    - fluentbit-*
+    - fluent-bit-*
+    - logstash-*
+    - log-stash-*
+    - syslog-*
+    - rsyslog-*
+    - netlogs-*
+    - logs-*
+    allowedActions:
+    - crud
+    - create_index
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUserRoleBinding
+metadata:
+  name: fluentbit-logging-binding
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  users:
+  - fluentbit-logging
+  roles:
+  - fluentbit-logging-writer
