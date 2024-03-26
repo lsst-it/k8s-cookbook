@@ -12,6 +12,13 @@ dependsOn:
         bundle: external-secrets
 targetCustomizations:
   # first match is used
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    yaml:
+      overlays:
+        - ci
   - name: ayekan
     clusterName: ayekan
     yaml:
