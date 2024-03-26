@@ -1,6 +1,0 @@
-apiVersion: v2
-name: nfs
-description: rook-ceph demo pod mounting the auxtel nfs export
-type: application
-version: 0.0.0
-appVersion: 0.0.0
