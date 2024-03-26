@@ -17,6 +17,10 @@ dependsOn:
       matchLabels:
         bundle: external-secrets-conf
 targetCustomizations:
+  - name: konkong
+    clusterName: konkong
+    kustomize:
+      dir: overlays/konkong
   - name: dev
     clusterSelector:
       matchLabels:

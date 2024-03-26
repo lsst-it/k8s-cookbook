@@ -1,0 +1,24 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-dev
+  namespace: cert-manager
+spec:
+  acme:
+    email: rubinobs-it-las@lsst.org
+    privateKeySecretRef:
+      name: letsencrypt
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - dns01:
+        route53:
+          accessKeyID: AKIAQSJOS2SFPN2PZ2VD
+          hostedZoneID: ZQGNOYQYRNW0C
+          region: us-east-1
+          secretAccessKeySecretRef:
+            key: aws_key
+            name: aws-route53
+      selector:
+        dnsZones:
+        - dev.lsst.org
