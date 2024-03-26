@@ -6,10 +6,10 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: ls_production
   keepResources: true
   paths:
-    - fleet/site/ls/cluster/manke/*
+    - fleet/s/ls/c/manke/*
   targets:
     - name: manke
       clusterName: manke

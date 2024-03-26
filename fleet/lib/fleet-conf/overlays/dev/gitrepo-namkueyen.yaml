@@ -9,7 +9,7 @@ spec:
   branch: master
   keepResources: true
   paths:
-    - fleet/site/dev/cluster/namkueyen/*
+    - fleet/s/dev/c/namkueyen/*
   targets:
     - name: namkueyen
       clusterName: namkueyen

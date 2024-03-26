@@ -6,10 +6,10 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: cp_production
   keepResources: true
   paths:
-    - fleet/site/cp/cluster/chonchon/*
+    - fleet/s/cp/c/chonchon/*
   targets:
     - name: chonchon
       clusterName: chonchon
