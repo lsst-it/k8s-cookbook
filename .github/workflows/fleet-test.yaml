@@ -1,0 +1,71 @@
+---
+# yamllint disable rule:quoted-strings
+name: fleet test
+
+"on":
+  - push
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  create-cluster:
+    runs-on:
+      group: Default Larger Runners
+      labels: ubuntu-latest-32-cores
+    steps:
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+            detached: true
+
+      - name: setup k alias
+        run: |
+          echo "alias k='kubectl'" >> ~/.bashrc
+          echo "complete -F __start_kubectl k" >> ~/.bashrc
+
+      - name: rm snapd because it uses /dev/loop*
+        run: sudo apt purge snapd -y
+
+      - name: setup loop0
+        run: |
+          for i in $(seq 0 2); do
+            sudo dd if=/dev/zero "of=/mnt/loop${i}.img" bs=1M count=10240
+            sudo losetup "/dev/loop${i}" "/mnt/loop${i}.img"
+          done
+
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-helm@v4.1.0
+
+      - uses: helm/kind-action@v1
+        with:
+          cluster_name: fleet
+          version: v0.22.0
+
+      - run: kubectl get nodes
+      - run: ip -c a
+      - run: ip route
+      - run: lsblk
+
+      - name: install macvlan cni plugin
+        run: |
+          curl https://github.com/containernetworking/plugins/releases/download/v1.4.1/cni-plugins-linux-amd64-v1.4.1.tgz -L -O
+          tar -xvf cni-plugins-linux-amd64-v1.4.1.tgz
+          docker cp macvlan fleet-control-plane:/opt/cni/bin
+
+      - name: install fleet
+        run: |
+          helm repo add fleet https://rancher.github.io/fleet-helm-charts/
+          helm -n cattle-fleet-system install --create-namespace --wait fleet-crd fleet/fleet-crd
+          helm -n cattle-fleet-system install --create-namespace --wait fleet fleet/fleet --set agentCheckinInterval=15s
+          kubectl -n fleet-local patch clusters local --type merge  --patch-file ./clusters-local.yaml
+          kubectl patch node fleet-control-plane --type merge --patch-file node-fleet-control-plane.yaml
+          kubectl apply -f fleet/lib/fleet-conf/overlays/ci/gitrepo-local.yaml
+
+      - run: kubectl get clusters -A
+      - run: kubectl get gitrepo  -A
+
+      - run: ./wait-for-bundle.sh
+        timeout-minutes: 60
