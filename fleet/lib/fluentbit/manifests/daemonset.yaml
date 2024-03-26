@@ -54,8 +54,17 @@ spec:
           name: metrics
           protocol: TCP
         - containerPort: 5140
-          name: syslog-udp
+          name: rsyslog-udp
           protocol: UDP
+        - containerPort: 5140
+          name: rsyslog-tcp
+          protocol: TCP
+        - containerPort: 5141
+          name: netlog-udp
+          protocol: UDP
+        - containerPort: 5141
+          name: netlog-tcp
+          protocol: TCP
         resources:
           limits:
             cpu: 500m
@@ -84,6 +93,9 @@ spec:
           readOnly: true
         - mountPath: /fluent-bit/tail
           name: positions
+        - mountPath: /etc/secrets/certicate
+          name: cert
+          readOnly: true
       - name: reloader
         image: ghcr.io/jimmidyson/configmap-reload:v0.11.1
         args:
@@ -137,3 +149,7 @@ spec:
           path: /var/lib/fluent-bit/
           type: ""
         name: positions
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: rsyslog-fluentbit-certificate
