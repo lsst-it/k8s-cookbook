@@ -1,0 +1,17 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: local
+  namespace: fleet-local
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: IT-5209/fleet-test
+  keepResources: true
+  paths:
+    - fleet/lib/*
+  targets:
+    - name: local
+      clusterName: local
+  correctDrift:
+    enabled: false  # XXX do not enable because of rook

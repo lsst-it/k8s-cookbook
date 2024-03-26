@@ -1,0 +1,49 @@
+---
+# yamllint disable rule:quoted-strings
+name: fleet test
+
+"on":
+  - push
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.head_ref || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  create-cluster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/setup-helm@v4.1.0
+      - uses: helm/kind-action@v1
+        with:
+          version: v0.21.0
+
+      - run: kubectl get nodes
+      - run: ip -c a
+      - run: ip route
+
+      - name: install macvlan cni plugin
+        run: |
+          curl https://github.com/containernetworking/plugins/releases/download/v1.4.1/cni-plugins-linux-amd64-v1.4.1.tgz -L -O
+          tar -xvf cni-plugins-linux-amd64-v1.4.1.tgz
+          docker cp macvlan chart-testing-control-plane:/opt/cni/bin
+
+      - name: install fleet
+        run: |
+          helm repo add fleet https://rancher.github.io/fleet-helm-charts/
+          helm -n cattle-fleet-system install --create-namespace --wait fleet-crd fleet/fleet-crd
+          helm -n cattle-fleet-system install --create-namespace --wait fleet fleet/fleet
+          kubectl -n fleet-local patch clusters local --type merge  --patch-file ./clusters-local.yaml
+          kubectl patch node fleet-control-plane --type merge --patch-file node-fleet-control-plane.yaml
+          kubectl apply -f gitrepo-local.yaml
+
+      - run: kubectl get clusters -A
+      - run: kubectl get gitrepo  -A
+      # - run: ./wait-for-bundle.sh
+      #   timeout-minutes: 15
+      - uses: actions/checkout@v3
+
+      - name: Setup tmate session
+        timeout-minutes: 30
+        uses: mxschmitt/action-tmate@v3
