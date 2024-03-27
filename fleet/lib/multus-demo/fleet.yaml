@@ -12,6 +12,15 @@ dependsOn:
       matchLabels:
         bundle: multus-conf
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      values:
+        networks:
+          - dds
+          - lhn
   - name: kueyen
     clusterName: kueyen
     helm:
