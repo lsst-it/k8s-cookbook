@@ -12,6 +12,15 @@ dependsOn:
       matchLabels:
         bundle: metallb-conf
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      values:
+        pools:
+          - default
+          - lhn
   - name: ruka
     clusterName: ruka
     helm:

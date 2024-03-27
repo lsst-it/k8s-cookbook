@@ -13,6 +13,13 @@ dependsOn:
       matchLabels:
         bundle: metallb
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    yaml:
+      overlays:
+        - ci
   - name: kueyen
     clusterName: kueyen
     yaml:
