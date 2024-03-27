@@ -1,0 +1,18 @@
+---
+defaultNamespace: &name cnpg-system
+labels:
+  bundle: *name
+helm:
+  chart: cloudnative-pg
+  releaseName: cloudnative-pg
+  repo: https://cloudnative-pg.github.io/charts
+  version: 0.20.1
+  waitForJobs: true
+  values:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
