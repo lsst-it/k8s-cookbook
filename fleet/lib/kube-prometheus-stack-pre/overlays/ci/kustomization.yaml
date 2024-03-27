@@ -1,0 +1,12 @@
+---
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: ExternalSecret
+      name: grafana-ldap
+    path: externalsecret-grafana-ldap.yaml
+  - target:
+      kind: ExternalSecret
+      name: o11y-webhooks
+    path: externalsecret-o11y-webhooks.yaml

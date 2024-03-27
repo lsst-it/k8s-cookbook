@@ -15,3 +15,10 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: external-secrets-conf
+targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    kustomize:
+      dir: overlays/ci
