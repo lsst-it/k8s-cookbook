@@ -9,6 +9,8 @@ helm:
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false
+  kustomize:
+    dir: base
 dependsOn:
   - selector:
       matchLabels:

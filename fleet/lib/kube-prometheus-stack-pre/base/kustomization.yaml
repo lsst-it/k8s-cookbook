@@ -1,0 +1,4 @@
+---
+resources:
+  - externalsecret-grafana-ldap.yaml
+  - externalsecret-o11y-webhooks.yaml
