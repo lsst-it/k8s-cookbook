@@ -13,6 +13,13 @@ dependsOn:
       matchLabels:
         bundle: external-secrets-conf
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    yaml:
+      overlays:
+        - ci
   - name: dev
     clusterSelector:
       matchLabels:
