@@ -1,5 +1,7 @@
 ---
 defaultNamespace: &name ingress-nginx
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: *name
 helm:
@@ -10,6 +12,17 @@ helm:
   values:
     controller:
       kind: DaemonSet
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            lsst.io/monitor: "true"
+        # TODO: handle error: cannot unmarshal rule from spec
+        prometheusRule:
+          enabled: false
+          additionalLabels:
+            lsst.io/rule: "true"
     rbac:
       create: true
   waitForJobs: true

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    o11y.eu/exporter: puppetdb
+    lsst.io/exporter: puppetdb
     environment: dev
   name: puppetdb-dev-exporter
   namespace: monitoring
@@ -44,6 +44,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: puppetdb-dev-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: dev
@@ -63,11 +64,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: puppetdb-dev-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: dev
-    o11y.eu/monitor: enabled
-    release: kube-prometheus-stack
+    lsst.io/monitor: "true"
 spec:
   selector:
     matchLabels:
@@ -84,6 +85,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: puppetdb-dev-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: dev
@@ -99,6 +101,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: puppetdb-dev-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: dev
@@ -107,9 +110,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    o11y.eu/exporter: puppetdb
+    lsst.io/exporter: puppetdb
     environment: ls
   name: puppetdb-ls-exporter
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -147,9 +151,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: puppetdb-ls-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: ls
+    lsst.io/monitor: "true"
 spec:
   type: ClusterIP
   ports:
@@ -166,11 +172,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: puppetdb-ls-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: ls
-    o11y.eu/monitor: enabled
-    release: kube-prometheus-stack
+    lsst.io/monitor: "true"
 spec:
   selector:
     matchLabels:
@@ -187,6 +193,7 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: puppetdb-ls-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: ls
@@ -202,6 +209,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: puppetdb-ls-exporter
+  namespace: monitoring
   labels:
     prometheus.io/exporter: puppetdb-exporter
     environment: ls

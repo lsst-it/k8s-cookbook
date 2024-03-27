@@ -1,5 +1,7 @@
 ---
 defaultNamespace: cert-manager
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: &name cert-manager-conf
 helm:
