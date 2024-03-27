@@ -1,0 +1,24 @@
+---
+compactor:
+  persistentVolume: {}
+  resources: {}
+distributor:
+  replicas: 1
+  resources: {}
+ingester:
+  persistentVolume: {}
+  replicas: 1
+  resources: {}
+querier:
+  replicas: 1
+  resources: {}
+query_frontend:
+  replicas: {}
+  resources: {}
+ruler:
+  replicas: 1
+  resources: {}
+store_gateway:
+  persistentVolume: {}
+  replicas: 1
+  resources: {}
