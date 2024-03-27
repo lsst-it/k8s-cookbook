@@ -1,0 +1,7 @@
+---
+resources:
+  - configmap-alertmanager-templates.yaml
+  - externalsecret-grafana-keycloak-credentials.yaml
+  - externalsecret-grafana-ldap.yaml
+  - externalsecret-lsst-webhooks.yaml
+  - externalsecret-puppetdb.yaml
