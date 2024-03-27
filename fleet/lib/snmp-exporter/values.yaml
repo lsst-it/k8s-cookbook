@@ -12,6 +12,8 @@ resources:
 
 serviceMonitor:
   enabled: true
+  selector:
+    lsst.io/monitor: "true"
 
 extraSecretMounts:
   - name: snmp-config

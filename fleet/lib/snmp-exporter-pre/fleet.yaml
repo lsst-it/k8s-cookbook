@@ -1,5 +1,7 @@
 ---
 defaultNamespace: snmp-exporter
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: snmp-exporter-pre
 helm:

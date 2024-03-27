@@ -4,7 +4,7 @@ defaultNamespace: &name kyverno
 labels:
   bundle: *name
 namespaceLabels:
-  o11y.eu/monitor: enabled
+  lsst.io/discover: "true"
 helm:
   chart: *name
   releaseName: *name
@@ -24,12 +24,24 @@ helm:
         cpu: 100m
         memory: 1Gi
     admissionController:
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          lsst.io/monitor: "true"
       metricsService:
         create: true
     backgroundController:
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          lsst.io/monitor: "true"
       metricsService:
         create: true
     cleanupController:
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          lsst.io/monitor: "true"
       metricsService:
         create: true
     reportsController:
@@ -41,6 +53,10 @@ helm:
         requests:
           cpu: 100m
           memory: 64Mi
+      serviceMonitor:
+        enabled: true
+        additionalLabels:
+          lsst.io/monitor: "true"
       metricsService:
         create: true
 dependsOn:

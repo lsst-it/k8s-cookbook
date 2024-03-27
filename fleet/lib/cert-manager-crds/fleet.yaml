@@ -1,5 +1,7 @@
 ---
 defaultNamespace: cert-manager
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: &name cert-manager-crds
 # https://github.com/rancher/fleet/issues/1285
