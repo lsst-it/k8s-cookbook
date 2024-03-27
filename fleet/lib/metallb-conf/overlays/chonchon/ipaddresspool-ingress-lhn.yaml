@@ -16,6 +16,6 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - lhn
+    - ingress-lhn
   interfaces:
     - br1800
