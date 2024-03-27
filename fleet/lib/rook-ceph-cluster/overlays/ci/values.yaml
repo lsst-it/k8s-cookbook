@@ -148,7 +148,7 @@ cephBlockPools:
     storageClass:
       name: rook-ceph-block
       enabled: true
-      isDefault: true
+      isDefault: false  # prefer the local-path storage class
       reclaimPolicy: Delete
       allowVolumeExpansion: true
       parameters:

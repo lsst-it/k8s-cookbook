@@ -23,6 +23,13 @@ dependsOn:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      valuesFiles:
+        - overlays/ci/values.yaml
   - name: ruka
     clusterName: ruka
     helm:

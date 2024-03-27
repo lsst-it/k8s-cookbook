@@ -1,0 +1,66 @@
+---
+compactor:
+  persistentVolume:
+    size: 1Gi
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+distributor:
+  replicas: 1
+  resources:
+    limits:
+      memory: 5Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+ingester:
+  persistentVolume:
+    size: 1Gi
+  replicas: 1
+  resources:
+    limits:
+      memory: 12Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+  zoneAwareReplication:
+    enabled: false
+querier:
+  replicas: 1
+  resources:
+    limits:
+      memory: 5Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+query_frontend:
+  replicas: 1
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+ruler:
+  replicas: 1
+  resources:
+    limits:
+      memory: 3Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+store_gateway:
+  persistentVolume:
+    size: 1Gi
+  replicas: 1
+  resources:
+    limits:
+      memory: 2.5Gi
+    requests:
+      cpu: 1m
+      memory: 1Mi
+  zoneAwareReplication:
+    enabled: false
