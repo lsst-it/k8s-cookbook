@@ -1,0 +1,20 @@
+---
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: ExternalSecret
+      name: grafana-keycloak-credentials
+    path: externalsecret-grafana-keycloak-credentials.yaml
+  - target:
+      kind: ExternalSecret
+      name: grafana-ldap
+    path: externalsecret-grafana-ldap.yaml
+  - target:
+      kind: ExternalSecret
+      name: lsst-webhooks
+    path: externalsecret-lsst-webhooks.yaml
+  - target:
+      kind: ExternalSecret
+      name: puppetdb
+    path: externalsecret-puppetdb.yaml
