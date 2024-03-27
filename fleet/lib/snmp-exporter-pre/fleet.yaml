@@ -16,6 +16,18 @@ dependsOn:
       matchLabels:
         bundle: external-secrets-conf
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      values:
+        ci: true
+        community:
+          snmpRubinCommunity:
+            enabled: true
+          snmpLsstCommunity:
+            enabled: true
   - name: pillan
     clusterName: pillan
     helm:
