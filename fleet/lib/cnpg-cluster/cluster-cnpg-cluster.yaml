@@ -24,6 +24,7 @@ spec:
       - host all all 139.229.192.0/18 md5
       - host all all 140.252.146.0/23 md5
 
+  enableSuperuserAccess: true
   superuserSecret:
     name: cnpg-cluster-superuser
 
