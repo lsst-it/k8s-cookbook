@@ -21,7 +21,6 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       limits:
-        cpu: 500m
         memory: 1Gi
       requests:
         cpu: 500m
@@ -85,7 +84,6 @@ spec:
         cpu: "500m"
       limits:
         memory: "256Mi"
-        cpu: "500m"
   nodePools:
   - component: cluster-manager
     replicas: 3
@@ -120,7 +118,6 @@ spec:
         cpu: "4"
       limits:
         memory: "4Gi"
-        cpu: "4"
     roles:
     - coordinating
     persistence:
@@ -135,11 +132,10 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "12Gi"
-        cpu: "4"
+        memory: "16Gi"
+        cpu: "8"
       limits:
-        memory: "12Gi"
-        cpu: "4"
+        memory: "16Gi"
     additionalConfig:
       node.attr.temp: "hot"
     roles:
@@ -156,10 +152,9 @@ spec:
     resources:
       requests:
         memory: "8Gi"
-        cpu: "2"
+        cpu: "4"
       limits:
         memory: "8Gi"
-        cpu: "2"
     additionalConfig:
       node.attr.temp: "cold"
     roles:
