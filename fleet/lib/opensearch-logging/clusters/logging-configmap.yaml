@@ -34,3 +34,36 @@ data:
                 openid_connect_url: "{{ .keycloackURL }}"
             authentication_backend:
               type: noop
+  roles_mappings.yml: |
+    lsst_admin:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "lsst-os-admin"
+        - "ayekan"
+        - "admin"
+      description: "Maps the LSST admin roles to cluster admin"
+    lsst_crud:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "log-crud"
+      description: "Allow users to CRUD all indices"
+    lsst_admin_kubernetes:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "log-admin-kube"
+      description: "Allow users to manage kubernete-* indices"
+    lsst_crud_kubernetes:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "log-crud-kube"
+      description: "Allow users to CRUD kubernete-* indices"
+    readall:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "log-readall"
+      description: "Maps log-readall to the readall role"
