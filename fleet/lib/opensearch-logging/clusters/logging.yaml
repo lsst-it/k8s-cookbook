@@ -35,7 +35,8 @@ spec:
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
       opensearch.ssl.verificationMode: "none"
       opensearch.username: "admin"
-      opensearch_security.auth.type: "openid"
+      opensearch_security.auth.type: '["basicauth", "openid"]'
+      opensearch_security.auth.multiple_auth_enabled: "true"
       opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
       opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
       opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
