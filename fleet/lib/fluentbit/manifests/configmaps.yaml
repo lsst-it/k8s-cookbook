@@ -30,15 +30,36 @@ data:
         DB                /fluent-bit/tail/pos.db
         DB.Sync           Normal
         Mem_Buf_Limit     100MB
-        Parser            docker
         Tag               kube.*
         storage.type      memory
     [Input]
         Name   syslog
-        Tag    rsyslog.*
+        Tag    rsyslog.tcp.*
         Listen 0.0.0.0
         Port   5140
         Mode   tcp
+        Parser syslog-rfc3164
+        tls          on
+        tls.verify   off
+        tls.crt_file /etc/secrets/certicate/tls.crt
+        tls.key_file /etc/secrets/certicate/tls.key
+    [Input]
+        Name   syslog
+        Tag    netlog.tcp.*
+        Listen 0.0.0.0
+        Port   5141
+        Mode   tcp
+        Parser syslog-rfc3164
+        tls          on
+        tls.verify   off
+        tls.crt_file /etc/secrets/certicate/tls.crt
+        tls.key_file /etc/secrets/certicate/tls.key
+    [Input]
+        Name   syslog
+        Tag    netlog.udp.*
+        Listen 0.0.0.0
+        Port   5141
+        Mode   udp
         Parser syslog-rfc3164
     [Filter]
         Name          lua
@@ -110,6 +131,31 @@ data:
         Suppress_Type_Name true
         tls                On
         tls.verify         false
+    [Output]
+        Name               opensearch
+        Buffer_Size        1M
+        Match_Regex        (?:netlog)\.(.*)
+        Host               logging.logging
+        Port               9200
+        HTTP_User          ${OS_LOGGING_USERNAME}
+        HTTP_Passwd        ${OS_LOGGING_PASSWORD}
+        Logstash_Format    true
+        Logstash_Prefix    network-log
+        Replace_Dots       true
+        Trace_Error        true
+        Suppress_Type_Name true
+        tls                On
+        tls.verify         false
+    [Output]
+        Name                   loki
+        Match_Regex            (.*)
+        Host                   loki.loki
+        Tenant_ID              infra
+        HTTP_User              infra
+        HTTP_Passwd            foobar
+        Port                   3100
+        labels                 job=fluentbit
+        auto_kubernetes_labels on
   parsers.conf: ""
 ---
 apiVersion: v1
