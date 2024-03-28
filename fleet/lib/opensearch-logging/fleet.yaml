@@ -1,0 +1,48 @@
+---
+defaultNamespace: logging
+namespaceLabels:
+  lsst.io/discover: "true"
+  lsst.io/author: "fbegyn"
+labels:
+  bundle: &name logging
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: opensearch-operator
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
+targetCustomizations:
+  # first match is used
+  - name: ayekan
+    clusterName: ayekan
+    yaml:
+      overlays:
+        - ayekan
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        site: dev
+    yaml:
+      overlays:
+        - dev
+  - name: tu
+    clusterSelector:
+      matchLabels:
+        site: tu
+    yaml:
+      overlays:
+        - tu
+  - name: ls
+    clusterSelector:
+      matchLabels:
+        site: ls
+    yaml:
+      overlays:
+        - ls

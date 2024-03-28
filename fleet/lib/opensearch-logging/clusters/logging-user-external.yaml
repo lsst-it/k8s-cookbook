@@ -1,0 +1,51 @@
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUser
+metadata:
+  name: external-logging
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  passwordFrom:
+    name: external-logging-credentials
+    key: password
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: external-logging-writer
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  clusterPermissions:
+  - cluster_composite_ops
+  indexPermissions:
+  - indexPatterns:
+    - cluster-logs-*
+    - kubernetes-logs-*
+    - fluentbit-*
+    - fluent-bit-*
+    - logstash-*
+    - log-stash-*
+    - syslog-*
+    - rsyslog-*
+    - netlogs-*
+    - logs-*
+    allowedActions:
+    - crud
+    - create_index
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchUserRoleBinding
+metadata:
+  name: external-logging-binding
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  users:
+  - external-logging
+  roles:
+  - external-logging-writer

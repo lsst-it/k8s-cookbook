@@ -1,0 +1,165 @@
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpenSearchCluster
+metadata:
+  finalizers:
+  - Opster
+  name: logging
+  namespace: logging
+spec:
+  bootstrap:
+    resources: {}
+  confMgmt: {}
+  dashboards:
+    enable: true
+    basePath: "/dashboard"
+    opensearchCredentialsSecret: {}
+    replicas: 2
+    labels:
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
+      prometheus.io/scrape: "true"
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+    service:
+      type: ClusterIP
+    version: 2.11.1
+    additionalConfig:
+      logging.verbose: "true"
+      opensearch.password: "admin"
+      opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
+      opensearch.ssl.verificationMode: "none"
+      opensearch.username: "admin"
+      opensearch_security.auth.type: "openid"
+      opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
+      opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
+      opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
+      opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
+      opensearch_security.openid.header: "Authorization"
+      opensearch_security.openid.scope: "openid profile email offline_access"
+      opensearch_security.openid.trust_dynamic_headers: "true"
+    env:
+    - name: KEYCLOACK_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: CLIENT_ID
+    - name: KEYCLOACK_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: CLIENT_SECRET
+    - name: KEYCLOACK_URL
+      valueFrom:
+        secretKeyRef:
+          name: os-dashboard-keycloack-credentials
+          key: url
+  security:
+    config:
+      securityConfigSecret:
+        name: os-security-config
+      adminCredentialsSecret:
+        name: os-admin-credentials
+  general:
+    httpPort: 9200
+    serviceName: logging
+    setVMMaxMapCount: true
+    version: 2.11.1
+    monitoring:
+      enable: true
+      scrapeInterval: 30s
+      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"
+      tlsConfig:
+        insecureSkipVerify: true
+    pluginsList: ["repository-s3"]
+  initHelper:
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "500m"
+      limits:
+        memory: "256Mi"
+        cpu: "500m"
+  nodePools:
+  - component: cluster-manager
+    replicas: 3
+    diskSize: 10Gi
+    labels:
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
+      prometheus.io/scrape: "true"
+    jvm: -Xmx2G -Xms2G
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "1"
+      limits:
+        memory: "4Gi"
+        cpu: "1"
+    roles:
+    - cluster_manager
+    persistence:
+      emptyDir: {}
+  - component: coordinators
+    replicas: 3
+    diskSize: 50Gi
+    jvm: -Xmx2G -Xms2G
+    labels:
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
+      prometheus.io/scrape: "true"
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "4"
+      limits:
+        memory: "4Gi"
+        cpu: "4"
+    roles:
+    - coordinating
+    persistence:
+      emptyDir: {}
+  - component: hot-nodes
+    replicas: 3
+    diskSize: 200Gi
+    jvm: -Xmx2G -Xms2G
+    labels:
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
+      prometheus.io/scrape: "true"
+    resources:
+      requests:
+        memory: "12Gi"
+        cpu: "4"
+      limits:
+        memory: "12Gi"
+        cpu: "4"
+    additionalConfig:
+      node.attr.temp: "hot"
+    roles:
+    - data
+    - ingest
+  - component: cold-nodes
+    replicas: 3
+    diskSize: 200Gi
+    jvm: -Xmx2G -Xms2G
+    labels:
+      lsst.io/author: "fbegyn"
+      lsst.io/monitor: "true"
+      prometheus.io/scrape: "true"
+    resources:
+      requests:
+        memory: "8Gi"
+        cpu: "2"
+      limits:
+        memory: "8Gi"
+        cpu: "2"
+    additionalConfig:
+      node.attr.temp: "cold"
+    roles:
+    - data
