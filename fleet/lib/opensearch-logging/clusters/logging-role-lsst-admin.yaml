@@ -2,10 +2,88 @@
 apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
-  name: lsst-admin
+  name: lsst_admin
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  clusterPermissions:
+  - cluster_all
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst_crud
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  indexPermissions:
+    indexPatterns:
+    - "*"
+    allowedActions:
+    - crud
+    - create_index
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst_viewer
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  indexPermissions:
+    indexPatterns:
+    - "*"
+    allowedActions:
+    - search
+    - get
+    - read
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst_admin_kubernetes
   namespace: logging
 spec:
   opensearchCluster:
     name: logging
   clusterPermissions:
   - cluster_admin
+  indexPermisions:
+  - indexPattern:
+    - "kubernetes-*"
+    allowedActions:
+    - indices_all
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst_crud_kube
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  indexPermissions:
+    indexPatterns:
+    - "kubernetes-*"
+    allowedActions:
+    - crud
+    - create_index
+---
+apiVersion: opensearch.opster.io/v1
+kind: OpensearchRole
+metadata:
+  name: lsst_viewer_kube
+  namespace: logging
+spec:
+  opensearchCluster:
+    name: logging
+  indexPermissions:
+    indexPatterns:
+    - "kubernetes-*"
+    allowedActions:
+    - search
+    - get
+    - read
