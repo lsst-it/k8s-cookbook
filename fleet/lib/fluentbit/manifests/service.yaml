@@ -61,7 +61,7 @@ spec:
     targetPort: 5140
   - name: rsyslog-tcp
     port: 5140
-    protocol: UDP
+    protocol: TCP
     targetPort: 5140
   - name: netlog-udp
     port: 5141
@@ -69,10 +69,11 @@ spec:
     targetPort: 5141
   - name: netlog-tcp
     port: 5141
-    protocol: UDP
+    protocol: TCP
     targetPort: 5141
   selector:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
   type: LoadBalancer
+
