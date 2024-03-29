@@ -33,7 +33,7 @@ spec:
     - rsyslog-*
     - netlogs-*
     - logs-*
-    - network-logs-*
+    - network-*
     allowedActions:
     - crud
     - create_index
