@@ -285,6 +285,11 @@ grafana:
       enabled: true
     dashboards:
       enabled: true
+  extraSecretMounts:
+    - name: keycloack-credentials
+      mountPath: /etc/secrets/keycloack-credentials
+      secretName: grafana-keycloack-credentials
+      readOnly: true
   datasources:
     datasource.yaml:
       apiVersion: 1
