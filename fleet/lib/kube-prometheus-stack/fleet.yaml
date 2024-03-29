@@ -54,6 +54,12 @@ targetCustomizations:
       valuesFiles:
         - aggregator/values.yaml
         - overlays/ruka/values.yaml
+  - name: ayekan
+    clusterName: ayekan
+    helm:
+      valuesFiles:
+        - aggregator/values.yaml
+        - overlays/ayekan/values.yaml
   - name: default
     clusterSelector:
       matchLabels:
