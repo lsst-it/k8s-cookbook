@@ -171,25 +171,27 @@ alertmanager:
           - username: "${ .ClusterName }-general"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.genericAlert" . }}'
+            title: '{{ template "slack.o11y.generic.title" . }}'
+            text: '{{ template "slack.o11y.generic.text" . }}'
       - name: "slack-kube-test"
         slack_configs:
           - username: "${ .ClusterName }-kube"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.kubeAlert" . }}'
+            title: '{{ template "slack.o11y.kube.title" . }}'
+            text: '{{ template "slack.o11y.kube.text" . }}'
       - name: "slack-node-test"
         slack_configs:
           - username: "${ .ClusterName }-nodes"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.nodeAlert" . }}'
+            text: '{{ template "slack.o11y.node.text" . }}'
       - name: "slack-network-test"
         slack_configs:
           - username: "${ .ClusterName }-network"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-            text: '{{ template "slack.o11y.networkAlert" . }}'
+            text: '{{ template "slack.o11y.network.text" . }}'
       - name: "squadcast-test"
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
