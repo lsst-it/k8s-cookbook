@@ -43,6 +43,10 @@ prometheus:
     externalUrl: "https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+    externalLabels:
+      k8s-cluster: "${ .ClusterName }"
+      site: "${ .ClusterLabels.site }"
+    prometheusExternalLabelName: "${ .ClusterLabels.site }/${ .ClusterName }"
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorNamespaceSelector:
