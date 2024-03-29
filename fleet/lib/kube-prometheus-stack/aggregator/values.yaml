@@ -44,9 +44,7 @@ prometheus:
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
     externalLabels:
-      kubecluster: "${ .ClusterName }"
-      site: "${ .ClusterLabels.site }"
-    prometheusExternalLabelName: "${ .ClusterLabels.site }-${ .ClusterName }"
+      prom: "${ .ClusterLabels.site }/${ .ClusterName }"
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorNamespaceSelector:
