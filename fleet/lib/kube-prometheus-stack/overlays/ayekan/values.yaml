@@ -1,6 +1,9 @@
 ---
 prometheus:
   prometheusSpec:
+    configMaps:
+      - prometheus-snmp-csv-network
+      - pdu-targets
     additionalScrapeConfigs:
       - job_name: node-exporter-dev
         puppetdb_sd_configs:
