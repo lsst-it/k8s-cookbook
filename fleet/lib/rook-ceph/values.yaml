@@ -19,6 +19,10 @@ discover:
     - <<: *storage_node_tol
   nodeAffinity: *storage_node_aff
 csi:
+  serviceMonitor:
+    enabled: true
+    labels:
+      lsst.io/monitor: "true"
   cephcsi:
     image: quay.io/cephcsi/cephcsi:v3.8.0
   provisionerTolerations:
