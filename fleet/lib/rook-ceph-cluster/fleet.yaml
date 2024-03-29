@@ -1,5 +1,7 @@
 ---
 defaultNamespace: rook-ceph
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: &name rook-ceph-cluster
 helm:

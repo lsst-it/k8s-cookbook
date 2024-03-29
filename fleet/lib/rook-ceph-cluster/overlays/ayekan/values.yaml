@@ -25,6 +25,10 @@ toolbox:
 monitoring:
   enabled: true
   rulesNamespaceOverride: rook-ceph
+  prometheusRule:
+    enabled: true
+    labels:
+      lsst.io/rule: "true"
 
 cephClusterSpec:
   cephVersion:
@@ -59,6 +63,9 @@ cephClusterSpec:
       dataSource: zero
       iteration: 1
     allowUninstallWithVolumes: false
+  labels:
+    exporter:
+      lsst.io/monitor: "true"
   placement:
     all:
       nodeAffinity:
