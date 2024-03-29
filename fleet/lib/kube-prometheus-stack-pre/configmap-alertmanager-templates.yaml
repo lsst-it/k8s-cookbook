@@ -18,7 +18,7 @@ data:
     {{ define "slack.o11y.kube.text" }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Site:* {{ .GroupLabels.site }}
-    *Kube cluster:* {{ .GroupLabels.k8s-cluster }}
+    *Kube cluster:* {{ .GroupLabels.kubecluster }}
     *Namespace:* {{ .GroupLabels.namespace }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
