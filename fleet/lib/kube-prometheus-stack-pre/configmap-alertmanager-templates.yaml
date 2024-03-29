@@ -49,5 +49,5 @@ data:
       {{ range .Labels.SortedPairs -}}
       - *{{ .Name }}:* `{{ .Value }}`
       {{ end }}
-    {{- end }}
+    {{ end }}
     {{ end }}
