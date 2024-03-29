@@ -4,9 +4,42 @@ metadata:
   name: alertmanager-templates
 data:
   slack-generic-alert.tmpl: |
-    {{ define "slack.o11y.genericAlert" }}
+    {{ define "slack.o11y.generic.text" }}
+    *Site:* {{ .GroupLabels.site }}
+    *Prometheus:* {{ .GroupLabels.prometheus }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Summary:* {{ .CommonAnnotations.summary }}
+    {{ template "__o11y_alert_list" . }}
+    {{ end }}
+    {{ define "slack.o11y.generic.title"}}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prometheus }}/{{ .GroupLabels.alertname }}
+    {{ end }}
+  slack-kube-alert.tmpl: |
+    {{ define "slack.o11y.kube.text" }}
+    *Alert:* {{ .GroupLabels.alertname }}
+    *Site:* {{ .GroupLabels.site }}
+    *Kube cluster:* {{ .GroupLabels.k8s-cluster }}
+    *Namespace:* {{ .GroupLabels.namespace }}
+    *Summary:* {{ .CommonAnnotations.summary }}
+    {{ template "__o11y_alert_list" . }}
+    {{ end }}
+    {{ define "slack.o11y.kube.title"}}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prometheus }}/{{ .GroupLabels.namespace }}/{{ .GroupLabels.alertname }}
+    {{ end }}
+  slack-network-alert.tmpl: |
+    {{ define "slack.o11y.network.text" }}
+    *Device:* {{ .GroupLabels.instance }}
+    {{ template "__o11y_alert_list" . }}
+    {{ end }}
+  slack-node-alert.tmpl: |
+    {{ define "slack.o11y.node.text" }}
+    *Instance:* {{ .GroupLabels.instance }}
+    {{ template "__o11y_alert_list" . }}
+    {{ end }}
+  template-helpers.tmpl: |
+    {{ define "__o11y_alert_list" }}
+    *Alerts:*
+    =========
     {{ range .Alerts -}}
     - *Alert:* {{ .Labels.alertname }}
       *Summary:* {{ .Annotations.summary }}
@@ -14,49 +47,8 @@ data:
       *Severity:* {{ .Labels.severity }}
       *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
       *Labels:*
-      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+      {{ range .Labels.SortedPairs -}}
+      - *{{ .Name }}:* `{{ .Value }}`
       {{ end }}
-    {{ end }}
-    {{ end }}
-  slack-kube-alert.tmpl: |
-    {{ define "slack.o11y.kubeAlert" }}
-    *Alert:* {{ .GroupLabels.alertname }}
-    *Namespace:* {{ .GroupLabels.namespace }}
-    *Summary:* {{ .CommonAnnotations.summary }}
-    {{ range .Alerts }}
-    - *Runbook:* {{ .Annotations.runbook_url }}
-      *Description:* {{ .Annotations.description }}
-      *Severity:* {{ .Labels.severity }}
-      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
-      *Labels:*
-      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
-      {{ end }}
-    {{ end }}
-    {{ end }}
-  slack-network-alert.tmpl: |
-    {{ define "slack.o11y.networkAlert" }}
-    *Device:* {{ .GroupLabels.instance }}
-    *Alerts:*
-    {{ range .Alerts }}
-    - *Alert:* {{ .Labels.alertname }}
-      *Summary:* {{ .Annotations.summary }}
-      *Description:* {{ .Annotations.description }}
-      *Severity:* {{ .Labels.severity }}
-      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
-      *Labels:*
-      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
-      {{ end }}
-    {{ end }}
-    {{ end }}
-  slack-node-alert.tmpl: |
-    {{ define "slack.o11y.nodeAlert" }}
-    *Instance:* {{ .GroupLabels.instance }}
-    *Alerts:*
-    {{ range .Alerts }}
-    - *Alert:* {{ .Labels.alertname }}
-      *Summary:* {{ .Annotations.summary }}
-      *Description:* {{ .Annotations.description }}
-      *Severity:* {{ .Labels.severity }}
-      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
-    {{ end }}
+    {{- end }}
     {{ end }}
