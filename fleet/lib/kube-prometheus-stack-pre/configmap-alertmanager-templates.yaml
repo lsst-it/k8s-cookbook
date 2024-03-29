@@ -5,7 +5,7 @@ metadata:
 data:
   slack-generic-alert.tmpl: |
     {{ define "slack.o11y.generic.text" }}
-    *Site:* {{ .GroupLabels.site }}
+    *Site:* {{ .CommonLabels.site }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
@@ -16,8 +16,8 @@ data:
   slack-kube-alert.tmpl: |
     {{ define "slack.o11y.kube.text" }}
     *Alert:* {{ .GroupLabels.alertname }}
-    *Site:* {{ .GroupLabels.site }}
-    *Kube cluster:* {{ .GroupLabels.prom }}
+    *Site:* {{ .CommonLabels.site }}
+    *Kube cluster:* {{ .CommonLabels.prom }}
     *Namespace:* {{ .GroupLabels.namespace }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
