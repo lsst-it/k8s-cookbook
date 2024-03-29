@@ -2,7 +2,18 @@
 crds:
   enabled: false
 
+defaultRules:
+  create: true
+  labels:
+    lsst.io/rule: "true"
+  additionalRuleLabels:
+    receivers: ",squadcast,"
+
 prometheusOperator:
+  enabled: true
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
   resources:
     limits:
       cpu: 1
@@ -30,18 +41,40 @@ prometheus:
         cpu: 1
         memory: 12Gi
     externalUrl: "https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
-    serviceMonitorNamespaceSelector:
-      matchLabels:
-        o11y.eu/monitor: enabled
-    serviceMonitorSelectorNilUsesHelmValues: false
-    serviceMonitorSelector: {}
-    podMonitorNamespaceSelector:
-      matchLabels:
-        o11y.eu/monitor: enabled
-    podMonitorSelectorNilUsesHelmValues: false
-    podMonitorSelector: {}
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    serviceMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    podMonitorNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    podMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    ruleNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    ruleSelector:
+      matchLabels:
+        lsst.io/rule: "true"
+    scrapeConfigNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    scrapeConfigSelector:
+      matchLabels:
+        lsst.io/scrape: "true"
+    probeNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    probeSelector:
+      matchLabels:
+        lsst.io/probe: "true"
   ingress:
     enabled: true
     annotations:
@@ -61,6 +94,9 @@ prometheus:
           - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
 
 alertmanager:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
   alertmanagerSpec:
     resources:
       limits:
@@ -71,7 +107,9 @@ alertmanager:
         memory: 512Mi
     externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     secrets:
-      - o11y-webhooks
+      - lsst-webhooks
+    configMaps:
+      - alertmanager-templates
   ingress:
     enabled: true
     annotations:
@@ -92,55 +130,88 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-      slack_api_url_file: /etc/alertmanager/secrets/o11y-webhooks/o11y-slack
+      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
-      group_by: [namespace, cluster]
+      group_by: ["alertname", "namespace"]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
-      receiver: slack-test
+      receiver: "slack-test"
       routes:
         - receiver: "null"
           matchers:
             - alertname = "InfoInhibitor"
-        - receiver: watchdog
+        - receiver: "watchdog"
           matchers:
             - alertname = "Watchdog"
-        - receiver: squadcast-test
+        - receiver: "squadcast-test"
           matchers:
-            - receiver =~ ".*,squadcast,.*"
+            - receivers =~ ".*,squadcast,.*"
           continue: true
+        - receiver: slack-kube-test
+          matchers:
+            - alertname =~ "Kube.*"
+        - receiver: slack-node-test
+          group_by: ["instance"]
+          matchers:
+            - alertname =~ "Node.*"
+        - receiver: slack-network-test
+          group_by: ["instance"]
+          matchers:
+            - alertname =~ "Network.*"
     receivers:
       - name: "null"
-      - name: watchdog
-      - name: slack-test
+      - name: "watchdog"
+      - name: "slack-test"
         slack_configs:
-          - username: "${ .ClusterName }-prometheus"
+          - username: "${ .ClusterName }-general"
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
-      - name: squadcast-test
+            text: '{{ template "slack.o11y.genericAlert" . }}'
+      - name: "slack-kube-test"
+        slack_configs:
+          - username: "${ .ClusterName }-kube"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.kubeAlert" . }}'
+      - name: "slack-node-test"
+        slack_configs:
+          - username: "${ .ClusterName }-nodes"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.nodeAlert" . }}'
+      - name: "slack-network-test"
+        slack_configs:
+          - username: "${ .ClusterName }-network"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.networkAlert" . }}'
+      - name: "squadcast-test"
         webhook_configs:
-          - url_file: /etc/alertmanger/secrets/o11y-webhooks/o11y-squadcast
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
         target_matchers:
           - severity = "info"
-        equal: [namespace]
+        equal: ["namespace"]
       - source_matchers:
           - severity = "critical"
         target_matchers:
           - severity =~ "info|warning"
-        equal: [alertname]
+        equal: ["alertname"]
       - source_matchers:
           - severity = "warning"
         target_matchers:
           - severity = "info"
-        equal: [alertname]
+        equal: ["alertname"]
     templates:
-      - /etc/alertmanager/config/*.tmpl
+      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
 
 grafana:
+  serviceMonitor:
+    labels:
+      lsst.io/monitor: "true"
   resources:
     limits:
       cpu: 4
@@ -227,6 +298,23 @@ kubeProxy:
 kubeControllerManager:
   enabled: false
 
+# specify the needed label for the serviceMonitor
+kubelet:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+coreDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeEtcd:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 prometheus-node-exporter:
   resources:
     limits:
@@ -235,7 +323,10 @@ prometheus-node-exporter:
     requests:
       cpu: 100m
       memory: 64Mi
-
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"
 kube-state-metrics:
   resources:
     limits:
@@ -244,3 +335,9 @@ kube-state-metrics:
     requests:
       cpu: 10m
       memory: 256Mi
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"
+  selfMonitor:
+    enabled: true
