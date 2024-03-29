@@ -3,7 +3,7 @@ defaultNamespace: &name kube-prometheus-stack
 labels:
   bundle: *name
 namespaceLabels:
-  o11y.eu/monitor: enabled
+  lsst.io/discover: "true"
 helm:
   chart: *name
   releaseName: *name
