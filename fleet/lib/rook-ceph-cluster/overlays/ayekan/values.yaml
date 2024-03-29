@@ -24,9 +24,9 @@ toolbox:
 
 monitoring:
   enabled: true
+  createPrometheusRules: true
   rulesNamespaceOverride: rook-ceph
   prometheusRule:
-    enabled: true
     labels:
       lsst.io/rule: "true"
 
