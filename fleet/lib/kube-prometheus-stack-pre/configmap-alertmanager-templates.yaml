@@ -6,7 +6,6 @@ data:
   slack-generic-alert.tmpl: |
     {{ define "slack.o11y.generic.text" }}
     *Site:* {{ .GroupLabels.site }}
-    *Prometheus:* {{ .GroupLabels.prometheus }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
