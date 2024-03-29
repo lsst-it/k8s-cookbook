@@ -3,7 +3,7 @@ defaultNamespace: kube-prometheus-stack
 labels:
   bundle: &name kube-prometheus-stack-pre
 namespaceLabels:
-  o11y.eu/monitor: enabled
+  lsst.io/discover: "true"
 helm:
   releaseName: *name
   timeoutSeconds: 300

@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-templates
+data:
+  slack-generic-alert.tmpl: |
+    {{ define "slack.o11y.genericAlert" }}
+    *Alert:* {{ .GroupLabels.alertname }}
+    *Summary:* {{ .CommonAnnotations.summary }}
+    {{ range .Alerts -}}
+    - *Alert:* {{ .Labels.alertname }}
+      *Summary:* {{ .Annotations.summary }}
+      *Description:* {{ .Annotations.description }}
+      *Severity:* {{ .Labels.severity }}
+      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+      *Labels:*
+      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+      {{ end }}
+    {{ end }}
+    {{ end }}
+  slack-kube-alert.tmpl: |
+    {{ define "slack.o11y.kubeAlert" }}
+    *Alert:* {{ .GroupLabels.alertname }}
+    *Namespace:* {{ .GroupLabels.namespace }}
+    *Summary:* {{ .CommonAnnotations.summary }}
+    {{ range .Alerts }}
+    - *Runbook:* {{ .Annotations.runbook_url }}
+      *Description:* {{ .Annotations.description }}
+      *Severity:* {{ .Labels.severity }}
+      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+      *Labels:*
+      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+      {{ end }}
+    {{ end }}
+    {{ end }}
+  slack-network-alert.tmpl: |
+    {{ define "slack.o11y.networkAlert" }}
+    *Device:* {{ .GroupLabels.instance }}
+    *Alerts:*
+    {{ range .Alerts }}
+    - *Alert:* {{ .Labels.alertname }}
+      *Summary:* {{ .Annotations.summary }}
+      *Description:* {{ .Annotations.description }}
+      *Severity:* {{ .Labels.severity }}
+      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+      *Labels:*
+      {{ range .Labels.SortedPairs }} - *{{ .Name }}:* `{{ .Value }}`
+      {{ end }}
+    {{ end }}
+    {{ end }}
+  slack-node-alert.tmpl: |
+    {{ define "slack.o11y.nodeAlert" }}
+    *Instance:* {{ .GroupLabels.instance }}
+    *Alerts:*
+    {{ range .Alerts }}
+    - *Alert:* {{ .Labels.alertname }}
+      *Summary:* {{ .Annotations.summary }}
+      *Description:* {{ .Annotations.description }}
+      *Severity:* {{ .Labels.severity }}
+      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+    {{ end }}
+    {{ end }}
