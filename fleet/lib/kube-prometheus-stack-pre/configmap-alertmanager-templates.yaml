@@ -12,19 +12,19 @@ data:
     {{ template "__o11y_alert_list" . }}
     {{ end }}
     {{ define "slack.o11y.generic.title"}}
-    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prometheus }}/{{ .GroupLabels.alertname }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom }}/{{ .GroupLabels.alertname }}
     {{ end }}
   slack-kube-alert.tmpl: |
     {{ define "slack.o11y.kube.text" }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Site:* {{ .GroupLabels.site }}
-    *Kube cluster:* {{ .GroupLabels.kubecluster }}
+    *Kube cluster:* {{ .GroupLabels.prom }}
     *Namespace:* {{ .GroupLabels.namespace }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
     {{ end }}
     {{ define "slack.o11y.kube.title"}}
-    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prometheus }}/{{ .GroupLabels.namespace }}/{{ .GroupLabels.alertname }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom }}/{{ .GroupLabels.namespace }}/{{ .GroupLabels.alertname }}
     {{ end }}
   slack-network-alert.tmpl: |
     {{ define "slack.o11y.network.text" }}
