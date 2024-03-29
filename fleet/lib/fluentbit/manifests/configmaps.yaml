@@ -146,16 +146,6 @@ data:
         Suppress_Type_Name true
         tls                On
         tls.verify         false
-    [Output]
-        Name                   loki
-        Match_Regex            (.*)
-        Host                   loki.loki
-        Tenant_ID              infra
-        HTTP_User              infra
-        HTTP_Passwd            foobar
-        Port                   3100
-        labels                 job=fluentbit
-        auto_kubernetes_labels on
   parsers.conf: ""
 ---
 apiVersion: v1
