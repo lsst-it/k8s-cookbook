@@ -3,7 +3,6 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: cnpg-backup-secrets
-  namespace: cloudnativepg
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -26,7 +25,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: cnpg-backups
-  namespace: cloudnativepg
 spec:
   concurrencyPolicy: Forbid
   schedule: "0 12,21 * * *" #9AM CLT - 6PM CLT
@@ -38,7 +36,7 @@ spec:
           activeDeadlineSeconds: 3600
           containers:
             - name: cnpg-backup
-              image: docker.io/lsstit/cnpg-backup:0.3
+              image: docker.io/lsstit/cnpg-backup:0.4
               volumeMounts:
                 - name: ephemeral
                   mountPath: "/tmp"
