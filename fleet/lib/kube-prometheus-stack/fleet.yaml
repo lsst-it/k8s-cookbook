@@ -71,4 +71,4 @@ targetCustomizations:
         prometheus:
           prometheusSpec:
             remoteWrite:
-              - url: https://mimir.o11y.dev.lsst.org/api/v1/push
+              - url: https://mimir.ayekan.dev.lsst.org/api/v1/push
