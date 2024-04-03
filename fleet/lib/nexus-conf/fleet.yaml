@@ -1,0 +1,14 @@
+---
+defaultNamespace: nexus
+labels:
+  bundle: &name nexus-conf
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf
