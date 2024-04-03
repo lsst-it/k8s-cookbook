@@ -13,7 +13,3 @@ helm:
   waitForJobs: true
   timeoutSeconds: 900
   atomic: false
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: cert-manager-crds
