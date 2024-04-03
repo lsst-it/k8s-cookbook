@@ -1,0 +1,74 @@
+config:
+  ldap:
+    enabled: true
+    name: freeipa
+    protocol: ldap
+    useTrustStore: true
+    connectionTimeoutSeconds: 30
+    connectionRetryDelaySeconds: 300
+    maxIncidentsCount: 3
+    host: ipa.lsst.org
+    port: 389
+    authScheme: simple
+    authUsername: uid=svc_nexus,cn=users,cn=accounts,dc=lsst,dc=cloud
+    authPassword:
+      secret: nexus-repo
+      key: password
+    authRealm:
+    searchBase:
+    userBaseDn:
+    userSubtree: false
+    userObjectClass: inetOrgPerson
+    userLdapFilter: memberOf=cn=nexus,cn=groups,cn=accounts,dc=lsst,dc=cloud
+    userIdAttribute: uid
+    userRealNameAttribute: cn
+    userEmailAddressAttribute: mail
+    userPasswordAttribute:  #The user will be authenticated against a bind with the LDAP server.
+    ldapGroupsAsRoles: false
+    groupType:
+    userMemberOfAttribute:
+    groupBaseDn:
+    groupSubtree: false
+    groupObjectClass:
+    groupIdAttribute:
+    groupMemberAttribute:
+    groupMemberFormat:
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+  hosts:
+    - nexus.dev.lsst.org
+  http:
+    paths:
+      - backend:
+          service:
+            name: my-nexus3
+            port:
+              name:
+              number: 8081
+        path: /
+        pathType: Prefix
+  tls:
+    - hosts:
+        - nexus.dev.lsst.org
+      secretName: nexus-dashboard-ingress-tls
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  storageClass: rook-ceph-block
+  size: 2Ti
+
+resources:
+  limits:
+    cpu: 4000m
+    memory: 16Gi
+  requests:
+    cpu: 4000m
+    memory: 16Gi
