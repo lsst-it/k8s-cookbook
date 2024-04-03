@@ -1,0 +1,19 @@
+---
+defaultNamespace: &name alertbit
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: git@github.com:o11ydev/alertbit//helm
+  releaseName: *name
+  version: v0.1.0
+  valuesFiles:
+    - values.yaml
+  waitForJobs: true
+  timeoutSeconds: 900
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cert-manager-crds
