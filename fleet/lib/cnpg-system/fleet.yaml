@@ -4,9 +4,10 @@ labels:
   bundle: *name
 helm:
   chart: cloudnative-pg
-  releaseName: cloudnative-pg
+  releaseName: cnpg
   repo: https://cloudnative-pg.github.io/charts
   version: 0.20.1
+  takeOwnership: true
   waitForJobs: true
   values:
     resources:
