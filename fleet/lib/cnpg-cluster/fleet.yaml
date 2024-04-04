@@ -17,3 +17,14 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    yaml:
+      overlays:
+        - pillan
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka
