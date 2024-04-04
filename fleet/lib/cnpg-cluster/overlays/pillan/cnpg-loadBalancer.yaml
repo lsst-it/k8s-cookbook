@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: cnpg-loadbalancer
   labels:
     cnpg.io/cluster: cnpg-cluster
-  name: cnpg-loadbalancer
-  namespace: cloudnativepg
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 140.252.146.49
 spec:
   allocateLoadBalancerNodePorts: true
   externalTrafficPolicy: Cluster
