@@ -4,13 +4,18 @@ prometheus:
     configMaps:
       - sd-snmp-network
       - sd-snmp-raritan-pdu
+    secrets:
+      - puppetdb
     additionalScrapeConfigs:
       - job_name: blackbox-ping-dev
         metrics_path: /probe
         params:
           module: [icmp]
         puppetdb_sd_configs:
-          - url: "http://puppetdb.${ .ClusterLabels.site }.lsst.org:8080"
+          - url: "https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443"
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
             query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
             refresh_interval: 30s
             follow_redirects: true
@@ -25,7 +30,10 @@ prometheus:
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
       - job_name: node-exporter-dev
         puppetdb_sd_configs:
-          - url: "http://puppetdb.${ .ClusterLabels.site }.lsst.org:8080"
+          - url: "https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443"
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
             query: |
               resources {
                 type = "Class" and title = "Profile::Core::Node_info" and
@@ -51,7 +59,10 @@ prometheus:
             target_label: cluster
       - job_name: blackbox-ping-ls
         puppetdb_sd_configs:
-          - url: http://puppetdb.ls.lsst.org:8080
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
             query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
             refresh_interval: 30s
             follow_redirects: true
@@ -66,7 +77,10 @@ prometheus:
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
       - job_name: node-exporter-ls
         puppetdb_sd_configs:
-          - url: http://puppetdb.ls.lsst.org:8080
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
             query: |
               resources {
                 type = "Class" and title = "Profile::Core::Node_info" and
