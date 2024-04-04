@@ -1,5 +1,7 @@
 ---
 subchart:
+  ci:
+    enabled: false
   kueyen:
     enabled: false
   namkueyen:

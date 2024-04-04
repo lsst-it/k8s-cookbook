@@ -51,6 +51,13 @@ diff:
         - /spec/disruptionManagement/manageMachineDisruptionBudgets
         - /spec/storage/useAllNodes
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      valuesFiles:
+        - overlays/ci/values.yaml
   - name: kueyen
     clusterName: kueyen
     helm:

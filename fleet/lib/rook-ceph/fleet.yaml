@@ -17,3 +17,11 @@ dependsOn:
   - selector:
     matchLabels:
       bundle: prometheus-operator-crds
+targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      values:
+        allowLoopDevices: true

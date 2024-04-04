@@ -27,6 +27,15 @@ diff:
         - /spec/preservePoolsOnDelete
         - /spec/healthCheck
 targetCustomizations:
+  - name: ci
+    clusterSelector:
+      matchLabels:
+        ci: "true"
+    helm:
+      values:
+        subchart:
+          ci:
+            enabled: true
   - name: kueyen
     clusterName: kueyen
     helm:
