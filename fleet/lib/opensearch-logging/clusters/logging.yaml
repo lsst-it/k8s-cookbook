@@ -11,11 +11,11 @@ spec:
   confMgmt: {}
   dashboards:
     enable: true
-    basePath: /dashboard
-    opensearchCredentialsSecret: {}
+    basePath: "/dashboard"
+    opensearchCredentialsSecret:
+      name: opensearch-dashboard-user-credentials
     replicas: 2
     labels:
-      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
@@ -35,35 +35,44 @@ spec:
       opensearch.username: admin
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: https://opensearch.ayekan.dev.lsst.org/dashboard
-      opensearch_security.openid.client_id: ${KEYCLOAK_CLIENT_ID}
-      opensearch_security.openid.client_secret: ${KEYCLOAK_CLIENT_SECRET}
-      opensearch_security.openid.connect_url: ${KEYCLOAK_URL}
-      opensearch_security.openid.header: Authorization
-      opensearch_security.openid.scope: openid profile email offline_access
+      opensearch_security.openid.base_redirect_url: "https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard"
+      opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
+      opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
+      opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
+      opensearch_security.openid.header: "Authorization"
+      opensearch_security.openid.scope: "openid profile email offline_access"
       opensearch_security.openid.trust_dynamic_headers: "true"
     env:
     - name: KEYCLOAK_CLIENT_ID
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: CLIENT_ID
     - name: KEYCLOAK_CLIENT_SECRET
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: CLIENT_SECRET
     - name: KEYCLOAK_URL
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: url
   security:
+    tls:
+      transport:
+        generate: false
+        secret:
+          name: opensearch-internal-certificate
+      http:
+        generate: false
+        secret:
+          name: opensearch-internal-certificate
     config:
       securityConfigSecret:
-        name: os-security-config
+        name: opensearch-security-config
       adminCredentialsSecret:
-        name: os-admin-credentials
+        name: opensearch-admin-credentials
   general:
     httpPort: 9200
     serviceName: logging
