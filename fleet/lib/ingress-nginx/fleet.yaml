@@ -18,7 +18,11 @@ helm:
           enabled: true
           additionalLabels:
             lsst.io/monitor: "true"
-        # TODO: handle error: cannot unmarshal rule from spec
+        # TODO: handle error: cannot unmarshal rule from spec This error happens
+        # due to the fact that the PrometheusRules from the blackbox exporter
+        # chart seem to be uncompatible with the new CRD's from the prometheus
+        # operator being deployed. It would be good to have these deployed as
+        # well but currently we're temporary disabling them.
         prometheusRule:
           enabled: false
           additionalLabels:
