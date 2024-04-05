@@ -3,7 +3,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUser
 metadata:
   name: fluentbit-logging
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -15,7 +14,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: fluentbit-logging-writer
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -33,7 +31,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchUserRoleBinding
 metadata:
   name: fluentbit-logging-binding
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
