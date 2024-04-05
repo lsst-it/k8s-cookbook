@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: opensearch-internal-certificate
   dnsNames:
-    - internal.opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+    - internal.opensearch.ayekan.dev.lsst.org
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
