@@ -80,22 +80,22 @@ cephClusterSpec:
   #    mgr: rook-ceph-mgr-priority-class
   storage:
     storageClassDeviceSets:
-      - name: set1
-        count: 1
-        portable: false
-        tuneDeviceClass: false
-        encrypted: true
-        volumeClaimTemplates:
-          - metadata:
-              name: data
-            spec:
-              resources:
-                requests:
-                  storage: 10Gi
-              storageClassName: manual
-              volumeMode: Block
-              accessModes:
-                - ReadWriteOnce
+    - count: 1
+      encrypted: true
+      name: set1
+      volumeClaimTemplates:
+      - metadata:
+          name: data
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: manual
+          volumeMode: Block
+      useAllDevices: true
+      useAllNodes: true
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
@@ -141,10 +141,10 @@ cephBlockPools:
     spec:
       failureDomain: host
       replicated:
-        size: 3
-        requireSafeReplicaSize: true
+        size: 1
+        requireSafeReplicaSize: false
       quotas:
-        maxSize: 2Ti
+        maxSize: 1Gi
     storageClass:
       name: rook-ceph-block
       enabled: true
