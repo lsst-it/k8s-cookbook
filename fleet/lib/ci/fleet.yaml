@@ -1,0 +1,8 @@
+---
+defaultNamespace: default
+labels:
+  bundle: &name ci
+helm:
+  releaseName: *name
+  timeoutSeconds: 300
+  waitForJobs: true
