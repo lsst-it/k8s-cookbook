@@ -8,7 +8,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
     cert-manager.io/cluster-issuer: letsencrypt
   name: logging-os-api
-  namespace: logging
 spec:
   rules:
   - host: opensearch.ayekan.dev.lsst.org
@@ -36,7 +35,6 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
   name: logging-os-dashboard
-  namespace: logging
 spec:
   rules:
   - host: opensearch.ayekan.dev.lsst.org
