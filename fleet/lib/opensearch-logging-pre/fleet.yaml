@@ -2,9 +2,8 @@
 defaultNamespace: logging
 namespaceLabels:
   lsst.io/discover: "true"
-  lsst.io/author: "fbegyn"
 labels:
-  bundle: &name logging
+  bundle: &name logging-pre
 helm:
   releaseName: *name
   takeOwnership: true
@@ -14,19 +13,10 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: opensearch-operator
-  - selector:
-      matchLabels:
         bundle: cert-manager-conf
   - selector:
       matchLabels:
         bundle: external-secrets-conf
-  - selector:
-      matchLabels:
-        bundle: ingress-nginx
-  - selector:
-      matchLabels:
-        bundle: logging-pre
 targetCustomizations:
   # first match is used
   - name: ayekan
