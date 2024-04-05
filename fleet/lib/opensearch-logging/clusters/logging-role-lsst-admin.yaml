@@ -3,7 +3,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-admin
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -14,7 +13,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-crud
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -29,7 +27,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-viewer
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -45,7 +42,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-admin-kubernetes
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -61,7 +57,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-crud-kube
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
@@ -76,7 +71,6 @@ apiVersion: opensearch.opster.io/v1
 kind: OpensearchRole
 metadata:
   name: lsst-viewer-kube
-  namespace: logging
 spec:
   opensearchCluster:
     name: logging
