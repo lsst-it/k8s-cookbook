@@ -5,9 +5,9 @@ metadata:
   labels:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
+    lsst.io/in-cluster: "false"
     lsst.io/project: "o11y"
-  name: fluent-bit
-  namespace: fluent-bit
+  name: fluent-bit-external
 spec:
   ports:
   - name: metrics
@@ -18,6 +18,7 @@ spec:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
+    lsst.io/in-cluster: "false"
   type: ClusterIP
 ---
 apiVersion: monitoring.coreos.com/v1
@@ -27,22 +28,20 @@ metadata:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
+    lsst.io/in-cluster: "false"
     lsst.io/monitor: "true"
-  name: fluent-bit
-  namespace: fluent-bit
+  name: fluent-bit-external
 spec:
   endpoints:
   - port: metrics
     scheme: http
     path: /api/v2/metrics/prometheus
-  namespaceSelector:
-    matchNames:
-    - fluent-bit
   selector:
     matchLabels:
       lsst.io/role: "logging"
       lsst.io/component: "fluent-bit"
       lsst.io/project: "o11y"
+      lsst.io/in-cluster: "false"
 ---
 apiVersion: v1
 kind: Service
@@ -51,9 +50,10 @@ metadata:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
+    lsst.io/in-cluster: "false"
   name: fluent-bit-syslog
-  namespace: fluent-bit
 spec:
+  loadBalancerIP: 139.229.144.46
   ports:
   - name: rsyslog-udp
     port: 5140
@@ -63,17 +63,25 @@ spec:
     port: 5140
     protocol: TCP
     targetPort: 5140
-  - name: netlog-udp
+  - name: firewall-udp
     port: 5141
     protocol: UDP
     targetPort: 5141
-  - name: netlog-tcp
+  - name: firewall-tcp
     port: 5141
     protocol: TCP
     targetPort: 5141
+  - name: netlog-udp
+    port: 5142
+    protocol: UDP
+    targetPort: 5142
+  - name: netlog-tcp
+    port: 5142
+    protocol: TCP
+    targetPort: 5142
   selector:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
     lsst.io/project: "o11y"
+    lsst.io/in-cluster: "false"
   type: LoadBalancer
-
