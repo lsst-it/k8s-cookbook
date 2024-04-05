@@ -23,17 +23,8 @@ spec:
   - cluster_composite_ops
   indexPermissions:
   - indexPatterns:
-    - cluster-logs-*
-    - kubernetes-logs-*
-    - fluentbit-*
-    - fluent-bit-*
-    - logstash-*
-    - log-stash-*
-    - syslog-*
-    - rsyslog-*
-    - netlogs-*
     - logs-*
-    - network-*
+    - log-*
     allowedActions:
     - crud
     - create_index
