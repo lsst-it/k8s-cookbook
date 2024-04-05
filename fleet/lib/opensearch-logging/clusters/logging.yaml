@@ -91,14 +91,13 @@ spec:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
-    jvm: -Xmx2G -Xms2G
+    jvm: -Xmx3G -Xms3G
     resources:
       requests:
         memory: "4Gi"
         cpu: "1"
       limits:
         memory: "4Gi"
-        cpu: "1"
     roles:
     - cluster_manager
     persistence:
@@ -106,7 +105,7 @@ spec:
   - component: coordinators
     replicas: 3
     diskSize: 50Gi
-    jvm: -Xmx2G -Xms2G
+    jvm: -Xmx3G -Xms3G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
@@ -123,8 +122,8 @@ spec:
       emptyDir: {}
   - component: hot-nodes
     replicas: 3
-    diskSize: 200Gi
-    jvm: -Xmx2G -Xms2G
+    diskSize: 400Gi
+    jvm: -Xmx15G -Xms15G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
@@ -142,8 +141,8 @@ spec:
     - ingest
   - component: cold-nodes
     replicas: 3
-    diskSize: 200Gi
-    jvm: -Xmx2G -Xms2G
+    diskSize: 400Gi
+    jvm: -Xmx7G -Xms7G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
