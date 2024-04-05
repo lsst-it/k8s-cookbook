@@ -123,7 +123,7 @@ spec:
   - component: hot-nodes
     replicas: 3
     diskSize: 400Gi
-    jvm: -Xmx15G -Xms15G
+    jvm: -Xmx14G -Xms14G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
