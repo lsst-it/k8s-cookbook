@@ -1,11 +1,10 @@
 ---
-paused: true
 defaultNamespace: fleet-default
 labels:
   bundle: &name fleet-conf
 helm:
   releaseName: *name
-  atomic: false
+  takeOwnership: true
 ignore:
   conditions:
     - type: Ready
