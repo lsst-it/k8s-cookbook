@@ -30,6 +30,10 @@ serviceMonitor:
 # rolled back due to atomic being set: failed to create resource: admission
 # webhook "prometheusrulemutate.monitoring.coreos.com" denied the request: Cannot
 # unmarshal rules from spec
+# This error happens due to the fact that the PrometheusRules from the blackbox
+# exporter chart seem to be uncompatible with the new CRD's from the prometheus
+# operator being deployed. It would be good to have these deployed as well but
+# currently we're temporary disabling them.
 prometheusRule:
   enabled: false
   labels:
