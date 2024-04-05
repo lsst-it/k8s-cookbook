@@ -1,31 +1,32 @@
 ---
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   annotations:
     lsst.io/name: "fluent-bit"
-    lsst.io/namespace: "fluent-bit"
   labels:
     lsst.io/role: "logging"
     lsst.io/component: "fluent-bit"
+    lsst.io/in-cluster: "false"
     lsst.io/project: "o11y"
-  name: fluent-bit
-  namespace: fluent-bit
+  name: fluent-bit-external
 spec:
   revisionHistoryLimit: 10
+  replicas: 3
   selector:
     matchLabels:
       lsst.io/role: "logging"
       lsst.io/component: "fluent-bit"
+      lsst.io/in-cluster: "false"
       lsst.io/project: "o11y"
   template:
     metadata:
       labels:
         lsst.io/role: "logging"
         lsst.io/component: "fluent-bit"
+        lsst.io/in-cluster: "false"
         lsst.io/project: "o11y"
-      name: fluent-bit
-      namespace: fluent-bit
+      name: fluent-bit-external
     spec:
       affinity:
         nodeAffinity:
@@ -39,12 +40,12 @@ spec:
         - name: OS_LOGGING_USERNAME
           valueFrom:
             secretKeyRef:
-              name: fluentbit-logging-credentials
+              name: fluentbit-external-credentials
               key: username
         - name: OS_LOGGING_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: fluentbit-logging-credentials
+              name: fluentbit-external-credentials
               key: password
         image: kubesphere/fluent-bit:v2.2.2
         imagePullPolicy: IfNotPresent
@@ -60,18 +61,23 @@ spec:
           name: rsyslog-tcp
           protocol: TCP
         - containerPort: 5141
-          name: netlog-udp
+          name: firewall-udp
           protocol: UDP
         - containerPort: 5141
+          name: firewall-tcp
+          protocol: TCP
+        - containerPort: 5142
+          name: netlog-udp
+          protocol: UDP
+        - containerPort: 5142
           name: netlog-tcp
           protocol: TCP
         resources:
           limits:
-            cpu: 500m
-            memory: 200Mi
+            memory: 1Gi
           requests:
-            cpu: 10m
-            memory: 25Mi
+            cpu: 500m
+            memory: 1Gi
         volumeMounts:
         - mountPath: /fluent-bit/config
           name: config
@@ -113,26 +119,22 @@ spec:
             memory: 128Mi
           limits:
             memory: 128Mi
-        env:
-        - name: OS_LOGGING_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: fluentbit-logging-credentials
-              key: username
-        - name: OS_LOGGING_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: fluentbit-logging-credentials
-              key: password
       serviceAccount: fluent-bit
       serviceAccountName: fluent-bit
       volumes:
       - name: config
-        configMap:
-          name: fluent-bit-config
+        projected:
+          sources:
+          - configMap:
+              name: fluent-bit-external-config
+          - configMap:
+              name: fluent-bit-parsers
       - name: lua
         configMap:
           name: fluent-bit-luascripts
+      - name: parsers
+        configMap:
+          name: fluent-bit-parsers
       - hostPath:
           path: /var/lib/docker/containers
           type: ""
