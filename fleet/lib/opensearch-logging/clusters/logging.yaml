@@ -11,9 +11,14 @@ spec:
   confMgmt: {}
   dashboards:
     enable: true
+    tls:
+      enable: true
+      generate: false
+      secret:
+        name: opensearch-dashboards-certs
     basePath: "/dashboard"
     opensearchCredentialsSecret:
-      name: opensearch-dashboard-user-credentials
+      name: opensearch-dashboarduser-credentials
     replicas: 2
     labels:
       lsst.io/monitor: "true"
@@ -26,9 +31,9 @@ spec:
         memory: 1Gi
     service:
       type: ClusterIP
-    version: 2.11.1
+    version: 2.13.0
     additionalConfig:
-      logging.verbose: "true"
+      logging.verbose: "false"
       opensearch.password: "admin"
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
       opensearch.ssl.verificationMode: "none"
@@ -60,31 +65,47 @@ spec:
           key: url
   security:
     tls:
+      # TODO: figure out a certificate differentiation for the transport and
+      # admin interface.
+      # sources:
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/docs/userguide/main.md
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/issues/141
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/issues/338
       transport:
         generate: false
+        perNode: false
         secret:
-          name: opensearch-internal-certificate
+          name: opensearch-certs
+        nodesDn: ["CN=Opensearch_Node"]
+        adminDn: ["CN=OpenSearch_Admin"]
+      # We don't directly expose the HTTP API externally, so no need to handle
+      # TLS here for the HTTP API
       http:
         generate: false
         secret:
-          name: opensearch-internal-certificate
+          name: opensearch-certs
     config:
       securityConfigSecret:
         name: opensearch-security-config
+      adminSecret:
+        name: opensearch-admin-certs
       adminCredentialsSecret:
         name: opensearch-admin-credentials
   general:
     httpPort: 9200
     serviceName: logging
     setVMMaxMapCount: true
-    version: 2.11.1
+    version: 2.13.0
     monitoring:
       enable: true
       scrapeInterval: 30s
-      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"
+      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.13.0.0/prometheus-exporter-2.13.0.0.zip"
       tlsConfig:
         insecureSkipVerify: true
     pluginsList: ["repository-s3"]
+    additionalConfig:
+      plugins.security.ssl.transport.enforce_hostname_verification: "false"
+      plugins.security.allow_unsafe_democertificates: "false"
   initHelper:
     resources:
       requests:
