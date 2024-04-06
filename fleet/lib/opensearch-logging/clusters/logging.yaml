@@ -18,7 +18,7 @@ spec:
         name: opensearch-dashboards-certs
     basePath: "/dashboard"
     opensearchCredentialsSecret:
-      name: opensearch-dashboarduser-credentials
+      name: opensearch-admin-credentials
     replicas: 2
     labels:
       lsst.io/monitor: "true"
@@ -40,7 +40,7 @@ spec:
       opensearch.username: admin
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: "https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard"
+      opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
       opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
       opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
       opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
