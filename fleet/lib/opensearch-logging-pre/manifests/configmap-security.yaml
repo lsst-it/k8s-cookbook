@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: security-config-tmpl
 data:
-  config.yml: |
+  config.yml: |-
     _meta:
       type: "config"
       config_version: 2
@@ -29,40 +29,131 @@ data:
               challenge: false
               config:
                 subject_key: preferred_username
-                roles_key: roles
+                roles_key: groups
                 openid_connect_url: "{{ .keycloakURL }}"
             authentication_backend:
               type: noop
-  roles_mappings.yml: |
-    lsst-admin:
+  internal_users.yml: |-
+    _meta:
+      type: "internalusers"
+      config_version: 2
+    admin:
+      hash: "$2y$12$xJHKRvZjZlsC4t6MIDye/.IFJoyVlxt/Hdl0rWZPE4YPu6IFgMryC"
+      reserved: true
+      backend_roles:
+      - "all_access"
+      - "admin"
+      description: "Logging admin user"
+    dashboarduser:
+      hash: "$2y$12$izq1pW5OqT9pda1ZAEjPnOeEpZDAoaC7WZrNVzUCwzAFsei6auUv."
+      reserved: true
+      description: "Logging OpenSearch Dashboards user"
+      backend_roles:
+      - "kibana_server"
+      - "dashboarduser_monitor"
+    external-logging:
+      hash: "$2y$12$xnA5G418muNiZf6mknY8qe6uOYfP7ARxkAf2KmKM3e6BpCQXFk.Zu"
+      reserved: true
+      description: "User for out-off-cluster logging inputs"
+      backend_roles:
+      - "logstash"
+      - "external-logging-writer"
+    kube-logging:
+      hash: "$2y$12$47ABdDAMvgiSa/aqiU2VLuqwy6SbjhU2cpbLwexQEIeq7tdHIuVLO"
+      reserved: true
+      description: "User for kubernetes logging inputs"
+      backend_roles:
+      - "logstash"
+      - "kube-logging-writer"
+  roles_mapping.yml: |-
+    _meta:
+      type: "rolesmapping"
+      config_version: 2
+    all_access:
       reserved: false
       hidden: false
       backend_roles:
-        - "lsst-os-admin"
+        - "lsst-opensearch-admin"
+        - "ayekan"
+        - "admin"
+    admin:
+      reserved: false
+      hidden: false
+      backend_roles:
+        - "lsst-opensearch-admin"
         - "ayekan"
         - "admin"
       description: "Maps the LSST admin roles to cluster admin"
-    lsst-crud:
-      reserved: false
+    dashboarduser_monitor:
+      reserved: true
       hidden: false
       backend_roles:
-        - "log-crud"
-      description: "Allow users to CRUD all indices"
-    lsst-admin-kubernetes:
-      reserved: false
+        - "dashboarduser"
+    kibana_server:
+      reserved: true
       hidden: false
       backend_roles:
-        - "log-admin-kube"
-      description: "Allow users to manage kubernete-* indices"
-    lsst-crud-kubernetes:
-      reserved: false
+        - "dashboarduser"
+    logstash:
+      reserved: true
       hidden: false
       backend_roles:
-        - "log-crud-kube"
-      description: "Allow users to CRUD kubernete-* indices"
+        - "external-logging"
+        - "kube-logging"
+    external-logging-writer:
+      reserved: true
+      hidden: false
+      backend_roles:
+        - "external-logging"
+    kube-logging-writer:
+      reserved: true
+      hidden: false
+      backend_roles:
+        - "kube-logging"
     readall:
       reserved: false
       hidden: false
       backend_roles:
         - "log-readall"
       description: "Maps log-readall to the readall role"
+  roles.yml: |-
+    _meta:
+      type: "roles"
+      config_version: 2
+    admin:
+      reserved: true
+      cluster_permissions:
+      - "*"
+      index_permissions:
+      - index_patterns:
+        - "*"
+        allowed_actions:
+        - "*"
+    dashboarduser_monitor:
+      reserved: true
+      cluster_permissions:
+      - "cluster:monitor/*"
+    external-logging-writer:
+      reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops"
+      index_permissions:
+      - index_patterns:
+        - 'logs-*'
+        - "log-*"
+        allowed_actions:
+        - "crud"
+        - "create_index"
+        - "indices:data/write/bulk"
+    kube-logging-writer:
+      reserved: true
+      cluster_permissions:
+      - cluster_composite_ops
+      index_permissions:
+      - index_patterns:
+        - 'logs-*'
+        - "log-*"
+        allowed_actions:
+        - "crud"
+        - "create_index"
+        - "indices:data/write/bulk"
