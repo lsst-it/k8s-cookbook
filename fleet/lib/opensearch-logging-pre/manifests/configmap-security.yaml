@@ -47,7 +47,7 @@ data:
       - "admin"
       description: "Logging admin user"
     dashboarduser:
-      hash: "$2y$12$izq1pW5OqT9pda1ZAEjPnOeEpZDAoaC7WZrNVzUCwzAFsei6auUv."
+      hash: "$2y$12$HsYZ7C7wXu9uHg1GRPR3FerW8FlBuCb4H0dZOlQRHu8cQoNQtZh8e"
       reserved: false
       description: "Logging OpenSearch Dashboards user"
     external-logging:
@@ -103,6 +103,14 @@ data:
       hidden: false
       users:
         - "kube-logging"
+    readall:
+      reserved: false
+      users:
+        - "dashboarduser"
+    dashboarduser:
+      reserved: false
+      users:
+        - "dashboarduser"
   roles.yml: |-
     ---
     _meta:
@@ -117,6 +125,17 @@ data:
         - "*"
         allowed_actions:
         - "*"
+    dashboarduser:
+      reserved: false
+      cluster_permissions:
+      - "cluster_composite_ops"
+      index_permissions:
+      - index_patterns:
+        - "*"
+        allowed_actions:
+        - "get"
+        - "read"
+        - "data_access"
     external-logging-writer:
       reserved: false
       cluster_permissions:

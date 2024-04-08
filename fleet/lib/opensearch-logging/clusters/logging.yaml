@@ -18,7 +18,7 @@ spec:
         name: opensearch-dashboards-certs
     basePath: "/dashboard"
     opensearchCredentialsSecret:
-      name: opensearch-admin-credentials
+      name: opensearch-dashboarduser-credentials
     replicas: 2
     labels:
       lsst.io/monitor: "true"
