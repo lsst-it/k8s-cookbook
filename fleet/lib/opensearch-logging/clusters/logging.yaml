@@ -18,7 +18,7 @@ spec:
         name: opensearch-dashboards-certs
     basePath: "/dashboard"
     opensearchCredentialsSecret:
-      name: opensearch-admin-credentials
+      name: opensearch-dashboarduser-credentials
     replicas: 2
     labels:
       lsst.io/monitor: "true"
@@ -31,13 +31,11 @@ spec:
         memory: 1Gi
     service:
       type: ClusterIP
-    version: 2.13.0
+    version: 2.11.0
     additionalConfig:
       logging.verbose: "false"
-      opensearch.password: "admin"
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
-      opensearch.ssl.verificationMode: "none"
-      opensearch.username: "admin"
+      opensearch.ssl.verificationMode: "full"
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
       opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
@@ -46,7 +44,7 @@ spec:
       opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
       opensearch_security.openid.header: "Authorization"
       opensearch_security.openid.scope: "openid profile email offline_access"
-      opensearch_security.openid.trust_dynamic_headers: "true"
+      opensearch_security.ui.openid.login.buttonname: "Login with keycloak.ls.lsst.org"
     env:
     - name: KEYCLOAK_CLIENT_ID
       valueFrom:
