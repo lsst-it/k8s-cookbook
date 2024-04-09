@@ -85,6 +85,11 @@ data:
       users:
         - "admin"
       description: "Maps the LSST admin roles to cluster admin"
+    kibana_user:
+      reserved: false
+      hidden: false
+      users:
+        - "dashboarduser"
     kibana_server:
       reserved: false
       hidden: false
