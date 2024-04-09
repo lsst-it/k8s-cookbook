@@ -50,6 +50,9 @@ data:
       hash: "$2y$12$HsYZ7C7wXu9uHg1GRPR3FerW8FlBuCb4H0dZOlQRHu8cQoNQtZh8e"
       reserved: false
       description: "Logging OpenSearch Dashboards user"
+      backend_roles:
+      - "all_access"
+      - "admin"
     external-logging:
       hash: "$2y$12$xnA5G418muNiZf6mknY8qe6uOYfP7ARxkAf2KmKM3e6BpCQXFk.Zu"
       reserved: false
@@ -136,6 +139,7 @@ data:
         - "get"
         - "read"
         - "data_access"
+        - "indices:admin/get"
     external-logging-writer:
       reserved: false
       cluster_permissions:
