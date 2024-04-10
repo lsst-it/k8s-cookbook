@@ -1,0 +1,17 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: yepun
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: cp_production
+  keepResources: true
+  paths:
+    - fleet/s/cp/c/yepun/*
+  targets:
+    - name: yepun
+      clusterName: yepun
+  correctDrift:
+    enabled: false  # XXX do not enable because of rook
