@@ -111,3 +111,10 @@ targetCustomizations:
         subchart:
           yagan:
             enabled: true
+  - name: yepun
+    clusterName: yepun
+    helm:
+      values:
+        subchart:
+          yepun:
+            enabled: true

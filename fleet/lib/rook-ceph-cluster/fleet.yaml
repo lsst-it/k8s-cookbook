@@ -111,3 +111,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/yagan/values.yaml
+  - name: yepun
+    clusterName: yepun
+    helm:
+      valuesFiles:
+        - overlays/yepun/values.yaml

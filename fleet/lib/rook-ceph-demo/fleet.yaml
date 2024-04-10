@@ -170,3 +170,9 @@ targetCustomizations:
             - name: comcam
               path: /comcam
               server: nfs-comcam.cp.lsst.org
+  - name: yepun
+    clusterName: yepun
+    helm:
+      values:
+        pvc:
+          enabled: true
