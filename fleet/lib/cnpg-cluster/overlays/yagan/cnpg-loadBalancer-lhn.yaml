@@ -1,13 +1,11 @@
----
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    metallb.universe.tf/address-pool: lhn
+  name: cnpg-loadbalancer-lhn
   labels:
     cnpg.io/cluster: cnpg-cluster
-  name: cnpg-loadbalancer-lhn
-  namespace: cloudnativepg
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.180.6
 spec:
   allocateLoadBalancerNodePorts: true
   externalTrafficPolicy: Cluster
@@ -16,11 +14,12 @@ spec:
   - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-  - port: 5432
+  - nodePort: 32509
+    port: 5432
     protocol: TCP
     targetPort: 5432
   selector:
-    postgresql: cnpg-cluster
+    cnpg.io/cluster: cnpg-cluster
     role: primary
   sessionAffinity: None
   type: LoadBalancer

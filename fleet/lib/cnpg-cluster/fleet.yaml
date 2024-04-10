@@ -33,3 +33,13 @@ targetCustomizations:
     yaml:
       overlays:
         - ruka
+  - name: yagan
+    clusterName: yagan
+    yaml:
+      overlays:
+        - yagan
+  - name: yepun
+    clusterName: yepun
+    yaml:
+      overlays:
+        - yepun

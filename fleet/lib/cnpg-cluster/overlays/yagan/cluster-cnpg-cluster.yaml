@@ -1,0 +1,45 @@
+---
+# Cluster Definition
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster
+spec:
+  imageName: docker.io/lsstit/cnpgsphere:14.5
+  imagePullPolicy: IfNotPresent
+
+  instances: 3
+
+  postgresql:
+    parameters:
+      max_connections: "500"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
+    pg_hba:
+      - host replication replicauser all md5
+      - host all all 139.229.134.0/23 md5
+      - host all all 139.229.136.0/21 md5
+      - host all all 139.229.144.0/20 md5
+      - host all all 139.229.160.0/19 md5
+      - host all all 139.229.192.0/18 md5
+      - host all all 140.252.146.0/23 md5
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-cluster-superuser
+
+# Resources and Storage Needs to be Adjust!
+
+  storage:
+    size: 5Gi
+
+  monitoring:
+    enablePodMonitor: true
+
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
