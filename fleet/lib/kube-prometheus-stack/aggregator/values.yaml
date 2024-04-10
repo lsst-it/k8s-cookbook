@@ -95,6 +95,9 @@ prometheus:
       - secretName: tls-prometheus-ingress
         hosts:
           - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 
 alertmanager:
   serviceMonitor:
@@ -286,6 +289,8 @@ grafana:
       enabled: true
     dashboards:
       enabled: true
+    datasources:
+      enabled: true
   extraSecretMounts:
     - name: keycloack-credentials
       mountPath: /etc/secrets/keycloack-credentials
@@ -330,6 +335,10 @@ kubeControllerManager:
   enabled: false
 
 # specify the needed label for the serviceMonitor
+kubeApiServer:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 kubelet:
   serviceMonitor:
     additionalLabels:
