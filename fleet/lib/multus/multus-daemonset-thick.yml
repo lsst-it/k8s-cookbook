@@ -161,11 +161,11 @@ spec:
           command: [ "/usr/src/multus-cni/bin/multus-daemon" ]
           resources:
             requests:
-              cpu: "100m"
-              memory: "50Mi"
+              cpu: 100m
+              memory: 64Mi
             limits:
-              cpu: "100m"
-              memory: "50Mi"
+              cpu: 100m
+              memory: 128Mi
           securityContext:
             privileged: true
           volumeMounts:
