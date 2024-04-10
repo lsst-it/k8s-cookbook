@@ -21,12 +21,5 @@ helm upgrade --install snmp-exporter prometheus-community/prometheus-snmp-export
      --version "1.8.1" \
      -f ./snmp-exporter/helm-values.yaml
 
-# Blackbox configuration
-helm upgrade --install blackbox-exporter prometheus-community/prometheus-blackbox-exporter \
-     --create-namespace --namespace ${NAMESPACE=} \
-     --atomic --timeout 15m \
-     --version "8.4.0" \
-     -f ./blackbox-exporter/helm-values.yaml
-
 # puppetdb exporter
 kubectl --namespace ${NAMESPACE=} apply -f puppetdb-exporter/deployment.yaml
