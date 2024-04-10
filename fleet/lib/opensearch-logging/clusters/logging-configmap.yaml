@@ -30,7 +30,7 @@ data:
               config:
                 subject_key: preferred_username
                 roles_key: roles
-                openid_connect_url: "{{ .keycloackURL }}"
+                openid_connect_url: "{{ .keycloakURL }}"
             authentication_backend:
               type: noop
   roles_mappings.yml: |

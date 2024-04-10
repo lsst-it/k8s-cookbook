@@ -243,13 +243,13 @@ grafana:
       allow_sign_up: true
       api_url: https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/userinfo
       auth_url: https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/auth
-      client_id: $__file{/etc/secrets/keycloack-credentials/client_id}
-      client_secret: $__file{/etc/secrets/keycloack-credentials/client_secret}
+      client_id: $__file{/etc/secrets/keycloak-credentials/client_id}
+      client_secret: $__file{/etc/secrets/keycloak-credentials/client_secret}
       email_attribute_path: email
       enabled: true
       group_attribute_path: groups
       login_attribute_path: preferred_username
-      name: keycloack.ls.lsst.org
+      name: keycloak.ls.lsst.org
       role_attribute_path: contains(groups[*], 'grafana-admin') && 'GrafanaAdmin' || contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'
       scopes: openid profile email groups roles offline_access
       token_url: https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token
@@ -287,9 +287,9 @@ grafana:
     dashboards:
       enabled: true
   extraSecretMounts:
-    - name: keycloack-credentials
-      mountPath: /etc/secrets/keycloack-credentials
-      secretName: grafana-keycloack-credentials
+    - name: keycloak-credentials
+      mountPath: /etc/secrets/keycloak-credentials
+      secretName: grafana-keycloak-credentials
       readOnly: true
   datasources:
     datasource.yaml:
