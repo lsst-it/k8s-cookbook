@@ -1,0 +1,61 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: cnpg-backup-secrets
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: cnpg-aws-creds-manke
+        property: username
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: cnpg-aws-creds-manke
+        property: password
+    - secretKey: PGPASSWORD
+      remoteRef:
+        key: cnpg-cluster-superuser-manke
+        property: password
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cnpg-backups
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "0 12,21 * * *" #9AM CLT - 6PM CLT
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 172800
+      template:
+        spec:
+          activeDeadlineSeconds: 3600
+          containers:
+            - name: cnpg-backup
+              image: docker.io/lsstit/cnpg-backup:0.4
+              volumeMounts:
+                - name: ephemeral
+                  mountPath: "/tmp"
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - secretRef:
+                    name: cnpg-backup-secrets
+              env:
+                - name: HOST
+                  value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
+                - name: AWS_ACCESS_BUCKET
+                  value: s3://cnpg-backups-base
+          volumes:
+            - name: ephemeral
+              ephemeral:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: ["ReadWriteOnce"]
+                    resources:
+                      requests:
+                        storage: 5Gi
+          restartPolicy: OnFailure

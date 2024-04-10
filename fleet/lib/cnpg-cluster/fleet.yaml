@@ -18,6 +18,11 @@ dependsOn:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
+  - name: manke
+    clusterName: manke
+    yaml:
+      overlays:
+        - manke
   - name: pillan
     clusterName: pillan
     yaml:
