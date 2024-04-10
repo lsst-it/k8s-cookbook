@@ -22,3 +22,5 @@ subchart:
     enabled: false
   lukay:
     enabled: false
+  yagan:
+    enabled: false
