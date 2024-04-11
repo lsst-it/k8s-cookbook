@@ -43,3 +43,8 @@ targetCustomizations:
     yaml:
       overlays:
         - chonchon
+  - name: yagan
+    clusterName: yagan
+    yaml:
+      overlays:
+        - yagan

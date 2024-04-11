@@ -1,0 +1,19 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: general
+  namespace: metallb-system
+spec:
+  addresses:
+    - 139.229.160.191-139.229.160.200
+  autoAssign: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: general
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - general

@@ -155,3 +155,24 @@ targetCustomizations:
             - name: backup
               path: /backup
               server: it-nfs-backup.cp.lsst.org
+  - name: yagan
+    clusterName: yagan
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: nfs-auxtel.cp.lsst.org
+            - name: comcam
+              path: /comcam
+              server: nfs-comcam.cp.lsst.org
+  - name: yepun
+    clusterName: yepun
+    helm:
+      values:
+        pvc:
+          enabled: true

@@ -28,3 +28,7 @@ dependencies:
     condition: subchart.chonchon.enabled
   - name: lukay
     condition: subchart.lukay.enabled
+  - name: yagan
+    condition: subchart.yagan.enabled
+  - name: yepun
+    condition: subchart.yepun.enabled

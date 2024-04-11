@@ -22,3 +22,7 @@ subchart:
     enabled: false
   lukay:
     enabled: false
+  yagan:
+    enabled: false
+  yepun:
+    enabled: false

@@ -106,3 +106,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/lukay/values.yaml
+  - name: yagan
+    clusterName: yagan
+    helm:
+      valuesFiles:
+        - overlays/yagan/values.yaml
+  - name: yepun
+    clusterName: yepun
+    helm:
+      valuesFiles:
+        - overlays/yepun/values.yaml

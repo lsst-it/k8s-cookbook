@@ -104,3 +104,17 @@ targetCustomizations:
         subchart:
           lukay:
             enabled: true
+  - name: yagan
+    clusterName: yagan
+    helm:
+      values:
+        subchart:
+          yagan:
+            enabled: true
+  - name: yepun
+    clusterName: yepun
+    helm:
+      values:
+        subchart:
+          yepun:
+            enabled: true
