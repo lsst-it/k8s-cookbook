@@ -2,22 +2,22 @@
 # If you intened to deploy Kubernetes in an air-gapped environment,
 # please consult the documentation on how to configure custom RKE images.
 nodes:
-- address: rancher1.cp.lsst.org
-  #hostname_override: "rancher1.cp"
+- address: rancher01.cp.lsst.org
+  hostname_override: rancher01.cp
   user: rke
   role:
   - controlplane
   - worker
   - etcd
-- address: rancher2.cp.lsst.org
-  #hostname_override: "rancher2.cp"
+- address: rancher02.cp.lsst.org
+  hostname_override: rancher02.cp
   user: rke
   role:
   - controlplane
   - worker
   - etcd
-- address: rancher3.cp.lsst.org
-  #hostname_override: "rancher3.cp"
+- address: rancher03.cp.lsst.org
+  hostname_override: rancher03.cp
   user: rke
   role:
   - controlplane
