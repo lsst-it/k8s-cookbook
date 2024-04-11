@@ -1,0 +1,5 @@
+apiVersion: v2
+appVersion: 0.1.0
+description: "Grafana LSST dashboard GitOps"
+name: lsst-grafana-dashboards
+version: 0.1.1
