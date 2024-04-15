@@ -38,8 +38,3 @@ targetCustomizations:
     yaml:
       overlays:
         - yagan
-  - name: yepun
-    clusterName: yepun
-    yaml:
-      overlays:
-        - yepun
