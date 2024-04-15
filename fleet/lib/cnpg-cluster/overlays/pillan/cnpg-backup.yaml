@@ -16,6 +16,10 @@ spec:
       remoteRef:
         key: cnpg-aws-creds-pillan
         property: password
+    - secretKey: AWS_ACCESS_BUCKET
+      remoteRef:
+        key: cnpg-aws-creds-pillan
+        property: website
     - secretKey: PGPASSWORD
       remoteRef:
         key: cnpg-cluster-superuser-pillan
@@ -36,7 +40,7 @@ spec:
           activeDeadlineSeconds: 3600
           containers:
             - name: cnpg-backup
-              image: docker.io/lsstit/cnpg-backup:0.4
+              image: docker.io/lsstit/cnpg-backup:0.5
               volumeMounts:
                 - name: ephemeral
                   mountPath: "/tmp"
@@ -47,8 +51,6 @@ spec:
               env:
                 - name: HOST
                   value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
-                - name: AWS_ACCESS_BUCKET
-                  value: s3://cnpg-backups
           volumes:
             - name: ephemeral
               ephemeral:
