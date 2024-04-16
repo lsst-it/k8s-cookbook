@@ -25,7 +25,9 @@ helm:
           memory: 192Mi
     speaker:
       priorityClassName: system-node-critical
-      resources:
+      frr:
+        enabled: false
+      resources:  # XXX check live usage on yagan after frr is disabled
         limits:
           cpu: 500m
           memory: 192Mi
