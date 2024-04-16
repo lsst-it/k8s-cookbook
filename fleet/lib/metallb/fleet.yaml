@@ -16,8 +16,22 @@ helm:
   values:
     controller:
       priorityClassName: system-cluster-critical
+      resources:
+        limits:
+          cpu: 100m
+          memory: 192Mi
+        requests:
+          cpu: 10m
+          memory: 192Mi
     speaker:
       priorityClassName: system-node-critical
+      resources:
+        limits:
+          cpu: 500m
+          memory: 192Mi
+        requests:
+          cpu: 50m
+          memory: 192Mi
     prometheus:
       namespace: "kube-prometheus-stack"
       serviceAccount: "kube-prometheus-stack-prometheus"
