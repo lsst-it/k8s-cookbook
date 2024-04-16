@@ -1,0 +1,5 @@
+apiVersion: v2
+appVersion: 0.1.0
+description: "Prometheus LSST rules GitOps"
+name: lsst-prometheus-alerts
+version: 0.1.1
