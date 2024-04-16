@@ -1,0 +1,34 @@
+# yamllint disable-file
+{{- if .Values.rules.enabled }}
+{{- $files := .Files.Glob "rules/**.yaml" }}
+{{- range $rawpath, $content := $files }}
+{{- $path := ($rawpath | lower | replace " " "-") }}
+{{- $ruleDir := dir $path }}
+{{- $ruleFile := base $path }}
+{{- $namespaceSplit := regexSplit "\\/+" $ruleDir -1 }}
+{{- $namespace := $.Values.rules.namespace | default $.Release.Namespace }}
+{{- if (eq (len $namespaceSplit) 2) }}
+{{- $namespace = (index $namespaceSplit 1) }}
+{{- end }}
+{{- $alertName := lower (index (regexSplit "\\.yaml" $ruleFile -1) 0) }}
+---
+apiVersion: monitoring.coreos.com/v1                                                                                                                                                         │
+kind: PrometheusRule
+metadata:
+  name: {{ printf "%s-%s" "alert" $alertName | trunc 63 | trimSuffix "-" }}
+  namespace: {{ $namespace }}
+  labels:
+    lsst.io/component: "prometheus-rules"
+    lsst.io/dir: {{ $ruleDir | quote }}
+    lsst.io/file: {{ $ruleFile | quote }}
+    {{- with $.Values.rules.additionalLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $.Values.rules.additionalAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{ $content | toString }}
+{{ end }}
+{{ end }}
