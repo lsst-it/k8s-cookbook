@@ -2,8 +2,8 @@
 prometheus:
   prometheusSpec:
     configMaps:
-      - prometheus-snmp-csv-network
-      - pdu-targets
+      - sd-snmp-network
+      - sd-snmp-raritan-pdu
     secrets:
       - puppetdb
     additionalScrapeConfigs:
@@ -91,14 +91,14 @@ prometheus:
             include_parameters: true
             enable_http2: true
         relabel_configs: *k8s-blackbox-monitoring
-      - job_name: snmp-csv-network
+      - job_name: snmp-network
         metrics_path: /snmp
         params:
           module: [if_mib]
           auth: [rubin_v2]
         file_sd_configs:
           - files:
-              - "/etc/prometheus/configmaps/prometheus-snmp-csv-network/snmp-csv-network.json"
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
         relabel_configs: &network-snmp-relabel
           - source_labels: [__address__]
             target_label: __param_target
@@ -108,13 +108,13 @@ prometheus:
             target_label: network_function
           - target_label: __address__
             replacement: "prometheus-snmp-exporter.snmp-exporter:9116"
-      - job_name: blackbox-csv-network
+      - job_name: blackbox-network
         metrics_path: /probe
         params:
           module: [icmp]
         file_sd_configs:
           - files:
-              - "/etc/prometheus/configmaps/prometheus-snmp-csv-network/snmp-csv-network.json"
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
@@ -131,7 +131,7 @@ prometheus:
           auth: [rubin_v2]
         file_sd_configs:
           - files:
-              - "/etc/prometheus/configmaps/pdu-targets/pdu-targets.json"
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
         relabel_configs: &snmp-relabel
           - source_labels: [__address__]
             target_label: __param_target
