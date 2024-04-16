@@ -1,0 +1,7 @@
+---
+rules:
+  enabled: true
+  namespace: ~
+  additionalAnnotations: {}
+  additionalLabels:
+    lsst.io/rule: "true"
