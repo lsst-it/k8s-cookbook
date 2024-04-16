@@ -1,0 +1,12 @@
+---
+defaultNamespace: &name lsst-prometheus-alerts
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: false
+  atomic: false

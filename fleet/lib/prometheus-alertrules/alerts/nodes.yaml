@@ -1,0 +1,31 @@
+groups:
+  - name: "NodeFilesystem"
+    rules:
+      - alert: "NodeFilesystemFillingUp"
+        expr: |>
+          (
+                        node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                      /
+                        node_filesystem_size_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                    *
+                      100
+                  <
+                    10
+                and
+                    predict_linear(
+                      node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}[6h],
+                      12 * 60 * 60
+                    )
+                  <
+                    0
+              and
+                  node_filesystem_readonly{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                ==
+                  0
+            and
+                delta(
+                  node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}[6h]
+                )
+              <
+                0
+          )
