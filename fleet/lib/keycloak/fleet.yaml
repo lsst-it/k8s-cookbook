@@ -1,0 +1,37 @@
+---
+defaultNamespace: &name keycloak
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.bitnami.com/bitnami
+  version: 17.3.1
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: keycloak-pre
+  - selector:
+      matchLabels:
+        bundle: keycloak-pg
+targetCustomizations:
+  - name: manke
+    clusterName: manke
+    helm:
+      valuesFiles:
+        - overlays/manke/values.yaml
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml
+  - name: yagan
+    clusterName: yagan
+    helm:
+      valuesFiles:
+        - overlays/yagan/values.yaml
