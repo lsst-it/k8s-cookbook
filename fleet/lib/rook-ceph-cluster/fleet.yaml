@@ -13,6 +13,8 @@ helm:
     - values.yaml
   timeoutSeconds: 3600
   waitForJobs: true
+correctDrift:
+  enabled: false
 dependsOn:
   - selector:
       matchLabels:
