@@ -9,7 +9,7 @@ helm:
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
   version: v56.21.4
-  timeoutSeconds: 300
+  timeoutSeconds: 600
   waitForJobs: true
   atomic: false
 dependsOn:
