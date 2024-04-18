@@ -212,6 +212,8 @@ cephBlockPools:
       isDefault: true
       reclaimPolicy: Delete
       allowVolumeExpansion: true
+      mountOptions:
+        - discard
       parameters:
         clusterID: rook-ceph
         pool: replicapool
