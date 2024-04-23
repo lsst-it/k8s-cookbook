@@ -1,0 +1,19 @@
+---
+defaultNamespace: &name keycloak-pg
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+targetCustomizations:
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka

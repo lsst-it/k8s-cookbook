@@ -203,3 +203,11 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
+
+grafana:
+  grafana.ini:
+    auth.generic_oauth:
+      api_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/userinfo
+      auth_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/auth
+      name: keycloak.ruka.dev.lsst.org
+      token_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/token

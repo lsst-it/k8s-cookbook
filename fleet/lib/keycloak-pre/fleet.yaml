@@ -1,0 +1,9 @@
+---
+defaultNamespace: keycloak
+labels:
+  bundle: &name keycloak-pre
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: *name
+  waitForJobs: true
