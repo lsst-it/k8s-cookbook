@@ -1,0 +1,187 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    lsst.io/rule: "true"
+  name: net
+spec:
+  groups:
+    - name: net.rules
+      rules:
+        - alert: ifInErrors
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} input errors'
+          expr: ifInErrors > 1000000
+          for: 1s
+          labels: &labels
+            severity: warning
+            node_name: '{{ $labels.instance }}'
+            device: '{{ $labels.ifName }}'
+            service_name: ifInErrors-{{ $labels.ifName}}
+            gnoc: "true"
+
+        - alert: ifInErrorsRate
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} input errors in the last hour'
+          expr: rate(ifInErrors[1h]) > 0
+          for: 1s
+          labels:
+            <<: *labels
+            severity: major
+            service_name: ifInErrorsRate-{{ $labels.ifName}}
+
+        - alert: ifInDiscards
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} discarded input packets'
+          expr: ifInDiscards > 1000000
+          for: 1s
+          labels:
+            <<: *labels
+            severity: info
+            service_name: ifInDiscards-{{ $labels.ifName}}
+
+        - alert: ifInDiscardsRate
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} discarded input packets in the last hour'
+          expr: rate(ifInDiscards[1h]) > 0
+          for: 1s
+          labels:
+            <<: *labels
+            severity: warning
+            service_name: ifInDiscardsRate-{{ $labels.ifName}}
+
+        - alert: ifOutErrors
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} output errors'
+          expr: ifOutErrors > 1000000
+          for: 1s
+          labels:
+            <<: *labels
+            severity: warning
+            service_name: ifOutErrors-{{ $labels.ifName}}
+
+        - alert: ifOutErrorsRate
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} output errors in the last hour'
+          expr: rate(ifOutErrors[1h]) > 0
+          for: 1s
+          labels:
+            <<: *labels
+            severity: major
+            node_name: '{{ $labels.instance }}'
+
+        - alert: ifOutDiscards
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} discarded output packets'
+          expr: ifOutDiscards > 1000000
+          for: 1s
+          labels:
+            <<: *labels
+            severity: info
+            service_name: ifOutDiscards-{{ $labels.ifName}}
+
+        - alert: ifOutDiscardsRate
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} has {{ $value | humanize }} discarded output packets in the last hour'
+          expr: rate(ifOutDiscards[1h]) > 0
+          for: 1s
+          labels:
+            <<: *labels
+            severity: warning
+            service_name: ifOutDiscardsRate-{{ $labels.ifName}}
+
+        - alert: HostDown
+          annotations:
+            summary: 'Host {{ $labels.instance }} is down'
+            description: 'Host {{ $labels.instance }} is down. Maybe it is on fire??? 🗑🔥'
+          expr: probe_success != 1
+          for: 1m
+          labels:
+            <<: *labels
+            prod: "true"
+            severity: critical
+            device: null
+            service_name: null
+
+        - alert: et25_interface_up
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} is down'
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet25"} != 1
+          for: 1s
+          labels:
+            <<: *labels
+            severity: critical
+            service_name: ifOperStatus-{{ $labels.ifName}}
+
+        # this interface is known to be down
+        - alert: et26_interface_up
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} is down'
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          for: 1s
+          labels:
+            <<: *labels
+            severity: critical
+            service_name: ifOperStatus-{{ $labels.ifName}}
+
+        - alert: lhn_interface_up
+          annotations:
+            description: '{{ $labels.instance }} - {{ $labels.ifName }}|{{ $labels.ifAlias }} is down'
+          expr: ifOperStatus{ifAlias=~".*LHN.*"} != 1
+          for: 1s
+          labels:
+            <<: *labels
+            severity: critical
+            service_name: ifOperStatus-{{ $labels.ifName}}
+
+        - alert: bogus_critical
+          annotations:
+            description: Bogus Critical alert
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          labels:
+            severity: Critical
+            node_name: bogus_critical
+            device: faux
+            service_name: bogons
+            gnoc: "true"
+
+        - alert: bogus_major
+          annotations:
+            description: Bogus Major alert
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          labels:
+            severity: Major
+            node_name: bogus_major
+            service_name: bogons
+            gnoc: "true"
+
+        - alert: bogus_minor
+          annotations:
+            description: Bogus Minor alert
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          labels:
+            severity: Minor
+            node_name: bogus_minor
+            service_name: bogons
+            gnoc: "true"
+
+        - alert: bogus_unknown
+          annotations:
+            description: Bogus Unknown alert
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          labels:
+            severity: Unknown
+            node_name: bogus_unknown
+            service_name: bogons
+            gnoc: "true"
+
+        - alert: bogus_ok
+          annotations:
+            description: Bogus OK alert
+          expr: ifOperStatus{instance="bdc-b05-lf1", ifName="Ethernet26"} != 1
+          labels:
+            severity: OK
+            node_name: bogus_ok
+            service_name: bogons
+            gnoc: "true"
