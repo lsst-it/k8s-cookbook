@@ -6,13 +6,29 @@ helm:
   chart: ingress-nginx
   releaseName: *name
   repo: https://kubernetes.github.io/ingress-nginx
-  version: v4.5.2
+  version: v4.10.0
   values:
     controller:
       kind: DaemonSet
+      allowSnippetAnnotations: true
       ingressClass: nginx-lhn
       ingressClassResource:
         name: nginx-lhn
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            lsst.io/monitor: "true"
+        # TODO: handle error: cannot unmarshal rule from spec This error happens
+        # due to the fact that the PrometheusRules from the nginx-ingress
+        # chart seem to be uncompatible with the new CRD's from the prometheus
+        # operator being deployed. It would be good to have these deployed as
+        # well but currently we're temporary disabling them.
+        prometheusRule:
+          enabled: false
+          additionalLabels:
+            lsst.io/rule: "true"
     rbac:
       create: true
   waitForJobs: true
