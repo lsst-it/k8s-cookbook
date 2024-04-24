@@ -4,6 +4,7 @@ prometheus:
     configMaps:
       - sd-snmp-network
       - sd-snmp-raritan-pdu
+      - sd-snmp-arista-bgp
     secrets:
       - puppetdb
     additionalScrapeConfigs:
@@ -133,6 +134,7 @@ prometheus:
           - files:
               - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
               - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-arista-bgp.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
@@ -206,6 +208,25 @@ prometheus:
             target_label: __param_target
           - source_labels: [__meta_hostname]
             target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: snmp-arista-bgp
+        metrics_path: /snmp
+        params:
+          module:
+            - if_mib
+            - arista_bgp
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-arista-bgp.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
 
