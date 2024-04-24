@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.jetstack.io
-  version: v1.12.2
+  version: v1.12.9
   values:
     installCRDs: false
     prometheus:
