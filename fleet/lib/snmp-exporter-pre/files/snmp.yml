@@ -37,6 +37,1461 @@ auths:
     priv_protocol: DES
     version: 2
 modules:
+  arista_bgp:
+    walk:
+    - 1.3.6.1.4.1.30065.4.1.1.1
+    - 1.3.6.1.4.1.30065.4.1.1.10
+    - 1.3.6.1.4.1.30065.4.1.1.11
+    - 1.3.6.1.4.1.30065.4.1.1.2
+    - 1.3.6.1.4.1.30065.4.1.1.3
+    - 1.3.6.1.4.1.30065.4.1.1.4
+    - 1.3.6.1.4.1.30065.4.1.1.5
+    - 1.3.6.1.4.1.30065.4.1.1.6
+    - 1.3.6.1.4.1.30065.4.1.1.7
+    - 1.3.6.1.4.1.30065.4.1.1.8
+    - 1.3.6.1.4.1.30065.4.1.1.9
+    metrics:
+    - name: aristaBgp4V2DiscontinuityTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.1.1.1
+      type: gauge
+      help: The value of sysUpTime at the most recent occasion at which this BGP management
+        instance has suffered a discontinuity. - 1.3.6.1.4.1.30065.4.1.1.1.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+    - name: aristaBgp4V2AdjRibsOutIndex
+      oid: 1.3.6.1.4.1.30065.4.1.1.10.1.1
+      type: gauge
+      help: Certain extensions to BGP permit multiple instance of a per afi, per safi
+        prefix to be advertised to a peer - 1.3.6.1.4.1.30065.4.1.1.10.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2AdjRibsOutIndex
+        type: gauge
+    - name: aristaBgp4V2AdjRibsOutRoute
+      oid: 1.3.6.1.4.1.30065.4.1.1.10.1.2
+      type: OctetString
+      help: This object points to the route in the aristaBgp4V2NlriTable that corresponds
+        to the entry in the peer's Adj-Rib-Out - 1.3.6.1.4.1.30065.4.1.1.10.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2AdjRibsOutIndex
+        type: gauge
+    - name: aristaBgp4V2PrefixGaugesNlri
+      oid: 1.3.6.1.4.1.30065.4.1.1.11.1.1
+      type: gauge
+      help: The EVPN-NLRI type index of the per-peer, per-prefix counters - 1.3.6.1.4.1.30065.4.1.1.11.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesNlri
+        type: gauge
+        enum_values:
+          1: autoDiscovery
+          2: macIp
+          3: imet
+          4: ethernetSegment
+          5: ipPrefixIpv4
+          6: ipPrefixIpv6
+          7: smet
+          8: joinSync
+          9: leaveSync
+          10: spmsi
+      enum_values:
+        1: autoDiscovery
+        2: macIp
+        3: imet
+        4: ethernetSegment
+        5: ipPrefixIpv4
+        6: ipPrefixIpv6
+        7: smet
+        8: joinSync
+        9: leaveSync
+        10: spmsi
+    - name: aristaBgp4V2PrefixNlriInPrefixes
+      oid: 1.3.6.1.4.1.30065.4.1.1.11.1.2
+      type: gauge
+      help: The number of prefixes received from a peer and that are stored in the
+        Adj-Ribs-In for that peer - 1.3.6.1.4.1.30065.4.1.1.11.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesNlri
+        type: gauge
+        enum_values:
+          1: autoDiscovery
+          2: macIp
+          3: imet
+          4: ethernetSegment
+          5: ipPrefixIpv4
+          6: ipPrefixIpv6
+          7: smet
+          8: joinSync
+          9: leaveSync
+          10: spmsi
+    - name: aristaBgp4V2PrefixNlriInPrefixesAccepted
+      oid: 1.3.6.1.4.1.30065.4.1.1.11.1.3
+      type: gauge
+      help: The number of prefixes for a peer that are installed in the Adj-Ribs-In
+        and are eligible to become active in the Loc-Rib. - 1.3.6.1.4.1.30065.4.1.1.11.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesNlri
+        type: gauge
+        enum_values:
+          1: autoDiscovery
+          2: macIp
+          3: imet
+          4: ethernetSegment
+          5: ipPrefixIpv4
+          6: ipPrefixIpv6
+          7: smet
+          8: joinSync
+          9: leaveSync
+          10: spmsi
+    - name: aristaBgp4V2PeerInstance
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.1
+      type: gauge
+      help: The routing instance index - 1.3.6.1.4.1.30065.4.1.1.2.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLocalAddrType
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.2
+      type: gauge
+      help: The address family of the local end of the peering session. - 1.3.6.1.4.1.30065.4.1.1.2.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    - name: aristaBgp4V2PeerLocalAddr
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.3
+      type: InetAddress
+      help: The local IP address of this entry's BGP connection - 1.3.6.1.4.1.30065.4.1.1.2.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerRemoteAddrType
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.4
+      type: gauge
+      help: The address family of the remote end of the peering session - 1.3.6.1.4.1.30065.4.1.1.2.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    - name: aristaBgp4V2PeerRemoteAddr
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.5
+      type: InetAddress
+      help: The remote IP address of this entry's BGP peer. - 1.3.6.1.4.1.30065.4.1.1.2.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLocalPort
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.6
+      type: gauge
+      help: The local port for the TCP connection between the BGP peers. - 1.3.6.1.4.1.30065.4.1.1.2.1.6
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLocalAs
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.7
+      type: gauge
+      help: Some implementations of BGP can represent themselves as multiple ASes
+        - 1.3.6.1.4.1.30065.4.1.1.2.1.7
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLocalIdentifier
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.8
+      type: OctetString
+      help: The BGP Identifier of the local system for this peering session - 1.3.6.1.4.1.30065.4.1.1.2.1.8
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerRemotePort
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.9
+      type: gauge
+      help: The remote port for the TCP connection between the BGP peers - 1.3.6.1.4.1.30065.4.1.1.2.1.9
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerRemoteAs
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.10
+      type: gauge
+      help: The remote autonomous system number received in the BGP OPEN message.
+        - 1.3.6.1.4.1.30065.4.1.1.2.1.10
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerRemoteIdentifier
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.11
+      type: OctetString
+      help: The BGP Identifier of this entry's remote BGP peer - 1.3.6.1.4.1.30065.4.1.1.2.1.11
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerAdminStatus
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.12
+      type: gauge
+      help: Whether or not the BGP FSM for this remote peer is halted or running -
+        1.3.6.1.4.1.30065.4.1.1.2.1.12
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      enum_values:
+        1: halted
+        2: running
+    - name: aristaBgp4V2PeerState
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.13
+      type: gauge
+      help: The BGP peer connection state. - 1.3.6.1.4.1.30065.4.1.1.2.1.13
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      enum_values:
+        1: idle
+        2: connect
+        3: active
+        4: opensent
+        5: openconfirm
+        6: established
+    - name: aristaBgp4V2PeerDescription
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.14
+      type: DisplayString
+      help: A user configured description identifying this peer - 1.3.6.1.4.1.30065.4.1.1.2.1.14
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerPrevState
+      oid: 1.3.6.1.4.1.30065.4.1.1.2.1.15
+      type: gauge
+      help: The BGP peer previous connection state. - 1.3.6.1.4.1.30065.4.1.1.2.1.15
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      enum_values:
+        1: idle
+        2: connect
+        3: active
+        4: opensent
+        5: openconfirm
+        6: established
+    - name: aristaBgp4V2PeerLastErrorCodeReceived
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.1
+      type: gauge
+      help: The last error code received from this peer via NOTIFICATION message on
+        this connection - 1.3.6.1.4.1.30065.4.1.1.3.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorSubCodeReceived
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.2
+      type: gauge
+      help: The last subcode received from this peer via NOTIFICATION message on this
+        connection - 1.3.6.1.4.1.30065.4.1.1.3.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorReceivedTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.3
+      type: gauge
+      help: The timestamp that the last NOTIFICATION was received from this peer.
+        - 1.3.6.1.4.1.30065.4.1.1.3.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorReceivedText
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.4
+      type: DisplayString
+      help: This object contains an implementation specific explanation of the error
+        that was reported. - 1.3.6.1.4.1.30065.4.1.1.3.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorReceivedData
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.5
+      type: OctetString
+      help: The last error code's data seen by this peer - 1.3.6.1.4.1.30065.4.1.1.3.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorCodeSent
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.6
+      type: gauge
+      help: The last error code sent to this peer via NOTIFICATION message on this
+        connection - 1.3.6.1.4.1.30065.4.1.1.3.1.6
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorSubCodeSent
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.7
+      type: gauge
+      help: The last subcode sent to this peer via NOTIFICATION message on this connection
+        - 1.3.6.1.4.1.30065.4.1.1.3.1.7
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorSentTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.8
+      type: gauge
+      help: The timestamp that the last NOTIFICATION was sent to this peer. - 1.3.6.1.4.1.30065.4.1.1.3.1.8
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorSentText
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.9
+      type: DisplayString
+      help: This object contains an implementation specific explanation of the error
+        that is being reported. - 1.3.6.1.4.1.30065.4.1.1.3.1.9
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerLastErrorSentData
+      oid: 1.3.6.1.4.1.30065.4.1.1.3.1.10
+      type: OctetString
+      help: The last error code's data sent to this peer - 1.3.6.1.4.1.30065.4.1.1.3.1.10
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerFsmEstablishedTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.4.1.1
+      type: gauge
+      help: This timer indicates how long (in seconds) this peer has been in the established
+        state or how long since this peer was last in the established state - 1.3.6.1.4.1.30065.4.1.1.4.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerInUpdatesElapsedTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.4.1.2
+      type: gauge
+      help: Elapsed time (in seconds) since the last BGP UPDATE message was received
+        from the peer - 1.3.6.1.4.1.30065.4.1.1.4.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerConnectRetryInterval
+      oid: 1.3.6.1.4.1.30065.4.1.1.5.1.1
+      type: gauge
+      help: Time interval (in seconds) for the ConnectRetry timer - 1.3.6.1.4.1.30065.4.1.1.5.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerHoldTimeConfigured
+      oid: 1.3.6.1.4.1.30065.4.1.1.5.1.2
+      type: gauge
+      help: Time interval (in seconds) for the Hold Timer established with the peer
+        - 1.3.6.1.4.1.30065.4.1.1.5.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerKeepAliveConfigured
+      oid: 1.3.6.1.4.1.30065.4.1.1.5.1.3
+      type: gauge
+      help: Time interval (in seconds) for the KeepAlive timer configured for this
+        BGP speaker with this peer - 1.3.6.1.4.1.30065.4.1.1.5.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerMinASOrigInterval
+      oid: 1.3.6.1.4.1.30065.4.1.1.5.1.4
+      type: gauge
+      help: Time interval (in seconds) for the MinASOriginationInterval timer - 1.3.6.1.4.1.30065.4.1.1.5.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerMinRouteAdverInterval
+      oid: 1.3.6.1.4.1.30065.4.1.1.5.1.5
+      type: gauge
+      help: Time interval (in seconds) for the MinRouteAdvertisementInterval timer
+        - 1.3.6.1.4.1.30065.4.1.1.5.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerHoldTime
+      oid: 1.3.6.1.4.1.30065.4.1.1.6.1.1
+      type: gauge
+      help: The value of this object is calculated by this BGP Speaker as being; zero
+        (0) - if this was the value sent by the peer and this value is permitted by
+        this BGP Speaker - 1.3.6.1.4.1.30065.4.1.1.6.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerKeepAlive
+      oid: 1.3.6.1.4.1.30065.4.1.1.6.1.2
+      type: gauge
+      help: Time interval in seconds for the KeepAlive timer established with the
+        peer - 1.3.6.1.4.1.30065.4.1.1.6.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerInUpdates
+      oid: 1.3.6.1.4.1.30065.4.1.1.7.1.1
+      type: counter
+      help: The number of BGP UPDATE messages received on this connection. - 1.3.6.1.4.1.30065.4.1.1.7.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerOutUpdates
+      oid: 1.3.6.1.4.1.30065.4.1.1.7.1.2
+      type: counter
+      help: The number of BGP UPDATE messages transmitted on this connection. - 1.3.6.1.4.1.30065.4.1.1.7.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerInTotalMessages
+      oid: 1.3.6.1.4.1.30065.4.1.1.7.1.3
+      type: counter
+      help: The total number of messages received from the remote peer on this connection.
+        - 1.3.6.1.4.1.30065.4.1.1.7.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerOutTotalMessages
+      oid: 1.3.6.1.4.1.30065.4.1.1.7.1.4
+      type: counter
+      help: The total number of messages transmitted to the remote peer on this connection.
+        - 1.3.6.1.4.1.30065.4.1.1.7.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PeerFsmEstablishedTransitions
+      oid: 1.3.6.1.4.1.30065.4.1.1.7.1.5
+      type: counter
+      help: The total number of times the BGP FSM transitioned into the established
+        state for this peer. - 1.3.6.1.4.1.30065.4.1.1.7.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+    - name: aristaBgp4V2PrefixGaugesAfi
+      oid: 1.3.6.1.4.1.30065.4.1.1.8.1.1
+      type: gauge
+      help: The AFI index of the per-peer, per-prefix counters - 1.3.6.1.4.1.30065.4.1.1.8.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2PrefixGaugesSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      enum_values:
+        1: ipv4
+        2: ipv6
+        25: l2vpn
+    - name: aristaBgp4V2PrefixGaugesSafi
+      oid: 1.3.6.1.4.1.30065.4.1.1.8.1.2
+      type: gauge
+      help: The SAFI index of the per-peer, per-prefix counters - 1.3.6.1.4.1.30065.4.1.1.8.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2PrefixGaugesSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      enum_values:
+        1: unicast
+        2: multicast
+        4: mpls
+        70: evpn
+    - name: aristaBgp4V2PrefixInPrefixes
+      oid: 1.3.6.1.4.1.30065.4.1.1.8.1.3
+      type: gauge
+      help: The number of prefixes received from a peer and are stored in the Adj-Ribs-In
+        for that peer - 1.3.6.1.4.1.30065.4.1.1.8.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2PrefixGaugesSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+    - name: aristaBgp4V2PrefixInPrefixesAccepted
+      oid: 1.3.6.1.4.1.30065.4.1.1.8.1.4
+      type: gauge
+      help: The number of prefixes for a peer that are installed in the Adj-Ribs-In
+        and are eligible to become active in the Loc-Rib. - 1.3.6.1.4.1.30065.4.1.1.8.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2PrefixGaugesSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+    - name: aristaBgp4V2PrefixOutPrefixes
+      oid: 1.3.6.1.4.1.30065.4.1.1.8.1.5
+      type: gauge
+      help: The number of prefixes for a peer that are installed in that peer's Adj-Ribs-Out.
+        - 1.3.6.1.4.1.30065.4.1.1.8.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2PrefixGaugesAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2PrefixGaugesSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+    - name: aristaBgp4V2NlriIndex
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.1
+      type: gauge
+      help: This index allows for multiple instances of a base prefix for a certain
+        AFI-SAFI from a given peer - 1.3.6.1.4.1.30065.4.1.1.9.1.1
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAfi
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.2
+      type: gauge
+      help: The address family of the prefix for this NLRI - 1.3.6.1.4.1.30065.4.1.1.9.1.2
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: ipv4
+        2: ipv6
+        25: l2vpn
+    - name: aristaBgp4V2NlriSafi
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.3
+      type: gauge
+      help: The subsequent address family of the prefix for this NLRI - 1.3.6.1.4.1.30065.4.1.1.9.1.3
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: unicast
+        2: multicast
+        4: mpls
+        70: evpn
+    - name: aristaBgp4V2NlriPrefixType
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.4
+      type: gauge
+      help: The type of the IP address prefix in the Network Layer Reachability Information
+        field - 1.3.6.1.4.1.30065.4.1.1.9.1.4
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    - name: aristaBgp4V2NlriPrefix
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.5
+      type: InetAddress
+      help: An IP address prefix in the Network Layer Reachability Information field
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.5
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriPrefixLen
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.6
+      type: gauge
+      help: Length in bits of the address prefix in the Network Layer Reachability
+        Information field. - 1.3.6.1.4.1.30065.4.1.1.9.1.6
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriBest
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.7
+      type: gauge
+      help: An indication of whether or not this route was chosen as the best BGP4
+        route for this destination. - 1.3.6.1.4.1.30065.4.1.1.9.1.7
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: aristaBgp4V2NlriCalcLocalPref
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.8
+      type: gauge
+      help: The degree of preference calculated by the receiving BGP4 speaker for
+        an advertised route - 1.3.6.1.4.1.30065.4.1.1.9.1.8
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriOrigin
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.9
+      type: gauge
+      help: The ultimate origin of the path information. - 1.3.6.1.4.1.30065.4.1.1.9.1.9
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: igp
+        2: egp
+        3: incomplete
+    - name: aristaBgp4V2NlriNextHopAddrType
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.10
+      type: gauge
+      help: The address family of the address for the border router that should be
+        used to access the destination network. - 1.3.6.1.4.1.30065.4.1.1.9.1.10
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    - name: aristaBgp4V2NlriNextHopAddr
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.11
+      type: InetAddress
+      help: The address of the border router that should be used to access the destination
+        network - 1.3.6.1.4.1.30065.4.1.1.9.1.11
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriLinkLocalNextHopAddrType
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.12
+      type: gauge
+      help: The address type for IPv6 link local addresses - 1.3.6.1.4.1.30065.4.1.1.9.1.12
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        0: unknown
+        1: ipv4
+        2: ipv6
+        3: ipv4z
+        4: ipv6z
+        16: dns
+    - name: aristaBgp4V2NlriLinkLocalNextHopAddr
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.13
+      type: InetAddress
+      help: This value contains an IPv6 link local address and is present only when
+        receiving RFC 2545 style double nexthops - 1.3.6.1.4.1.30065.4.1.1.9.1.13
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriLocalPrefPresent
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.14
+      type: gauge
+      help: This value is true when the LOCAL_PREF value was sent in the UPDATE message.
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.14
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: aristaBgp4V2NlriLocalPref
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.15
+      type: gauge
+      help: The originating BGP4 speakers degree of preference for an advertised route.
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.15
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriMedPresent
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.16
+      type: gauge
+      help: This value is true when the MED value was sent in the UPDATE message.
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.16
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: aristaBgp4V2NlriMed
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.17
+      type: gauge
+      help: This metric is used to discriminate between multiple exit points to an
+        adjacent autonomous system - 1.3.6.1.4.1.30065.4.1.1.9.1.17
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAtomicAggregate
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.18
+      type: gauge
+      help: This value is true when the ATOMIC_AGGREGATE Path Attribute is present
+        and indicates that the NLRI MUST NOT be made more specific. - 1.3.6.1.4.1.30065.4.1.1.9.1.18
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: aristaBgp4V2NlriAggregatorPresent
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.19
+      type: gauge
+      help: This value is true when the AGGREGATOR path attribute was sent in the
+        UPDATE message. - 1.3.6.1.4.1.30065.4.1.1.9.1.19
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: aristaBgp4V2NlriAggregatorAS
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.20
+      type: gauge
+      help: The AS number of the last BGP4 speaker that performed route aggregation
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.20
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAggregatorAddr
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.21
+      type: OctetString
+      help: The IP address of the last BGP4 speaker that performed route aggregation
+        - 1.3.6.1.4.1.30065.4.1.1.9.1.21
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAsPathCalcLength
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.22
+      type: gauge
+      help: This value represents the calculated length of the AS Path according to
+        the rules of the BGP specification - 1.3.6.1.4.1.30065.4.1.1.9.1.22
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAsPathString
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.23
+      type: DisplayString
+      help: This is a string depicting the autonomous system path to this network
+        which was received from the peer which advertised it - 1.3.6.1.4.1.30065.4.1.1.9.1.23
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriAsPath
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.24
+      type: OctetString
+      help: In order to provide a canonicalized form of the BGP-4 AS_PATH along with
+        the human-readable aristaBgp4V2NlriAsPathString, which may be truncated, this
+        object contains the contents of the BGP-4 AS_PATH Path Attribute - 1.3.6.1.4.1.30065.4.1.1.9.1.24
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
+    - name: aristaBgp4V2NlriPathAttrUnknown
+      oid: 1.3.6.1.4.1.30065.4.1.1.9.1.25
+      type: OctetString
+      help: Path Attributes not understood by this implementation SHOULD be be presented
+        in this object - 1.3.6.1.4.1.30065.4.1.1.9.1.25
+      indexes:
+      - labelname: aristaBgp4V2PeerInstance
+        type: gauge
+      - labelname: aristaBgp4V2NlriAfi
+        type: gauge
+        enum_values:
+          1: ipv4
+          2: ipv6
+          25: l2vpn
+      - labelname: aristaBgp4V2NlriSafi
+        type: gauge
+        enum_values:
+          1: unicast
+          2: multicast
+          4: mpls
+          70: evpn
+      - labelname: aristaBgp4V2NlriPrefix
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriPrefixLen
+        type: gauge
+      - labelname: aristaBgp4V2PeerRemoteAddr
+        type: InetAddress
+      - labelname: aristaBgp4V2NlriIndex
+        type: gauge
   if_mib:
     walk:
     - 1.3.6.1.2.1.2
