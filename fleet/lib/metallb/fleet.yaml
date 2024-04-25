@@ -35,12 +35,10 @@ helm:
           cpu: 50m
           memory: 192Mi
     prometheus:
-      namespace: "kube-prometheus-stack"
-      serviceAccount: "kube-prometheus-stack-prometheus"
+      namespace: kube-prometheus-stack
+      serviceAccount: kube-prometheus-stack-prometheus
       prometheusRule:
-        enabled: true
-        additionalLabels:
-          lsst.io/rule: "true"
+        enabled: false
       serviceMonitor:
         enabled: true
         controller:
