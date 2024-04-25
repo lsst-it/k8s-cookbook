@@ -110,7 +110,7 @@ cephClusterSpec:
   resources:
     mgr:
       limits:
-        cpu: "1"
+        cpu: "2"
         memory: "1Gi"
       requests:
         cpu: "500m"
