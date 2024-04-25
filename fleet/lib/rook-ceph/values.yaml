@@ -2,6 +2,13 @@
 priorityClassName: system-node-critical
 monitoring:
   enabled: true
+resources:
+  limits:
+    cpu: "2"
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
 tolerations:
   - &storage_node_tol
     key: role
