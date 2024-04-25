@@ -1,0 +1,27 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    lsst.io/rule: "true"
+  name: kyverno
+spec:
+  groups:
+    - name: kyverno.rules
+      rules:
+        - alert: KyvernoPolicyExecutionDurationHigh
+          annotations:
+            summary: "High mean Kyverno policy execution time of {{ $value }} seconds"
+          expr: sum(kyverno_policy_execution_duration_seconds_sum{cluster=~".*"}) / sum(kyverno_policy_execution_duration_seconds_count{cluster=~".*"}) > 0.1
+          for: 15s
+          labels:
+            severity: warning
+
+        - alert: KyvernoDeploymentIsOnFire
+          annotations:
+            summary: "Kyverno deployment {{ $labels.namespace }}/{{ $labels.deployment }} is on fire"
+          # XXX is this the correct way to determine if a deployment is unhappy?
+          expr: kube_deployment_status_condition{namespace="kyverno",condition="Available",status="true"} != 1
+          for: 5m
+          labels:
+            severity: warning
