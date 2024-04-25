@@ -28,18 +28,18 @@ serviceMonitor:
       interval: 60s
       module: http_2xx
 
-# TODO: Error: UPGRADE FAILED: release blackbox-exporter failed, and has been
-# rolled back due to atomic being set: failed to create resource: admission
-# webhook "prometheusrulemutate.monitoring.coreos.com" denied the request: Cannot
-# unmarshal rules from spec
-# This error happens due to the fact that the PrometheusRules from the blackbox
-# exporter chart seem to be uncompatible with the new CRD's from the prometheus
-# operator being deployed. It would be good to have these deployed as well but
-# currently we're temporary disabling them.
 prometheusRule:
-  enabled: false
-  labels:
-    lsst.io/discover: "true"
+  enabled: true
+  additionalLabels:
+    lsst.io/rule: "true"
+  rules:
+    - alert: BlackboxExporterModuleUnknown
+      annotations:
+        description: '{{ $labels.instance }} - {{ $labels.job }} has attemped to use {{ $value | humanize }} unknown module(s)'
+      expr: blackbox_module_unknown_total > 0
+      for: 1m
+      labels:
+        severity: warning
 
 extraConfigmapMounts: []
 extraSecretMounts: []
