@@ -14,7 +14,7 @@ helm:
   values:
     serviceMonitor:
       enabled: true
-      labels:
+      additionalLabels:
         lsst.io/monitor: "true"
 
 dependsOn:
