@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: htcondor-worker
-  namespace: htcondor
   labels:
     app: htcondor-worker
 spec:
@@ -21,19 +20,25 @@ spec:
       containers:
       - name: htcondor-worker
         image: docker.io/lsstit/htcondor-worker:23
-        imagePullPolicy: ifNotPresent
+        imagePullPolicy: IfNotPresent
         env:
         - name: CONDOR_HOST
-          value: 139.229.152.211
+          value: htcondor-central-manager.htcondor
         - name: SEC_PASSWORD_FILE
           value: /etc/condor/pool_password/password
         volumeMounts:
         - name: pool-password
           mountPath: /etc/condor/pool_password
         - name: rsphome
-          mountPath: /mnt/rsphome
+          mountPath: /rsphome
         - name: project
-          mountPath: /mnt/project
+          mountPath: /project
+        - name: latiss
+          mountPath: /repo/LATISS
+        - name: auxtel
+          mountPath: /data/lsstdata/BTS/auxtel
+        - name: datasets
+          mountPath: /datasets
         ports:
         - containerPort: 9618
           protocol: TCP
@@ -50,3 +55,15 @@ spec:
         nfs:
           path: /project
           server: nfs-project.ls.lsst.org
+      - name: latiss
+        nfs:
+          path: /auxtel/repo/LATISS
+          server: nfs-auxtel.ls.lsst.org
+      - name: auxtel
+        nfs:
+          path: /auxtel/lsstdata/BTS/auxtel
+          server: nfs-auxtel.ls.lsst.org
+      - name: datasets
+        nfs:
+          path: /lsstdata
+          server: nfs-lsstdata.ls.lsst.org

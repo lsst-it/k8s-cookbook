@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: htcondor-worker
-  namespace: htcondor
   labels:
     app: htcondor-worker
 spec:
@@ -19,14 +18,19 @@ spec:
       containers:
       - name: htcondor-worker
         image: docker.io/lsstit/htcondor-worker:23
+        imagePullPolicy: IfNotPresent
         env:
         - name: CONDOR_HOST
-          value: "htcondor-central-manager"
+          value: htcondor-central-manager.htcondor
         - name: SEC_PASSWORD_FILE
-          value: "/etc/condor/pool_password/password"
+          value: /etc/condor/pool_password/password
         volumeMounts:
         - name: pool-password
           mountPath: /etc/condor/pool_password
+        - name: rsphome
+          mountPath: /rsphome
+        - name: project
+          mountPath: /project
         ports:
         - containerPort: 9618
           protocol: TCP
@@ -35,3 +39,11 @@ spec:
         secret:
           defaultMode: 0600
           secretName: htcondor-pool-password
+      - name: rsphome
+        nfs:
+          path: /rsphome
+          server: nfs-rsphome.ls.lsst.org
+      - name: project
+        nfs:
+          path: /project
+          server: nfs-project.ls.lsst.org

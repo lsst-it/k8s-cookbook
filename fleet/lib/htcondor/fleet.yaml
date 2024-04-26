@@ -1,0 +1,24 @@
+---
+defaultNamespace: htcondor
+labels:
+  bundle: &name htcondor
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets
+targetCustomizations:
+  - name: manke
+    clusterName: manke
+    yaml:
+      overlays:
+        - manke
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka
+  - name: yagan
+    clusterName: yagan
+    yaml:
+      overlays:
+        - yagan
