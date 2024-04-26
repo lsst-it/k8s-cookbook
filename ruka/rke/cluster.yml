@@ -57,3 +57,11 @@ ignore_docker_version: true
 kubernetes_version: v1.28.10-rancher1-1
 ingress:
   provider: none
+dns:
+  provider: coredns
+  options:
+    coredns_autoscaler_priority_class_name: system-cluster-critical
+    coredns_priority_class_name: system-cluster-critical
+  linear_autoscaler_params:
+    nodes_per_replica: 1
+    prevent_single_point_failure: true
