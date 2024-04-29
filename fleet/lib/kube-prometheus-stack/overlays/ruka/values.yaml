@@ -210,7 +210,8 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
+      slack_api_url: https://slack.com/api/chat.postMessage
+      # slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
       group_by:
         - alertname
@@ -236,11 +237,28 @@ alertmanager:
             - gnoc
           matchers:
             - gnoc = "true"
+        - receiver: rubinobs-lhn-alerts-stage
+          continue: true
+          repeat_interval: 1h
+          group_interval: 30s
+          group_wait: 30s
+          group_by: ['...']
+          matchers:
+            - gnoc = "true"
     receivers:
       - name: blackhole
       - name: gnocpush
         webhook_configs:
           - url: http://gnocpush.gnocpush:8080/alerts
+      - name: rubinobs-lhn-alerts-stage
+        slack_configs:
+          - channel: rubinobs-lhn-alerts-stage
+            send_resolved: true
+            title: '{{ template "slack.lsst.gnoc.title" . }}'
+            text: '{{ template "slack.lsst.gnoc.text" . }}'
+            http_config:
+              authorization:
+                credentials_file: /etc/alertmanager/secrets/lsst-webhooks/slack-alertmanager-bot
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
