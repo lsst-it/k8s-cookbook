@@ -3,6 +3,30 @@ kind: ConfigMap
 metadata:
   name: alertmanager-templates
 data:
+  slack-gnoc-alert.tmpl: |
+    {{ define "slack.lsst.gnoc.title"}}
+    [{{ .Status | toUpper }}] {{ .CommonLabels.instance }} {{ .CommonLabels.device }} {{ .CommonLabels.service_name }}
+    {{ end }}
+    {{ define "slack.lsst.gnoc.text" }}
+    *node_name:* {{ .CommonLabels.node_name }}
+    *device:* {{ .CommonLabels.device }}
+    *service_name:* {{ .CommonLabels.service_name }}
+    *description:* {{ .CommonAnnotations.description }}
+    *severity:* {{ .CommonLabels.severity }}
+    *alertmanagerURL:* {{ template "__alertmanagerURL" . }}&filter={instance%3D"{{ .CommonLabels.instance }}"}
+
+    *test1:* {{ template "__alertmanagerURL" . }}&filter={{`{`}}{{ range .CommonLabels.SortedPairs -}}{{ .Name }}={{ .Value }},{{ end }}{{`}`}}
+
+    {{ $query := "" -}}
+    {{ range .CommonLabels.SortedPairs -}}
+      {{- $query = printf "%s%s%%3D\"%s\"%%2C" $query .Name .Value -}}
+    {{ end -}}
+    {{ $query := printf "&filter={%s}" $query -}}
+
+    *test2:* {{ template "__alertmanagerURL" . }}{{ $query }}
+
+    {{ template "__o11y_alert_list" . }}
+    {{ end }}
   slack-generic-alert.tmpl: |
     {{ define "slack.o11y.generic.text" }}
     *Site:* {{ .CommonLabels.site }}
@@ -44,6 +68,8 @@ data:
       *Summary:* {{ .Annotations.summary }}
       *Description:* {{ .Annotations.description }}
       *Severity:* {{ .Labels.severity }}
+      *GeneratorURL:* {{ .GeneratorURL }}
+      *Fingerprint:* {{ .Fingerprint }}
       *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
       *Labels:*
       {{ range .Labels.SortedPairs -}}
