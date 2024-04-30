@@ -56,9 +56,9 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: tls-snmp-exporter-ingress
+    - secretName: tls-blackbox-exporter-ingress
       hosts:
-        - "blackbox-expoter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+        - "blackbox-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
 
 config:
   modules:
