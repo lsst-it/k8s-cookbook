@@ -1,0 +1,32 @@
+---
+defaultNamespace: &name gnocpush
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+kustomize:
+  dir: base
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
+  - selector:
+      matchLabels:
+        bundle: external-secrets
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://lsst-it.github.io/gnocpush/
+  version: 0.2.0
+  timeoutSeconds: 60
+  waitForJobs: true
+  values:
+    extraArgs:
+      - --verbose
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        lsst.io/monitor: "true"
+    extraEnvFrom:
+      - secretRef:
+          name: gnocpush
