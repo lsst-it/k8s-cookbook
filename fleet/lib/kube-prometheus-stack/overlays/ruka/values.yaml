@@ -106,6 +106,8 @@ prometheus:
           - source_labels: [__meta_puppetdb_parameter_cluster]
             target_label: cluster
       - job_name: snmp-network
+        scrape_interval: 5s
+        scrape_timeout: 5s
         metrics_path: /snmp
         params:
           module: [if_mib]
@@ -123,6 +125,8 @@ prometheus:
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
       - job_name: blackbox-network
+        scrape_interval: 5s
+        scrape_timeout: 5s
         metrics_path: /probe
         params:
           module: [icmp]
