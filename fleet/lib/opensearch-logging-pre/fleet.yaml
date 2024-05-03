@@ -49,6 +49,21 @@ diff:
   comparePatches:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
+      name: opensearch-admin-certs
+      namespace: logging
+      jsonPointers:
+        - /spec/duration
+        - /spec/renewBefore
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: opensearch-certs
+      namespace: logging
+      jsonPointers:
+        - /spec/duration
+        - /spec/renewBefore
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: opensearch-dashboard-certs
       namespace: logging
       jsonPointers:
         - /spec/duration
