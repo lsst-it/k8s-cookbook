@@ -39,9 +39,9 @@ spec:
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
       opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
-      opensearch_security.openid.client_id: "${KEYCLOACK_CLIENT_ID}"
-      opensearch_security.openid.client_secret: "${KEYCLOACK_CLIENT_SECRET}"
-      opensearch_security.openid.connect_url: "${KEYCLOACK_URL}"
+      opensearch_security.openid.client_id: "${KEYCLOAK_CLIENT_ID}"
+      opensearch_security.openid.client_secret: "${KEYCLOAK_CLIENT_SECRET}"
+      opensearch_security.openid.connect_url: "${KEYCLOAK_URL}"
       opensearch_security.openid.header: "Authorization"
       opensearch_security.openid.scope: "openid profile email offline_access"
       opensearch_security.ui.openid.login.buttonname: "Login with keycloak.ls.lsst.org"
@@ -97,10 +97,9 @@ spec:
     monitoring:
       enable: true
       scrapeInterval: 30s
-      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.13.0.0/prometheus-exporter-2.13.0.0.zip"
+      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.0.0/prometheus-exporter-2.11.0.0.zip"
       tlsConfig:
         insecureSkipVerify: true
-    pluginsList: ["repository-s3"]
     additionalConfig:
       plugins.security.ssl.transport.enforce_hostname_verification: "false"
       plugins.security.allow_unsafe_democertificates: "false"
@@ -114,7 +113,7 @@ spec:
   nodePools:
   - component: cluster-manager
     replicas: 3
-    diskSize: 10Gi
+    diskSize: 5Gi
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
@@ -132,7 +131,7 @@ spec:
       emptyDir: {}
   - component: coordinators
     replicas: 3
-    diskSize: 50Gi
+    diskSize: 5Gi
     jvm: -Xmx3G -Xms3G
     labels:
       lsst.io/author: "fbegyn"
@@ -150,7 +149,7 @@ spec:
       emptyDir: {}
   - component: hot-nodes
     replicas: 3
-    diskSize: 400Gi
+    diskSize: 100Gi
     jvm: -Xmx14G -Xms14G
     labels:
       lsst.io/author: "fbegyn"
@@ -169,7 +168,7 @@ spec:
     - ingest
   - component: cold-nodes
     replicas: 3
-    diskSize: 400Gi
+    diskSize: 100Gi
     jvm: -Xmx7G -Xms7G
     labels:
       lsst.io/author: "fbegyn"
