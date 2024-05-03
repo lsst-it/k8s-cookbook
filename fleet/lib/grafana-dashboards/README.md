@@ -14,16 +14,16 @@ ID `45`.
 ## Adding global dashboards
 
 1. Create and export the JSON representation of the dashboards.
-2. Strip the UNIX timespamp from the filename
+2. Strip the UNIX timespamp from the filename.
 3. Add the dashboard to the `/dashboards` directory.
-4. Commit
+4. Commit.
 
 ## Adding dashboard to specific Grafana organisation
 
 1. Create and export the JSON representation of the dashboards.
-2. Strip the UNIX timespamp from the filename
+2. Strip the UNIX timespamp from the filename.
 3. Check if a subdirectory with the `OrgID` of the Grafana organisation exists in
    the `/dashboards` directory.
-3. If it doesn't exist, create the `/dashboards/<orgid>` subdirectory.
-4. Add the dashboard to the `/dashboards/<orgid>` directory.
-5. Commit
+4. If it doesn't exist, create the `/dashboards/<orgid>` subdirectory.
+5. Add the dashboard to the `/dashboards/<orgid>` directory.
+6. Commit.
