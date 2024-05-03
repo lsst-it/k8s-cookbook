@@ -26,8 +26,8 @@ metadata:
   name: ca-certificate
 spec:
   secretName: opensearch-ca-cert
-  duration: 9000h     # ~1year
-  renewBefore: 360h   # 15d
+  duration: 9000h0m0s    # ~1year
+  renewBefore: 360h0m0s   # 15d
   commonName: Test CA
   isCA: true
   privateKey:
@@ -44,8 +44,8 @@ metadata:
   name: opensearch-certs
 spec:
   secretName: opensearch-certs
-  duration: 9000h    # ~1year
-  renewBefore: 360h  # 15d
+  duration: 9000h0m0s    # ~1year
+  renewBefore: 360h0m0s   # 15d
   isCA: false
   privateKey:
     size: 4096
@@ -93,8 +93,8 @@ metadata:
   name: opensearch-admin-certs
 spec:
   secretName: opensearch-admin-certs
-  duration: 9000h    # ~1year
-  renewBefore: 360h  # 15d
+  duration: 9000h0m0s    # ~1year
+  renewBefore: 360h0m0s   # 15d
   isCA: false
   privateKey:
     size: 4096
@@ -115,8 +115,8 @@ metadata:
   name: opensearch-dashboards-certs
 spec:
   secretName: opensearch-dashboards-certs
-  duration: 9000h    # ~1year
-  renewBefore: 360h  # 15d
+  duration: 9000h0m0s    # ~1year
+  renewBefore: 360h0m0s   # 15d
   isCA: false
   privateKey:
     size: 4096
