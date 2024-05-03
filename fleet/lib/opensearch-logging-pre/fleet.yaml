@@ -45,3 +45,11 @@ targetCustomizations:
     yaml:
       overlays:
         - ls
+diff:
+  comparePatches:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: logging
+      jsonPointers:
+        - /spec/duration
+        - /spec/renewBefore
