@@ -50,6 +50,8 @@ diff:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
       namespace: logging
-      jsonPointers:
-        - /spec/duration
-        - /spec/renewBefore
+      operations:
+        - op: "remove"
+          path: "/spec/duration"
+        - op: "remove"
+          path: "/spec/renewBefore"
