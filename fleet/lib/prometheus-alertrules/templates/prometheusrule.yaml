@@ -12,7 +12,7 @@
 {{- end }}
 {{- $alertName := lower (index (regexSplit "\\.yaml" $ruleFile -1) 0) }}
 ---
-apiVersion: monitoring.coreos.com/v1                                                                                                                                                         │
+apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: {{ printf "%s-%s" "alert" $alertName | trunc 63 | trimSuffix "-" }}

@@ -2,7 +2,7 @@ groups:
   - name: "NodeFilesystem"
     rules:
       - alert: "NodeFilesystemFillingUp"
-        annotaitons:
+        annotations:
           summary: "The nodes disk will fill up within 6h"
           description: |
             Nodes TODO:node_label disk is currently almost full at TODO%. It will fill up within 6 hours.
