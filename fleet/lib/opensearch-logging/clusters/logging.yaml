@@ -93,7 +93,7 @@ spec:
     httpPort: 9200
     serviceName: logging
     setVMMaxMapCount: true
-    version: 2.13.0
+    version: 2.11.0
     monitoring:
       enable: true
       scrapeInterval: 30s
