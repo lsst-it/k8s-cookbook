@@ -40,11 +40,14 @@ mimir:
       s3:
         bucket_name: "${ .ClusterName }-mimir-ruler"
     limits:
+      compactor_blocks_retention_period: 15d
       ingestion_rate: 500000
       ingestion_burst_size: 1000000
       max_global_series_per_user: 0
       max_global_series_per_metric: 0
       compactor_blocks_retention_period: 2y
+    compactor:
+      deletion_delay: 12h
 
 compactor:
   persistentVolume:
@@ -79,7 +82,7 @@ ingester:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchExpressions:
-              - key: target # support for enterprise.legacyLabels
+              - key: target  # support for enterprise.legacyLabels
                 operator: In
                 values:
                   - ingester
@@ -135,7 +138,7 @@ store_gateway:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchExpressions:
-              - key: target # support for enterprise.legacyLabels
+              - key: target  # support for enterprise.legacyLabels
                 operator: In
                 values:
                   - store-gateway
