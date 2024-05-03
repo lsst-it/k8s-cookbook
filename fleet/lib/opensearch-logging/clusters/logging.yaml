@@ -31,7 +31,7 @@ spec:
         memory: 1Gi
     service:
       type: ClusterIP
-    version: 2.11.0
+    version: &os_version 2.11.0
     additionalConfig:
       logging.verbose: "false"
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
@@ -93,7 +93,7 @@ spec:
     httpPort: 9200
     serviceName: logging
     setVMMaxMapCount: true
-    version: 2.11.0
+    version: *os_version
     monitoring:
       enable: true
       scrapeInterval: 30s
