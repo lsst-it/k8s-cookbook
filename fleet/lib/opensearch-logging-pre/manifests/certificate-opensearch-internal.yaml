@@ -46,7 +46,6 @@ spec:
   secretName: opensearch-certs
   duration: 9000h0m0s    # ~1year
   renewBefore: 360h0m0s   # 15d
-  isCA: false
   privateKey:
     size: 4096
     algorithm: RSA
@@ -95,7 +94,6 @@ spec:
   secretName: opensearch-admin-certs
   duration: 9000h0m0s    # ~1year
   renewBefore: 360h0m0s   # 15d
-  isCA: false
   privateKey:
     size: 4096
     algorithm: RSA
@@ -117,7 +115,6 @@ spec:
   secretName: opensearch-dashboards-certs
   duration: 9000h0m0s    # ~1year
   renewBefore: 360h0m0s   # 15d
-  isCA: false
   privateKey:
     size: 4096
     algorithm: RSA
