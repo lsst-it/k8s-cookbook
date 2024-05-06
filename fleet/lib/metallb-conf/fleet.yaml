@@ -78,3 +78,17 @@ targetCustomizations:
     yaml:
       overlays:
         - yepun
+  - name: rancher.dev
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - dev
+        - key: management.cattle.io/cluster-name
+          operator: In
+          values:
+            - local
+    yaml:
+      overlays:
+        - rancher.dev
