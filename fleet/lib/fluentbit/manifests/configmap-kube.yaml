@@ -107,8 +107,10 @@ data:
         Port               9200
         HTTP_User          ${OS_LOGGING_USERNAME}
         HTTP_Passwd        ${OS_LOGGING_PASSWORD}
-        Logstash_Format    true
+        Logstash_Format    false
         Logstash_Prefix    logs-kube
+        Index              logs-network-
+        Write_Operation    create
         Replace_Dots       true
         Trace_Error        true
         Suppress_Type_Name true
