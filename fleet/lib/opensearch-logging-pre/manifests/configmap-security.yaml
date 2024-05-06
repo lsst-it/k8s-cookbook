@@ -39,27 +39,21 @@ data:
     _meta:
       type: "internalusers"
       config_version: 2
-    admin:
-      hash: "$2y$12$xJHKRvZjZlsC4t6MIDye/.IFJoyVlxt/Hdl0rWZPE4YPu6IFgMryC"
-      reserved: false
-      backend_roles:
-      - "all_access"
-      - "admin"
+    {{ .adminUsername }}:
+      hash: "{{ .adminPassword }}"
+      reserved: true
       description: "Logging admin user"
-    dashboarduser:
-      hash: "$2y$12$HsYZ7C7wXu9uHg1GRPR3FerW8FlBuCb4H0dZOlQRHu8cQoNQtZh8e"
-      reserved: false
+    {{ .dashboardUsername }}:
+      hash: "{{ .dashboardPassword }}"
+      reserved: true
       description: "Logging OpenSearch Dashboards user"
-      backend_roles:
-      - "all_access"
-      - "admin"
-    external-logging:
-      hash: "$2y$12$xnA5G418muNiZf6mknY8qe6uOYfP7ARxkAf2KmKM3e6BpCQXFk.Zu"
-      reserved: false
+    {{ .externalUsername }}:
+      hash: "{{ .externalPassword }}"
+      reserved: true
       description: "User for out-off-cluster logging inputs"
-    kube-logging:
-      hash: "$2y$12$47ABdDAMvgiSa/aqiU2VLuqwy6SbjhU2cpbLwexQEIeq7tdHIuVLO"
-      reserved: false
+    {{ .kubeUsername }}:
+      hash: "{{ .kubePassword }}"
+      reserved: true
       description: "User for kubernetes logging inputs"
   roles_mapping.yml: |-
     ---
@@ -67,65 +61,49 @@ data:
       type: "rolesmapping"
       config_version: 2
     all_access:
-      reserved: false
+      reserved: true
       hidden: false
       backend_roles:
         - "lsst-opensearch-admin"
         - "ayekan"
-        - "admin"
-      users:
         - "admin"
     admin:
-      reserved: false
+      reserved: true
       hidden: false
       backend_roles:
         - "lsst-opensearch-admin"
         - "ayekan"
-        - "admin"
-      users:
         - "admin"
       description: "Maps the LSST admin roles to cluster admin"
     kibana_user:
       reserved: true
       hidden: false
       users:
-        - "dashboarduser"
+        - "{{ .dashboardUsername }}"
     kibana_server:
-      reserved: false
+      reserved: true
       hidden: false
       users:
-        - "dashboarduser"
+        - "{{ .dashboardUsername }}"
     logstash:
-      reserved: false
+      reserved: true
       hidden: false
       users:
         - "external-logging"
         - "kube-logging"
-    external-logging-writer:
-      reserved: false
+    logging-writer:
+      reserved: true
       hidden: false
       users:
-        - "external-logging"
-    kube-logging-writer:
-      reserved: false
-      hidden: false
-      users:
-        - "kube-logging"
-    readall:
-      reserved: false
-      users:
-        - "dashboarduser"
-    dashboarduser:
-      reserved: false
-      users:
-        - "dashboarduser"
+        - "{{ .kubeUsername }}"
+        - "{{ .externalUsername }}"
   roles.yml: |-
     ---
     _meta:
       type: "roles"
       config_version: 2
     admin:
-      reserved: false
+      reserved: true
       cluster_permissions:
       - "*"
       index_permissions:
@@ -133,35 +111,10 @@ data:
         - "*"
         allowed_actions:
         - "*"
-    dashboarduser:
-      reserved: false
+    logging-writer:
+      reserved: true
       cluster_permissions:
       - "cluster_composite_ops"
-      index_permissions:
-      - index_patterns:
-        - "*"
-        allowed_actions:
-        - "get"
-        - "read"
-        - "data_access"
-        - "indices:admin/get"
-    external-logging-writer:
-      reserved: false
-      cluster_permissions:
-      - "cluster_composite_ops"
-      index_permissions:
-      - index_patterns:
-        - 'logs-*'
-        - "log-*"
-        - ".ds-logs-*"
-        allowed_actions:
-        - "crud"
-        - "create_index"
-        - "indices:data/write/bulk"
-    kube-logging-writer:
-      reserved: false
-      cluster_permissions:
-      - cluster_composite_ops
       index_permissions:
       - index_patterns:
         - 'logs-*'
