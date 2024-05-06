@@ -72,10 +72,10 @@ ingester:
   replicas: 3
   resources:
     limits:
-      memory: 12Gi
+      memory: 20Gi
     requests:
       cpu: 2
-      memory: 12Gi
+      memory: 20Gi
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
