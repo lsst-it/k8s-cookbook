@@ -172,3 +172,87 @@ prometheus:
             labels:
               __meta_hostname: pdu-01
         relabel_configs: *snmp-relabel
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
+    route:
+      group_by: ["alertname", "namespace", "site"]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: "slack-test"
+      routes:
+        - receiver: "null"
+          matchers:
+            - alertname = "InfoInhibitor"
+        - receiver: "watchdog"
+          matchers:
+            - alertname = "Watchdog"
+        - receiver: "squadcast-test"
+          matchers:
+            - receivers =~ ".*,squadcast,.*"
+          continue: true
+        - receiver: slack-kube-test
+          matchers:
+            - alertname =~ "Kube.*"
+        - receiver: slack-node-test
+          group_by: ["instance"]
+          matchers:
+            - alertname =~ "Node.*"
+        - receiver: slack-network-test
+          group_by: ["instance"]
+          matchers:
+            - alertname =~ "Network.*"
+    receivers:
+      - name: "null"
+      - name: "watchdog"
+      - name: "slack-test"
+        slack_configs:
+          - username: "${ .ClusterName }-general"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            title: '{{ template "slack.o11y.generic.title" . }}'
+            text: '{{ template "slack.o11y.generic.text" . }}'
+      - name: "slack-kube-test"
+        slack_configs:
+          - username: "${ .ClusterName }-kube"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            title: '{{ template "slack.o11y.kube.title" . }}'
+            text: '{{ template "slack.o11y.kube.text" . }}'
+      - name: "slack-node-test"
+        slack_configs:
+          - username: "${ .ClusterName }-nodes"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.node.text" . }}'
+      - name: "slack-network-test"
+        slack_configs:
+          - username: "${ .ClusterName }-network"
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: true
+            text: '{{ template "slack.o11y.network.text" . }}'
+      - name: "squadcast-test"
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
+    inhibit_rules:
+      - source_matchers:
+          - alertname = "InfoInhibitor"
+        target_matchers:
+          - severity = "info"
+        equal: ["namespace"]
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity =~ "info|warning"
+        equal: ["alertname"]
+      - source_matchers:
+          - severity = "warning"
+        target_matchers:
+          - severity = "info"
+        equal: ["alertname"]
+    templates:
+      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
