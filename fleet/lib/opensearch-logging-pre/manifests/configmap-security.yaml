@@ -67,6 +67,8 @@ data:
         - "lsst-opensearch-admin"
         - "ayekan"
         - "admin"
+      users:
+        - "{{ .adminUsername }}"
     admin:
       reserved: true
       hidden: false
@@ -74,6 +76,8 @@ data:
         - "lsst-opensearch-admin"
         - "ayekan"
         - "admin"
+      users:
+        - "{{ .adminUsername }}"
       description: "Maps the LSST admin roles to cluster admin"
     kibana_user:
       reserved: true
