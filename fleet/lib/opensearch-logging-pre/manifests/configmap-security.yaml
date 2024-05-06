@@ -86,7 +86,7 @@ data:
         - "admin"
       description: "Maps the LSST admin roles to cluster admin"
     kibana_user:
-      reserved: false
+      reserved: true
       hidden: false
       users:
         - "dashboarduser"
@@ -153,6 +153,7 @@ data:
       - index_patterns:
         - 'logs-*'
         - "log-*"
+        - ".ds-logs-*"
         allowed_actions:
         - "crud"
         - "create_index"
@@ -165,6 +166,7 @@ data:
       - index_patterns:
         - 'logs-*'
         - "log-*"
+        - ".ds-logs-*"
         allowed_actions:
         - "crud"
         - "create_index"
