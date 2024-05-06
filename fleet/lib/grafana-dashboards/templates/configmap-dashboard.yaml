@@ -1,0 +1,41 @@
+# yamllint disable-file
+{{- if .Values.dashboards.enabled }}
+{{- $files := .Files.Glob "dashboards/**.json" }}
+{{- range $rawpath, $content := $files }}
+{{- $path := ($rawpath | lower | replace " " "-") }}
+{{- $dashboardDir := dir $path }}
+{{- $dashboardFile := base $path }}
+{{- $orgIDSplit := regexSplit "\\/+" $dashboardDir -1 }}
+{{- $orgID := "" }}
+{{- if (eq (len $orgIDSplit) 2) }}
+{{- $orgID = (index $orgIDSplit 1) }}
+{{- end }}
+{{- $dashboardName := lower (index (regexSplit "\\.json" $dashboardFile -1) 0) }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+{{- if (eq (len $orgIDSplit) 2) }}
+  name: {{ printf "%s-%s-%s" "dash" $orgID $dashboardName | trunc 63 | trimSuffix "-" }}
+{{- else }}
+  name: {{ printf "%s-%s" "dash" $dashboardName | trunc 63 | trimSuffix "-" }}
+{{- end }}
+  namespace: {{ $.Values.dashboards.namespace | default $.Release.Namespace }}
+  labels:
+    lsst.io/component: "grafana-dashboard"
+    lsst.io/dir: {{ $dashboardDir | quote }}
+    lsst.io/file: {{ $dashboardFile | quote }}
+    {{- if $.Values.dashboards.label }}
+    {{ $.Values.dashboards.label }}: {{ ternary $orgID "1" (not (empty $orgID)) | quote }}
+    {{- end }}
+    {{- with $.Values.dashboards.extraLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with $.Values.dashboards.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  {{ $dashboardFile }}: {{ $content | toString | toJson }}
+{{ end }}
+{{ end }}

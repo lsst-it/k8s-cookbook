@@ -1,0 +1,9 @@
+# If you are using the grafana dashboard sidecar,
+# you can import some default dashboards here
+---
+dashboards:
+  enabled: true
+  namespace: ~
+  label: grafana_dashboard # this is the default value from the grafana chart
+  annotations: {}
+  extraLabels: {}
