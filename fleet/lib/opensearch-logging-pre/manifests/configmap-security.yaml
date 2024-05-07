@@ -140,7 +140,7 @@ data:
     grafana_server:
       reserved: true
       cluster_permissions:
-      - "cluster_composite_ops"
+      - "cluster_composite_ops_ro"
       index_permissions:
       - index_patterns:
         - 'logs-*'
