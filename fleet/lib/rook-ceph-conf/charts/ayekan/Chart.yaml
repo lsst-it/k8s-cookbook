@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v3
 name: ayekan
 description: A Helm chart for Kubernetes
 type: application
