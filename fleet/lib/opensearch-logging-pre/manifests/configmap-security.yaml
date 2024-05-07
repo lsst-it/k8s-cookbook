@@ -99,7 +99,7 @@ data:
       users:
         - "external-logging"
         - "kube-logging"
-    logging-writer:
+    logging_writer:
       reserved: true
       hidden: false
       users:
@@ -124,7 +124,7 @@ data:
         - "*"
         allowed_actions:
         - "*"
-    logging-writer:
+    logging_writer:
       reserved: true
       cluster_permissions:
       - "cluster_composite_ops"
@@ -140,7 +140,7 @@ data:
     grafana_server:
       reserved: true
       cluster_permissions:
-      - "cluster_composite_ops_ro"
+      - "cluster:monitor/main"
       index_permissions:
       - index_patterns:
         - 'logs-*'
