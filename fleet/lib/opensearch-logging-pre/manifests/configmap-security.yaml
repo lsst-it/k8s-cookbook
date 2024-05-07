@@ -147,6 +147,7 @@ data:
         - "log-*"
         - ".ds-logs-*"
         allowed_actions:
+        - "indices:admin/mappings/get"
         - "get"
         - "read"
         - "search"
