@@ -1,0 +1,70 @@
+{
+    "id": "firewall_logs_hot_cold",
+    "policy": {
+        "policy_id": "firewall_logs_hot_cold",
+        "description": "Allocation management for the firewall logs.",
+        "error_notification": null,
+        "default_state": "hot",
+        "states": [
+            {
+                "name": "hot",
+                "actions": [
+                    {
+                        "retry": {
+                            "count": 3,
+                            "backoff": "exponential",
+                            "delay": "1m"
+                        },
+                        "allocation": {
+                            "require": {
+                                "temp": "hot"
+                            },
+                            "include": {},
+                            "exclude": {},
+                            "wait_for": false
+                        }
+                    }
+                ],
+                "transitions": [
+                    {
+                        "state_name": "cold",
+                        "conditions": {
+                            "min_rollover_age": "2d"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "cold",
+                "actions": [
+                    {
+                        "retry": {
+                            "count": 3,
+                            "backoff": "exponential",
+                            "delay": "1m"
+                        },
+                        "allocation": {
+                            "require": {
+                                "temp": "cold"
+                            },
+                            "include": {},
+                            "exclude": {},
+                            "wait_for": false
+                        }
+                    }
+                ],
+                "transitions": []
+            }
+        ],
+        "ism_template": [
+            {
+                "index_patterns": [
+                    "logs-firewall",
+                    "logs-firewall-*",
+                    ".ds-logs-firewall-*"
+                ],
+                "priority": 1
+            }
+        ]
+    }
+}

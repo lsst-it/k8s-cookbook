@@ -1,0 +1,25 @@
+{
+  "index_patterns": [
+    "logs-*",
+    "log-*",
+    "logstash-*"
+  ],
+  "template": {
+    "aliases": {
+      "logs": {}
+    }
+  },
+  "composed_of": [
+    "logs-index-settings"
+  ],
+  "priority": "0",
+  "_meta": {
+    "flow": "components"
+  },
+  "data_stream": {
+    "timestamp_field": {
+      "name": "@timestamp"
+    }
+  },
+  "name": "logs"
+}
