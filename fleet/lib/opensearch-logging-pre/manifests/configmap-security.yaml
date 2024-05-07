@@ -77,9 +77,9 @@ data:
       reserved: true
       hidden: false
       backend_roles:
-        - "lsst-opensearch-admin"
         - "ayekan"
-        - "admin"
+        - "admins"
+        - "opensearch-admin"
       users:
         - "{{ .adminUsername }}"
       description: "Maps the LSST admin roles to cluster admin"
