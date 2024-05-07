@@ -6,7 +6,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
-  version: v9.0.1
+  version: 11.0.0
   takeOwnership: true
   force: false
   timeoutSeconds: 300
