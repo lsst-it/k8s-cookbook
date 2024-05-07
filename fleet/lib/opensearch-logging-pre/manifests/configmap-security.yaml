@@ -148,6 +148,9 @@ data:
         - ".ds-logs-*"
         allowed_actions:
         - "indices:admin/mappings/get"
+        - "indices:data/read/msearch"
+        - "indices:data/read/msearch*"
+        - "indices:data/read/*"
         - "get"
         - "read"
         - "search"
