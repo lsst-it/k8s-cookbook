@@ -127,11 +127,15 @@ spec:
         memory: 4Gi
     roles:
     - cluster_manager
+    - master
     persistence:
-      emptyDir: {}
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce
   - component: coordinators
     replicas: 3
-    diskSize: 5Gi
+    diskSize: 2Gi
     jvm: -Xmx3G -Xms3G
     labels:
       lsst.io/author: fbegyn
@@ -166,6 +170,11 @@ spec:
     roles:
     - data
     - ingest
+    persistence:
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce
   - component: cold-nodes
     replicas: 3
     diskSize: 100Gi
@@ -184,3 +193,8 @@ spec:
       node.attr.temp: cold
     roles:
     - data
+    persistence:
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce
