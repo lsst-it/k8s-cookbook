@@ -55,6 +55,10 @@ data:
       hash: "{{ .kubePassword }}"
       reserved: true
       description: "User for kubernetes logging inputs"
+    {{ .grafanaUsername }}:
+      hash: "{{ .grafanaPassword }}"
+      reserved: true
+      description: "User for grafana dashboards"
   roles_mapping.yml: |-
     ---
     _meta:
@@ -101,6 +105,11 @@ data:
       users:
         - "{{ .kubeUsername }}"
         - "{{ .externalUsername }}"
+    grafana_server:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .grafanaUsername }}"
   roles.yml: |-
     ---
     _meta:
@@ -128,3 +137,17 @@ data:
         - "crud"
         - "create_index"
         - "indices:data/write/bulk"
+    grafana_server:
+      reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops"
+      index_permissions:
+      - index_patterns:
+        - 'logs-*'
+        - "log-*"
+        - ".ds-logs-*"
+        allowed_actions:
+        - "get"
+        - "read"
+        - "search"
+        - "suggest"
