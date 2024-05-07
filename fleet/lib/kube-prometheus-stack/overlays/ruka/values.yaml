@@ -245,6 +245,10 @@ alertmanager:
           group_by: ['...']
           matchers:
             - gnoc = "true"
+        - receiver: squadcast-test-alertmanager
+          matchers:
+            - prod = "true"
+          continue: true
     receivers:
       - name: blackhole
       - name: gnocpush
@@ -259,6 +263,9 @@ alertmanager:
             http_config:
               authorization:
                 credentials_file: /etc/alertmanager/secrets/lsst-webhooks/slack-alertmanager-bot
+      - name: squadcast-test-alertmanager
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-test-alertmanager
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
