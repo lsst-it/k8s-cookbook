@@ -1,0 +1,14 @@
+---
+defaultNamespace: &name onepassword-connect
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: connect
+  releaseName: *name
+  repo: https://1password.github.io/connect-helm-charts
+  version: v1.14.0
+  valuesFiles:
+    - values.yaml
+  waitForJobs: true
