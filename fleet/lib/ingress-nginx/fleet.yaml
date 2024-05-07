@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://kubernetes.github.io/ingress-nginx
-  version: v4.10.0
+  version: 4.10.1
   values:
     controller:
       kind: DaemonSet
