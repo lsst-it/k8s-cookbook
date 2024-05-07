@@ -142,6 +142,8 @@ grafana:
       mountPath: /etc/secrets/keycloak-credentials
       secretName: grafana-keycloak-credentials
       readOnly: true
+  plugins:
+    - grafana-opensearch-datasource
   datasources:
     datasource.yaml:
       apiVersion: 1
@@ -171,3 +173,81 @@ grafana:
           jsonData:
             handleGrafanaManagedAlerts: false
             implementation: prometheus
+        - name: logs-kube
+          type: grafana-opensearch-datasource
+          uid: os-logs-kube
+          basicAuth: true
+          basicAuthUser: $OS_LOGGING_USERNAME
+          url: https://logging.logging:9200/
+          access: proxy
+          jsonData:
+            database: logs-kube*
+            flavour: opensearch
+            version: 2.11.0
+            pplEnabled: true
+            timeField: "@timetamp"
+            logLevelField: ""
+            logMessageField: ""
+            maxConcurrentShardRequests: 5
+            serverless: false
+          secureJsonData:
+            basicAuthPassword: $OS_LOGGING_PASSWORD
+        - name: logs-hosts
+          type: grafana-opensearch-datasource
+          uid: os-logs-hosts
+          basicAuth: true
+          basicAuthUser: $OS_LOGGING_USERNAME
+          url: https://logging.logging:9200/
+          access: proxy
+          jsonData:
+            database: logs-hosts*
+            flavour: opensearch
+            version: 2.11.0
+            pplEnabled: true
+            timeField: "@timetamp"
+            logLevelField: ""
+            logMessageField: ""
+            maxConcurrentShardRequests: 5
+            serverless: false
+          secureJsonData:
+            basicAuthPassword: $OS_LOGGING_PASSWORD
+        - name: logs-firewall
+          type: grafana-opensearch-datasource
+          uid: os-logs-firewall
+          basicAuth: true
+          basicAuthUser: $OS_LOGGING_USERNAME
+          url: https://logging.logging:9200/
+          access: proxy
+          jsonData:
+            database: logs-firewall*
+            flavour: opensearch
+            version: 2.11.0
+            pplEnabled: true
+            timeField: "@timetamp"
+            logLevelField: ""
+            logMessageField: ""
+            maxConcurrentShardRequests: 5
+            serverless: false
+          secureJsonData:
+            basicAuthPassword: $OS_LOGGING_PASSWORD
+        - name: logs-network
+          type: grafana-opensearch-datasource
+          uid: os-logs-network
+          basicAuth: true
+          basicAuthUser: $OS_LOGGING_USERNAME
+          url: https://logging.logging:9200/
+          access: proxy
+          jsonData:
+            database: logs-network*
+            flavour: opensearch
+            version: 2.11.0
+            pplEnabled: true
+            timeField: "@timetamp"
+            logLevelField: ""
+            logMessageField: ""
+            maxConcurrentShardRequests: 5
+            serverless: false
+          secureJsonData:
+            basicAuthPassword: $OS_LOGGING_PASSWORD
+  envFromSecrets:
+    - name: grafana-opensearch-credentials
