@@ -60,7 +60,7 @@ spec:
             cpu: 500m
             memory: 512Mi
         volumeMounts:
-        - mountPath: /fluent-bit/config
+        - mountPath: /fluent-bit/etc
           name: config
           readOnly: true
         - mountPath: /fluent-bit/lua
