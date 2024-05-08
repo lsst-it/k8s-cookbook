@@ -96,7 +96,7 @@ data:
     [Filter]
         Name          lua
         Match         service.*
-        script        /fluent-bit/lua/systemd.lua
+        script        /fluent-bit/lua/kubernetes.lua
         call          add_time
         time_as_table true
     [Output]

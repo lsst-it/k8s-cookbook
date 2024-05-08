@@ -59,6 +59,11 @@ data:
         Port   5142
         Mode   udp
         Parser syslog-rfc3164
+    [Filter]
+        Name         parser
+        Parser       pfsense_log
+        Reserve_Data true
+        Key_Name     message
     [Output]
         Name               opensearch
         Buffer_Size        1M
