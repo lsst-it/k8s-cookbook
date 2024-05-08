@@ -61,6 +61,7 @@ data:
         Parser syslog-rfc3164
     [Filter]
         Name         parser
+        Match        firewall.*
         Parser       pfsense_log
         Reserve_Data true
         Key_Name     message
