@@ -30,6 +30,9 @@ cephClusterSpec:
   cephVersion:
     image: quay.io/ceph/ceph:v17.2.6
     allowUnsupported: false
+  labels:
+    monitoring:
+      lsst.io/monitor: "true"
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
@@ -198,6 +201,7 @@ cephBlockPools:
         requireSafeReplicaSize: true
       quotas:
         maxSize: 1.5Ti
+      enableRBDStats: true
     storageClass:
       name: rook-ceph-block
       enabled: true
