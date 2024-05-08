@@ -47,7 +47,7 @@ spec:
             secretKeyRef:
               name: fluentbit-external-credentials
               key: password
-        image: kubesphere/fluent-bit:v2.2.2
+        image: fluent/fluent-bit:3.0
         imagePullPolicy: IfNotPresent
         name: fluent-bit
         ports:
