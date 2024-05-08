@@ -62,7 +62,6 @@ targetCustomizations:
         - overlays/ayekan/values.yaml
   - name: default
     clusterSelector:
-      matchLabels:
       matchExpressions:
         - key: site
           operator: In
@@ -78,3 +77,18 @@ targetCustomizations:
           prometheusSpec:
             remoteWrite:
               - url: https://mimir.ayekan.dev.lsst.org/api/v1/push
+  - name: tu
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - tu
+    helm:
+      values:
+        crds:
+          enabled: false
+        prometheus:
+          prometheusSpec:
+            remoteWrite:
+              - url: https://mimir.pillan.tu.lsst.org/api/v1/push
