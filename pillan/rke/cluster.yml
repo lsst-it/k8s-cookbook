@@ -72,9 +72,7 @@ nodes:
   hostname_override: pillan09
   user: rke
   role:
-  - controlplane
   - worker
-  - etcd
   labels:
     role: storage-node
 services:
