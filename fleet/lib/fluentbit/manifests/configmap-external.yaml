@@ -63,8 +63,8 @@ data:
         Name         parser
         Match        firewall.*
         Parser       pfsense_log
-        Reserve_Data true
-        Preserve_Key true
+        Reserve_Data On
+        Preserve_Key On
         Key_Name     message
     [Output]
         Name               opensearch
