@@ -59,6 +59,9 @@ services:
     extra_args:
       node-status-max-images: "-1"
       max-pods: 250
+  kube-api:
+    extra_args:
+      event-ttl: "168h0m0s"
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
