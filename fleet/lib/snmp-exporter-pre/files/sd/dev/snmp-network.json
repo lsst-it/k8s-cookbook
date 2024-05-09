@@ -1,6 +1,24 @@
 [
   {
     "labels": {
+      "__meta_hostname": "new-rubinobs-br01",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.5"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "new-rubinobs-br02",
+      "__meta_network_function": ""
+    },
+    "targets": [
+      "10.49.0.6"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "rubinobs-br01",
       "__meta_network_function": ""
     },
