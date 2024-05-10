@@ -29,3 +29,8 @@ targetCustomizations:
     yaml:
       overlays:
         - ayekan
+  - name: antu
+    clusterName: antu
+    yaml:
+      overlays:
+        - antu
