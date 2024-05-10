@@ -115,6 +115,7 @@ prometheus:
         file_sd_configs:
           - files:
               - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
