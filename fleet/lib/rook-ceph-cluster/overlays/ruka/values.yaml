@@ -25,14 +25,6 @@ cephClusterSpec:
       - name: ruka05
         devices:
           - name: sdb
-  resources:
-    osd:
-      limits:
-        cpu: "2"
-        memory: "12Gi"
-      requests:
-        cpu: "1"
-        memory: "8Gi"
 
 cephBlockPools:
   - name: replicapool

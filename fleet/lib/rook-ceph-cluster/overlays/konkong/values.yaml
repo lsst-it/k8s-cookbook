@@ -38,11 +38,3 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_233945502DBF
             config:
               osdsPerDevice: 1
-  resources:
-    osd:
-      limits:
-        cpu: "2"
-        memory: "12Gi"
-      requests:
-        cpu: "1"
-        memory: "8Gi"

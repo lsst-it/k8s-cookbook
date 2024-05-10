@@ -125,7 +125,7 @@ cephClusterSpec:
     osd:
       limits:
         cpu: "2"
-        memory: "8Gi"
+        memory: "12Gi"
       requests:
         cpu: "1"
         memory: "8Gi"

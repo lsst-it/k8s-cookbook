@@ -19,14 +19,6 @@ cephClusterSpec:
       - name: ayekan03
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301321
-  resources:
-    osd:
-      limits:
-        cpu: "2"
-        memory: "12Gi"
-      requests:
-        cpu: "1"
-        memory: "8Gi"
 
 cephBlockPools:
   - name: replicapool
