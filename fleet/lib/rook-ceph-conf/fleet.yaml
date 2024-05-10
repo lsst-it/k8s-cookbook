@@ -117,3 +117,10 @@ targetCustomizations:
         subchart:
           yepun:
             enabled: true
+  - name: antu
+    clusterName: antu
+    helm:
+      values:
+        subchart:
+          antu:
+            enabled: true

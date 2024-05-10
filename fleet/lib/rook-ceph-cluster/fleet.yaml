@@ -117,3 +117,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/yepun/values.yaml
+  - name: antu
+    clusterName: antu
+    helm:
+      valuesFiles:
+        - overlays/antu/values.yaml
