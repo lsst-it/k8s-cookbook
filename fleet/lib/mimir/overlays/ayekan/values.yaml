@@ -10,7 +10,3 @@ metaMonitoring:
   prometheusRule:
     labels:
       lsst.io/rule: "true"
-gateway:
-  ingress:
-    labels:
-      lsst.io/monitor: "true"
