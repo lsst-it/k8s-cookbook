@@ -77,6 +77,11 @@ targetCustomizations:
     yaml:
       overlays:
         - yepun
+  - name: antu
+    clusterName: antu
+    yaml:
+      overlays:
+        - antu
   - name: rancher.dev
     clusterSelector:
       matchExpressions:
