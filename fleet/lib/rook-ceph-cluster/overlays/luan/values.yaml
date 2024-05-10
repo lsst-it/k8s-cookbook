@@ -31,10 +31,10 @@ cephClusterSpec:
   resources:
     osd:
       limits:
-        cpu: "2000m"
+        cpu: "2"
         memory: "8Gi"
       requests:
-        cpu: "1000m"
+        cpu: "1"
         memory: "8Gi"
 
 cephBlockPools:

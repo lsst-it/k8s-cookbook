@@ -110,24 +110,24 @@ cephClusterSpec:
   resources:
     mgr:
       limits:
-        cpu: "1000m"
+        cpu: "1"
         memory: "1Gi"
       requests:
         cpu: "500m"
         memory: "512Mi"
     mon:
       limits:
-        cpu: "2000m"
+        cpu: "2"
         memory: "2Gi"
       requests:
-        cpu: "1000m"
+        cpu: "1"
         memory: "1Gi"
     osd:
       limits:
-        cpu: "2000m"
+        cpu: "2"
         memory: "8Gi"
       requests:
-        cpu: "1000m"
+        cpu: "1"
         memory: "8Gi"
     prepareosd:
       limits:

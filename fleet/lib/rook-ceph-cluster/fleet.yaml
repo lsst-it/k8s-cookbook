@@ -42,7 +42,6 @@ diff:
         - /spec/livenessProbe
         - /spec/network/connections
         - /spec/removeOSDsIfOutAndSafeToRemove
-        - /spec/resources
         - /spec/skipUpgradeChecks
         - /spec/mgr/allowMultiplePerNode
         - /spec/mon/allowMultiplePerNode
