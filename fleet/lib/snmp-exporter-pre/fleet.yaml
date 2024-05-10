@@ -32,3 +32,6 @@ targetCustomizations:
             - dev
             - ls
             - cp
+    helm:
+      values:
+        site: ls
