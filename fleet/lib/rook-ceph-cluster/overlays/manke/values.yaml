@@ -58,14 +58,6 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301061
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301031
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301939
-  resources:
-    osd:
-      limits:
-        cpu: "2"
-        memory: "8Gi"
-      requests:
-        cpu: "1"
-        memory: "8Gi"
 
 cephBlockPools:
   - name: replicapool
