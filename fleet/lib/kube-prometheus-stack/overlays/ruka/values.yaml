@@ -5,6 +5,7 @@ prometheus:
       - sd-snmp-network
       - sd-snmp-raritan-pdu
       - sd-snmp-arista-bgp
+      - sd-snmp-power
     secrets:
       - puppetdb
     additionalScrapeConfigs:
@@ -134,6 +135,7 @@ prometheus:
           - files:
               - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
               - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+              - /etc/prometheus/configmaps/sd-snmp-power/snmp-power.json
               - /etc/prometheus/configmaps/sd-snmp-network/snmp-arista-bgp.json
         relabel_configs:
           - source_labels: [__address__]
@@ -159,55 +161,23 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: snmp-xups-public
+      - job_name: snmp-power
         metrics_path: /snmp
         params:
           module: [xups]
           auth: [public_v1]
-        static_configs:
-          - targets:
-              - 10.18.3.31
-            labels:
-              __meta_hostname: ups-01
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-power/snmp-power.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
           - source_labels: [__meta_hostname]
             target_label: instance
-          - target_label: __address__
-            replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: snmp-xups
-        metrics_path: /snmp
-        params:
-          module: [xups]
-          auth: [lsst_v1]
-        static_configs:
-          - targets:
-              - 10.18.3.62
-            labels:
-              __meta_hostname: ups-02
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - target_label: __address__
-            replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: snmp-schneider-pm5xxx
-        metrics_path: /snmp
-        params:
-          module: [schneider_pm5xxx]
-          auth: [public_v1]
-        static_configs:
-          - targets:
-              - 10.18.3.21
-            labels:
-              __meta_hostname: pdu-01
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
+          - source_labels: [__meta_auth]
+            target_label: __param_auth
+          - source_labels: [__meta_module]
+            target_label: __param_module
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
       - job_name: snmp-arista-bgp
