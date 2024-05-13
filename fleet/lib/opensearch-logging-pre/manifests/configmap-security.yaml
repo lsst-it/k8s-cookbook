@@ -131,7 +131,7 @@ data:
       tenant_permissions:
       - tenant_patterns:
         - "*"
-        tenant_permissions:
+        allowed_actions:
         - "*"
     logging_writer:
       reserved: true
