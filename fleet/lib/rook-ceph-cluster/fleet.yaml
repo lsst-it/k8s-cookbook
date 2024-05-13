@@ -9,6 +9,8 @@ helm:
   releaseName: *name
   repo: https://charts.rook.io/release
   version: 1.14.3
+  valuesFiles:
+    - values.yaml
   timeoutSeconds: 3600
   waitForJobs: true
   atomic: false  # rollback problematic
@@ -40,7 +42,6 @@ diff:
         - /spec/livenessProbe
         - /spec/network/connections
         - /spec/removeOSDsIfOutAndSafeToRemove
-        - /spec/resources
         - /spec/skipUpgradeChecks
         - /spec/mgr/allowMultiplePerNode
         - /spec/mon/allowMultiplePerNode
