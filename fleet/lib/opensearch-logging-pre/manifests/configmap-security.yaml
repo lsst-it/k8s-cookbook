@@ -11,6 +11,12 @@ data:
       config_version: 2
     config:
       dynamic:
+        kibana:
+          multitenancy_enabled: true
+          private_tenant_enabled: false
+          default_tenant: "lsst"
+          server_username: "{{ .dashboardUsername }}"
+          index: ".kibana"
         authc:
           basic_internal_auth_domain:
             http_enabled: true
@@ -158,3 +164,23 @@ data:
         - "read"
         - "search"
         - "suggest"
+  tenants.yml: |
+    ---
+    _meta:
+      type: "tenants"
+      config_version: 2
+    lsst:
+      reserved: true
+      description: "Tenant for the LSST project"
+    infra:
+      reserved: true
+      description: "Tenant for the infra team"
+    devops:
+      reserved: true
+      description: "Tenant for the devops team"
+    square:
+      reserved: true
+      description: "Tenant for the square team"
+    tssw:
+      reserved: true
+      description: "Tenant for the tssw team"
