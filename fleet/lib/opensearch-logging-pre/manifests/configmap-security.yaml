@@ -15,7 +15,7 @@ data:
           multitenancy_enabled: true
           private_tenant_enabled: false
           default_tenant: "lsst"
-          server_name: "{{ .dashboardUsername }}"
+          server_username: "{{ .dashboardUsername }}"
           index: ".kibana"
         authc:
           basic_internal_auth_domain:
