@@ -48,7 +48,7 @@ spec:
       opensearch_security.multitenancy.enabled: "true"
       opensearch_security.multitenancy.tenants.enable_global: "true"
       opensearch_security.multitenancy.tenants.enable_private: "false"
-      opensearch_security.multitenancy.tenants.preferred: '["lsst", "Global"]'
+      opensearch_security.multitenancy.tenants.preferred: '["Global", "lsst"]'
       opensearch_security.multitenancy.enable_filter: "false"
     env:
     - name: KEYCLOAK_CLIENT_ID
