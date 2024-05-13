@@ -6,7 +6,7 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: ls_production
+  branch: IT-5333/antu-o11y
   keepResources: true
   paths:
     - fleet/s/ls/c/antu/*
