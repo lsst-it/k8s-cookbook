@@ -45,6 +45,11 @@ spec:
       opensearch_security.openid.header: "Authorization"
       opensearch_security.openid.scope: "openid profile email offline_access"
       opensearch_security.ui.openid.login.buttonname: "Login with keycloak.ls.lsst.org"
+      opensearch_security.multitenancy.enabled: true
+      opensearch_security.multitenancy.tenants.enable_global: true
+      opensearch_security.multitenancy.tenants.enable_private: false
+      opensearch_security.multitenancy.tenants.preferred: ["lsst", "Global"]
+      opensearch_security.multitenancy.enable_filter: false
     env:
     - name: KEYCLOAK_CLIENT_ID
       valueFrom:
