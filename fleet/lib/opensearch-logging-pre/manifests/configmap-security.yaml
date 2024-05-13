@@ -164,6 +164,75 @@ data:
         - "read"
         - "search"
         - "suggest"
+    sqre_admin:
+      reserved: true
+      index_permissions:
+      - index_patterns:
+        - "logs-*"
+        allowed_actions:
+        - "indices:admin/mappings/get"
+        - "indices:data/read/msearch"
+        - "indices:data/read/msearch*"
+        - "indices:data/read/*"
+        - "get"
+        - "read"
+        - "search"
+        - "suggest"
+      tenant_permissions:
+      - tenant_patterns:
+        - "lsst"
+        - "square"
+    sqre_user:
+      reserved: true
+      - index_patterns:
+        - "logs-*"
+        allowed_actions:
+        - "indices:admin/mappings/get"
+        - "indices:data/read/msearch"
+        - "indices:data/read/msearch*"
+        - "indices:data/read/*"
+        - "get"
+        - "read"
+        - "search"
+        - "suggest"
+      tenant_permissions:
+      - tenant_patterns:
+        - "lsst"
+        - "square"
+    tssw_admin:
+      reserved: true
+      - index_patterns:
+        - "logs-*"
+        allowed_actions:
+        - "indices:admin/mappings/get"
+        - "indices:data/read/msearch"
+        - "indices:data/read/msearch*"
+        - "indices:data/read/*"
+        - "get"
+        - "read"
+        - "search"
+        - "suggest"
+      tenant_permissions:
+      - tenant_patterns:
+        - "lsst"
+        - "tssw"
+    tssw_user:
+      reserved: true
+      - index_patterns:
+        - "logs-*"
+        allowed_actions:
+        - "indices:admin/mappings/get"
+        - "indices:data/read/msearch"
+        - "indices:data/read/msearch*"
+        - "indices:data/read/*"
+        - "get"
+        - "read"
+        - "search"
+        - "suggest"
+      tenant_permissions:
+      - tenant_patterns:
+        - "lsst"
+        - "tssw"
   tenants.yml: |
     ---
     _meta:
