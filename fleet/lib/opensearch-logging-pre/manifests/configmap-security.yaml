@@ -166,6 +166,8 @@ data:
         - "suggest"
     sqre_admin:
       reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops"
       index_permissions:
       - index_patterns:
         - "logs-*"
@@ -182,8 +184,13 @@ data:
       - tenant_patterns:
         - "lsst"
         - "square"
+        allowed_actions:
+        - "kibana_read_all"
     sqre_user:
       reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops_ro"
+      index_permissions:
       - index_patterns:
         - "logs-*"
         allowed_actions:
@@ -199,8 +206,13 @@ data:
       - tenant_patterns:
         - "lsst"
         - "square"
+        allowed_actions:
+        - "kibana_read_all"
     tssw_admin:
       reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops"
+      index_permissions:
       - index_patterns:
         - "logs-*"
         allowed_actions:
@@ -216,8 +228,13 @@ data:
       - tenant_patterns:
         - "lsst"
         - "tssw"
+        allowed_actions:
+        - "kibana_read_all"
     tssw_user:
       reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops_ro"
+      index_permissions:
       - index_patterns:
         - "logs-*"
         allowed_actions:
@@ -233,6 +250,8 @@ data:
       - tenant_patterns:
         - "lsst"
         - "tssw"
+        allowed_actions:
+        - "kibana_read_all"
   tenants.yml: |
     ---
     _meta:
