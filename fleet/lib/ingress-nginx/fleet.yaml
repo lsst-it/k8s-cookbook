@@ -19,15 +19,46 @@ helm:
           enabled: true
           additionalLabels:
             lsst.io/monitor: "true"
-        # TODO: handle error: cannot unmarshal rule from spec This error happens
-        # due to the fact that the PrometheusRules from the nginx-ingress
-        # chart seem to be uncompatible with the new CRD's from the prometheus
-        # operator being deployed. It would be good to have these deployed as
-        # well but currently we're temporary disabling them.
         prometheusRule:
-          enabled: false
+          enabled: true
           additionalLabels:
             lsst.io/rule: "true"
+          rules:
+            - alert: NginxIngressConfigFailed
+              annotations:
+                description: bad ingress config - nginx config test failed
+                summary: uninstall the latest ingress changes to allow config reloads to resume
+              expr: count(nginx_ingress_controller_config_last_reload_successful == 0) > 0
+              for: 1s
+              labels:
+                severity: critical
+
+            - alert: NginxIngressCertificateExpiry
+              annotations:
+                description: ssl certificate(s) will expire in less then a week
+                summary: renew expiring certificates to avoid downtime
+              expr: (avg(nginx_ingress_controller_ssl_expire_time_seconds{host!="_"}) by (host) - time()) < 604800
+              for: 1s
+              labels:
+                severity: critical
+
+            - alert: NginxIngressTooMany500s
+              annotations:
+                description: Too many 5XXs
+                summary: More than 5% of all requests returned 5XX, this requires your attention
+              expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"5.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+              for: 1m
+              labels:
+                severity: warning
+
+            - alert: NginxIngressTooMany400s
+              annotations:
+                description: Too many 4XXs
+                summary: More than 5% of all requests returned 4XX, this requires your attention
+              expr: 100 * ( sum( nginx_ingress_controller_requests{status=~"4.+"} ) / sum(nginx_ingress_controller_requests) ) > 5
+              for: 1m
+              labels:
+                severity: warning
     rbac:
       create: true
   waitForJobs: true
