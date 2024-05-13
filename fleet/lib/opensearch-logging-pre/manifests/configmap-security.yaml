@@ -68,9 +68,7 @@ data:
       reserved: true
       hidden: false
       backend_roles:
-        - "lsst-opensearch-admin"
-        - "ayekan"
-        - "admin"
+        - "admins"
       users:
         - "{{ .adminUsername }}"
     admin:
@@ -123,6 +121,11 @@ data:
       - index_patterns:
         - "*"
         allowed_actions:
+        - "*"
+      tenant_permissions:
+      - tenant_patterns:
+        - "*"
+        tenant_permissions:
         - "*"
     logging_writer:
       reserved: true
