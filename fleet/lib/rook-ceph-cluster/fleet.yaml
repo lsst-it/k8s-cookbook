@@ -51,6 +51,7 @@ diff:
         - /spec/dashboard/ssl
         - /spec/disruptionManagement/manageMachineDisruptionBudgets
         - /spec/storage/useAllNodes
+        - /spec/upgradeOSDRequiresHealthyPGs
 targetCustomizations:
   - name: kueyen
     clusterName: kueyen
