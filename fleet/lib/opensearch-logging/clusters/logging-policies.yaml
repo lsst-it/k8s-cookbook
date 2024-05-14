@@ -19,7 +19,7 @@ spec:
     aliases:
       logs: {}
   dataStream:
-    timestamp_field:
+    timestampField:
       name: "@timestamp"
   version: 1
   _meta:
@@ -93,7 +93,7 @@ spec:
         dst_port:
           type: "integer"
   dataStream:
-    timestamp_field:
+    timestampField:
       name: "@timestamp"
   version: 1
   _meta:
