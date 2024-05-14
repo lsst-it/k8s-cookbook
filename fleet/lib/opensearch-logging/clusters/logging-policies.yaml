@@ -49,12 +49,10 @@ spec:
             numberOfReplicas: 2
         - rollover:
             minSize: "25gb"
-            minDocCount: 1000000
-            minIndexAge: "2d"
       transitions:
         - stateName: downscale
           conditions:
-            minIndexAge: "3d"
+            minIndexAge: "2d"
     - name: downscale
       actions:
         - replicaCount:
@@ -123,12 +121,11 @@ spec:
             numberOfReplicas: 2
         - rollover:
             minSize: "50gb"
-            minDocCount: 15000000
             minIndexAge: "1d"
       transitions:
         - stateName: downscale
           conditions:
-            minIndexAge: "3d"
+            minIndexAge: "2d"
     - name: downscale
       actions:
         - replicaCount:
@@ -136,7 +133,7 @@ spec:
       transitions:
         - stateName: delete
           conditions:
-            minIndexAge: "5d"
+            minIndexAge: "3d"
     - name: delete
       actions:
         - delete: {}
