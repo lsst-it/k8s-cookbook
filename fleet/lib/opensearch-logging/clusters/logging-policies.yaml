@@ -18,9 +18,11 @@ spec:
       refresh_interval: "15s"
     aliases:
       logs: {}
-  dataStream:
-    timestampField:
-      name: "@timestamp"
+  dataStream: {}
+  # Seem like this is currently bugged in the operator
+  # source: https://github.com/opensearch-project/opensearch-k8s-operator/issues/798
+  #   timestampField:
+  #     name: "@timestamp"
   version: 1
   _meta:
     flow: "simple"
@@ -92,9 +94,11 @@ spec:
           type: "ip"
         dst_port:
           type: "integer"
-  dataStream:
-    timestampField:
-      name: "@timestamp"
+  dataStream: {}
+  # Seem like this is currently bugged in the operator
+  # source: https://github.com/opensearch-project/opensearch-k8s-operator/issues/798
+  #   timestampField:
+  #     name: "@timestamp"
   version: 1
   _meta:
     flow: "simple"
