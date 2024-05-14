@@ -6,7 +6,7 @@ metadata:
   namespace: fleet-local
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: tu_production
   keepResources: true
   paths:
     - fleet/s/tu/c/rancher/*
