@@ -24,6 +24,13 @@ spec:
     port: 80
     # securePort: 443
     instances: 3
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 1Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
