@@ -1,6 +1,4 @@
 ---
-# If you intened to deploy Kubernetes in an air-gapped environment,
-# please consult the documentation on how to configure custom RKE images.
 nodes:
 - address: rancher01.ls.lsst.org
   hostname_override: rancher01.ls
@@ -24,110 +22,12 @@ nodes:
   - worker
   - etcd
 services:
-  etcd:
-    image: ""
-    extra_args:
-      listen-metrics-urls: http://0.0.0.0:2381
-    extra_binds: []
-    extra_env: []
-    external_urls: []
-    ca_cert: ""
-    cert: ""
-    key: ""
-    path: ""
-    uid: 0
-    gid: 0
-    snapshot: null
-    retention: ""
-    creation: ""
-    backup_config: null
-  kube-api:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
-    service_cluster_ip_range: 10.43.0.0/16
-    service_node_port_range: ""
-    pod_security_policy: false
-    always_pull_images: false
-    secrets_encryption_config: null
-    audit_log: null
-    admission_configuration: null
-    event_rate_limit: null
-  kube-controller:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
-    cluster_cidr: 10.42.0.0/16
-    service_cluster_ip_range: 10.43.0.0/16
-  scheduler:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
   kubelet:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
-    cluster_domain: cluster.local
-    infra_container_image: ""
-    cluster_dns_server: 10.43.0.10
-    fail_swap_on: false
-    generate_serving_certificate: false
-  kubeproxy:
-    image: ""
-    extra_args: {}
-    extra_binds: []
-    extra_env: []
+    extra_args:
 network:
   plugin: canal
-  options: {}
-  mtu: 0
-  node_selector: {}
-authentication:
-  strategy: x509
-  sans: []
-  webhook: null
-addons: ""
-addons_include: []
 ssh_key_path: ~/.ssh/id_rsa
-ssh_cert_path: ""
-ssh_agent_auth: false
-authorization:
-  mode: rbac
-  options: {}
-ignore_docker_version: false
-kubernetes_version: "v1.25.9-rancher2-2"
-private_registries: []
+ignore_docker_version: true
+kubernetes_version: v1.27.12-rancher1-1
 ingress:
   provider: none
-  options: {}
-  node_selector: {}
-  extra_args: {}
-  dns_policy: ""
-  extra_envs: []
-  extra_volumes: []
-  extra_volume_mounts: []
-cluster_name: ""
-cloud_provider:
-  name: ""
-prefix_path: ""
-addon_job_timeout: 0
-bastion_host:
-  address: ""
-  port: ""
-  user: ""
-  ssh_key: ""
-  ssh_key_path: ""
-  ssh_cert: ""
-  ssh_cert_path: ""
-monitoring:
-  provider: ""
-  options: {}
-  node_selector: {}
-restore:
-  restore: false
-  snapshot_name: ""
-dns: null
