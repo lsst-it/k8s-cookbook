@@ -29,8 +29,8 @@ spec:
         cpu: "4"
         memory: 4Gi
       requests:
-        cpu: "4"
-        memory: 4Gi
+        cpu: 100m
+        memory: 1Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

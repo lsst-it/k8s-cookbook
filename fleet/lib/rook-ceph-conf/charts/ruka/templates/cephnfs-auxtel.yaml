@@ -33,8 +33,8 @@ spec:
         cpu: "4"
         memory: 4Gi
       requests:
-        cpu: "4"
-        memory: 4Gi
+        cpu: 100m
+        memory: 1Gi
   preserveFilesystemOnDelete: false
 ---
 apiVersion: ceph.rook.io/v1
@@ -54,8 +54,8 @@ spec:
         cpu: "3"
         memory: 8Gi
       requests:
-        cpu: "3"
-        memory: 8Gi
+        cpu: 100m
+        memory: 1Gi
 ---
 apiVersion: v1
 kind: Service
