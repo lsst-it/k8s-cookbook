@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: rsyslog-fluentbit-certificate
   dnsNames:
-    - rsyslog.fluent.ayekan.dev.lsst.org
+    - rsyslog.fluent.ruka.dev.lsst.org
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
