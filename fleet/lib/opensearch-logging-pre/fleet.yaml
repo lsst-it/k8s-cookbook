@@ -17,34 +17,6 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: external-secrets-conf
-targetCustomizations:
-  # first match is used
-  - name: ayekan
-    clusterName: ayekan
-    yaml:
-      overlays:
-        - ayekan
-  - name: dev
-    clusterSelector:
-      matchLabels:
-        site: dev
-    yaml:
-      overlays:
-        - dev
-  - name: tu
-    clusterSelector:
-      matchLabels:
-        site: tu
-    yaml:
-      overlays:
-        - tu
-  - name: ls
-    clusterSelector:
-      matchLabels:
-        site: ls
-    yaml:
-      overlays:
-        - ls
 diff:
   comparePatches:
     - apiVersion: cert-manager.io/v1
