@@ -201,15 +201,32 @@ alertmanager:
           continue: true
         - receiver: slack-kube-test
           matchers:
-            - alertname =~ "Kube.*"
-        - receiver: slack-node-test
-          group_by: [instance]
-          matchers:
-            - alertname =~ "Node.*"
-        - receiver: slack-network-test
-          group_by: [instance]
-          matchers:
-            - alertname =~ "Network.*"
+            - receivers =~ ".*,slack,.*"
+          continue: true
+          routes:
+            - receiver: slack-kube-test
+              matchers:
+                - alertname =~ "Kube.*"
+            - receiver: slack-node-test
+              group_by: ["instance"]
+              matchers:
+                - alertname =~ "Node.*"
+            - receiver: slack-network-test
+              group_by: ["instance"]
+              matchers:
+                - alertname =~ "Network.*"
+        # Below is an example for the namespace based alert routing.
+        # This will send alerts from a namespace to the namespace specific team
+        # on slack
+        # - receiver: slack-rook-ceph-team
+        #   matchers:
+        #     - namespace = "rook-ceph"
+        # Below is an example for the group based alert routing.
+        # This will send alerts with a specifc group in the receiver list to the
+        # alert channel.
+        # - receiver: email-group
+        #   matchers:
+        #     - receivers =~ ".*,group,.*"
     receivers:
       - name: "null"
       - name: watchdog
