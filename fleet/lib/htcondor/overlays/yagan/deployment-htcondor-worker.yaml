@@ -1,0 +1,81 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: htcondor-worker
+  labels:
+    app: htcondor-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: htcondor-worker
+  template:
+    metadata:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: kube-system/htcondor
+      labels:
+        app: htcondor-worker
+    spec:
+      containers:
+      - name: htcondor-worker
+        image: docker.io/lsstit/htcondor-worker:23
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CONDOR_HOST
+          value: htcondor-central-manager.htcondor
+        - name: SEC_PASSWORD_FILE
+          value: /etc/condor/pool_password/password
+        volumeMounts:
+        - name: pool-password
+          mountPath: /etc/condor/pool_password
+        - name: rsphome
+          mountPath: /rsphome
+        - name: project
+          mountPath: /project
+        - name: latiss
+          mountPath: /repo/LATISS
+        - name: lsstcomcam
+          mountPath: /repo/LSSTComCam
+        - name: lsstdata-other
+          mountPath: /readonly/lsstdata/other
+        - name: lsstdata-comcam
+          mountPath: /readonly/lsstdata/comcam
+        - name: lsstdata-auxtel
+          mountPath: /readonly/lsstdata/auxtel
+        ports:
+        - containerPort: 9618
+          protocol: TCP
+      volumes:
+      - name: pool-password
+        secret:
+          defaultMode: 0600
+          secretName: htcondor-pool-password
+      - name: rsphome
+        nfs:
+          path: /rsphome
+          server: nfs-rsphome.cp.lsst.org
+      - name: project
+        nfs:
+          path: /project
+          server: nfs1.cp.lsst.org
+      - name: latiss
+        nfs:
+          path: /auxtel/repo/LATISS
+          server: nfs-auxtel.cp.lsst.org
+      - name: lsstcomcam
+        nfs:
+          path: /repo/LSSTComCam
+          server: comcam-archiver.cp.lsst.org
+      - name: lsstdata-other
+        nfs:
+          path: /lsstdata
+          server: nfs1.cp.lsst.org
+      - name: lsstdata-comcam
+        nfs:
+          path: /lsstdata
+          server: comcam-archiver.cp.lsst.org
+      - name: lsstdata-auxtel
+        nfs:
+          path: /auxtel/lsstdata
+          server: nfs-auxtel.cp.lsst.org

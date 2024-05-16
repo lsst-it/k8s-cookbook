@@ -2,47 +2,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: htcondor-schedd
-  namespace: htcondor
+  name: htcondor-central-manager
   labels:
-    app: htcondor-schedd
+    app: htcondor-central-manager
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: htcondor-schedd
+      app: htcondor-central-manager
   template:
     metadata:
       labels:
-        app: htcondor-schedd
+        app: htcondor-central-manager
     spec:
       containers:
-      - name: htcondor-schedd
-        image: docker.io/lsstit/htcondor-schedd:23
+      - name: htcondor-central-manager
+        image: docker.io/lsstit/htcondor-cm:23
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             memory: "1.0Gi"
-            cpu: "1000m"
+            cpu: "500m"
           limits:
             memory: "1.0Gi"
-            cpu: "1000m"
+            cpu: "500m"
         env:
         - name: CONDOR_HOST
-          value: "htcondor-central-manager"
+          value: htcondor-central-manager.htcondor
         - name: SEC_PASSWORD_FILE
-          value: "/etc/condor/pool_password/password"
+          value: /etc/condor/pool_password/password
         volumeMounts:
         - name: pool-password
           mountPath: /etc/condor/pool_password
         ports:
         - containerPort: 9618
           protocol: TCP
-        livenessProbe:
-          exec:
-            command:
-            - /usr/local/bin/htcondor-schedd-liveness
-          initialDelaySeconds: 10
-          periodSeconds: 30
       volumes:
       - name: pool-password
         secret:
