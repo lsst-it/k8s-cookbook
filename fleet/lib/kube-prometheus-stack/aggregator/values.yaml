@@ -178,7 +178,7 @@ grafana:
           uid: os-logs-kube
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://logging.logging:9200/
+          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-kube*
@@ -187,9 +187,8 @@ grafana:
             pplEnabled: true
             timeField: "@timetamp"
             logLevelField: ""
-            logMessageField: ""
+            logMessageField: log
             maxConcurrentShardRequests: 5
-            serverless: false
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-hosts
@@ -197,7 +196,7 @@ grafana:
           uid: os-logs-hosts
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://logging.logging:9200/
+          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-hosts*
@@ -206,9 +205,8 @@ grafana:
             pplEnabled: true
             timeField: "@timetamp"
             logLevelField: ""
-            logMessageField: ""
+            logMessageField: message
             maxConcurrentShardRequests: 5
-            serverless: false
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-firewall
@@ -216,7 +214,7 @@ grafana:
           uid: os-logs-firewall
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://logging.logging:9200/
+          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-firewall*
@@ -225,9 +223,8 @@ grafana:
             pplEnabled: true
             timeField: "@timetamp"
             logLevelField: ""
-            logMessageField: ""
+            logMessageField: message
             maxConcurrentShardRequests: 5
-            serverless: false
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-network
@@ -235,7 +232,7 @@ grafana:
           uid: os-logs-network
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://logging.logging:9200/
+          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-network*
@@ -244,9 +241,8 @@ grafana:
             pplEnabled: true
             timeField: "@timetamp"
             logLevelField: ""
-            logMessageField: ""
+            logMessageField: message
             maxConcurrentShardRequests: 5
-            serverless: false
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
   envFromSecrets:
