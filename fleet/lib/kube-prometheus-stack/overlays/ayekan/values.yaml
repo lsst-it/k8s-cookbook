@@ -179,15 +179,12 @@ alertmanager:
     secrets:
       - lsst-webhooks
   config:
-    global:
-      resolve_timeout: 5m
-      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
       group_by: [alertname, namespace, site]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
-      receiver: slack-test
+      receiver: "null"
       routes:
         - receiver: "null"
           matchers:
@@ -199,17 +196,42 @@ alertmanager:
           matchers:
             - receivers =~ ".*,squadcast,.*"
           continue: true
-        - receiver: slack-kube-test
+        - receiver: "slack-test"
           matchers:
-            - alertname =~ "Kube.*"
-        - receiver: slack-node-test
-          group_by: [instance]
+            - receivers =~ ".*,slack,.*"
+          continue: true
+          routes:
+            - receiver: slack-kube-test
+              matchers:
+                - alertname =~ "Kube.*"
+            - receiver: slack-node-test
+              group_by: ["instance"]
+              matchers:
+                - alertname =~ "Node.*"
+            - receiver: slack-network-test
+              group_by: ["instance"]
+              matchers:
+                - alertname =~ "Network.*"
+        - receiver: slack-test
           matchers:
-            - alertname =~ "Node.*"
-        - receiver: slack-network-test
-          group_by: [instance]
+            - alertname =~ "Ceph.*"
+            - severity =~ "warning|critical"
+        - receiver: squadcast-test
           matchers:
-            - alertname =~ "Network.*"
+            - alertname =~ "Ceph.*"
+            - severity = "critical"
+        # Below is an example for the namespace based alert routing.
+        # This will send alerts from a namespace to the namespace specific team
+        # on slack
+        # - receiver: slack-rook-ceph-team
+        #   matchers:
+        #     - namespace = "rook-ceph"
+        # Below is an example for the group based alert routing.
+        # This will send alerts with a specifc group in the receiver list to the
+        # alert channel.
+        # - receiver: email-group
+        #   matchers:
+        #     - receivers =~ ".*,group,.*"
     receivers:
       - name: "null"
       - name: watchdog
@@ -242,21 +264,6 @@ alertmanager:
       - name: squadcast-test
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
-    inhibit_rules:
-      - source_matchers:
-          - alertname = "InfoInhibitor"
-        target_matchers:
-          - severity = "info"
-        equal: [namespace]
-      - source_matchers:
-          - severity = "critical"
-        target_matchers:
-          - severity =~ "info|warning"
-        equal: [alertname]
-      - source_matchers:
-          - severity = "warning"
-        target_matchers:
-          - severity = "info"
-        equal: [alertname]
-    templates:
-      - /etc/alertmanager/configmaps/alertmanager-templates/*.tmpl
+      - name: "slack-rook-ceph-team"
+      - name: "slack-metallb-team"
+      - name: "slack-monitoring-team"
