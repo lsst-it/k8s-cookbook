@@ -212,14 +212,6 @@ alertmanager:
               group_by: ["instance"]
               matchers:
                 - alertname =~ "Network.*"
-        - receiver: slack-test
-          matchers:
-            - alertname =~ "Ceph.*"
-            - severity =~ "warning|critical"
-        - receiver: squadcast-test
-          matchers:
-            - alertname =~ "Ceph.*"
-            - severity = "critical"
         # Below is an example for the namespace based alert routing.
         # This will send alerts from a namespace to the namespace specific team
         # on slack
