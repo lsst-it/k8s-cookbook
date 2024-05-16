@@ -75,6 +75,7 @@ data:
       hidden: false
       backend_roles:
         - "admins"
+        - "ayekan"
       users:
         - "{{ .adminUsername }}"
     admin:
@@ -92,7 +93,22 @@ data:
       hidden: false
       users:
         - "{{ .dashboardUsername }}"
+    kibanauser:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
     kibana_server:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    kibanaserver:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    dashboardserver:
       reserved: true
       hidden: false
       users:
@@ -112,6 +128,12 @@ data:
     grafana_server:
       reserved: true
       hidden: false
+      users:
+        - "{{ .grafanaUsername }}"
+    readall_and_monitor:
+      reserved: true
+      backend_roles:
+        - "ayekan"
       users:
         - "{{ .grafanaUsername }}"
   roles.yml: |-
@@ -149,21 +171,53 @@ data:
     grafana_server:
       reserved: true
       cluster_permissions:
-      - "cluster:monitor/main"
+        - "cluster_monitor"
+        - "cluster_composite_ops"
+        - "indices:admin/template*"
+        - "indices:data/read/scroll*"
       index_permissions:
-      - index_patterns:
-        - 'logs-*'
-        - "log-*"
-        - ".ds-logs-*"
-        allowed_actions:
-        - "indices:admin/mappings/get"
-        - "indices:data/read/msearch"
-        - "indices:data/read/msearch*"
-        - "indices:data/read/*"
-        - "get"
-        - "read"
-        - "search"
-        - "suggest"
+        - index_patterns:
+          - ".kibana"
+          - ".opensearch_dashboards"
+          - ".kibana-*"
+          - ".opensearch_dashboards-*"
+          - ".kibana_*"
+          - ".opensearch_dashboards_*"
+          - ".tasks"
+          - ".management-beats*"
+          - "*"
+          allowed_actions:
+            - "indices_all"
+      tenant_permissions:
+        - tenant_patterns:
+          - "*"
+          allowed_actions:
+            - "kibana_all_read"
+    dashboardserver:
+      reserved: true
+      cluster_permissions:
+        - "cluster_monitor"
+        - "cluster_composite_ops"
+        - "indices:admin/template*"
+        - "indices:data/read/scroll*"
+      index_permissions:
+        - index_patterns:
+          - ".kibana"
+          - ".opensearch_dashboards"
+          - ".kibana-*"
+          - ".opensearch_dashboards-*"
+          - ".kibana_*"
+          - ".opensearch_dashboards_*"
+          - ".tasks"
+          - ".management-beats*"
+          - "*"
+          allowed_actions:
+            - "indices_all"
+      tenant_permissions:
+        - tenant_patterns:
+          - "*"
+          allowed_actions:
+            - "kibana_all_read"
   tenants.yml: |
     ---
     _meta:
