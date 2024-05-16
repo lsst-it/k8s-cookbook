@@ -13,5 +13,5 @@ helm:
   values:
     installCRDs: true
     manager:
-      logLevel: warn
+      loglevel: debug
   timeoutSeconds: 900
