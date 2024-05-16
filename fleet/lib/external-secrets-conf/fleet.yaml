@@ -11,12 +11,21 @@ dependsOn:
       matchLabels:
         bundle: external-secrets
 targetCustomizations:
-  # first match is used
   - name: ayekan
     clusterName: ayekan
     yaml:
       overlays:
         - ayekan
+  - name: kueyen
+    clusterName: kueyen
+    yaml:
+      overlays:
+        - kueyen
+  - name: ruka
+    clusterName: ruka
+    yaml:
+      overlays:
+        - ruka
   - name: dev
     clusterSelector:
       matchLabels:
