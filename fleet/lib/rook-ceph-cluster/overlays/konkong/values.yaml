@@ -14,27 +14,27 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301319
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6D4D8
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6DF3F
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
       - name: konkong02
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301027
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301320
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6EC63
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6D119
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
       - name: konkong03
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301033
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301328
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6EF4B
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_233945502DBF
             config:
-              osdsPerDevice: 1
+              osdsPerDevice: "1"
