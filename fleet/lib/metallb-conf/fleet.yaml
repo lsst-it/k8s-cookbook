@@ -92,3 +92,31 @@ targetCustomizations:
     yaml:
       overlays:
         - rancher.dev
+  - name: rancher.ls
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - ls
+        - key: management.cattle.io/cluster-name
+          operator: In
+          values:
+            - local
+    yaml:
+      overlays:
+        - rancher.ls
+  - name: rancher.tu
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - tu
+        - key: management.cattle.io/cluster-name
+          operator: In
+          values:
+            - local
+    yaml:
+      overlays:
+        - rancher.tu
