@@ -294,7 +294,7 @@
                         "value": [
                            {
                               "title": "",
-                              "url": "/d/GQ3MHvnIz/ceph-cluster-new?var-cluster=${__data.fields.Cluster}&${DS_PROMETHEUS:queryparam}"
+                              "url": "/d/GQ3MHvnIz/ceph-cluster-new?var-prom_cluster=${__data.fields.Cluster}&${DS_PROMETHEUS:queryparam}"
                            }
                         ]
                      }
@@ -387,7 +387,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(ALERTS{alertstate=\"firing\", cluster=~\"$cluster\"})",
+               "expr": "count(ALERTS{alertstate=\"firing\", prom_cluster=~\"$cluster\"})",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -603,7 +603,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(ceph_health_status{cluster=~\"$cluster\"}) or vector(0)",
+               "expr": "count(ceph_health_status{prom_cluster=~\"$cluster\"}) or vector(0)",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -672,7 +672,7 @@
          "targets": [
             {
                "datasource": "$datasource",
-               "expr": "sum(ceph_cluster_total_used_bytes{cluster=~\"$cluster\"}) / sum(ceph_cluster_total_bytes{cluster=~\"$cluster\"})",
+               "expr": "sum(ceph_cluster_total_used_bytes{prom_cluster=~\"$cluster\"}) / sum(ceph_cluster_total_bytes{prom_cluster=~\"$cluster\"})",
                "format": "time_series",
                "instant": true,
                "intervalFactor": 1,
@@ -735,7 +735,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(ceph_cluster_total_bytes{cluster=~\"$cluster\"})",
+               "expr": "sum(ceph_cluster_total_bytes{prom_cluster=~\"$cluster\"})",
                "format": "table",
                "hide": false,
                "instant": false,
@@ -801,7 +801,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(ceph_osd_metadata{cluster=~\"$cluster\"})",
+               "expr": "count(ceph_osd_metadata{prom_cluster=~\"$cluster\"})",
                "format": "table",
                "hide": false,
                "instant": false,
@@ -867,7 +867,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(sum by (hostname) (ceph_osd_metadata{cluster=~\"$cluster\"}))",
+               "expr": "count(sum by (hostname) (ceph_osd_metadata{prom_cluster=~\"$cluster\"}))",
                "format": "table",
                "hide": false,
                "instant": false,
@@ -933,7 +933,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(irate(ceph_pool_wr{cluster=~\"$cluster\"}[$__interval]))",
+               "expr": "sum(irate(ceph_pool_wr{prom_cluster=~\"$cluster\"}[$__interval]))",
                "format": "time_series",
                "hide": false,
                "instant": false,
@@ -948,7 +948,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(irate(ceph_pool_rd{cluster=~\"$cluster\"}[$__interval]))",
+               "expr": "sum(irate(ceph_pool_rd{prom_cluster=~\"$cluster\"}[$__interval]))",
                "format": "time_series",
                "hide": false,
                "intervalFactor": 1,
@@ -1012,7 +1012,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "avg(ceph_osd_apply_latency_ms{cluster=~\"$cluster\"})",
+               "expr": "avg(ceph_osd_apply_latency_ms{prom_cluster=~\"$cluster\"})",
                "format": "time_series",
                "hide": false,
                "instant": false,
@@ -1027,7 +1027,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "avg(ceph_osd_commit_latency_ms{cluster=~\"$cluster\"})",
+               "expr": "avg(ceph_osd_commit_latency_ms{prom_cluster=~\"$cluster\"})",
                "format": "time_series",
                "hide": false,
                "intervalFactor": 1,
@@ -1095,7 +1095,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(ALERTS{alertstate=\"firing\", cluster=~\"$cluster\"}) or vector(0)",
+               "expr": "count(ALERTS{alertstate=\"firing\", prom_cluster=~\"$cluster\"}) or vector(0)",
                "format": "table",
                "hide": false,
                "instant": true,
@@ -1161,7 +1161,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(ceph_cluster_total_used_bytes{cluster=~\"$cluster\"})",
+               "expr": "sum(ceph_cluster_total_used_bytes{prom_cluster=~\"$cluster\"})",
                "format": "table",
                "hide": false,
                "instant": false,
@@ -1227,7 +1227,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "predict_linear(avg(increase(ceph_cluster_total_used_bytes{cluster=~\"${Cluster}\"}[1d]))[7d:1h],120)",
+               "expr": "predict_linear(avg(increase(ceph_cluster_total_used_bytes{prom_cluster=~\"${Cluster}\"}[1d]))[7d:1h],120)",
                "format": "time_series",
                "hide": false,
                "intervalFactor": 1,
@@ -1291,7 +1291,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "count(ceph_pool_metadata{cluster=~\"$cluster\"})",
+               "expr": "count(ceph_pool_metadata{prom_cluster=~\"$cluster\"})",
                "format": "table",
                "hide": false,
                "instant": false,
@@ -1357,7 +1357,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(irate(ceph_pool_rd_bytes{cluster=~\"$cluster\"}[$__interval]))",
+               "expr": "sum(irate(ceph_pool_rd_bytes{prom_cluster=~\"$cluster\"}[$__interval]))",
                "format": "time_series",
                "hide": false,
                "instant": false,
@@ -1372,7 +1372,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(irate(ceph_pool_wr_bytes{cluster=~\"$cluster\"}[$__interval]))",
+               "expr": "sum(irate(ceph_pool_wr_bytes{prom_cluster=~\"$cluster\"}[$__interval]))",
                "format": "time_series",
                "hide": false,
                "intervalFactor": 1,
@@ -1436,7 +1436,7 @@
                   "uid": "$datasource"
                },
                "exemplar": false,
-               "expr": "sum(irate(ceph_osd_recovery_ops{cluster=~\"$cluster\"}[$__interval]))",
+               "expr": "sum(irate(ceph_osd_recovery_ops{prom_cluster=~\"$cluster\"}[$__interval]))",
                "format": "time_series",
                "hide": false,
                "instant": false,
@@ -1558,7 +1558,7 @@
                "targets": [
                   {
                      "datasource": "$datasource",
-                     "expr": "count(ALERTS{alertstate=\"firing\",severity=\"critical\", cluster=~\"$cluster\"}) OR vector(0)",
+                     "expr": "count(ALERTS{alertstate=\"firing\",severity=\"critical\", prom_cluster=~\"$cluster\"}) OR vector(0)",
                      "format": "time_series",
                      "instant": true,
                      "intervalFactor": 1,
@@ -1568,7 +1568,7 @@
                   },
                   {
                      "datasource": "$datasource",
-                     "expr": "count(ALERTS{alertstate=\"firing\",severity=\"warning\", cluster=~\"$cluster\"}) OR vector(0)",
+                     "expr": "count(ALERTS{alertstate=\"firing\",severity=\"warning\", prom_cluster=~\"$cluster\"}) OR vector(0)",
                      "format": "time_series",
                      "instant": true,
                      "intervalFactor": 1,
@@ -1645,7 +1645,7 @@
                         "uid": "$datasource"
                      },
                      "exemplar": false,
-                     "expr": "ALERTS{alertstate=\"firing\", cluster=~\"$cluster\", }",
+                     "expr": "ALERTS{alertstate=\"firing\", prom_cluster=~\"$cluster\", }",
                      "format": "table",
                      "hide": false,
                      "instant": true,
@@ -2016,7 +2016,7 @@
                "targets": [
                   {
                      "datasource": "$datasource",
-                     "expr": "topk(10, ceph_pool_bytes_used{cluster=~\"$cluster\", }/ceph_pool_max_avail{cluster=~\"$cluster\", } * on(pool_id, cluster) group_left(instance, name) ceph_pool_metadata{cluster=~\"$cluster\", })",
+                     "expr": "topk(10, ceph_pool_bytes_used{prom_cluster=~\"$cluster\", }/ceph_pool_max_avail{prom_cluster=~\"$cluster\", } * on(pool_id, cluster) group_left(instance, name) ceph_pool_metadata{prom_cluster=~\"$cluster\", })",
                      "format": "time_series",
                      "instant": false,
                      "intervalFactor": 1,
@@ -2072,7 +2072,7 @@
             "multi": true,
             "name": "cluster",
             "options": [ ],
-            "query": "label_values(ceph_health_status, cluster)",
+            "query": "label_values(ceph_health_status, prom_cluster)",
             "refresh": 1,
             "regex": "(.*)",
             "sort": 1,
