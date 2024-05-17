@@ -51,7 +51,7 @@ mimir:
 
 compactor:
   persistentVolume:
-    size: 40Gi
+    size: 50Gi
   resources:
     limits:
       memory: 3Gi
@@ -68,7 +68,7 @@ distributor:
       memory: 5Gi
 ingester:
   persistentVolume:
-    size: 50Gi
+    size: 80Gi
   replicas: 3
   resources:
     limits:
