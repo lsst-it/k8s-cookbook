@@ -385,7 +385,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(increase(kyverno_policy_results_total{,prom_cluster=\"$cluster\"rule_result=\"fail\", policy_background_mode=\"true\",prom_cluster=\"$cluster\"}[24h]) or vector(0))*100/sum(increase(kyverno_policy_results_total{policy_background_mode=\"true\",prom_cluster=\"$cluster\"}[24h]))",
+          "expr": "sum(increase(kyverno_policy_results_total{prom_cluster=\"$cluster\",rule_result=\"fail\", policy_background_mode=\"true\",prom_cluster=\"$cluster\"}[24h]) or vector(0))*100/sum(increase(kyverno_policy_results_total{policy_background_mode=\"true\",prom_cluster=\"$cluster\"}[24h]))",
           "interval": "",
           "legendFormat": "",
           "range": true,
