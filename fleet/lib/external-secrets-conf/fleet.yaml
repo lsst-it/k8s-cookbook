@@ -26,6 +26,16 @@ targetCustomizations:
     yaml:
       overlays:
         - ruka
+  - name: antu
+    clusterName: antu
+    yaml:
+      overlays:
+        - antu
+  - name: manke
+    clusterName: manke
+    yaml:
+      overlays:
+        - manke
   - name: dev
     clusterSelector:
       matchLabels:
