@@ -1,7 +1,0 @@
----
-mimir:
-  structuredConfig:
-    common:
-      storage:
-        s3:
-          endpoint: "s3.o11y.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
