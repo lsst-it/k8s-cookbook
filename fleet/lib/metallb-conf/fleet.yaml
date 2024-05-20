@@ -120,3 +120,17 @@ targetCustomizations:
     yaml:
       overlays:
         - rancher.tu
+  - name: rancher.cp
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            -.cp
+        - key: management.cattle.io/cluster-name
+          operator: In
+          values:
+            - local
+    yaml:
+      overlays:
+        - rancher.cp
