@@ -112,7 +112,7 @@ alertmanager:
         memory: 512Mi
     externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     secrets:
-      - lsst-webhooks
+      - alertmanager-webhooks
     configMaps:
       - alertmanager-templates
   ingress:
