@@ -1,5 +1,5 @@
 ---
-replicaCount: 3
+replicaCount: 1
 resources:
   limits:
     cpu: 1000m
