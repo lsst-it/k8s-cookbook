@@ -80,6 +80,7 @@ grafana:
       enabled: true
       group_attribute_path: groups
       login_attribute_path: preferred_username
+      name_attribute_path: full_name
       name: keycloak.ls.lsst.org
       role_attribute_path: contains(groups[*], 'grafana-admin') && 'GrafanaAdmin' || contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'
       scopes: openid profile email groups roles offline_access
