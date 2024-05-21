@@ -39,7 +39,7 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
-      - job_name: node-exporter-dev
+      - job_name: node-exporter-puppetdb
         puppetdb_sd_configs:
           - url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
             basic_auth:
@@ -57,19 +57,6 @@ prometheus:
             include_parameters: true
             enable_http2: true
             port: 9100
-        relabel_configs:
-          - source_labels: [__meta_puppetdb_certname]
-            target_label: instance
-          - source_labels: [__meta_puppetdb_environment]
-            target_label: environment
-          - source_labels: [__meta_puppetdb_parameter_site]
-            target_label: site
-          - source_labels: [__meta_puppetdb_parameter_role]
-            target_label: role
-          - source_labels: [__meta_puppetdb_parameter_cluster]
-            target_label: cluster
-      - job_name: node-exporter-ls
-        puppetdb_sd_configs:
           - url: https://puppetdb.ls.lsst.org:8443
             basic_auth:
               username: svc_prometheus
