@@ -126,7 +126,7 @@ targetCustomizations:
         - key: site
           operator: In
           values:
-            -.cp
+            - cp
         - key: management.cattle.io/cluster-name
           operator: In
           values:
