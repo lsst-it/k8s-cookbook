@@ -17,3 +17,5 @@ metadata:
 spec:
   ipAddressPools:
     - ingress
+  interfaces:
+    - br2101
