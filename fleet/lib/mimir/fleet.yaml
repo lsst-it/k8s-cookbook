@@ -23,11 +23,6 @@ dependsOn:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
-  - name: ruka
-    clusterName: ruka
-    helm:
-      valuesFiles:
-        - overlays/ruka/values.yaml
   - name: ayekan
     clusterName: ayekan
     helm:
