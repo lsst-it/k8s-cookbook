@@ -8,6 +8,8 @@ defaultRules:
     lsst.io/rule: "true"
   additionalRuleLabels:
     receivers: ",squadcast,"
+  disabled:
+    TargetDown: true
 
 prometheusOperator:
   enabled: true
