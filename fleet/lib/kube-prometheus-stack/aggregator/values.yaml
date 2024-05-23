@@ -112,7 +112,7 @@ alertmanager:
         memory: 512Mi
     externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     secrets:
-      - lsst-webhooks
+      - alertmanager-webhooks
     configMaps:
       - alertmanager-templates
   ingress:
@@ -154,10 +154,6 @@ grafana:
       root_url: "https://grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
     feature_toggles:
       enable: "autoMigrateOldPanels"
-    auth.ldap:
-      enabled: true
-      allow_sign_up: true
-      config_file: /etc/grafana/ldap.toml
     auth.generic_oauth:
       allow_assign_grafana_admin: true
       allow_sign_up: true
@@ -174,9 +170,6 @@ grafana:
       scopes: openid profile email groups roles offline_access
       token_url: https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token
       use_refresh_token: true
-  ldap:
-    enabled: true
-    existingSecret: grafana-ldap
   ingress:
     enabled: true
     annotations:

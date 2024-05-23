@@ -53,12 +53,14 @@ targetCustomizations:
     helm:
       valuesFiles:
         - aggregator/values.yaml
+        - ldap/values.yaml
         - overlays/pillan/values.yaml
   - name: ruka
     clusterName: ruka
     helm:
       valuesFiles:
         - aggregator/values.yaml
+        - ldap/values.yaml
         - overlays/ruka/values.yaml
   - name: ayekan
     clusterName: ayekan
