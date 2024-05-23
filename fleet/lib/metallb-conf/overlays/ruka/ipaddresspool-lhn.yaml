@@ -19,3 +19,6 @@ spec:
     - lhn
   interfaces:
     - br2505
+  nodeSelectors:
+    - matchLabels:
+        kubernetes.io/hostname: ruka02
