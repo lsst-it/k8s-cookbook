@@ -17,3 +17,6 @@ metadata:
 spec:
   ipAddressPools:
     - reserved
+  nodeSelectors:
+    - matchLabels:
+        kubernetes.io/hostname: ruka02
