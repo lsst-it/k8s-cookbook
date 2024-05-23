@@ -9,7 +9,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://kyverno.github.io/kyverno/
-  version: 3.2.2
+  version: 3.2.3
   timeoutSeconds: 300
   waitForJobs: true
   atomic: false  # atomic was causes failures on updates?
