@@ -1,16 +1,7 @@
 ---
-metaMonitoring:
-  dashboards:
-    labels:
-      lsst.io/dashboard: "true"
-      grafana_dashboard: "1"
-  serviceMonitor:
-    labels:
-      lsst.io/monitor: "true"
-  prometheusRule:
-    labels:
-      lsst.io/rule: "true"
-gateway:
-  ingress:
-    labels:
-      lsst.io/monitor: "true"
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          endpoint: "s3.o11y.${ .ClusterLabels.site }.lsst.org"
