@@ -40,15 +40,18 @@ mimir:
       s3:
         bucket_name: "${ .ClusterName }-mimir-ruler"
     limits:
+      out_of_order_time_window: 30s
       ingestion_rate: 500000
       ingestion_burst_size: 1000000
       max_global_series_per_user: 0
       max_global_series_per_metric: 0
       compactor_blocks_retention_period: 2y
+    compactor:
+      deletion_delay: 12h
 
 compactor:
   persistentVolume:
-    size: 40Gi
+    size: 50Gi
   resources:
     limits:
       memory: 3Gi
@@ -69,17 +72,17 @@ ingester:
   replicas: 3
   resources:
     limits:
-      memory: 12Gi
+      memory: 24Gi
     requests:
-      cpu: 2
-      memory: 12Gi
+      cpu: 3
+      memory: 24Gi
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchExpressions:
-              - key: target # support for enterprise.legacyLabels
+              - key: target  # support for enterprise.legacyLabels
                 operator: In
                 values:
                   - ingester
@@ -135,7 +138,7 @@ store_gateway:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchExpressions:
-              - key: target # support for enterprise.legacyLabels
+              - key: target  # support for enterprise.legacyLabels
                 operator: In
                 values:
                   - store-gateway
