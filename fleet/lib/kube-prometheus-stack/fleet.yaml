@@ -75,8 +75,8 @@ targetCustomizations:
           operator: In
           values:
             - dev
-            - ls
             - cp
+            - ls
     helm:
       values:
         crds:
@@ -85,6 +85,8 @@ targetCustomizations:
           prometheusSpec:
             remoteWrite:
               - url: https://mimir.ayekan.dev.lsst.org/api/v1/push
+              - url: https://mimir.ruka.dev.lsst.org/api/v1/push
+              - url: https://mimir.antu.ls.lsst.org/api/v1/push
   - name: tu
     clusterSelector:
       matchExpressions:
