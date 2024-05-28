@@ -188,6 +188,8 @@ alertmanager:
       repeat_interval: 24h
       receiver: "null"
       routes:
+        - receiver: "kafka"
+          continue: true
         - receiver: "null"
           matchers:
             - alertname = "InfoInhibitor"
@@ -232,8 +234,11 @@ alertmanager:
         #     - receivers =~ ".*,group,.*"
     receivers:
       - name: "null"
-      - name: watchdog
-      - name: slack-test
+      - name: "watchdog"
+      - name: "kafka"
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/kafka
+      - name: "slack-test"
         slack_configs:
           - username: ${ .ClusterName }-general
             channel: "#rubinobs-monitoring-test"
