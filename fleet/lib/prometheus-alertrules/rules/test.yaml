@@ -1,0 +1,16 @@
+groups:
+  - name: test.rules
+    rules:
+      - alert: KafkaRoutingTest
+        expr: vector(1)
+        labels:
+          receivers: ",kafka-alerts,"
+          severity: none
+        annotations:
+          description: |
+            This is an alert meant to ensure that the entire alerting pipeline is
+            functional. This alert is always firing, therefore it should always be
+            firing in Alertmanager and always fire against a receiver.
+          summary: |
+            An alert that should always be firing to certify that Alertmanager is
+            working properly.

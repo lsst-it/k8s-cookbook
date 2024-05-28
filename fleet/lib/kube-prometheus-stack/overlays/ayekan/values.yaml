@@ -189,8 +189,6 @@ alertmanager:
       repeat_interval: 24h
       receiver: slack-test
       routes:
-        - receiver: "kafka"
-          continue: true
         - receiver: "null"
           matchers:
             - alertname = "InfoInhibitor"
@@ -212,13 +210,15 @@ alertmanager:
           group_by: [instance]
           matchers:
             - alertname =~ "Network.*"
+        - receiver: kafka-alerts
+          matchers:
+            - receivers =~ ".*,kafka-alerts,.*"
+          continue: true
+          group_by: [...]
     receivers:
       - name: "null"
-      - name: "watchdog"
-      - name: "kafka"
-        webhook_configs:
-          - url_file: /etc/alertmanager/secrets/lsst-webhooks/kafka
-      - name: "slack-test"
+      - name: watchdog
+      - name: slack-test
         slack_configs:
           - username: ${ .ClusterName }-general
             channel: "#rubinobs-monitoring-test"
@@ -247,6 +247,9 @@ alertmanager:
       - name: squadcast-test
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
+      - name: kafka-alerts
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/kafka
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
