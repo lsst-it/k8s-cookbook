@@ -44,10 +44,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - s3.o11y.tu.lsst.org
+    - &hostname s3.o11y.pillan.tu.lsst.org
     secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
-  - host: s3.o11y.pillan.tu.lsst.org
+  - host: *hostname
     http:
       paths:
       - path: /
