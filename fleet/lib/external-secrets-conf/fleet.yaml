@@ -1,66 +1,19 @@
 ---
 defaultNamespace: external-secrets
+namespaceLabels:
+  lsst.io/discover: "true"
 labels:
   bundle: &name external-secrets-conf
 helm:
   releaseName: *name
   waitForJobs: true
-  atomic: false
+  values:
+    site: ${ .ClusterLabels.site }
+    vaults:
+      ${ .ClusterName }.${ .ClusterLabels.site }: 1
+      k8s-${ .ClusterLabels.site }: 2
+      k8s-common: 3
 dependsOn:
   - selector:
       matchLabels:
         bundle: external-secrets
-targetCustomizations:
-  - name: ayekan
-    clusterName: ayekan
-    yaml:
-      overlays:
-        - ayekan
-  - name: kueyen
-    clusterName: kueyen
-    yaml:
-      overlays:
-        - kueyen
-  - name: ruka
-    clusterName: ruka
-    yaml:
-      overlays:
-        - ruka
-  - name: antu
-    clusterName: antu
-    yaml:
-      overlays:
-        - antu
-  - name: manke
-    clusterName: manke
-    yaml:
-      overlays:
-        - manke
-  - name: dev
-    clusterSelector:
-      matchLabels:
-        site: dev
-    yaml:
-      overlays:
-        - dev
-  - name: tu
-    clusterSelector:
-      matchLabels:
-        site: tu
-    yaml:
-      overlays:
-        - tu
-  - name: ls
-    clusterSelector:
-      matchLabels:
-        site: ls
-    yaml:
-      overlays:
-        - ls
-  - name: cp
-    clusterSelector:
-      matchLabels:
-        site: cp
-    yaml:
-      overlays:
-        - cp

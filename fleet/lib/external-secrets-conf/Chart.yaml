@@ -1,0 +1,5 @@
+apiVersion: v2
+appVersion: 0.0.0
+description: external-secrets configuration
+name: external-secrets-conf
+version: 0.0.0
