@@ -17,3 +17,19 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: external-secrets
+targetCustomizations:
+  - name: rancher-cluster
+    clusterSelector:
+      matchExpressions:
+        # all rancher clusters have the name local and this value can not be changed
+        - key: management.cattle.io/cluster-name
+          operator: In
+          values:
+            - local
+    helm:
+      values:
+        vaults:
+          # helm merges the maps, so we need to remove the default 1 vault
+          ${ .ClusterName }.${ .ClusterLabels.site }: ~
+          # it probaly would have been easier to name the vaults local.<site>...
+          rancher.${ .ClusterLabels.site }: 1
