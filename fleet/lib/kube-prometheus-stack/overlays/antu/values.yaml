@@ -1,0 +1,180 @@
+---
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 10s
+    scrapeTimeout: 7s
+    configMaps:
+      - sd-snmp-network
+      - sd-snmp-power
+      - sd-snmp-raritan-pdu
+    secrets:
+      - puppetdb
+    additionalScrapeConfigs:
+      - job_name: blackbox-icmp-puppetdb
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        puppetdb_sd_configs:
+          - &blackbox-icmp-puppetdb
+            url: https://puppetdb.dev.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+          - <<: *blackbox-icmp-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
+          - <<: *blackbox-icmp-puppetdb
+            url: https://puppetdb.cp.lsst.org:8443
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: node-puppetdb
+        puppetdb_sd_configs:
+          - &node-puppetdb
+            url: https://puppetdb.dev.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: |
+              resources {
+                type = "Class" and title = "Profile::Core::Node_info" and
+                certname in resources[certname] {
+                  type = "Class" and title = "Prometheus::Node_exporter"
+                }
+              }
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 9100
+          - <<: *node-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
+          - <<: *node-puppetdb
+            url: https://puppetdb.cp.lsst.org:8443
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_environment]
+            target_label: environment
+          - source_labels: [__meta_puppetdb_parameter_site]
+            target_label: site
+          - source_labels: [__meta_puppetdb_parameter_role]
+            target_label: role
+          - source_labels: [__meta_puppetdb_parameter_cluster]
+            target_label: cluster
+      - job_name: blackbox-icmp-snmp
+        metrics_path: /probe
+        params:
+          module: [icmp]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+              - /etc/prometheus/configmaps/sd-snmp-power/snmp-power.json
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+      - job_name: blackbox-snmp-raritan-pdu
+        metrics_path: /snmp
+        params:
+          module: [raritan]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: blackbox-snmp-power
+        metrics_path: /snmp
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-power/snmp-power.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_auth]
+            target_label: __param_auth
+          - source_labels: [__meta_module]
+            target_label: __param_module
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+
+grafana:
+  grafana.ini:
+    server:
+      domain: &hostname grafana.${ .ClusterLabels.site }.lsst.org
+      root_url: https://grafana.${ .ClusterLabels.site }.lsst.org
+  ingress:
+    hosts:
+      - *hostname
+    tls:
+      - secretName: grafana-ingress-tls
+        hosts:
+          - *hostname
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by:
+        - alertname
+        - namespace
+        - site
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: blackhole
+      routes:
+        - receiver: blackhole
+          matchers:
+            - alertname = "InfoInhibitor"
+        - receiver: blackhole
+          matchers:
+            - alertname = "Watchdog"
+        - receiver: squadcast-alertmanager
+          matchers:
+            - prod = "true"
+          continue: true
+    receivers:
+      - name: blackhole
+      - name: squadcast-alertmanager
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager
+    inhibit_rules:
+      - source_matchers:
+          - alertname = "InfoInhibitor"
+        target_matchers:
+          - severity = "info"
+        equal: [namespace]
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity =~ "info|warning"
+        equal: [alertname]
+      - source_matchers:
+          - severity = "warning"
+        target_matchers:
+          - severity = "info"
+        equal: [alertname]
