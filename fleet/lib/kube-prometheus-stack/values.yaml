@@ -1,0 +1,155 @@
+---
+# There's are common helm values applied to all clusters (client & "aggregator" clusters)
+crds:
+  enabled: false
+
+defaultRules:
+  create: true
+  labels:
+    lsst.io/rule: "true"
+  additionalRuleLabels:
+    receivers: ",squadcast,"
+  disabled:
+    TargetDown: true
+
+prometheusOperator:
+  enabled: true
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+  resources:
+    limits:
+      cpu: 1
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 128Mi
+  prometheusConfigReloader:
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 10m
+        memory: 128Mi
+
+prometheus:
+  prometheusSpec:
+    scrapeInterval: 30s
+    resources:
+      limits:
+        cpu: 4
+        memory: 12Gi
+      requests:
+        cpu: 1
+        memory: 12Gi
+    externalLabels:
+      prom_site: "${ .ClusterLabels.site }"
+      prom_cluster: "${ .ClusterName }.${ .ClusterLabels.site }"
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    serviceMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    podMonitorNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    podMonitorSelector:
+      matchLabels:
+        lsst.io/monitor: "true"
+    ruleNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    ruleSelector:
+      matchLabels:
+        lsst.io/rule: "true"
+    scrapeConfigNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    scrapeConfigSelector:
+      matchLabels:
+        lsst.io/scrape: "true"
+    probeNamespaceSelector:
+      matchLabels:
+        lsst.io/discover: "true"
+    probeSelector:
+      matchLabels:
+        lsst.io/probe: "true"
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+
+alertmanager:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+  alertmanagerSpec:
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
+grafana:
+  enabled: false
+
+# these components are not present in the Rancher clusters
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+
+# specify the needed label for the serviceMonitor
+kubeApiServer:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubelet:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+coreDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+kubeEtcd:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
+prometheus-node-exporter:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"
+kube-state-metrics:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 256Mi
+    requests:
+      cpu: 10m
+      memory: 256Mi
+  prometheus:
+    monitor:
+      additionalLabels:
+        lsst.io/monitor: "true"
+  selfMonitor:
+    enabled: true
