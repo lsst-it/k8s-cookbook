@@ -12,12 +12,8 @@ helm:
   timeoutSeconds: 600
   waitForJobs: true
   atomic: false
-  values:
-    prometheus:
-      prometheusSpec:
-        externalLabels:
-          prom_site: "${ .ClusterLabels.site }"
-          prom_cluster: "${ .ClusterName }.${ .ClusterLabels.site }"
+  valuesFiles:
+    - values.yaml
 dependsOn:
   # XXX An "aggegrator" cluster should also depend on snmp-exporter-pre but
   # targetCustomizations for dependsOn is not implemented.
@@ -79,8 +75,6 @@ targetCustomizations:
             - ls
     helm:
       values:
-        crds:
-          enabled: false
         prometheus:
           prometheusSpec:
             remoteWrite:
@@ -96,8 +90,6 @@ targetCustomizations:
             - tu
     helm:
       values:
-        crds:
-          enabled: false
         prometheus:
           prometheusSpec:
             remoteWrite:
