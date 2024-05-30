@@ -9,7 +9,6 @@ helm:
   takeOwnership: true
   force: true
   waitForJobs: true
-  atomic: false
 dependsOn:
   # on pillan, fleet does not deploy cert-manager
   #- selector:

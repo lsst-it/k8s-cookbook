@@ -12,7 +12,6 @@ helm:
   version: 3.2.3
   timeoutSeconds: 300
   waitForJobs: true
-  atomic: false  # atomic was causes failures on updates?
   values:
     replicaCount: 3
     resources:

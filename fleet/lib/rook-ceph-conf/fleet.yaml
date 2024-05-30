@@ -8,7 +8,6 @@ helm:
   takeOwnership: true
   timeoutSeconds: 3600
   waitForJobs: false
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

@@ -12,7 +12,6 @@ helm:
   valuesFiles:
     - values.yaml
   waitForJobs: false
-  atomic: false
 dependsOn:
   - selector:
     matchLabels:

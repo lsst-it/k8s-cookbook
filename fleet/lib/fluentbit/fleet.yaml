@@ -10,7 +10,6 @@ helm:
   takeOwnership: true
   force: true
   waitForJobs: true
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

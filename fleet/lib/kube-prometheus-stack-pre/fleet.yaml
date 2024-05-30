@@ -8,7 +8,6 @@ helm:
   releaseName: *name
   timeoutSeconds: 300
   waitForJobs: true
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

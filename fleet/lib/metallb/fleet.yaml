@@ -12,7 +12,6 @@ helm:
   # daemonset rollout may take > 300s on larger clusters
   timeoutSeconds: 900
   waitForJobs: true
-  atomic: false
   values:
     controller:
       priorityClassName: system-cluster-critical

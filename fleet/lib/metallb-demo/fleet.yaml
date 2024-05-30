@@ -4,7 +4,6 @@ labels:
   bundle: *name
 helm:
   releaseName: *name
-  atomic: false
   takeOwnership: true
   force: true
 dependsOn:
