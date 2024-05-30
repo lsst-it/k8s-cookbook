@@ -27,7 +27,7 @@ spec:
       limits:
         memory: 1Gi
       requests:
-        cpu: 500m
+        cpu: 100m
         memory: 1Gi
     service:
       type: ClusterIP
@@ -112,7 +112,7 @@ spec:
     resources:
       requests:
         memory: "256Mi"
-        cpu: "500m"
+        cpu: 100m
       limits:
         memory: "256Mi"
   nodePools:
@@ -127,7 +127,7 @@ spec:
     resources:
       requests:
         memory: "4Gi"
-        cpu: "1"
+        cpu: 100m
       limits:
         memory: "4Gi"
     roles:
@@ -149,7 +149,7 @@ spec:
     resources:
       requests:
         memory: "4Gi"
-        cpu: "4"
+        cpu: 100m
       limits:
         memory: "4Gi"
     roles:
@@ -167,7 +167,7 @@ spec:
     resources:
       requests:
         memory: "16Gi"
-        cpu: "8"
+        cpu: 100m
       limits:
         memory: "16Gi"
     additionalConfig:
@@ -191,7 +191,7 @@ spec:
     resources:
       requests:
         memory: "8Gi"
-        cpu: "4"
+        cpu: 100m
       limits:
         memory: "8Gi"
     additionalConfig:
