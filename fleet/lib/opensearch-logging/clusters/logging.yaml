@@ -22,7 +22,7 @@ spec:
       limits:
         memory: 1Gi
       requests:
-        cpu: 500m
+        cpu: 100m
         memory: 1Gi
     service:
       type: ClusterIP
@@ -80,7 +80,7 @@ spec:
     resources:
       requests:
         memory: 256Mi
-        cpu: 500m
+        cpu: 100m
       limits:
         memory: 256Mi
   nodePools:
@@ -95,7 +95,7 @@ spec:
     resources:
       requests:
         memory: 4Gi
-        cpu: "1"
+        cpu: 100m
       limits:
         memory: 4Gi
     roles:
@@ -112,8 +112,13 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
+<<<<<<< HEAD
         memory: 4Gi
         cpu: "4"
+=======
+        memory: "4Gi"
+        cpu: 100m
+>>>>>>> d38758f0d ((TESTING) (fleet/opensearch-logging) reduce CPU requests to 100m)
       limits:
         memory: 4Gi
     roles:
@@ -130,8 +135,13 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
+<<<<<<< HEAD
         memory: 16Gi
         cpu: "8"
+=======
+        memory: "16Gi"
+        cpu: 100m
+>>>>>>> d38758f0d ((TESTING) (fleet/opensearch-logging) reduce CPU requests to 100m)
       limits:
         memory: 16Gi
     additionalConfig:
@@ -149,8 +159,13 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
+<<<<<<< HEAD
         memory: 8Gi
         cpu: "4"
+=======
+        memory: "8Gi"
+        cpu: 100m
+>>>>>>> d38758f0d ((TESTING) (fleet/opensearch-logging) reduce CPU requests to 100m)
       limits:
         memory: 8Gi
     additionalConfig:
