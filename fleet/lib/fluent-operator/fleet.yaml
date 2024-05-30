@@ -1,0 +1,46 @@
+---
+defaultNamespace: &name fluent-operator
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+kustomize:
+  dir: client
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://fluent.github.io/helm-charts
+  version: 2.7.0
+  waitForJobs: true
+  values:
+    fluentbit:
+      # XXX chart does not support adding servicemonitor labels
+      # this needs to be fixed upstream
+      # serviceMonitor: true
+      output:
+        # https://github.com/fluent/fluent-operator/blob/ec9c5e402ec0b2084ae4580fc3d25d01a33f1658/docs/plugins/fluentbit/output/open_search.md
+        opensearch:
+          host: opensearch.ruka.dev.lsst.org
+          port: 443
+          bufferSize: 100MB
+          logstashFormat: true
+          logstashPrefix: logs-kube
+          replaceDots: true
+          suppressTypeName: true
+          traceError: true
+          tls:
+            verify: true
+          httpUser:
+            valueFrom:
+              secretKeyRef:
+                name: &item logging-os-fluentbit
+                key: username
+          httpPassword:
+            valueFrom:
+              secretKeyRef:
+                name: *item
+                key: password
+dependsOn:
+  - selector:
+    matchLabels:
+      bundle: prometheus-operator-crds
