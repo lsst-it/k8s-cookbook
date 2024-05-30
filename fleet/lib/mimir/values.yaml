@@ -62,10 +62,10 @@ distributor:
   replicas: 2
   resources:
     limits:
-      memory: 5Gi
+      memory: 12Gi
     requests:
       cpu: 1
-      memory: 5Gi
+      memory: 12Gi
 ingester:
   persistentVolume:
     size: 50Gi
