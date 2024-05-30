@@ -13,7 +13,6 @@ helm:
     - values.yaml
   timeoutSeconds: 3600
   waitForJobs: true
-  atomic: false  # rollback problematic
 dependsOn:
   - selector:
       matchLabels:

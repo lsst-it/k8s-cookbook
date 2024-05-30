@@ -7,4 +7,3 @@ helm:
   takeOwnership: true  # pre-fleet deployments do not use helm
   timeoutSeconds: 300
   waitForJobs: true
-  atomic: false

@@ -15,4 +15,3 @@ helm:
     manager:
       logLevel: warn
   timeoutSeconds: 900
-  atomic: true

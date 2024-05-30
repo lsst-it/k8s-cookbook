@@ -29,7 +29,6 @@ helm:
     rbac:
       create: true
   waitForJobs: true
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

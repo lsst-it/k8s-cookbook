@@ -6,7 +6,6 @@ helm:
   releaseName: *name
   takeOwnership: true
   waitForJobs: true
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

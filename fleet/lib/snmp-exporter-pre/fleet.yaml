@@ -8,7 +8,6 @@ helm:
   releaseName: prometheus-snmp-exporter-pre
   timeoutSeconds: 300
   waitForJobs: true
-  atomic: false
   values:
     site: "${ .ClusterLabels.site }"
 dependsOn:

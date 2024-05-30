@@ -19,7 +19,6 @@ helm:
           lsst.io/monitor: "true"
   waitForJobs: true
   timeoutSeconds: 900
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:

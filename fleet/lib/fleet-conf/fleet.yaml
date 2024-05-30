@@ -5,7 +5,6 @@ labels:
   bundle: &name fleet-conf
 helm:
   releaseName: *name
-  atomic: false
 ignore:
   conditions:
     - type: Ready
