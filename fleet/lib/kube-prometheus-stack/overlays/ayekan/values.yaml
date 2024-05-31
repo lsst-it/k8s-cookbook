@@ -214,6 +214,10 @@ alertmanager:
               group_by: [instance]
               matchers:
                 - alertname =~ "Network.*"
+        - receiver: slack-logs
+          matchers:
+            - alertname =~ "sudoLog"
+          continue: true
         # Below is an example for the namespace based alert routing.
         # This will send alerts from a namespace to the namespace specific team
         # on slack
@@ -255,6 +259,13 @@ alertmanager:
             channel: "#rubinobs-monitoring-test"
             send_resolved: true
             text: '{{ template "slack.o11y.network.text" . }}'
+      - name: slack-logs
+        slack_configs:
+          - username: ${ .ClusterName }-network
+            channel: "#rubinobs-monitoring-test"
+            send_resolved: false
+            title: '{{ template "slack.o11y.log.title" . }}'
+            text: '{{ template "slack.o11y.log.text" . }}'
       - name: squadcast-test
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example

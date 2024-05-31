@@ -35,6 +35,17 @@ data:
     *Instance:* {{ .GroupLabels.instance }}
     {{ template "__o11y_alert_list" . }}
     {{ end }}
+  slack-log-alert.tmpl: |
+    {{ define "slack.o11y.log.text" }}
+    {{ range .Alerts -}}
+    *Host:* {{ .Labels.host }}
+    *Log:* {{ .Labels.message }}
+    {{ template "__o11y_log_list" . }}
+    {{ end }}
+    {{ end }}
+    {{ define "slack.o11y.log.title"}}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.host }}/{{ .GroupLabels.alertname }}
+    {{ end }}
   template-helpers.tmpl: |
     {{ define "__o11y_alert_list" }}
     *Alerts:*
@@ -49,5 +60,22 @@ data:
       {{ range .Labels.SortedPairs -}}
       - *{{ .Name }}:* `{{ .Value }}`
       {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ define "__o11y_alert_short_list" }}
+    *Alerts:*
+    =========
+    {{ range .Alerts -}}
+    - *Alert:* {{ .Labels.alertname }}
+      *Description:* {{ .Annotations.description }}
+      *Severity:* {{ .Labels.severity }}
+      *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
+    {{ end }}
+    {{ end }}
+    {{ define "__o11y_log_list" }}
+    Labels:
+    =========
+    {{ range .Labels.SortedPairs -}}
+    - *{{ .Name }}:* {{ .Value }}
     {{ end }}
     {{ end }}
