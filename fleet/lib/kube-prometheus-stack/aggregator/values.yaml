@@ -189,6 +189,7 @@ grafana:
             logLevelField: ""
             logMessageField: log
             maxConcurrentShardRequests: 5
+            oauthPassThru: true
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-hosts
@@ -207,6 +208,7 @@ grafana:
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
+            oauthPassThru: true
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-firewall
@@ -225,6 +227,7 @@ grafana:
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
+            oauthPassThru: true
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-network
@@ -243,6 +246,7 @@ grafana:
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
+            oauthPassThru: true
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
   envFromSecrets:
