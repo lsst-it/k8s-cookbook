@@ -108,6 +108,7 @@ spec:
     additionalConfig:
       plugins.security.ssl.transport.enforce_hostname_verification: "false"
       plugins.security.allow_unsafe_democertificates: "false"
+      http.max_content_length: "1024mb"
   initHelper:
     resources:
       requests:
