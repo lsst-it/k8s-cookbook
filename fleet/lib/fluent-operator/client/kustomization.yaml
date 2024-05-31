@@ -1,3 +1,4 @@
 ---
 resources:
   - externalsecret-logging-os-fluentbit.yaml
+  - clusteroutput-fluentd-output-opensearch-ayekan.yaml

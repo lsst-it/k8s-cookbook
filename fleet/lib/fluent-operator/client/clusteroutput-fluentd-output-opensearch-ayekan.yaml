@@ -1,0 +1,29 @@
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterOutput
+metadata:
+  labels:
+    fluentbit.fluent.io/enabled: "true"
+  name: fluentd-output-opensearch-ayekan
+spec:
+  matchRegex: (?:kube|service)\.(.*)
+  opensearch:
+    bufferSize: 100MB
+    host: opensearch.ayekan.dev.lsst.org
+    httpPassword:
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: logging-os-fluentbit
+    httpUser:
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: logging-os-fluentbit
+    logstashFormat: true
+    logstashPrefix: logs-kube
+    port: 443
+    replaceDots: true
+    suppressTypeName: true
+    tls:
+      verify: true
+    traceError: true
