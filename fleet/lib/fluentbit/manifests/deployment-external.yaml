@@ -47,7 +47,7 @@ spec:
             secretKeyRef:
               name: fluentbit-external-credentials
               key: password
-        image: kubesphere/fluent-bit:v2.2.2
+        image: fluent/fluent-bit:3.0.3
         imagePullPolicy: IfNotPresent
         name: fluent-bit
         ports:
@@ -79,7 +79,7 @@ spec:
             cpu: 500m
             memory: 1Gi
         volumeMounts:
-        - mountPath: /fluent-bit/config
+        - mountPath: /fluent-bit/etc
           name: config
           readOnly: true
         - mountPath: /fluent-bit/lua

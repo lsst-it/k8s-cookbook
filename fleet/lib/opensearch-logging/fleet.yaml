@@ -23,6 +23,9 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: ingress-nginx
+  - selector:
+      matchLabels:
+        bundle: logging-pre
 targetCustomizations:
   # first match is used
   - name: ayekan

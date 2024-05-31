@@ -96,7 +96,7 @@ data:
     [Filter]
         Name          lua
         Match         service.*
-        script        /fluent-bit/lua/systemd.lua
+        script        /fluent-bit/lua/kubernetes.lua
         call          add_time
         time_as_table true
     [Output]
@@ -107,8 +107,8 @@ data:
         Port               9200
         HTTP_User          ${OS_LOGGING_USERNAME}
         HTTP_Passwd        ${OS_LOGGING_PASSWORD}
-        Logstash_Format    true
-        Logstash_Prefix    logs-kube
+        Index              logs-kube
+        Write_Operation    create
         Replace_Dots       true
         Trace_Error        true
         Suppress_Type_Name true
