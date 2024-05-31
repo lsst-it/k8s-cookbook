@@ -17,6 +17,7 @@ helm:
       # XXX chart does not support adding servicemonitor labels
       # this needs to be fixed upstream
       # serviceMonitor: true
+      logLevel: debug
       filter:
         kubernetes:
           # setting bufferSize may resolve:
