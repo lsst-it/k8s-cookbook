@@ -72,9 +72,10 @@ ingester:
   replicas: 3
   resources:
     limits:
+      cpu: 16
       memory: 24Gi
     requests:
-      cpu: 3
+      cpu: 5
       memory: 24Gi
   topologySpreadConstraints: {}
   affinity:
