@@ -6,8 +6,10 @@ replicas: 1
 
 resources:
   limits:
+    cpu: "2"
     memory: 500Mi
   requests:
+    cpu: 200m
     memory: 500Mi
 
 serviceMonitor:
