@@ -3,13 +3,12 @@ defaultNamespace: nexus
 namespaceLabels:
   lsst.io/discover: "true"
 labels:
-  # XXX change release name to nexus or nexus3; will require a redeploy
-  bundle: &name my-nexus3
+  bundle: &name nexus
 helm:
-  chart: *name
+  chart: nexus3
   releaseName: *name
   repo: https://stevehipwell.github.io/helm-charts
-  version: 4.40.0
+  version: 4.43.1
   waitForJobs: true
   values:
     ingress:
