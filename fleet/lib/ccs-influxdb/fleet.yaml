@@ -1,0 +1,15 @@
+---
+defaultNamespace: ccs-monitor
+labels:
+  bundle: ccs-influxdb
+kustomize:
+  dir: base
+helm:
+  chart: &chart influxdb
+  releaseName: *chart
+  repo: https://helm.influxdata.com/
+  version: 4.12.5
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml

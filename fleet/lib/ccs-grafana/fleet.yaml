@@ -1,0 +1,19 @@
+---
+defaultNamespace: ccs-monitor
+labels:
+  bundle: ccs-grafana
+kustomize:
+  dir: base
+helm:
+  chart: &chart grafana
+  releaseName: *chart
+  repo: https://grafana.github.io/helm-charts
+  version: 7.3.11
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: ccs-influxdb

@@ -1,0 +1,3 @@
+---
+resources:
+  - externalsecret-influxdb.yaml
