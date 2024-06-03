@@ -68,7 +68,7 @@ distributor:
       memory: 12Gi
 ingester:
   persistentVolume:
-    size: 50Gi
+    size: 100Gi
   replicas: 3
   resources:
     limits:
