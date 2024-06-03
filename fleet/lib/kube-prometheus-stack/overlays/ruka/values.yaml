@@ -103,7 +103,7 @@ prometheus:
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
       - job_name: blackbox-network
-        scrape_interval: 5s
+        scrape_interval: 10s
         scrape_timeout: 5s
         metrics_path: /probe
         params:
