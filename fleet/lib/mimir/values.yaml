@@ -187,6 +187,11 @@ nginx:
 gateway:
   enabledNonEnterprise: true
   replicas: 2
+  nginx:
+    config:
+      serverSnippet: |
+        client_max_body_size    10m;
+        client_body_buffer_size 10m;
   ingress:
     enabled: true
     nameOverride: mimir-nginx
@@ -195,6 +200,7 @@ gateway:
       cert-manager.io/cluster-issuer: letsencrypt
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+      nginx.ingress.kubernetes.io/proxy-body-size: 10m
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
       nginx.ingress.kubernetes.io/server-snippet: |
         proxy_ssl_verify off;
