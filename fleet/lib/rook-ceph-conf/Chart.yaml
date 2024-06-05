@@ -32,3 +32,5 @@ dependencies:
     condition: subchart.yagan.enabled
   - name: yepun
     condition: subchart.yepun.enabled
+  - name: antu
+    condition: subchart.antu.enabled

@@ -36,12 +36,6 @@ targetCustomizations:
             - name: auxtel
               path: /auxtel
               server: 139.229.134.221
-  - name: ayekan
-    clusterName: ayekan
-    helm:
-      values:
-        pvc:
-          enabled: true
   - name: ruka
     clusterName: ruka
     helm:
@@ -96,12 +90,6 @@ targetCustomizations:
             - name: backup
               path: /backup
               server: 139.229.135.203
-  - name: luan
-    clusterName: luan
-    helm:
-      values:
-        pvc:
-          enabled: true
   - name: manke
     clusterName: manke
     helm:
@@ -169,8 +157,16 @@ targetCustomizations:
             - name: comcam
               path: /comcam
               server: nfs-comcam.cp.lsst.org
-  - name: yepun
-    clusterName: yepun
+  - name: pvc-only
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
+            - ayekan
+            - luan
+            - yepun
     helm:
       values:
         pvc:
