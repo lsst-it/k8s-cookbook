@@ -126,7 +126,7 @@ kubeEtcd:
 prometheus-node-exporter:
   resources:
     limits:
-      cpu: 100m
+      cpu: 250m
       memory: 64Mi
     requests:
       cpu: 100m
