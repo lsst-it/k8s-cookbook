@@ -1,0 +1,12 @@
+---
+mimir:
+  structuredConfig:
+    ingester:
+      ring:
+        replication_factor: 1
+ingester:
+  replicas: 2
+store_gateway:
+  replicas: 2
+index-cache:
+  replicas: 2
