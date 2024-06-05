@@ -78,6 +78,8 @@ prometheus:
     probeSelector:
       matchLabels:
         lsst.io/probe: "true"
+    queueConfig:
+      retryOnRateLimit: true
   serviceMonitor:
     additionalLabels:
       lsst.io/monitor: "true"
