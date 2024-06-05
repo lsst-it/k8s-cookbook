@@ -51,7 +51,7 @@ mimir:
 
 compactor:
   persistentVolume:
-    size: 50Gi
+    size: 100Gi
   resources:
     limits:
       memory: 3Gi
