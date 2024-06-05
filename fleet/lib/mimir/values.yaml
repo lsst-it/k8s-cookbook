@@ -41,8 +41,8 @@ mimir:
         bucket_name: "${ .ClusterName }-mimir-ruler"
     limits:
       out_of_order_time_window: 30s
-      ingestion_rate: 500000
-      ingestion_burst_size: 1000000
+      ingestion_rate: 1000000
+      ingestion_burst_size: 2000000
       max_global_series_per_user: 0
       max_global_series_per_metric: 0
       compactor_blocks_retention_period: 2y
