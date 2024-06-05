@@ -13,3 +13,5 @@ rules:
     indent-sequences: consistent
   # ignore {{ .foo }} go templates
   braces: false
+  quoted-strings:
+    required: only-when-needed
