@@ -3,10 +3,10 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
     lsst.io/in-cluster: "true"
-    lsst.io/project: "o11y"
+    lsst.io/project: o11y
   name: fluent-bit-kube
 spec:
   ports:
@@ -15,9 +15,9 @@ spec:
     protocol: TCP
     targetPort: 2020
   selector:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
-    lsst.io/project: "o11y"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
+    lsst.io/project: o11y
     lsst.io/in-cluster: "true"
   type: ClusterIP
 ---
@@ -25,9 +25,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
-    lsst.io/project: "o11y"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
+    lsst.io/project: o11y
     lsst.io/monitor: "true"
     lsst.io/in-cluster: "true"
   name: fluent-bit-kube
@@ -38,7 +38,7 @@ spec:
     path: /api/v2/metrics/prometheus
   selector:
     matchLabels:
-      lsst.io/role: "logging"
-      lsst.io/component: "fluent-bit"
-      lsst.io/project: "o11y"
+      lsst.io/role: logging
+      lsst.io/component: fluent-bit
+      lsst.io/project: o11y
       lsst.io/in-cluster: "true"

@@ -5,7 +5,7 @@ metadata:
   name: keycloak-pg-backup
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 12,21 * * *" #9AM CLT - 6PM CLT
+  schedule: 0 12,21 * * *  # 9AM CLT - 6PM CLT
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 172800

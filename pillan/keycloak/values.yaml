@@ -7,7 +7,7 @@ extraEnvVars:
   - name: KEYCLOAK_PRODUCTION
     value: "true"
   - name: KEYCLOAK_PROXY
-    value: "edge"
+    value: edge
 
 ingress:
   enabled: true

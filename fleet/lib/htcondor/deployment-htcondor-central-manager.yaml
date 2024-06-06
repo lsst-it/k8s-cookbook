@@ -21,11 +21,11 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            memory: "1.0Gi"
-            cpu: "500m"
+            memory: 1.0Gi
+            cpu: 500m
           limits:
-            memory: "1.0Gi"
-            cpu: "500m"
+            memory: 1.0Gi
+            cpu: 500m
         env:
         - name: CONDOR_HOST
           value: htcondor-central-manager.htcondor

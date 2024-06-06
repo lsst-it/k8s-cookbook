@@ -12,11 +12,11 @@ prometheus:
         params:
           module: [icmp]
         puppetdb_sd_configs:
-          - url: "https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443"
+          - url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
-            query: "resources { type = \"Class\" and title = \"Prometheus::Node_exporter\" }"
+            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
             refresh_interval: 30s
             follow_redirects: true
             include_parameters: true
@@ -30,7 +30,7 @@ prometheus:
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
       - job_name: node-exporter
         puppetdb_sd_configs:
-          - url: "https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443"
+          - url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password

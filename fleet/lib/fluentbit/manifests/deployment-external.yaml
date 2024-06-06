@@ -3,29 +3,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    lsst.io/name: "fluent-bit"
+    lsst.io/name: fluent-bit
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
     lsst.io/in-cluster: "false"
-    lsst.io/project: "o11y"
+    lsst.io/project: o11y
   name: fluent-bit-external
 spec:
   revisionHistoryLimit: 10
   replicas: 3
   selector:
     matchLabels:
-      lsst.io/role: "logging"
-      lsst.io/component: "fluent-bit"
+      lsst.io/role: logging
+      lsst.io/component: fluent-bit
       lsst.io/in-cluster: "false"
-      lsst.io/project: "o11y"
+      lsst.io/project: o11y
   template:
     metadata:
       labels:
-        lsst.io/role: "logging"
-        lsst.io/component: "fluent-bit"
+        lsst.io/role: logging
+        lsst.io/component: fluent-bit
         lsst.io/in-cluster: "false"
-        lsst.io/project: "o11y"
+        lsst.io/project: o11y
       name: fluent-bit-external
     spec:
       affinity:

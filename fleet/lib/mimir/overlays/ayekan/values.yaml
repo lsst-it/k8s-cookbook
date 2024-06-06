@@ -4,4 +4,4 @@ mimir:
     common:
       storage:
         s3:
-          endpoint: "s3.o11y.${ .ClusterLabels.site }.lsst.org"
+          endpoint: s3.o11y.${ .ClusterLabels.site }.lsst.org
