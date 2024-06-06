@@ -37,18 +37,17 @@ diff:
         - /spec/cephVersion/allowUnsupported
         - /spec/cleanupPolicy
         - /spec/continueUpgradeAfterChecksEvenIfNotHealthy
+        - /spec/crashCollector/disable
+        - /spec/dashboard/ssl
+        - /spec/disruptionManagement/manageMachineDisruptionBudgets
         - /spec/healthCheck
         - /spec/livenessProbe
+        - /spec/mgr/allowMultiplePerNode
+        - /spec/mon/allowMultiplePerNode
+        - /spec/monitoring/enabled
         - /spec/network/connections
         - /spec/removeOSDsIfOutAndSafeToRemove
         - /spec/skipUpgradeChecks
-        - /spec/mgr/allowMultiplePerNode
-        - /spec/mon/allowMultiplePerNode
-        - /spec/skipUpgradeChecks
-        - /spec/crashCollector/disable
-        - /spec/monitoring/enabled
-        - /spec/dashboard/ssl
-        - /spec/disruptionManagement/manageMachineDisruptionBudgets
         - /spec/storage/useAllNodes
         - /spec/upgradeOSDRequiresHealthyPGs
 targetCustomizations:
