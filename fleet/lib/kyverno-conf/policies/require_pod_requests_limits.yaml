@@ -25,14 +25,14 @@ spec:
           kinds:
             - Pod
       validate:
-        message: "CPU and memory resource requests and limits are required."
+        message: CPU and memory resource requests and limits are required.
         pattern:
           spec:
             containers:
               - resources:
                   requests:
-                    memory: "?*"
-                    cpu: "?*"
+                    memory: ?*
+                    cpu: ?*
                   limits:
-                    memory: "?*"
-                    cpu: "?*"
+                    memory: ?*
+                    cpu: ?*

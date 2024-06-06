@@ -1,7 +1,7 @@
 ---
 prometheus:
   prometheusSpec:
-    externalUrl: "https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    externalUrl: https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
   ingress:
@@ -16,15 +16,15 @@ prometheus:
       - /
     pathType: Prefix
     hosts:
-      - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+      - prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-prometheus-ingress
         hosts:
-          - "prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+          - prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
 
 alertmanager:
   alertmanagerSpec:
-    externalUrl: "https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    externalUrl: https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     secrets:
       - alertmanager-webhooks
     configMaps:
@@ -41,11 +41,11 @@ alertmanager:
       - /
     pathType: Prefix
     hosts:
-      - "alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+      - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-alertmanager-ingress
         hosts:
-          - "alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+          - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
 
 grafana:
   enabled: true
@@ -65,10 +65,10 @@ grafana:
     type: Recreate  # default is RollingUpdate, which doesn't work w/ persistence enabled
   grafana.ini:
     server:
-      domain: "grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
-      root_url: "https://grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+      domain: grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      root_url: https://grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     feature_toggles:
-      enable: "autoMigrateOldPanels"
+      enable: autoMigrateOldPanels
     auth.generic_oauth:
       allow_assign_grafana_admin: true
       allow_sign_up: true
@@ -97,11 +97,11 @@ grafana:
       - /
     pathType: Prefix
     hosts:
-      - "grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+      - grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-grafana-ingress
         hosts:
-          - "grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+          - grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
   sidecar:
     resources:
       limits:

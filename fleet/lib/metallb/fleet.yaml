@@ -52,4 +52,5 @@ diff:
       kind: CustomResourceDefinition
       name: bgppeers.metallb.io
       operations:
-        - {"op": "remove", "path": "/spec/conversion/webhook/clientConfig/caBundle"}
+        - op: remove
+          path: /spec/conversion/webhook/clientConfig/caBundle

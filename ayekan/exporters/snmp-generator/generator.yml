@@ -1,11 +1,12 @@
+# yamllint disable rule:quoted-strings
 ---
 auths:
   public_v1:
     version: 1
-    community: "public"
+    community: public
   public_v2:
     version: 2
-    community: "public"
+    community: public
   rubin_v1:
     version: 1
     community: "{{.snmpRubinCommunity}}"

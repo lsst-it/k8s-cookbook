@@ -9,7 +9,7 @@ helm:
   timeoutSeconds: 300
   waitForJobs: true
   values:
-    site: "${ .ClusterLabels.site }"
+    site: ${ .ClusterLabels.site }
 dependsOn:
   - selector:
       matchLabels:

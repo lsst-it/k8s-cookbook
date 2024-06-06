@@ -35,8 +35,8 @@ ingress:
     nginx.ingress.kubernetes.io/server-snippet: |
       proxy_ssl_verify off;
   hosts:
-    - "snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+    - snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
   tls:
     - secretName: tls-snmp-exporter-ingress
       hosts:
-        - "snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org"
+        - snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org

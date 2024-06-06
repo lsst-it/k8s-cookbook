@@ -40,7 +40,7 @@ spec:
       validate:
         message: hostPath volumes are confined to /data.
         foreach:
-          - list: "request.object.spec.volumes[?hostPath].hostPath"
+          - list: request.object.spec.volumes[?hostPath].hostPath
             deny:
               conditions:
                 any:

@@ -11,11 +11,11 @@ spec:
   confMgmt: {}
   dashboards:
     enable: true
-    basePath: "/dashboard"
+    basePath: /dashboard
     opensearchCredentialsSecret: {}
     replicas: 2
     labels:
-      lsst.io/author: "fbegyn"
+      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
@@ -29,18 +29,18 @@ spec:
     version: 2.11.1
     additionalConfig:
       logging.verbose: "true"
-      opensearch.password: "admin"
+      opensearch.password: admin
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
-      opensearch.ssl.verificationMode: "none"
-      opensearch.username: "admin"
+      opensearch.ssl.verificationMode: none
+      opensearch.username: admin
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: "https://opensearch.ayekan.dev.lsst.org/dashboard"
-      opensearch_security.openid.client_id: "${KEYCLOAK_CLIENT_ID}"
-      opensearch_security.openid.client_secret: "${KEYCLOAK_CLIENT_SECRET}"
-      opensearch_security.openid.connect_url: "${KEYCLOAK_URL}"
-      opensearch_security.openid.header: "Authorization"
-      opensearch_security.openid.scope: "openid profile email offline_access"
+      opensearch_security.openid.base_redirect_url: https://opensearch.ayekan.dev.lsst.org/dashboard
+      opensearch_security.openid.client_id: ${KEYCLOAK_CLIENT_ID}
+      opensearch_security.openid.client_secret: ${KEYCLOAK_CLIENT_SECRET}
+      opensearch_security.openid.connect_url: ${KEYCLOAK_URL}
+      opensearch_security.openid.header: Authorization
+      opensearch_security.openid.scope: openid profile email offline_access
       opensearch_security.openid.trust_dynamic_headers: "true"
     env:
     - name: KEYCLOAK_CLIENT_ID
@@ -72,32 +72,32 @@ spec:
     monitoring:
       enable: true
       scrapeInterval: 30s
-      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip"
+      pluginUrl: https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip
       tlsConfig:
         insecureSkipVerify: true
-    pluginsList: ["repository-s3"]
+    pluginsList: [repository-s3]
   initHelper:
     resources:
       requests:
-        memory: "256Mi"
-        cpu: "500m"
+        memory: 256Mi
+        cpu: 500m
       limits:
-        memory: "256Mi"
+        memory: 256Mi
   nodePools:
   - component: cluster-manager
     replicas: 3
     diskSize: 10Gi
     labels:
-      lsst.io/author: "fbegyn"
+      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     jvm: -Xmx3G -Xms3G
     resources:
       requests:
-        memory: "4Gi"
+        memory: 4Gi
         cpu: "1"
       limits:
-        memory: "4Gi"
+        memory: 4Gi
     roles:
     - cluster_manager
     persistence:
@@ -107,15 +107,15 @@ spec:
     diskSize: 50Gi
     jvm: -Xmx3G -Xms3G
     labels:
-      lsst.io/author: "fbegyn"
+      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "4Gi"
+        memory: 4Gi
         cpu: "4"
       limits:
-        memory: "4Gi"
+        memory: 4Gi
     roles:
     - coordinating
     persistence:
@@ -125,17 +125,17 @@ spec:
     diskSize: 400Gi
     jvm: -Xmx14G -Xms14G
     labels:
-      lsst.io/author: "fbegyn"
+      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "16Gi"
+        memory: 16Gi
         cpu: "8"
       limits:
-        memory: "16Gi"
+        memory: 16Gi
     additionalConfig:
-      node.attr.temp: "hot"
+      node.attr.temp: hot
     roles:
     - data
     - ingest
@@ -144,16 +144,16 @@ spec:
     diskSize: 400Gi
     jvm: -Xmx7G -Xms7G
     labels:
-      lsst.io/author: "fbegyn"
+      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "8Gi"
+        memory: 8Gi
         cpu: "4"
       limits:
-        memory: "8Gi"
+        memory: 8Gi
     additionalConfig:
-      node.attr.temp: "cold"
+      node.attr.temp: cold
     roles:
     - data

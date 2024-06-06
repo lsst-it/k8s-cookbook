@@ -24,7 +24,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: puppetdb-exporter
         args:
-        - "--puppetdb-url=http://puppetdb.dev.lsst.org:8080/pdb/query"
+        - --puppetdb-url=http://puppetdb.dev.lsst.org:8080/pdb/query
         ports:
         - containerPort: 9635
           name: metrics
@@ -131,7 +131,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: puppetdb-exporter
         args:
-        - "--puppetdb-url=http://puppetdb.ls.lsst.org:8080/pdb/query"
+        - --puppetdb-url=http://puppetdb.ls.lsst.org:8080/pdb/query
         ports:
         - containerPort: 9635
           name: metrics
