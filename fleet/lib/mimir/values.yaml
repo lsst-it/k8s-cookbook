@@ -101,7 +101,7 @@ ingester:
           topologyKey: kubernetes.io/hostname
 
   zoneAwareReplication:
-    topologyKey: kubernetes.io/hostname
+    enabled: false
 querier:
   replicas: 1
   resources:
@@ -156,8 +156,7 @@ store_gateway:
                   - store-gateway
           topologyKey: kubernetes.io/hostname
   zoneAwareReplication:
-    topologyKey: kubernetes.io/hostname
-
+    enabled: false
 ## caching components
 admin-cache:
   enabled: true
