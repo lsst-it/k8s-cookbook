@@ -6,7 +6,7 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "2"
+      osdsPerDevice: "1"
     nodes:
       - name: ruka02
         devices:
@@ -14,13 +14,13 @@ cephClusterSpec:
           - name: /dev/disk/by-id/scsi-361866da06192eb002997f36cf70214a8
       - name: ruka03
         devices:
-          - name: sdb
+          - name: /dev/disk/by-id/ata-Samsung_SSD_860_EVO_2TB_S5B1NR0N702414T
       - name: ruka04
         devices:
-          - name: sdb
+          - name: /dev/disk/by-id/scsi-361866da0baf65400299809a00775071f
       - name: ruka05
         devices:
-          - name: sdb
+          - name: /dev/disk/by-id/scsi-361866da0baf7870029980b00072b9318
 
 cephBlockPools:
   - name: replicapool
