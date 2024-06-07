@@ -1,0 +1,24 @@
+---
+replicaCount: 1
+
+image:
+  repository: quay.io/o11ydev/alertmanager2kafka
+
+env:
+  - name: KAFKA_HOST
+    valueFrom:
+      secretKeyRef:
+        name: kafka-credentials
+        key: url
+  - name: KAFKA_TOPIC
+    valueFrom:
+      secretKeyRef:
+        name: kafka-credentials
+        key: topic
+
+resources:
+  limits:
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
