@@ -5,7 +5,7 @@ namespaceLabels:
 labels:
   bundle: *name
 helm:
-  chart: git@github.com:o11ydev/alertbit//helm
+  chart: https://o11ydev.github.io/helm-charts
   releaseName: *name
   version: v0.1.0
   valuesFiles:
