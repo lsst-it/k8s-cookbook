@@ -1,17 +1,13 @@
 ---
 cephClusterSpec:
   mon:
-    count: 5
+    count: 3
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
       osdsPerDevice: "2"
     nodes:
-      - name: ruka01
-        devices:
-          # sda after post-kickstart reboot
-          - name: /dev/disk/by-id/scsi-361866da06192eb002997f3b50d610318
       - name: ruka02
         devices:
           # sda after post-kickstart reboot
