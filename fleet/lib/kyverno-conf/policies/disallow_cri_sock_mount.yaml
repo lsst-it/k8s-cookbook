@@ -23,7 +23,7 @@ spec:
           kinds:
             - Pod
       validate:
-        message: "Use of the Docker Unix socket is not allowed."
+        message: Use of the Docker Unix socket is not allowed.
         pattern:
           spec:
             =(volumes):
@@ -35,7 +35,7 @@ spec:
           kinds:
             - Pod
       validate:
-        message: "Use of the Containerd Unix socket is not allowed."
+        message: Use of the Containerd Unix socket is not allowed.
         pattern:
           spec:
             =(volumes):
@@ -47,7 +47,7 @@ spec:
           kinds:
             - Pod
       validate:
-        message: "Use of the CRI-O Unix socket is not allowed."
+        message: Use of the CRI-O Unix socket is not allowed.
         pattern:
           spec:
             =(volumes):

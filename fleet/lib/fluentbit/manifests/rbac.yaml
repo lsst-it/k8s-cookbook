@@ -4,18 +4,18 @@ kind: ServiceAccount
 metadata:
   name: fluent-bit
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
-    lsst.io/project: "o11y"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
+    lsst.io/project: o11y
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: fluent-bit
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
-    lsst.io/project: "o11y"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
+    lsst.io/project: o11y
 rules:
   - apiGroups:
       - ""
@@ -43,9 +43,9 @@ kind: ClusterRoleBinding
 metadata:
   name: fluent-bit
   labels:
-    lsst.io/role: "logging"
-    lsst.io/component: "fluent-bit"
-    lsst.io/project: "o11y"
+    lsst.io/role: logging
+    lsst.io/component: fluent-bit
+    lsst.io/project: o11y
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

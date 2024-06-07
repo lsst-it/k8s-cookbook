@@ -1,5 +1,5 @@
 apiVersion: v2
 appVersion: 0.1.0
-description: "dashbaords taken from strimzi-kafka-operator 9bb6b31 / ~0.39.0"
+description: dashbaords taken from strimzi-kafka-operator 9bb6b31 / ~0.39.0
 name: strimzi-kafka-dashboards
 version: 0.1.1

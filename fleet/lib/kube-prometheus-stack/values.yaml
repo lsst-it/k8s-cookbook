@@ -44,8 +44,8 @@ prometheus:
         cpu: 1
         memory: 12Gi
     externalLabels:
-      prom_site: "${ .ClusterLabels.site }"
-      prom_cluster: "${ .ClusterName }.${ .ClusterLabels.site }"
+      prom_site: ${ .ClusterLabels.site }
+      prom_cluster: ${ .ClusterName }.${ .ClusterLabels.site }
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorNamespaceSelector:

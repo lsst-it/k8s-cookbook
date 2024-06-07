@@ -25,7 +25,7 @@ spec:
           kinds:
             - Pod
       validate:
-        message: "Using 'default' namespace is not allowed."
+        message: Using 'default' namespace is not allowed.
         pattern:
           metadata:
             namespace: "!default"
@@ -38,7 +38,7 @@ spec:
             - Job
             - StatefulSet
       validate:
-        message: "Using 'default' namespace is not allowed for pod controllers."
+        message: Using 'default' namespace is not allowed for pod controllers.
         pattern:
           metadata:
             namespace: "!default"

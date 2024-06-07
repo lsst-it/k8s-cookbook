@@ -31,7 +31,7 @@ metadata:
   name: cnpg-backups
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 12,21 * * *" #9AM CLT - 6PM CLT
+  schedule: 0 12,21 * * *  # 9AM CLT - 6PM CLT
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: 172800
@@ -43,20 +43,20 @@ spec:
               image: docker.io/lsstit/cnpg-backup:0.5
               volumeMounts:
                 - name: ephemeral
-                  mountPath: "/tmp"
+                  mountPath: /tmp
               imagePullPolicy: IfNotPresent
               envFrom:
                 - secretRef:
                     name: cnpg-backup-secrets
               env:
                 - name: HOST
-                  value: "cnpg-loadbalancer.cloudnativepg.svc.cluster.local"
+                  value: cnpg-loadbalancer.cloudnativepg.svc.cluster.local
           volumes:
             - name: ephemeral
               ephemeral:
                 volumeClaimTemplate:
                   spec:
-                    accessModes: ["ReadWriteOnce"]
+                    accessModes: [ReadWriteOnce]
                     resources:
                       requests:
                         storage: 5Gi
