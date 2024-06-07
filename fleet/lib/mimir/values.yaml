@@ -48,9 +48,6 @@ mimir:
       compactor_blocks_retention_period: 2y
     compactor:
       deletion_delay: 12h
-    ingester:
-      ring:
-        replication_factor: 2
 
 compactor:
   persistentVolume:
