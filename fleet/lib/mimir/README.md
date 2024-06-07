@@ -3,7 +3,7 @@
 ## create rgw user
 
 ```bash
-$ radosgw-admin user create --rgw-zone=o11y --display-name="mimir role-user" --uid=mimir
+bash-4.4$ radosgw-admin user create --rgw-realm=o11y --rgw-zonegroup=o11y --rgw-zone=o11y --display-name="mimir role-user" --uid=mimir
 2024-03-04T22:11:41.622+0000 7f82a1db0680  0 period (7e2fd4e3-a25a-4eab-b93f-36aace1a3bf7 does not have zone 3c4f8870-7c07-424d-ae34-7f826ad53125 configured
 {
     "user_id": "mimir",
