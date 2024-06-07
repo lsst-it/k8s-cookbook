@@ -4,6 +4,6 @@
 dashboards:
   enabled: true
   namespace: ~
-  label: grafana_dashboard # this is the default value from the grafana chart
+  label: grafana_dashboard  # this is the default value from the grafana chart
   annotations: {}
   extraLabels: {}
