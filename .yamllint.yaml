@@ -15,3 +15,5 @@ rules:
   braces: false
   quoted-strings:
     required: only-when-needed
+  # do not warn over --- header
+  document-start: false
