@@ -1,14 +1,5 @@
 ---
 nodes:
-- address: ruka01.dev.lsst.org
-  hostname_override: ruka01
-  user: rke
-  role:
-  - controlplane
-  - worker
-  - etcd
-  labels:
-    role: storage-node
 - address: ruka02.dev.lsst.org
   hostname_override: ruka02
   user: rke
