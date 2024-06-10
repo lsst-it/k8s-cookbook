@@ -121,6 +121,10 @@ coreDns:
   serviceMonitor:
     additionalLabels:
       lsst.io/monitor: "true"
+kubeDns:
+  serviceMonitor:
+    additionalLabels:
+      lsst.io/monitor: "true"
 kubeEtcd:
   serviceMonitor:
     additionalLabels:

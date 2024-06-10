@@ -54,19 +54,19 @@ alertmanager:
           - alertname = "InfoInhibitor"
         target_matchers:
           - severity = "info"
-        equal: ["namespace"]
+        equal: [namespace]
       - source_matchers:
           - severity = "critical"
         target_matchers:
           - severity =~ "info|warning"
-        equal: ["alertname"]
+        equal: [alertname]
       - source_matchers:
           - severity = "warning"
         target_matchers:
           - severity = "info"
-        equal: ["alertname"]
+        equal: [alertname]
     templates:
-      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
+      - /etc/alertmanager/configmaps/alertmanager-templates/*.tmpl
 
 grafana:
   enabled: true
