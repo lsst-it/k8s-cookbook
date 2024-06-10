@@ -2016,7 +2016,7 @@
                "targets": [
                   {
                      "datasource": "$datasource",
-                     "expr": "topk(10, ceph_pool_bytes_used{prom_cluster=~\"$cluster\", }/ceph_pool_max_avail{prom_cluster=~\"$cluster\", } * on(pool_id, cluster) group_left(instance, name) ceph_pool_metadata{prom_cluster=~\"$cluster\", })",
+                     "expr": "topk(10, ceph_pool_bytes_used{prom_cluster=~\"$cluster\", }/ceph_pool_max_avail{prom_cluster=~\"$cluster\", } * on(pool_id, prom_cluster) group_left(instance, name) ceph_pool_metadata{prom_cluster=~\"$cluster\", })",
                      "format": "time_series",
                      "instant": false,
                      "intervalFactor": 1,
