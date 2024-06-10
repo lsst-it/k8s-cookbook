@@ -182,14 +182,14 @@ grafana:
           access: proxy
           jsonData:
             database: logs-kube*
-            flavour: opensearch
-            version: 2.11.0
-            pplEnabled: true
-            timeField: "@timetamp"
+            flavor: opensearch
             logLevelField: ""
             logMessageField: log
             maxConcurrentShardRequests: 5
             oauthPassThru: true
+            pplEnabled: true
+            timeField: "@timestamp"
+            version: 2.11.0
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-hosts
@@ -201,14 +201,14 @@ grafana:
           access: proxy
           jsonData:
             database: logs-hosts*
-            flavour: opensearch
-            version: 2.11.0
-            pplEnabled: true
-            timeField: "@timetamp"
+            flavor: opensearch
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
             oauthPassThru: true
+            pplEnabled: true
+            timeField: "@timestamp"
+            version: 2.11.0
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-firewall
@@ -220,14 +220,14 @@ grafana:
           access: proxy
           jsonData:
             database: logs-firewall*
-            flavour: opensearch
-            version: 2.11.0
-            pplEnabled: true
-            timeField: "@timetamp"
+            flavor: opensearch
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
             oauthPassThru: true
+            pplEnabled: true
+            timeField: "@timestamp"
+            version: 2.11.0
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
         - name: logs-network
@@ -239,14 +239,14 @@ grafana:
           access: proxy
           jsonData:
             database: logs-network*
-            flavour: opensearch
-            version: 2.11.0
-            pplEnabled: true
-            timeField: "@timetamp"
+            flavor: opensearch
             logLevelField: ""
             logMessageField: message
             maxConcurrentShardRequests: 5
             oauthPassThru: true
+            pplEnabled: true
+            timeField: "@timestamp"
+            version: 2.11.0
           secureJsonData:
             basicAuthPassword: $OS_LOGGING_PASSWORD
   envFromSecrets:
