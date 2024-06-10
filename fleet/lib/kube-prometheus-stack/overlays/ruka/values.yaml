@@ -1,6 +1,9 @@
 ---
 prometheus:
   prometheusSpec:
+    remoteWrite:
+      - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+      - url: https://mimir.antu.ls.lsst.org/api/v1/push
     configMaps:
       - sd-snmp-arista-bgp
       - sd-snmp-network
