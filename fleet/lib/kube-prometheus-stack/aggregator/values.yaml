@@ -46,6 +46,27 @@ alertmanager:
       - secretName: tls-alertmanager-ingress
         hosts:
           - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+  config:
+    global:
+      resolve_timeout: 5m
+    inhibit_rules:
+      - source_matchers:
+          - alertname = "InfoInhibitor"
+        target_matchers:
+          - severity = "info"
+        equal: ["namespace"]
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity =~ "info|warning"
+        equal: ["alertname"]
+      - source_matchers:
+          - severity = "warning"
+        target_matchers:
+          - severity = "info"
+        equal: ["alertname"]
+    templates:
+      - "/etc/alertmanager/configmaps/alertmanager-templates/*.tmpl"
 
 grafana:
   enabled: true
