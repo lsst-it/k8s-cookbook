@@ -17,7 +17,8 @@ prometheus:
         params:
           module: [icmp]
         puppetdb_sd_configs:
-          - url: https://puppetdb.dev.lsst.org:8443
+          - &blackbox-icmp-puppetdb
+            url: https://puppetdb.dev.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
@@ -26,24 +27,10 @@ prometheus:
             follow_redirects: true
             include_parameters: true
             enable_http2: true
-          - url: https://puppetdb.ls.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
-          - url: https://puppetdb.cp.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
+          - <<: *blackbox-icmp-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
+          - <<: *blackbox-icmp-puppetdb
+            url: https://puppetdb.cp.lsst.org:8443
         relabel_configs:
           - source_labels: [__meta_puppetdb_certname]
             target_label: __param_target
@@ -53,7 +40,8 @@ prometheus:
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
       - job_name: node-exporter-puppetdb
         puppetdb_sd_configs:
-          - url: https://puppetdb.dev.lsst.org:8443
+          - &node-exporter-puppetdb
+            url: https://puppetdb.dev.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
@@ -69,38 +57,10 @@ prometheus:
             include_parameters: true
             enable_http2: true
             port: 9100
-          - url: https://puppetdb.ls.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: |
-              resources {
-                type = "Class" and title = "Profile::Core::Node_info" and
-                certname in resources[certname] {
-                  type = "Class" and title = "Prometheus::Node_exporter"
-                }
-              }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
-            port: 9100
-          - url: https://puppetdb.cp.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: |
-              resources {
-                type = "Class" and title = "Profile::Core::Node_info" and
-                certname in resources[certname] {
-                  type = "Class" and title = "Prometheus::Node_exporter"
-                }
-              }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
-            port: 9100
+          - <<: *node-exporter-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
+          - <<: *node-exporter-puppetdb
+            url: https://puppetdb.cp.lsst.org:8443
         relabel_configs:
           - source_labels: [__meta_puppetdb_certname]
             target_label: instance
@@ -112,26 +72,7 @@ prometheus:
             target_label: role
           - source_labels: [__meta_puppetdb_parameter_cluster]
             target_label: cluster
-      - job_name: snmp-network
-        scrape_interval: 5s
-        scrape_timeout: 5s
-        metrics_path: /snmp
-        params:
-          module: [if_mib]
-          auth: [rubin_v2]
-        file_sd_configs:
-          - files:
-              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - source_labels: [__meta_network_function]
-            target_label: network_function
-          - target_label: __address__
-            replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: blackbox-network
+      - job_name: blackbox-icmp-snmp
         scrape_interval: 10s
         scrape_timeout: 5s
         metrics_path: /probe
@@ -161,6 +102,25 @@ prometheus:
           auth: [rubin_v2]
         file_sd_configs:
           - files:
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: snmp-network
+        scrape_interval: 5s
+        scrape_timeout: 5s
+        metrics_path: /snmp
+        params:
+          module: [if_mib]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
