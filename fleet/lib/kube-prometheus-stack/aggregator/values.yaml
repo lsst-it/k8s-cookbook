@@ -49,7 +49,6 @@ alertmanager:
   config:
     global:
       resolve_timeout: 5m
-      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"

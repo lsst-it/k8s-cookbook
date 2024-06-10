@@ -180,7 +180,6 @@ alertmanager:
       - lsst-webhooks
   config:
     global:
-      resolve_timeout: 5m
       slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
       group_by: [alertname, namespace, site]
