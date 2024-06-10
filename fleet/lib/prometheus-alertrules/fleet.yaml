@@ -9,7 +9,6 @@ helm:
   takeOwnership: true
   timeoutSeconds: 300
   waitForJobs: false
-  atomic: false
 dependsOn:
   - selector:
       matchLabels:
