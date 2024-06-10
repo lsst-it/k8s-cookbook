@@ -5,30 +5,30 @@ groups:
         annotations:
           summary: "The nodes disk will fill up within 6h"
           description: |
-            Nodes TODO:node_label disk is currently almost full at TODO%. It will fill up within 6 hours.
+            Nodes {{ $labels.instance }} disk is currently almost full at {{ $value }}. It will fill up within 6 hours.
         expr: |
           (
-                        node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                        node_filesystem_avail_bytes{fstype!="",job="node-exporter"}
                       /
-                        node_filesystem_size_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                        node_filesystem_size_bytes{fstype!="",job="node-exporter"}
                     *
                       100
                   <
                     10
                 and
                     predict_linear(
-                      node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}[6h],
+                      node_filesystem_avail_bytes{fstype!="",job="node-exporter"}[6h],
                       12 * 60 * 60
                     )
                   <
                     0
               and
-                  node_filesystem_readonly{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}
+                  node_filesystem_readonly{fstype!="",job="node-exporter"}
                 ==
                   0
             and
                 delta(
-                  node_filesystem_avail_bytes{fstype!="",job="node-exporter",mountpoint=~"/var/lib/(mysql.*|prometheus.*|mongod.*|pgsql.*|es-data.*|rabbitmq.*)"}[6h]
+                  node_filesystem_avail_bytes{fstype!="",job="node-exporter"}[6h]
                 )
               <
                 0
