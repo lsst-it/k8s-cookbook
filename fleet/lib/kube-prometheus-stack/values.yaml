@@ -7,8 +7,6 @@ defaultRules:
   create: true
   labels:
     lsst.io/rule: "true"
-  additionalRuleLabels:
-    receivers: ",squadcast,"
   disabled:
     TargetDown: true
 
