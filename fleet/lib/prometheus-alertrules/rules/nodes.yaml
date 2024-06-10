@@ -1,9 +1,9 @@
 groups:
-  - name: "NodeFilesystem"
+  - name: NodeFilesystem
     rules:
-      - alert: "NodeFilesystemFillingUp"
+      - alert: NodeFilesystemFillingUp
         annotations:
-          summary: "The nodes disk will fill up within 6h"
+          summary: The nodes disk will fill up within 6h
           description: |
             Nodes {{ $labels.instance }} disk is currently almost full at {{ $value }}. It will fill up within 6 hours.
         expr: |

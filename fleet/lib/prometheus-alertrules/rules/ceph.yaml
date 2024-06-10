@@ -1,27 +1,27 @@
 groups:
-  - name: "ceph.rules"
+  - name: ceph.rules
     rules:
-      - alert: "CephQuotaFillingUp"
+      - alert: CephQuotaFillingUp
         annotations:
-          summary: "The Ceph pool quota in cluster {{ $labels.prom_cluster }} is almost full"
+          summary: The Ceph pool quota in cluster {{ $labels.prom_cluster }} is almost full
           description: |
             Ceph pool id {{ $labels.pool_id }} on {{ $labels.prom_cluster }}/ {{
             $labels.namespace }}/{{ $labels.pod }} is at {{ $value }}%. Please
             keep in mind that ceph pools reaching 100% is dangerous.
         labels:
-          secverity: "warning"
+          secverity: warning
           receivers: ",slack,"
         expr: |
           (ceph_pool_stored/ceph_pool_quota_bytes > 0.75 and ceph_pool_quota_bytes != 0)*100
-      - alert: "CephQuotaFillingUp"
+      - alert: CephQuotaFillingUp
         annotations:
-          summary: "The Ceph pool quota is almost full"
+          summary: The Ceph pool quota is almost full
           description: |
             Ceph pool id {{ $labels.pool_id }} on {{ $labels.prom_cluster }}/ {{
             $labels.namespace }}/{{ $labels.pod }} is at {{ $value }}%. Please
             keep in mind that ceph pools reaching 100% is dangerous.
         labels:
-          secverity: "critical"
+          secverity: critical
           receivers: ",slack,"
         expr: |
           (ceph_pool_stored/ceph_pool_quota_bytes > 0.9 and ceph_pool_quota_bytes != 0)*100
