@@ -179,6 +179,8 @@ alertmanager:
     secrets:
       - lsst-webhooks
   config:
+    global:
+      slack_api_url_file: /etc/alertmanager/secrets/lsst-webhooks/slack-test
     route:
       group_by: [alertname, namespace, site]
       group_wait: 30s
