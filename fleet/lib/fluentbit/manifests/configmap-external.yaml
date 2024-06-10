@@ -21,6 +21,30 @@ data:
         tls.verify   off
         tls.crt_file /etc/secrets/certicate/tls.crt
         tls.key_file /etc/secrets/certicate/tls.key
+    [FILTER]
+        Name rewrite_tag
+        Match rsyslog.*
+        Rule $ident "sudo" sudo.$host.$ident true
+    [FILTER]
+        Name         parser
+        Match        sudo.*
+        Parser       sudo_parser
+        Key_Name     message
+        Preserve_Key true
+        Reserve_Data true
+    [FILTER]
+        Name       grep
+        Match      sudo.*
+        Regex      user .*
+    [FILTER]
+        name       grep
+        match      sudo.*
+        regex      command .*
+    [FILTER]
+        name  modify
+        match sudo.*
+        add   alertname sudoLog
+        add   receivers  ",slack,"
     # firewall logs
     [Input]
         Name   syslog
@@ -111,3 +135,12 @@ data:
         Suppress_Type_Name true
         tls                On
         tls.verify         false
+    [OUTPUT]
+        Name http
+        Match sudo.*
+        Host alertbit.alertbit
+        Port 8090
+        URI /api/alert
+        Format json
+        Json_date_key date
+        Json_date_format epoch

@@ -5,6 +5,17 @@ metadata:
   name: fluent-bit-parsers
 data:
   parsers.conf: |
+    [PARSER]
+      Name systemd_session_parser
+      Format regex
+      Regex ^(?<pam_module>[\w]*)\((?<command>[\w\-:]*)\)?\: session opened for user root\(uid=(?<uid>[\d*])\) by \(uid=(?<user_uid>[\d*])\)$
+      Types uid:integer user_uid:integer
+
+    [PARSER]
+      Name sudo_parser
+      Format regex
+      Regex ^(?<user>[\w]+)\s*:?\s*(?<notification>[\w\s]+)\s*;?\s*TTY=(?<tty>[\w\/]+)\s*;?\s*PWD=(?<working_directory>[\w\/]+)\s*;?\s*USER=(?<sudo_user>[\w]+)\s*;?\s*COMMAND=(?<command>.+)$
+
     [Parser]
       Name         pfsense_log
       Format       regex
