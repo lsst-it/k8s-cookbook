@@ -1,0 +1,32 @@
+[
+  {
+    "labels": {
+      "__meta_hostname": "power-ups.cp.lsst.org",
+      "__meta_auth": "public_v1",
+      "__meta_module": "xups"
+    },
+    "targets": [
+      "10.18.3.31"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "aux-ups01.cp.lsst.org",
+      "__meta_auth": "lsst_v1",
+      "__meta_module": "xups"
+    },
+    "targets": [
+      "10.18.3.62"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "power-dp01.cp.lsst.org",
+      "__meta_auth": "public_v1",
+      "__meta_module": "schneider_pm5xxx"
+    },
+    "targets": [
+      "10.18.3.21"
+    ]
+  }
+]
