@@ -26,3 +26,5 @@ subchart:
     enabled: false
   yepun:
     enabled: false
+  antu:
+    enabled: false
