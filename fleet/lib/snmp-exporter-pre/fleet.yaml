@@ -10,6 +10,11 @@ helm:
   waitForJobs: true
   values:
     site: ${ .ClusterLabels.site }
+    community:
+      snmpRubinCommunity:
+        enabled: true
+      snmpLsstCommunity:
+        enabled: true
 dependsOn:
   - selector:
       matchLabels:
@@ -17,11 +22,6 @@ dependsOn:
 targetCustomizations:
   - name: pillan
     clusterName: pillan
-    helm:
-      values:
-        community:
-          snmpRubinCommunity:
-            enabled: true
   - name: default
     clusterSelector:
       matchLabels:
@@ -32,10 +32,3 @@ targetCustomizations:
             - dev
             - ls
             - cp
-    helm:
-      values:
-        community:
-          snmpRubinCommunity:
-            enabled: true
-          snmpLsstCommunity:
-            enabled: true
