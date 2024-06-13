@@ -207,11 +207,11 @@ alertmanager:
               matchers:
                 - alertname =~ "Kube.*"
             - receiver: slack-node-test
-              group_by: ["instance"]
+              group_by: [instance]
               matchers:
                 - alertname =~ "Node.*"
             - receiver: slack-network-test
-              group_by: ["instance"]
+              group_by: [instance]
               matchers:
                 - alertname =~ "Network.*"
         # Below is an example for the namespace based alert routing.
