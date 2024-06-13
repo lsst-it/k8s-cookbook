@@ -198,7 +198,7 @@ alertmanager:
           matchers:
             - receivers =~ ".*,squadcast,.*"
           continue: true
-        - receiver: "slack-test"
+        - receiver: slack-test
           matchers:
             - receivers =~ ".*,slack,.*"
           continue: true
@@ -207,11 +207,11 @@ alertmanager:
               matchers:
                 - alertname =~ "Kube.*"
             - receiver: slack-node-test
-              group_by: ["instance"]
+              group_by: [instance]
               matchers:
                 - alertname =~ "Node.*"
             - receiver: slack-network-test
-              group_by: ["instance"]
+              group_by: [instance]
               matchers:
                 - alertname =~ "Network.*"
         # Below is an example for the namespace based alert routing.
@@ -258,6 +258,6 @@ alertmanager:
       - name: squadcast-test
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
-      - name: "slack-rook-ceph-team"
-      - name: "slack-metallb-team"
-      - name: "slack-monitoring-team"
+      - name: slack-rook-ceph-team
+      - name: slack-metallb-team
+      - name: slack-monitoring-team
