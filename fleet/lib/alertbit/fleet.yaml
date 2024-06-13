@@ -11,5 +11,3 @@ helm:
   valuesFiles:
     - values.yaml
   waitForJobs: true
-  timeoutSeconds: 900
-  atomic: false
