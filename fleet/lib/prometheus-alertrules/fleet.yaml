@@ -7,7 +7,6 @@ namespaceLabels:
 helm:
   releaseName: *name
   takeOwnership: true
-  timeoutSeconds: 300
   waitForJobs: false
 dependsOn:
   - selector:
