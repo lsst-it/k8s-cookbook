@@ -1,0 +1,325 @@
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBitConfig
+metadata:
+  name: fluent-bit-config-external
+  labels:
+    app.externalrnetes.io/name: fluent-bit-external
+spec:
+  service:
+    parsersFile: parsers.conf
+    httpServer: true
+  inputSelector:
+    matchLabels:
+      lsst.fluentbit.io/external: "true"
+  filterSelector:
+    matchLabels:
+      lsst.fluentbit.io/external: "true"
+  outputSelector:
+    matchLabels:
+      lsst.fluentbit.io/external: "true"
+  parserSelector:
+    matchLabels:
+      lsst.fluentbit.io/external: "true"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: FluentBit
+metadata:
+  name: fluent-bit-external
+  namespace: fluent-bit-external
+  labels:
+    app.externalrnetes.io/name: fluent-bit-external
+spec:
+  image: ghcr.io/fluent/fluent-operator/fluent-bit:3.0.7
+  positionDB:
+    hostPath:
+      path: /var/lib/fluent-bit/
+  resources:
+    requests:
+      cpu: 10m
+      memory: 25Mi
+    limits:
+      cpu: 500m
+      memory: 200Mi
+  fluentBitConfigName: fluent-bit-config-external
+  tolerations:
+    - operator: Exists
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/edge
+                operator: DoesNotExist
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  name: parser-pfsense
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  regex:
+    regex: ^(?<rule_number>[\d\w]*),(?<sub_rule_number>[\d\w]*),(?<anchor>[\d\w]*),(?<tracker>[\d\w]*),(?<real_interface>[\d\w]*),(?<reason>[\d\w]*),(?<action>[\d\w]*),(?<direction>[\d\w]*),(?<ip_version>[\d]*),(?<tos>[\d\w]*),(?<ecn>[\d\w]*),(?<ttl>[\d\w]*),(?<id>[\d\w]*),(?<offset>[\d\w]*),(?<flags>[\d\w]*),(?<protocol_id>[\d\w]*),(?<protocol>[\d\w]*),(?<src_port>[\d]*),(?<src_ip>[\d\.]*),(?<dst_ip>[\d\.]*),(?<dst_port>[\d]*)
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  name: parser-sudo
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  regex: ^(?<user>[\w]+)\s*:?\s*(?<notification>[\w\s]+)\s*;?\s*TTY=(?<tty>[\w\/]+)\s*;?\s*PWD=(?<working_directory>[\w\/]+)\s*;?\s*USER=(?<sudo_user>[\w]+)\s*;?\s*COMMAND=(?<command>.+)$
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Parser
+metadata:
+  name: parser-systemd-session
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  regex: '^(?<pam_module>[\w]*)\((?<command>[\w\-:]*)\)?\: session opened for user root\(uid=(?<uid>[\d*])\) by \(uid=(?<user_uid>[\d*])\)$'
+  types: uid:integer user_uid:integer
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: rsyslog-tcp
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  syslog:
+    tag: rsyslog.tcp.*
+    port: 5140
+    mode: tcp
+    parser: rsyslog-rfc3164
+    bufferChunkSize: &syslogSize 32000
+    bufferMaxSize: *syslogSize
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: firewall-syslog-tcp
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  syslog:
+    tag: firewall.tcp.*
+    port: 5141
+    mode: tcp
+    parser: rsyslog-rfc3164
+    bufferChunkSize: &syslogSize 32000
+    bufferMaxSize: *syslogSize
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: firewall-syslog-udp
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  syslog:
+    tag: firewall.udp.*
+    port: 5141
+    mode: udp
+    parser: rsyslog-rfc3164
+    bufferChunkSize: &syslogSize 32000
+    bufferMaxSize: *syslogSize
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: network-syslog-tcp
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  syslog:
+    tag: network.tcp.*
+    port: 5142
+    mode: tcp
+    parser: rsyslog-rfc3164
+    bufferChunkSize: &syslogSize 32000
+    bufferMaxSize: *syslogSize
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: ClusterInput
+metadata:
+  name: network-syslog-udp
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  syslog:
+    tag: network.udp.*
+    port: 5142
+    mode: udp
+    parser: rsyslog-rfc3164
+    bufferChunkSize: &syslogSize 32000
+    bufferMaxSize: *syslogSize
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  name: firewall
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  match: firewall.*
+  filters:
+    - parser:
+        parser: parser-firewall
+        preserveKey: true
+        reserveData: true
+        keyName: message
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  name: rsyslog-sudo-rewrite
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  match: rsyslog.*
+  filters:
+    - rewriteTag:
+        emitterName: sudoLog
+        rules:
+          - $ident "sudo" sudo.$host.$ident true
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Filter
+metadata:
+  name: sudo-log-alerts
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  match: sudo.*
+  filters:
+    - parser:
+        parser: parser-sudo
+        keyName: message
+        preserveKey: true
+        reserveData: true
+    - grep:
+        regex: user .*
+    - grep:
+        regex: command .*
+    - modify:
+        rules:
+          - add alertname sudoLog
+          - add receivers ",slack,"
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Output
+metadata:
+  name: logging-kube
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  matchRegex: (?:rsyslog)\.(.*)
+  opensearch:
+    host: logging.logging
+    port: 9200
+    httpUser:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: username
+    httpPassword:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: password
+    index: logs-rsyslog
+    writeOperation: create
+    replaceDots: true
+    traceError: true
+    suppressTypeName: true
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Output
+metadata:
+  name: logging-firewall
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  matchRegex: (?:firewall)\.(.*)
+  opensearch:
+    host: logging.logging
+    port: 9200
+    httpUser:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: username
+    httpPassword:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: password
+    index: logs-firewall
+    writeOperation: create
+    replaceDots: true
+    traceError: true
+    suppressTypeName: true
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Output
+metadata:
+  name: logging-network
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  matchRegex: (?:network)\.(.*)
+  opensearch:
+    host: logging.logging
+    port: 9200
+    httpUser:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: username
+    httpPassword:
+      valueFrom:
+        secretKeyRef:
+          name: fluentbit-external-credentials
+          key: password
+    index: logs-network
+    writeOperation: create
+    replaceDots: true
+    traceError: true
+    suppressTypeName: true
+---
+apiVersion: fluentbit.fluent.io/v1alpha2
+kind: Output
+metadata:
+  name: http-alertbit
+  labels:
+    lsst.fluentbit.io/external: "true"
+spec:
+  matchRegex: (?:sudo)\.(.*)
+  http:
+    host: alertbit.alertbit
+    port: 8090
+    uri: /api/alert
+    format: json
+    jsonDateKey: date
+    jsonDateFormat: epoch
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: fluentbit-external-credentials
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: username
+      remoteRef:
+        key: logging-os-external
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: logging-os-external
+        property: password
+  target:
+    creationPolicy: Owner
