@@ -1,0 +1,486 @@
+# kind -- DaemonSet or Deployment
+kind: Deployment
+
+# replicaCount -- Only applicable if kind=Deployment
+replicaCount: 2
+
+image:
+  repository: cr.fluentbit.io/fluent/fluent-bit
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  # Set to "-" to not use the default value
+  tag:
+  digest:
+  pullPolicy: IfNotPresent
+
+serviceMonitor:
+  enabled: true
+  selector:
+    lsst.io/monitor: "true"
+  #   namespace: monitoring
+  #   interval: 10s
+  #   scrapeTimeout: 10s
+  #  ## metric relabel configs to apply to samples before ingestion.
+  #  ##
+  #  metricRelabelings:
+  #    - sourceLabels: [__meta_kubernetes_service_label_cluster]
+  #      targetLabel: cluster
+  #      regex: (.*)
+  #      replacement: ${1}
+  #      action: replace
+  #  ## relabel configs to apply to samples after ingestion.
+  #  ##
+  #  relabelings:
+  #    - sourceLabels: [__meta_kubernetes_pod_node_name]
+  #      separator: ;
+  #      regex: ^(.*)$
+  #      targetLabel: nodename
+  #      replacement: $1
+  #      action: replace
+  #  scheme: ""
+  #  tlsConfig: {}
+
+prometheusRule:
+  enabled: true
+  namespace: ""
+  additionalLabels:
+    lsst.io/rule: "true"
+  rules:
+  - alert: NoOutputBytesProcessed
+    expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
+    annotations:
+      message: |
+        Fluent Bit instance {{ $labels.instance }}'s output plugin {{ $labels.name }} has not processed any
+        bytes for at least 15 minutes.
+      summary: No Output Bytes Processed
+    for: 15m
+    labels:
+      severity: critical
+
+dashboards:
+  enabled: true
+  labelKey: grafana_dashboard
+  labelValue: 1
+  annotations: {}
+  namespace: ""
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+## only available if kind is Deployment
+podDisruptionBudget:
+  enabled: false
+  annotations: {}
+  maxUnavailable: 30%
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+labels:
+  lsst.team.io/infra: "true"
+  lsst.io/role: logging
+  lsst.io/component: fluent-bit
+  lsst.io/env: external
+  lsst.io/project: o11y
+
+annotations: {}
+
+podAnnotations: {}
+
+podLabels:
+  lsst.team.io/infra: "true"
+  lsst.io/role: logging
+  lsst.io/component: fluent-bit
+  lsst.io/env: external
+  lsst.io/project: o11y
+
+## How long (in seconds) a pods needs to be stable before progressing the deployment
+##
+minReadySeconds:
+
+## How long (in seconds) a pod may take to exit (useful with lifecycle hooks to ensure lb deregistration is done)
+##
+terminationGracePeriodSeconds:
+
+priorityClassName: ""
+
+env:
+- name: OS_LOGGING_USERNAME
+  valueFrom:
+    secretKeyRef:
+      name: fluentbit-external-credentials
+      key: username
+- name: OS_LOGGING_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: fluentbit-external-credentials
+      key: password
+
+# The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
+# This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
+# https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function
+envWithTpl: []
+#  - name: FOO_2
+#    value: "{{ .Values.foo2 }}"
+#
+# foo2: bar2
+
+envFrom: []
+
+# This supports either a structured array or a templatable string
+extraContainers: []
+
+# Array mode
+# extraContainers:
+#   - name: do-something
+#     image: busybox
+#     command: ['do', 'something']
+
+# String mode
+# extraContainers: |-
+#   - name: do-something
+#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
+#     command: ['kubectl', 'version']
+
+flush: 1
+
+metricsPort: 2020
+
+extraPorts:
+- port: 5140
+  containerPort: 5140
+  protocol: TCP
+  name: rsyslog-tcp
+- port: 5140
+  containerPort: 5140
+  protocol: UDP
+  name: rsyslog-udp
+- port: 5141
+  containerPort: 5141
+  protocol: TCP
+  name: firewall-tcp
+- port: 5141
+  containerPort: 5141
+  protocol: UDP
+  name: firewall-udp
+- port: 5142
+  containerPort: 5142
+  protocol: TCP
+  name: network-tcp
+- port: 5142
+  containerPort: 5142
+  protocol: UDP
+  name: network-udp
+
+extraVolumes:
+- name: db
+  emptyDir:
+    sizeLimit: 128Mi
+- name: cert
+  secret:
+    defaultMode: 420
+    secretName: rsyslog-fluentbit-certificate
+
+extraVolumeMounts:
+- name: db
+  mountPath: /fluent-bit/db
+- name: cert
+  mountPath: /etc/secrets/certicate
+  readOnly: true
+
+updateStrategy: {}
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
+
+# Make use of a pre-defined configmap instead of the one templated here
+existingConfigMap: ""
+
+luaScripts: {}
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
+config:
+  service: |
+    [SERVICE]
+        Daemon Off
+        Flush {{ .Values.flush }}
+        Log_Level {{ .Values.logLevel }}
+        Parsers_File /fluent-bit/etc/parsers.conf
+        Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port {{ .Values.metricsPort }}
+        Health_Check On
+
+  ## https://docs.fluentbit.io/manual/pipeline/inputs
+  inputs: |
+    # host syslog
+    [Input]
+        Name   syslog
+        Tag    rsyslog.tcp.*
+        Listen 0.0.0.0
+        Port   5140
+        Mode   tcp
+        Parser syslog-rfc3164
+        tls          on
+        tls.verify   off
+        tls.crt_file /etc/secrets/certicate/tls.crt
+        tls.key_file /etc/secrets/certicate/tls.key
+    # firewall logs
+    [Input]
+        Name   syslog
+        Tag    firewall.tcp.*
+        Listen 0.0.0.0
+        Port   5141
+        Mode   tcp
+        Parser syslog-rfc3164
+        tls          on
+        tls.verify   off
+        tls.crt_file /etc/secrets/certicate/tls.crt
+        tls.key_file /etc/secrets/certicate/tls.key
+    [Input]
+        Name   syslog
+        Tag    firewall.udp.*
+        Listen 0.0.0.0
+        Port   5141
+        Mode   udp
+        Parser syslog-rfc3164
+    # network logs
+    [Input]
+        Name   syslog
+        Tag    network.tcp.*
+        Listen 0.0.0.0
+        Port   5142
+        Mode   tcp
+        Parser syslog-rfc3164
+        tls          on
+        tls.verify   off
+        tls.crt_file /etc/secrets/certicate/tls.crt
+        tls.key_file /etc/secrets/certicate/tls.key
+    [Input]
+        Name   syslog
+        Tag    network.udp.*
+        Listen 0.0.0.0
+        Port   5142
+        Mode   udp
+        Parser syslog-rfc3164
+
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: |
+    [FILTER]
+        Name rewrite_tag
+        Match rsyslog.*
+        Rule $ident "sudo" sudo.$host.$ident true
+    [FILTER]
+        Name         parser
+        Match        sudo.*
+        Parser       sudo_parser
+        Key_Name     message
+        Preserve_Key true
+        Reserve_Data true
+    [FILTER]
+        Name       grep
+        Match      sudo.*
+        Regex      user .*
+    [FILTER]
+        name       grep
+        match      sudo.*
+        regex      command .*
+    [FILTER]
+        name  modify
+        match sudo.*
+        add   alertname sudoLog
+        add   receivers  ",slack,"
+
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  outputs: |
+    [Output]
+        Name               opensearch
+        Buffer_Size        1M
+        Match_Regex        (?:rsyslog)\.(.*)
+        Host               logging.logging
+        Port               9200
+        HTTP_User          ${OS_LOGGING_USERNAME}
+        HTTP_Passwd        ${OS_LOGGING_PASSWORD}
+        Index              logs-hosts
+        Write_Operation    create
+        Replace_Dots       true
+        Trace_Error        true
+        Suppress_Type_Name true
+        tls                On
+        tls.verify         false
+    [Output]
+        Name               opensearch
+        Buffer_Size        1M
+        Match_Regex        (?:firewall)\.(.*)
+        Host               logging.logging
+        Port               9200
+        HTTP_User          ${OS_LOGGING_USERNAME}
+        HTTP_Passwd        ${OS_LOGGING_PASSWORD}
+        Index              logs-firewall
+        Write_Operation    create
+        Replace_Dots       true
+        Trace_Error        true
+        Suppress_Type_Name true
+        tls                On
+        tls.verify         false
+    [Output]
+        Name               opensearch
+        Buffer_Size        1M
+        Match_Regex        (?:netlog)\.(.*)
+        Host               logging.logging
+        Port               9200
+        HTTP_User          ${OS_LOGGING_USERNAME}
+        HTTP_Passwd        ${OS_LOGGING_PASSWORD}
+        Index              logs-network
+        Write_Operation    create
+        Replace_Dots       true
+        Trace_Error        true
+        Suppress_Type_Name true
+        tls                On
+        tls.verify         false
+    [OUTPUT]
+        Name http
+        Match sudo.*
+        Host alertbit.alertbit
+        Port 8090
+        URI /api/alert
+        Format json
+        Json_date_key date
+        Json_date_format epoch
+
+  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
+  ## This configuration is deprecated, please use `extraFiles` instead.
+  upstream: {}
+
+  ## https://docs.fluentbit.io/manual/pipeline/parsers
+  customParsers: |
+    [PARSER]
+      Name systemd_session_parser
+      Format regex
+      Regex ^(?<pam_module>[\w]*)\((?<command>[\w\-:]*)\)?\: session opened for user root\(uid=(?<uid>[\d*])\) by \(uid=(?<user_uid>[\d*])\)$
+      Types uid:integer user_uid:integer
+
+    [PARSER]
+      Name sudo_parser
+      Format regex
+      Regex ^(?<user>[\w]+)\s*:?\s*(?<notification>[\w\s]+)\s*;?\s*TTY=(?<tty>[\w\/]+)\s*;?\s*PWD=(?<working_directory>[\w\/]+)\s*;?\s*USER=(?<sudo_user>[\w]+)\s*;?\s*COMMAND=(?<command>.+)$
+
+    [Parser]
+      Name         pfsense_log
+      Format       regex
+      Regex ^(?<rule_number>[\d\w]*),(?<sub_rule_number>[\d\w]*),(?<anchor>[\d\w]*),(?<tracker>[\d\w]*),(?<real_interface>[\d\w]*),(?<reason>[\d\w]*),(?<action>[\d\w]*),(?<direction>[\d\w]*),(?<ip_version>[\d]*),(?<tos>[\d\w]*),(?<ecn>[\d\w]*),(?<ttl>[\d\w]*),(?<id>[\d\w]*),(?<offset>[\d\w]*),(?<flags>[\d\w]*),(?<protocol_id>[\d\w]*),(?<protocol>[\d\w]*),(?<src_port>[\d]*),(?<src_ip>[\d\.]*),(?<dst_ip>[\d\.]*),(?<dst_port>[\d]*)
+
+    [PARSER]
+        Name        syslog-rfc5424
+        Format      regex
+        Regex       ^\<(?<pri>[0-9]{1,5})\>1 (?<time>[^ ]+) (?<host>[^ ]+) (?<ident>[^ ]+) (?<pid>[-0-9]+) (?<msgid>[^ ]+) (?<extradata>(\[(.*?)\]|-)) (?<message>.+)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+        Time_Keep   On
+
+    [PARSER]
+        Name        syslog-rfc3164-local
+        Format      regex
+        Regex       ^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$
+        Time_Key    time
+        Time_Format %b %d %H:%M:%S
+        Time_Keep   On
+
+    [PARSER]
+        Name        syslog-rfc3164
+        Format      regex
+        Regex       /^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$/
+        Time_Key    time
+        Time_Format %b %d %H:%M:%S
+        Time_Keep   On
+
+  # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
+  # The key becomes the filename, the value becomes the file content.
+  extraFiles: {}
+#     upstream.conf: |
+#       [UPSTREAM]
+#           upstream1
+#
+#       [NODE]
+#           name       node-1
+#           host       127.0.0.1
+#           port       43000
+#     example.conf: |
+#       [OUTPUT]
+#           Name example
+#           Match foo.*
+#           Host bar
+
+# The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
+volumeMounts:
+- name: config
+  mountPath: /fluent-bit/etc/conf
+
+daemonSetVolumes:
+- name: varlog
+  hostPath:
+    path: /var/log
+- name: varlibdockercontainers
+  hostPath:
+    path: /var/lib/docker/containers
+- name: etcmachineid
+  hostPath:
+    path: /etc/machine-id
+    type: File
+
+daemonSetVolumeMounts:
+- name: varlog
+  mountPath: /var/log
+- name: varlibdockercontainers
+  mountPath: /var/lib/docker/containers
+  readOnly: true
+- name: etcmachineid
+  mountPath: /etc/machine-id
+  readOnly: true
+
+command:
+- /fluent-bit/bin/fluent-bit
+
+args:
+- --workdir=/fluent-bit/etc
+- --config=/fluent-bit/etc/conf/fluent-bit.conf
+
+# This supports either a structured array or a templatable string
+initContainers: []
+
+# Array mode
+# initContainers:
+#   - name: do-something
+#     image: bitnami/kubectl:1.22
+#     command: ['kubectl', 'version']
+
+# String mode
+# initContainers: |-
+#   - name: do-something
+#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
+#     command: ['kubectl', 'version']
+
+logLevel: info
+
+hotReload:
+  enabled: true
+  image:
+    repository: ghcr.io/jimmidyson/configmap-reload
+    tag: v0.11.1
+    digest:
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: 100m
+      memory: 60Mi
+    limits:
+      cpu: 100m
+      memory: 60Mi
