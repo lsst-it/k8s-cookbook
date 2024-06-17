@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.rook.io/release
-  version: v1.14.5
+  version: v1.14.6
   valuesFiles:
     - values.yaml
   timeoutSeconds: 3600
