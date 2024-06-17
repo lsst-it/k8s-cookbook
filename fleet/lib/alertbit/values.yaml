@@ -1,0 +1,20 @@
+---
+replicaCount: 2
+
+config:
+  alerting:
+    alertmanagers:
+      - static_configs:
+          - targets:
+              - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 512Mi
