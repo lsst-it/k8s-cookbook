@@ -210,6 +210,11 @@ alertmanager:
           group_by: [instance]
           matchers:
             - alertname =~ "Network.*"
+        - receiver: kafka-alerts
+          matchers:
+            - receivers =~ ".*,kafka-alerts,.*"
+          continue: true
+          group_by: [...]
     receivers:
       - name: "null"
       - name: watchdog
@@ -242,6 +247,9 @@ alertmanager:
       - name: squadcast-test
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/lsst-webhooks/squadcast-example
+      - name: kafka-alerts
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/lsst-webhooks/kafka
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"
