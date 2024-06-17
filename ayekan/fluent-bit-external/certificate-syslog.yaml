@@ -1,0 +1,12 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rsyslog-fluentbit-certificate
+spec:
+  secretName: rsyslog-fluentbit-certificate
+  dnsNames:
+    - rsyslog.fluent.ayekan.dev.lsst.org
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
