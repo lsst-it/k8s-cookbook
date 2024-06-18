@@ -8,9 +8,11 @@ cephClusterSpec:
     config:
       osdsPerDevice: "1"
     nodes:
+      - name: ruka01
+        devices:
+          - name: /dev/disk/by-id/scsi-361866da06192eb002e0449641741ac7c
       - name: ruka02
         devices:
-          # sda after post-kickstart reboot
           - name: /dev/disk/by-id/scsi-361866da06192eb002997f36cf70214a8
       - name: ruka03
         devices:
