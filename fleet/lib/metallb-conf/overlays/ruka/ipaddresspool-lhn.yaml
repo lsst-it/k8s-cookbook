@@ -18,7 +18,7 @@ spec:
   ipAddressPools:
     - lhn
   interfaces:
-    - br2505
+    - ens2f0.2505
   nodeSelectors:
     - matchLabels:
         kubernetes.io/hostname: ruka02
