@@ -16,6 +16,8 @@ metadata:
 spec:
   ipAddressPools:
     - default
+  interfaces:
+    - br2101
   nodeSelectors:
     - matchLabels:
         kubernetes.io/hostname: ruka02
