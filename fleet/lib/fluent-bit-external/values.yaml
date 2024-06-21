@@ -89,7 +89,7 @@ labels:
   lsst.io/component: fluent-bit
   lsst.io/env: external
   lsst.io/project: o11y
-  lsst.io/cluster: ${ .ClusterName }.${ ClusterLabels.site }
+  lsst.io/cluster: ${ .ClusterName }.${ .ClusterLabels.site }
 
 annotations: {}
 
@@ -101,7 +101,7 @@ podLabels:
   lsst.io/component: fluent-bit
   lsst.io/env: external
   lsst.io/project: o11y
-  lsst.io/cluster: ${ .ClusterName }.${ ClusterLabels.site }
+  lsst.io/cluster: ${ .ClusterName }.${ .ClusterLabels.site }
 
 ## How long (in seconds) a pods needs to be stable before progressing the deployment
 ##
