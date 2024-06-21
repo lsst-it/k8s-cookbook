@@ -9,7 +9,6 @@ metadata:
     lsst.io/project: o11y
   name: fluent-bit-external-loadbalancer
 spec:
-  loadBalancerIP: 139.229.144.46
   ports:
   - name: rsyslog-udp
     port: 5140
@@ -36,6 +35,8 @@ spec:
     protocol: TCP
     targetPort: 5142
   selector:
+    lsst.io/cluster: ${ .ClusterName }.${ ClusterLabels.site }
+    lsst.team.io/infra: "true"
     lsst.io/role: logging
     lsst.io/component: fluent-bit
     lsst.io/env: external

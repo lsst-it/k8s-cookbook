@@ -1,0 +1,16 @@
+---
+# XXX automate provisioning of buckets and rgw user
+defaultNamespace: &name fluent-bit-kube
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  chart: &chart fluent-bit
+  releaseName: *chart
+  repo: https://fluent.github.io/helm-charts
+  version: 0.46.11
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
