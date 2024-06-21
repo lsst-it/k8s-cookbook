@@ -7,7 +7,7 @@ namespaceLabels:
   lsst.io/discover: "true"
 helm:
   chart: &chart fluent-bit
-  releaseName: *chart
+  releaseName: *name
   repo: https://fluent.github.io/helm-charts
   version: 0.46.11
   timeoutSeconds: 600
