@@ -11,7 +11,7 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: external-secrets-conf
+        bundle: external-secrets
 targetCustomizations:
   - name: ayekan
     clusterName: ayekan
