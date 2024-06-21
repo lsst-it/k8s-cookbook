@@ -2,18 +2,17 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: rsyslog-fluent-bit-${ .ClusterName}-certificate
+  name: rsyslog-cert
   labels:
-    lsst.io/cluster: ${ .ClusterName }.${ ClusterLabels.site }
     lsst.team.io/infra: "true"
     lsst.io/role: logging
     lsst.io/component: fluent-bit
     lsst.io/env: external
     lsst.io/project: o11y
 spec:
-  secretName: rsyslog-fluent-bit-${ .ClusterName}-certificate
+  secretName: rsyslog-cert
   dnsNames:
-    - rsyslog.fluent.${ .ClusterName }.${ .ClusterLabels.site}.lsst.org
+    - rsyslog.fluent.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
