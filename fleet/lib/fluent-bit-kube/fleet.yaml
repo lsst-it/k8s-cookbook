@@ -1,5 +1,4 @@
 ---
-# XXX automate provisioning of buckets and rgw user
 defaultNamespace: &name fluent-bit-kube
 labels:
   bundle: *name
@@ -14,3 +13,7 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: fluent-bit-kube-pre
