@@ -16,7 +16,7 @@ dependsOn:
         bundle: opensearch-operator
   - selector:
       matchLabels:
-        bundle: cert-manager-conf
+        bundle: cert-manager-crds
   - selector:
       matchLabels:
         bundle: external-secrets
