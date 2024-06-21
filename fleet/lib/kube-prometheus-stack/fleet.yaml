@@ -66,6 +66,13 @@ targetCustomizations:
         - pvc/values.yaml
         - aggregator/values.yaml
         - overlays/ayekan/values.yaml
+  - name: antu
+    clusterName: antu
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - aggregator/values.yaml
+        - overlays/antu/values.yaml
   # the rancher clusters don't have ceph
   - name: rancher-cl
     clusterSelector:
