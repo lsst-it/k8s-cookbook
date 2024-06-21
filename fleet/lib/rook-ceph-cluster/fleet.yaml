@@ -23,10 +23,6 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: cert-manager-conf
-  # ingress-nginx isn't fleet deployed on pillan
-  #- selector:
-  #   matchLabels:
-  #      bundle: ingress-nginx
 diff:
   comparePatches:
     - apiVersion: ceph.rook.io/v1

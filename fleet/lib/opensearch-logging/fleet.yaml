@@ -20,9 +20,6 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: external-secrets-conf
-  - selector:
-      matchLabels:
-        bundle: ingress-nginx
 targetCustomizations:
   # first match is used
   - name: ayekan
