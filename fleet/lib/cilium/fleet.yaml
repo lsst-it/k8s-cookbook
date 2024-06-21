@@ -1,0 +1,30 @@
+---
+defaultNamespace: kube-system
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: &name cilium
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://helm.cilium.io/
+  version: 1.15.6
+  waitForJobs: true
+  values:
+    kubeProxyReplacement: strict
+    k8sServiceHost: ruka.dev.lsst.org
+    k8sServicePort: 6443
+    k8sClientRateLimit:
+      qps: 500
+      burst: 1000
+    l2announcements:
+      enabled: true
+    operator:
+      replicas: 2
+    cni:
+      exclusive: false  # required for multus?
+    externalIPs:
+      enabled: true
+    devices:
+      - ens+
+      - br+
