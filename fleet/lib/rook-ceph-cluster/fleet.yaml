@@ -20,9 +20,6 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
-  - selector:
-      matchLabels:
-        bundle: cert-manager-conf
 diff:
   comparePatches:
     - apiVersion: ceph.rook.io/v1
