@@ -20,6 +20,3 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
-  - selector:
-      matchLabels:
-        bundle: cert-manager-conf
