@@ -6,10 +6,6 @@ helm:
   releaseName: *name
   takeOwnership: true
   force: true
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: metallb-conf
 targetCustomizations:
   - name: ruka
     clusterName: ruka
