@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
+    lsst.io/cluster: ${ .ClusterName }.${ ClusterLabels.site }
+    lsst.team.io/infra: "true"
     lsst.io/role: logging
     lsst.io/component: fluent-bit
     lsst.io/env: external
