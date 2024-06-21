@@ -115,12 +115,12 @@ env:
 - name: OS_LOGGING_USERNAME
   valueFrom:
     secretKeyRef:
-      name: fluentbit-external-credentials
+      name: fluent-bit-external-credentials
       key: username
 - name: OS_LOGGING_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: fluentbit-external-credentials
+      name: fluent-bit-external-credentials
       key: password
 
 # The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
