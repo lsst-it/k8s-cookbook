@@ -382,30 +382,6 @@ config:
       Format       regex
       Regex ^(?<rule_number>[\d\w]*),(?<sub_rule_number>[\d\w]*),(?<anchor>[\d\w]*),(?<tracker>[\d\w]*),(?<real_interface>[\d\w]*),(?<reason>[\d\w]*),(?<action>[\d\w]*),(?<direction>[\d\w]*),(?<ip_version>[\d]*),(?<tos>[\d\w]*),(?<ecn>[\d\w]*),(?<ttl>[\d\w]*),(?<id>[\d\w]*),(?<offset>[\d\w]*),(?<flags>[\d\w]*),(?<protocol_id>[\d\w]*),(?<protocol>[\d\w]*),(?<src_port>[\d]*),(?<src_ip>[\d\.]*),(?<dst_ip>[\d\.]*),(?<dst_port>[\d]*)
 
-    [PARSER]
-        Name        syslog-rfc5424
-        Format      regex
-        Regex       ^\<(?<pri>[0-9]{1,5})\>1 (?<time>[^ ]+) (?<host>[^ ]+) (?<ident>[^ ]+) (?<pid>[-0-9]+) (?<msgid>[^ ]+) (?<extradata>(\[(.*?)\]|-)) (?<message>.+)$
-        Time_Key    time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
-        Time_Keep   On
-
-    [PARSER]
-        Name        syslog-rfc3164-local
-        Format      regex
-        Regex       ^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$
-        Time_Key    time
-        Time_Format %b %d %H:%M:%S
-        Time_Keep   On
-
-    [PARSER]
-        Name        syslog-rfc3164
-        Format      regex
-        Regex       /^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$/
-        Time_Key    time
-        Time_Format %b %d %H:%M:%S
-        Time_Keep   On
-
   # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
   extraFiles: {}
