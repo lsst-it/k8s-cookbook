@@ -10,7 +10,7 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: rook-ceph-conf
+        bundle: rook-ceph
 targetCustomizations:
   - name: kueyen
     clusterName: kueyen

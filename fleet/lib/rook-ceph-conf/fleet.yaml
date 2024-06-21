@@ -11,7 +11,7 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: rook-ceph-cluster
+        bundle: rook-ceph
 diff:
   comparePatches:
     - apiVersion: ceph.rook.io/v1
