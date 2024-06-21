@@ -1,0 +1,18 @@
+---
+defaultNamespace: &name cilium-demo
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+targetCustomizations:
+  - name: ruka
+    clusterName: ruka
+    helm:
+      values:
+        pools:
+          - name: default
+            ip: 139.229.134.181
+          - name: lhn
+            ip: 139.229.153.6
