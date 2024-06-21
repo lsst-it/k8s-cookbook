@@ -1,0 +1,6 @@
+---
+pools:
+  - name: foo
+    ip: 1.2.3.4
+  - name: bar
+    ip: 4.3.2.1

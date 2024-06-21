@@ -1,0 +1,20 @@
+# yamllint disable-file
+{{- range $p := .Values.pools }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    lbipam.cilium.io/ips: {{ $p.ip }}
+  name: nginx-{{ $p.name }}
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http-web-svc
+  selector:
+    app: nginxZZ
+  type: LoadBalancer
+  loadBalancerClass: io.cilium/l2-announcer
+{{- end }}
