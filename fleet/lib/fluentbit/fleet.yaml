@@ -16,4 +16,4 @@ dependsOn:
         bundle: cert-manager-conf
   - selector:
       matchLabels:
-        bundle: external-secrets-conf
+        bundle: external-secrets
