@@ -29,10 +29,6 @@ helm:
     rbac:
       create: true
   waitForJobs: true
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: metallb
 targetCustomizations:
   - name: default
     clusterSelector:
