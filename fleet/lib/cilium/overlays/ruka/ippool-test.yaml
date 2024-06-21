@@ -1,0 +1,44 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: test1
+spec:
+  blocks:
+  - start: 139.229.134.180
+    stop: 139.229.134.189
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: policy1
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: ruka02
+  interfaces:
+  - ^br2101$
+  externalIPs: true
+  loadBalancerIPs: true
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: test2
+spec:
+  blocks:
+  - start: 139.229.153.5
+    stop: 139.229.153.10
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: policy2
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: ruka02
+  interfaces:
+  - ^br2505$
+  externalIPs: true
+  loadBalancerIPs: true

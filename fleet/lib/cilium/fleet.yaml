@@ -4,6 +4,8 @@ namespaceLabels:
   lsst.io/discover: "true"
 labels:
   bundle: &name cilium
+kustomize:
+  dir: overlays/ruka
 helm:
   chart: *name
   releaseName: *name
