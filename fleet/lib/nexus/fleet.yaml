@@ -1,0 +1,74 @@
+---
+defaultNamespace: nexus
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: &name nexus
+helm:
+  chart: nexus3
+  releaseName: *name
+  repo: https://stevehipwell.github.io/helm-charts
+  version: 4.43.1
+  waitForJobs: true
+  values:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/backend-protocol: HTTP
+        nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+      hosts:
+        - nexus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      http:
+        paths:
+          - backend:
+              service:
+                name: *name
+                port:
+                  name:
+                  number: 8081
+            path: /
+            pathType: Prefix
+      tls:
+        - hosts:
+            - nexus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          secretName: nexus-dashboard-ingress-tls
+
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      storageClass: rook-ceph-block
+      size: 10Gi  # sized for testing only
+
+    resources:
+      limits:
+        cpu: "4"
+        memory: 16Gi
+      requests:
+        cpu: "4"
+        memory: 16Gi
+
+    metrics:
+      enabled: false
+      serviceMonitor:
+        enabled: false
+        additionalLabels:
+          lsst.io/monitor: "true"
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cert-manager-crds
+targetCustomizations:
+  - name: yepun
+    clusterName: yepun
+    helm:
+      values:
+        persistence:
+          size: 2Ti
+        ingress:
+          hosts:
+            - nexus.${ .ClusterLabels.site }.lsst.org
+          tls:
+            - hosts:
+                - nexus.${ .ClusterLabels.site }.lsst.org
