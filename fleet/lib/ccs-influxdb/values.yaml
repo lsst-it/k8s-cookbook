@@ -1,0 +1,49 @@
+---
+ingress:
+  enabled: true
+  tls: true
+  secretName: influxdb-tls
+  hostname: ccs-influxdb.${ .ClusterLabels.site }.lsst.org
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  path: /
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 8Gi
+
+influxdb:
+  authEnabled: true
+
+setDefaultUser:
+  enabled: true
+  user:
+    existingSecret: influxdb
+    privileges: WITH ALL PRIVILEGES
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 500m
+  limits:
+    memory: 1Gi
+    cpu: "1"
+
+https:
+  enabled: true
+  cert:
+    secretName: influxdb-tls
+
+env:
+  - name: INFLUXDB_HTTP_AUTH_ENABLED
+    value: true
+  - name: INFLUXDB_REPORTING_DISABLED
+    value: true
+
+initScripts:
+  enabled: true
+  scripts:
+    init.iql: |+
+      CREATE DATABASE grafana

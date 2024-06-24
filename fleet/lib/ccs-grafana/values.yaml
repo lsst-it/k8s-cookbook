@@ -1,0 +1,59 @@
+---
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  hosts:
+    - ccs-grafana.${ .ClusterLabels.site }.lsst.org
+  tls:
+    - secretName: grafana-tls
+      hosts:
+        - ccs-grafana.${ .ClusterLabels.site }.lsst.org
+
+rbac:
+  create: true
+  namespaced: true
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+persistence:
+  type: pvc
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+
+admin:
+  existingSecret: grafana-credentials
+  userKey: admin-user
+  passwordKey: admin-password
+
+envValueFrom:
+  INFLUXDB_USERNAME:
+    secretKeyRef:
+      name: influxdb
+      key: influxdb-user
+  INFLUXDB_PASSWORD:
+    secretKeyRef:
+      name: influxdb
+      key: influxdb-password
+
+datasources:
+  grafana.yaml:
+    apiVersion: 1
+    datasources:
+      - name: InfluxDB
+        type: influxdb
+        url: http://influxdb.ccs-monitor:8086
+        access: proxy
+        isDefault: true
+        database: grafana
+        user: ${`${INFLUXDB_USERNAME}`}
+        password: ${`${INFLUXDB_PASSWORD}`}
