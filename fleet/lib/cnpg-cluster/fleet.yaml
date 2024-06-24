@@ -13,7 +13,7 @@ dependsOn:
         bundle: cnpg-system
   - selector:
       matchLabels:
-        bundle: external-secrets-conf
+        bundle: external-secrets
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds

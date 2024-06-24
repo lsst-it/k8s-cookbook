@@ -6,10 +6,6 @@ helm:
   releaseName: *name
   takeOwnership: true
   waitForJobs: true
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: multus-conf
 targetCustomizations:
   - name: kueyen
     clusterName: kueyen

@@ -16,13 +16,10 @@ dependsOn:
         bundle: opensearch-operator
   - selector:
       matchLabels:
-        bundle: cert-manager-conf
+        bundle: cert-manager-crds
   - selector:
       matchLabels:
-        bundle: external-secrets-conf
-  - selector:
-      matchLabels:
-        bundle: ingress-nginx
+        bundle: external-secrets
 targetCustomizations:
   # first match is used
   - name: ayekan
