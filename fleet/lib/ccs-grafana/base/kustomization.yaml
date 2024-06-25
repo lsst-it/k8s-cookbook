@@ -1,3 +1,7 @@
 ---
 resources:
   - externalsecret-grafana.yaml
+  - dashboard-ccs-database.yaml
+  - dashboard-ccs-tasks.yaml
+  - dashboard-ccs-traffic.yaml
+  - dashboard-kafka-proxy.yaml

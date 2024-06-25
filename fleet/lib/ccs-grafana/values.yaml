@@ -60,3 +60,30 @@ datasources:
           httpMode: GET
         secureJsonData:
           password: ${`${INFLUXDB_PASSWORD}`}
+
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      label: "ccs_dashboard"
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+  
+  dashboardsConfigMaps:
+    default:
+      - "grafana-dashboard-ccs-database"
+      - "grafana-dashboard-ccs-tasks"
+      - "grafana-dashboard-ccs-traffic"
+      - "grafana-dashboard-kafka-proxy"
+
