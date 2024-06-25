@@ -60,3 +60,9 @@ datasources:
           httpMode: GET
         secureJsonData:
           password: ${`${INFLUXDB_PASSWORD}`}
+
+sidecar:
+  dashboards:
+    enabled: true
+    namespace: ~
+    label: grafana_dashboard
