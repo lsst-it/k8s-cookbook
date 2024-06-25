@@ -8,4 +8,4 @@ prometheus:
           storageClassName: rook-ceph-block
           resources:
             requests:
-              storage: 50Gi
+              storage: 100Gi
