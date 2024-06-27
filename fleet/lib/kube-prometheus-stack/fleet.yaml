@@ -73,8 +73,7 @@ targetCustomizations:
         - pvc/values.yaml
         - aggregator/values.yaml
         - overlays/antu/values.yaml
-  # the rancher clusters don't have ceph
-  - name: rancher-cl
+  - name: cl-nopvc
     clusterSelector:
       matchExpressions:
         - key: site
@@ -83,9 +82,10 @@ targetCustomizations:
             - cp
             - dev
             - ls
-        - key: management.cattle.io/cluster-name
+        - key: management.cattle.io/cluster-display-name
           operator: In
           values:
+            - konkong
             - local
     helm:
       values:
@@ -95,7 +95,7 @@ targetCustomizations:
               - url: https://mimir.ayekan.dev.lsst.org/api/v1/push
               - url: https://mimir.ruka.dev.lsst.org/api/v1/push
               - url: https://mimir.antu.ls.lsst.org/api/v1/push
-  - name: default-cl
+  - name: cl-default
     clusterSelector:
       matchExpressions:
         - key: site
@@ -111,15 +111,14 @@ targetCustomizations:
         prometheus:
           prometheusSpec:
             remoteWrite: *cl-remotewrite
-  # the rancher clusters don't have ceph
-  - name: rancher-tu
+  - name: tu-nopvc
     clusterSelector:
       matchExpressions:
         - key: site
           operator: In
           values:
             - tu
-        - key: management.cattle.io/cluster-name
+        - key: management.cattle.io/cluster-display-name
           operator: In
           values:
             - local
@@ -129,7 +128,7 @@ targetCustomizations:
           prometheusSpec:
             remoteWrite: &tu-remotewrite
               - url: https://mimir.pillan.tu.lsst.org/api/v1/push
-  - name: default-tu
+  - name: tu-default
     clusterSelector:
       matchExpressions:
         - key: site
