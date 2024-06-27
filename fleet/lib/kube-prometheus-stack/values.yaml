@@ -139,10 +139,10 @@ kube-state-metrics:
   resources:
     limits:
       cpu: 100m
-      memory: 256Mi
+      memory: 384Mi
     requests:
       cpu: 10m
-      memory: 256Mi
+      memory: 384Mi
   prometheus:
     monitor:
       additionalLabels:
