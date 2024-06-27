@@ -171,3 +171,15 @@ targetCustomizations:
       values:
         pvc:
           enabled: true
+  - name: lukay
+    clusterName: lukay
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: backup
+              path: /backup
+              server: 139.229.160.212
