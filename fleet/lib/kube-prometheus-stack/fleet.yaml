@@ -110,8 +110,7 @@ targetCustomizations:
       values:
         prometheus:
           prometheusSpec:
-            remoteWrite:
-              << *cl-remotewrite
+            remoteWrite: *cl-remotewrite
   # the rancher clusters don't have ceph
   - name: rancher-tu
     clusterSelector:
@@ -143,5 +142,4 @@ targetCustomizations:
       values:
         prometheus:
           prometheusSpec:
-            remoteWrite:
-              << *tu-remotewrite
+            remoteWrite: *tu-remotewrite
