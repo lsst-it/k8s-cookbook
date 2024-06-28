@@ -62,10 +62,46 @@ modules:
       - 1.3.6.1.4.1.13742.4.1.2.2.1.6   # outletVoltage
       - 1.3.6.1.4.1.13742.4.1.2.2.1.7   # outletActivePower
       - 1.3.6.1.4.1.13742.4.1.3.1.5     # unitCpuTemp
-      - 1.3.6.1.4.1.13742.6.5.5.3.1     # externalSensors
+      - 1.3.6.1.4.1.13742.6.5.2.3.1     # measurementsInletSensors
+      - 1.3.6.1.4.1.13742.6.5.3.3.1     # measurementsOvercurrent
+      - 1.3.6.1.4.1.13742.6.5.4.3.1     # measurementsOutletSensors
+      - 1.3.6.1.4.1.13742.6.5.5.3.1     # measurementsExternalSensors
+      - 1.3.6.1.4.1.13742.6.3.2.2.1.4   # outletCount
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.7   # inletSensorDecimalDigits
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.9   # inletSensorResolution
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.21  # inletSensorLowerCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.22  # inletSensorLowerWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.23  # inletSensorUpperCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.24  # inletSensorUpperWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.28  # inletSensorSingedLowerCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.29  # inletSensorSingedLowerWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.30  # inletSensorSingedUpperCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.3.4.1.31  # inletSensorSingedUpperWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.7   # outletSensorDecimalDigits
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.9   # outletSensorResolution
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.21  # outletSensorLowerCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.22  # outletSensorLowerWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.23  # outletSensorUpperCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.24  # outletSensorUpperWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.28  # outletSensorSingedLowerCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.29  # outletSensorSingedLowerWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.30  # outletSensorSingedUpperCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.5.4.1.31  # outletSensorSingedUpperWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.17  # externalSensorDecimalDigits
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.19  # externalSensorResolution
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.31  # externalSensorLowerCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.32  # externalSensorLowerWarningThreshold
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.33  # externalSensorUpperCriticalThreshold
+      - 1.3.6.1.4.1.13742.6.3.6.3.1.34  # externalSensorUpperWarningThreshold
     lookups:
-      - source_indexes: [outletIndex]
+      - source_indexes: [inletId]
+        lookup: inletLabel
+      - source_indexes: [inletId]
+        lookup: inletName
+      - source_indexes: [outletId]
         lookup: outletLabel
+      - source_indexes: [outletId]
+        lookup: outletName
     overrides:
       outletOperationalState:
         type: EnumAsStateSet
