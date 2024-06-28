@@ -1345,8 +1345,6 @@ modules:
     - 1.3.6.1.4.1.13742.4.1.20.2.1.8
     - 1.3.6.1.4.1.13742.4.1.20.2.1.9
     - 1.3.6.1.4.1.13742.6.3.2.2.1.4
-    - 1.3.6.1.4.1.13742.6.3.3.3.1.2
-    - 1.3.6.1.4.1.13742.6.3.3.3.1.3
     - 1.3.6.1.4.1.13742.6.3.3.4.1.21
     - 1.3.6.1.4.1.13742.6.3.3.4.1.22
     - 1.3.6.1.4.1.13742.6.3.3.4.1.23
@@ -1357,8 +1355,6 @@ modules:
     - 1.3.6.1.4.1.13742.6.3.3.4.1.31
     - 1.3.6.1.4.1.13742.6.3.3.4.1.7
     - 1.3.6.1.4.1.13742.6.3.3.4.1.9
-    - 1.3.6.1.4.1.13742.6.3.5.3.1.2
-    - 1.3.6.1.4.1.13742.6.3.5.3.1.3
     - 1.3.6.1.4.1.13742.6.3.5.4.1.21
     - 1.3.6.1.4.1.13742.6.3.5.4.1.22
     - 1.3.6.1.4.1.13742.6.3.5.4.1.23
@@ -1475,7 +1471,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1539,17 +1535,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorLowerWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.22
       type: gauge
@@ -1560,7 +1545,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1624,17 +1609,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorUpperCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.23
       type: gauge
@@ -1645,7 +1619,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1709,17 +1683,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorUpperWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.24
       type: gauge
@@ -1730,7 +1693,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1794,17 +1757,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorSignedLowerCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.28
       type: gauge
@@ -1815,7 +1767,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1879,17 +1831,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorSignedLowerWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.29
       type: gauge
@@ -1900,7 +1841,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -1964,17 +1905,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorSignedUpperCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.30
       type: gauge
@@ -1985,7 +1915,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2049,17 +1979,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorSignedUpperWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.31
       type: gauge
@@ -2070,7 +1989,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2134,17 +2053,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorDecimalDigits
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.7
       type: gauge
@@ -2155,7 +2063,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2219,17 +2127,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: inletSensorResolution
       oid: 1.3.6.1.4.1.13742.6.3.3.4.1.9
       type: gauge
@@ -2242,7 +2139,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2306,17 +2203,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: outletSensorLowerCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.21
       type: gauge
@@ -2327,7 +2213,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2391,17 +2277,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorLowerWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.22
       type: gauge
@@ -2412,7 +2287,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2476,17 +2351,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorUpperCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.23
       type: gauge
@@ -2497,7 +2361,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2561,17 +2425,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorUpperWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.24
       type: gauge
@@ -2582,7 +2435,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2646,17 +2499,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorSignedLowerCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.28
       type: gauge
@@ -2667,7 +2509,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2731,17 +2573,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorSignedLowerWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.29
       type: gauge
@@ -2752,7 +2583,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2816,17 +2647,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorSignedUpperCriticalThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.30
       type: gauge
@@ -2837,7 +2657,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2901,17 +2721,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorSignedUpperWarningThreshold
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.31
       type: gauge
@@ -2922,7 +2731,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -2986,17 +2795,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorDecimalDigits
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.7
       type: gauge
@@ -3007,7 +2805,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3071,17 +2869,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: outletSensorResolution
       oid: 1.3.6.1.4.1.13742.6.3.5.4.1.9
       type: gauge
@@ -3094,7 +2881,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3158,17 +2945,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: externalSensorDecimalDigits
       oid: 1.3.6.1.4.1.13742.6.3.6.3.1.17
       type: gauge
@@ -3239,7 +3015,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3303,17 +3079,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
       enum_values:
         1: "true"
         2: "false"
@@ -3327,7 +3092,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3391,17 +3156,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
       enum_values:
         -1: unavailable
         0: open
@@ -3444,7 +3198,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3508,17 +3262,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.5
       type: gauge
@@ -3529,7 +3272,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3593,17 +3336,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorSignedValue
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.6
       type: gauge
@@ -3614,7 +3346,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3678,17 +3410,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorMinMaxValid
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.7
       type: gauge
@@ -3701,7 +3422,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3765,17 +3486,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
       enum_values:
         1: "true"
         2: "false"
@@ -3791,7 +3501,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3855,17 +3565,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorSignedMinValue
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.9
       type: gauge
@@ -3878,7 +3577,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -3942,17 +3641,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorMinTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.10
       type: gauge
@@ -3964,7 +3652,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4028,17 +3716,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorMaxValue
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.11
       type: gauge
@@ -4051,7 +3728,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4115,17 +3792,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorSignedMaxValue
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.12
       type: gauge
@@ -4138,7 +3804,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4202,17 +3868,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorMaxTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.13
       type: gauge
@@ -4224,7 +3879,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4288,17 +3943,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsInletSensorMinMaxResetTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.2.3.1.14
       type: gauge
@@ -4311,7 +3955,7 @@ modules:
       - labelname: inletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4375,17 +4019,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - inletId
-        labelname: inletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.2
-        type: DisplayString
-      - labels:
-        - inletId
-        labelname: inletName
-        oid: 1.3.6.1.4.1.13742.6.3.3.3.1.3
-        type: DisplayString
     - name: measurementsOverCurrentProtectorSensorIsAvailable
       oid: 1.3.6.1.4.1.13742.6.5.3.3.1.2
       type: gauge
@@ -4396,7 +4029,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4473,7 +4106,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4579,7 +4212,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4653,7 +4286,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4727,7 +4360,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4803,7 +4436,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4882,7 +4515,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -4958,7 +4591,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5033,7 +4666,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5109,7 +4742,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5185,7 +4818,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5260,7 +4893,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5336,7 +4969,7 @@ modules:
       - labelname: overCurrentProtectorIndex
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5410,7 +5043,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5474,17 +5107,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
       enum_values:
         1: "true"
         2: "false"
@@ -5498,7 +5120,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5562,17 +5184,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
       enum_values:
         -1: unavailable
         0: open
@@ -5615,7 +5226,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5679,17 +5290,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.5
       type: gauge
@@ -5700,7 +5300,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5764,17 +5364,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorSignedValue
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.6
       type: gauge
@@ -5785,7 +5374,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5849,17 +5438,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorMinMaxValid
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.7
       type: gauge
@@ -5872,7 +5450,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -5936,17 +5514,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
       enum_values:
         1: "true"
         2: "false"
@@ -5962,7 +5529,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6026,17 +5593,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorSignedMinValue
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.9
       type: gauge
@@ -6049,7 +5605,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6113,17 +5669,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorMinTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.10
       type: gauge
@@ -6135,7 +5680,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6199,17 +5744,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorMaxValue
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.11
       type: gauge
@@ -6222,7 +5756,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6286,17 +5820,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorSignedMaxValue
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.12
       type: gauge
@@ -6309,7 +5832,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6373,17 +5896,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorMaxTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.13
       type: gauge
@@ -6395,7 +5907,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6459,17 +5971,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsOutletSensorMinMaxResetTimeStamp
       oid: 1.3.6.1.4.1.13742.6.5.4.3.1.14
       type: gauge
@@ -6482,7 +5983,7 @@ modules:
       - labelname: outletId
         type: gauge
       - labelname: sensorType
-        type: gauge
+        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
@@ -6546,17 +6047,6 @@ modules:
           60: unbalancedVoltage
           61: unbalancedLineLineCurrent
           62: unbalancedLineLineVoltage
-      lookups:
-      - labels:
-        - outletId
-        labelname: outletLabel
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.2
-        type: DisplayString
-      - labels:
-        - outletId
-        labelname: outletName
-        oid: 1.3.6.1.4.1.13742.6.3.5.3.1.3
-        type: DisplayString
     - name: measurementsExternalSensorIsAvailable
       oid: 1.3.6.1.4.1.13742.6.5.5.3.1.2
       type: gauge
