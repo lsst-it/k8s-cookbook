@@ -18,14 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": 92,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "description": "Data rates over the network device noted in bps and SI notations. TOTAL = IN + OUT \n\nHandy to check whether or not a switch is at capacity.",
       "fieldConfig": {
@@ -47,7 +46,8 @@
               }
             ]
           },
-          "unit": "bps"
+          "unit": "bps",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -59,6 +59,8 @@
       },
       "id": 2,
       "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -68,14 +70,15 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "10.3.3",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "(sum(rate(ifHCInOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval]))+sum(rate(ifHCOutOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])))*8",
@@ -88,7 +91,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(rate(ifHCInOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval]))*8",
@@ -100,7 +103,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(rate(ifHCOutOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval]))*8",
@@ -117,7 +120,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "description": "Data rates over the network device noted in bps and SI notations. \n\nHandy to check whether or not a switch is at capacity.",
       "fieldConfig": {
@@ -126,6 +129,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -170,7 +174,8 @@
               }
             ]
           },
-          "unit": "bps"
+          "unit": "bps",
+          "unitScale": true
         },
         "overrides": [
           {
@@ -188,10 +193,10 @@
         ]
       },
       "gridPos": {
-        "h": 5,
-        "w": 18,
-        "x": 6,
-        "y": 0
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 5
       },
       "id": 5,
       "options": {
@@ -211,7 +216,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(rate(ifHCInOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval]))*8",
@@ -223,7 +228,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(rate(ifHCOutOctets{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval]))*8",
@@ -238,527 +243,9 @@
       "type": "timeseries"
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 9,
-      "panels": [],
-      "title": "Errors/discards/...",
-      "type": "row"
-    },
-    {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "description": "Data rates over the network device noted in bps and SI notations. \n\nHandy to check whether or not a switch is at capacity.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 10000000000
-              }
-            ]
-          },
-          "unit": "pps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.* out/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 6
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifInErrors{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "instant": false,
-          "legendFormat": "{{ifName}} in",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifOutErrors{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{ifName}} out",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Network error rate (pps) per interface",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 10000000000
-              }
-            ]
-          },
-          "unit": "pps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.* out/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 6
-      },
-      "id": 11,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifInDiscards{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "instant": false,
-          "legendFormat": "{{ifName}} in",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifOutDiscards{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{ifName}} out",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Network discard rate (pps) per interface",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 10000000000
-              }
-            ]
-          },
-          "unit": "pps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.* out/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 0,
-        "y": 12
-      },
-      "id": 12,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifInMulticastPkts{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "instant": false,
-          "legendFormat": "{{ifName}} in",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifOutMulticastPkts{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{ifName}} out",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Network multicast rate (pps) per interface",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 10000000000
-              }
-            ]
-          },
-          "unit": "pps"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "/.* out/"
-            },
-            "properties": [
-              {
-                "id": "custom.transform",
-                "value": "negative-Y"
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 6,
-        "w": 12,
-        "x": 12,
-        "y": 12
-      },
-      "id": 13,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.1.5",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifInBroadcastPkts{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "instant": false,
-          "legendFormat": "{{ifName}} in",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(rate(ifOutBroadcastPkts{instance=~\"$instance\",ifName=\"$interface\"}[$__rate_interval])) by (ifName)*8",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "{{ifName}} out",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Network broadcast rate (pps) per interface",
-      "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 18
-      },
-      "id": 8,
-      "panels": [],
-      "title": "Interface status",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "description": "The desired state of the interface. The testing(3) state indicates that no operational packets can be passed. When a managed system initializes, all interfaces start with ifAdminStatus in the down(2) state. As a result of either explicit management action or per configuration information retained by the managed system, ifAdminStatus is then changed to either the up(1) or testing(3) states (or remains in the down(2) state).",
       "fieldConfig": {
@@ -806,7 +293,8 @@
               }
             ]
           },
-          "unit": "bool_on_off"
+          "unit": "bool_on_off",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -814,10 +302,9 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 19
+        "y": 12
       },
       "id": 4,
-      "interval": "3m",
       "options": {
         "colWidth": 0.9,
         "legend": {
@@ -836,10 +323,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "prometheus"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "min_over_time(ifAdminStatus{instance=~\"$instance\",ifName=\"$interface\"}[$__interval])",
+          "expr": "min(ifAdminStatus{instance=~\"$instance\",ifName=\"$interface\"}) by (ifName)",
           "instant": false,
           "legendFormat": "{{ifName}}",
           "range": true,
@@ -920,7 +407,8 @@
               }
             ]
           },
-          "unit": "bool_on_off"
+          "unit": "bool_on_off",
+          "unitScale": true
         },
         "overrides": []
       },
@@ -928,10 +416,9 @@
         "h": 4,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 16
       },
       "id": 3,
-      "interval": "3m",
       "options": {
         "colWidth": 0.9,
         "legend": {
@@ -953,7 +440,7 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "min_over_time(ifOperStatus{instance=~\"$instance\",ifName=\"$interface\"}[$__interval])",
+          "expr": "min(ifOperStatus{instance=~\"$instance\",ifName=\"$interface\"}) by (ifName)",
           "instant": false,
           "legendFormat": "{{ifName}}",
           "range": true,
@@ -965,16 +452,15 @@
     }
   ],
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
-          "text": "rubinobs-br01",
-          "value": "rubinobs-br01"
+          "text": "dimm-as01",
+          "value": "dimm-as01"
         },
         "datasource": {
           "type": "prometheus",
@@ -1000,8 +486,8 @@
       {
         "current": {
           "selected": false,
-          "text": "Ethernet1/50",
-          "value": "Ethernet1/50"
+          "text": "Vl1110",
+          "value": "Vl1110"
         },
         "datasource": {
           "type": "prometheus",
@@ -1023,6 +509,23 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Mimir",
+          "value": "mimir"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
       }
     ]
   },
@@ -1034,6 +537,6 @@
   "timezone": "",
   "title": "Interface overview",
   "uid": "caa4c0fa-6df5-48e0-b7b2-f6cac1fd76ac",
-  "version": 5,
+  "version": 67,
   "weekStart": ""
 }

@@ -18,14 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 86,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "aedb3140-c977-4123-bf24-6e026595fc8a"
+        "uid": "${datasource}"
       },
       "description": "Shows an overview of the network status by checking the ICMP response status.\n\nClicking a device will link through to the device overview page.",
       "fieldConfig": {
@@ -46,7 +45,7 @@
             {
               "targetBlank": true,
               "title": "${__field.labels.instance} overview",
-              "url": "https://grafana.ayekan.ls.lsst.org/d/ee800dd4-a94e-482b-b096-17c083fbf620/device-overview?orgId=1&var-instance=${__field.labels.instance}﻿&from=${__from}&to=${__to}"
+              "url": "https://grafana.ayekan.ls.lsst.org/d/ee800dd4-a94e-482b-b096-17c083fbf620/device-overview?orgId=1&var-instance=${__field.labels.instance}"
             }
           ],
           "mappings": [
@@ -78,7 +77,8 @@
                 "value": 0.9
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -89,7 +89,6 @@
         "y": 0
       },
       "id": 1,
-      "interval": "4m",
       "links": [],
       "options": {
         "colWidth": 0.9,
@@ -99,7 +98,7 @@
           "showLegend": true
         },
         "rowHeight": 0.9,
-        "showValue": "never",
+        "showValue": "auto",
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -110,12 +109,12 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "aedb3140-c977-4123-bf24-6e026595fc8a"
+            "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "code",
+          "editorMode": "builder",
           "exemplar": false,
-          "expr": "min_over_time(probe_success{instance=~\"$instance\"}[$__interval])",
+          "expr": "min by(instance) (probe_success{instance=~\"$instance\"})",
           "format": "time_series",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
@@ -132,8 +131,7 @@
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -151,7 +149,7 @@
           "type": "prometheus",
           "uid": "prometheus"
         },
-        "definition": "label_values(probe_success{job=\"blackbox-csv-network\"},instance)",
+        "definition": "label_values(ifAdminStatus,instance)",
         "description": "Selection of devices to monitor (meant to filter down the unreadable \"general overview\" of all devices).",
         "hide": 0,
         "includeAll": true,
@@ -160,7 +158,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values(probe_success{job=\"blackbox-csv-network\"},instance)",
+          "query": "label_values(ifAdminStatus,instance)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -168,6 +166,23 @@
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Mimir",
+          "value": "mimir"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
       }
     ]
   },
@@ -179,6 +194,6 @@
   "timezone": "",
   "title": "Network overview",
   "uid": "fbe8c9c9-be05-4bce-9ede-5c36f5d3ea6e",
-  "version": 13,
+  "version": 63,
   "weekStart": ""
 }
