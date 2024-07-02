@@ -20,7 +20,13 @@ prometheus:
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
-            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
+            query: |
+              resources {
+                type = "Class" and title = "Profile::Core::Node_info" and
+                certname in resources[certname] {
+                  type = "Class" and title = "Prometheus::Node_exporter"
+                }
+              }
             refresh_interval: 30s
             follow_redirects: true
             include_parameters: true
@@ -36,6 +42,14 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
+          - source_labels: [__meta_puppetdb_environment]
+            target_label: environment
+          - source_labels: [__meta_puppetdb_parameter_site]
+            target_label: site
+          - source_labels: [__meta_puppetdb_parameter_role]
+            target_label: role
+          - source_labels: [__meta_puppetdb_parameter_cluster]
+            target_label: cluster
       - job_name: node-puppetdb
         puppetdb_sd_configs:
           - &node-puppetdb
