@@ -137,9 +137,7 @@ alertmanager:
   config:
     route:
       group_by:
-        - alertname
-        - namespace
-        - site
+        - '...'
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 24h
