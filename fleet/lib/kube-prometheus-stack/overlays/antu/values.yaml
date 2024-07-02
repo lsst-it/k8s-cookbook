@@ -135,8 +135,6 @@ grafana:
 
 alertmanager:
   config:
-    global:
-      resolve_timeout: 5m
     route:
       group_by:
         - alertname
@@ -162,19 +160,3 @@ alertmanager:
       - name: squadcast-alertmanager
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager
-    inhibit_rules:
-      - source_matchers:
-          - alertname = "InfoInhibitor"
-        target_matchers:
-          - severity = "info"
-        equal: [namespace]
-      - source_matchers:
-          - severity = "critical"
-        target_matchers:
-          - severity =~ "info|warning"
-        equal: [alertname]
-      - source_matchers:
-          - severity = "warning"
-        target_matchers:
-          - severity = "info"
-        equal: [alertname]
