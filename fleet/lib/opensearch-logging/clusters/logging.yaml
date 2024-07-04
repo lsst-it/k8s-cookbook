@@ -123,7 +123,7 @@ spec:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
-    jvm: -Xmx3G -Xms3G
+    jvm: -Xmx2G -Xms2G
     resources:
       requests:
         memory: "4Gi"
@@ -132,7 +132,6 @@ spec:
         memory: "4Gi"
     roles:
     - cluster_manager
-    - master
     persistence:
       pvc:
         storageClass: rook-ceph-block
@@ -141,7 +140,7 @@ spec:
   - component: coordinators
     replicas: 3
     diskSize: 2Gi
-    jvm: -Xmx3G -Xms3G
+    jvm: -Xmx2G -Xms2G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
@@ -153,13 +152,13 @@ spec:
       limits:
         memory: "4Gi"
     roles:
-    - coordinating
+    - coordinating_only
     persistence:
       emptyDir: {}
   - component: hot-nodes
     replicas: 3
     diskSize: 100Gi
-    jvm: -Xmx14G -Xms14G
+    jvm: -Xmx8G -Xms8G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
@@ -183,17 +182,17 @@ spec:
   - component: cold-nodes
     replicas: 3
     diskSize: 100Gi
-    jvm: -Xmx7G -Xms7G
+    jvm: -Xmx8G -Xms8G
     labels:
       lsst.io/author: "fbegyn"
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "8Gi"
+        memory: "16Gi"
         cpu: "4"
       limits:
-        memory: "8Gi"
+        memory: "16Gi"
     additionalConfig:
       node.attr.temp: "cold"
     roles:
