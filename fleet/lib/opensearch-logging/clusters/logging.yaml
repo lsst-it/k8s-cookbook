@@ -152,7 +152,7 @@ spec:
       limits:
         memory: "4Gi"
     roles:
-     - " "
+     - "-"
     persistence:
       emptyDir: {}
   - component: hot-nodes
