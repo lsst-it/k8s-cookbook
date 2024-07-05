@@ -140,17 +140,17 @@ spec:
   - component: coordinators
     replicas: 3
     diskSize: 2Gi
-    jvm: -Xmx2G -Xms2G
+    jvm: -Xmx4G -Xms4G
     labels:
       lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: 4Gi
+        memory: "8Gi"
         cpu: "4"
       limits:
-        memory: "4Gi"
+        memory: "8Gi"
     roles:
      - "-"
     persistence:
