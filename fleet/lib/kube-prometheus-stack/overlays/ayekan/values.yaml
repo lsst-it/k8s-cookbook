@@ -1,5 +1,6 @@
 ---
 prometheus:
+
   prometheusSpec:
     configMaps:
       - sd-snmp-network
@@ -276,3 +277,5 @@ alertmanager:
         equal: [alertname]
     templates:
       - /etc/alertmanager/configmaps/alertmanager-templates/*.tmpl
+grafana:
+   defaultDashboardsEnabled: false
