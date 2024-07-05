@@ -278,4 +278,4 @@ alertmanager:
     templates:
       - /etc/alertmanager/configmaps/alertmanager-templates/*.tmpl
 grafana:
-   defaultDashboardsEnabled: false
+  defaultDashboardsEnabled: false
