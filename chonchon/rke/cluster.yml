@@ -29,6 +29,24 @@ nodes:
   - etcd
   labels:
     role: storage-node
+- address: chonchon04.cp.lsst.org
+  hostname_override: chonchon04
+  user: rke
+  role:
+  - controlplane
+  - worker
+  - etcd
+  labels:
+    role: storage-node
+- address: chonchon05.cp.lsst.org
+  hostname_override: chonchon05
+  user: rke
+  role:
+  - controlplane
+  - worker
+  - etcd
+  labels:
+    role: storage-node
 services:
   kubelet:
     extra_args:
