@@ -17,3 +17,25 @@ cephClusterSpec:
       - name: chonchon03
         devices:
           - name: sdb
+      - name: chonchon04
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2406477BC526
+            config:
+              osdsPerDevice: "1"
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24054757B6E1
+            config:
+              osdsPerDevice: "1"
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E42B3
+            config:
+              osdsPerDevice: "1"
+      - name: chonchon05
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E431A
+            config:
+              osdsPerDevice: "1"
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2406477BC566
+            config:
+              osdsPerDevice: "1"
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6DED5
+            config:
+              osdsPerDevice: "1"
