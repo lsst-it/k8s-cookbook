@@ -1,0 +1,28 @@
+classes:
+  - name: localdrive
+    hostDir: /drives
+    blockCleanerCommand:
+      - /scripts/shred.sh
+      - "2"
+    volumeMode: Filesystem
+    fsType: xfs
+    namePattern: "*"
+    storageClass: true
+    isDefaultClass: false
+
+nodeSelector:
+  local-storage: "true"
+
+resources:
+  limits:
+    memory: 512Mi
+    cpu: 500m
+  requests:
+    memory: 256Mi
+    cpu: 100m
+
+serviceMonitor:
+  enabled: true
+  interval: 10s
+  additionalLabels:
+    lsst.io/monitor: "true"

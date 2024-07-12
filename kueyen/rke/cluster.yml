@@ -9,6 +9,7 @@ nodes:
   - etcd
   labels:
     role: storage-node
+    local-storage: "true"
 - address: kueyen02.dev.lsst.org
   hostname_override: kueyen02
   user: rke
@@ -32,6 +33,8 @@ services:
     extra_args:
       node-status-max-images: "-1"
       max-pods: 250
+    extra_binds:
+    - /drives/localdrive:/drives/localdrive
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa

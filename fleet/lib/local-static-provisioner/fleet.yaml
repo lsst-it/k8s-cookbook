@@ -1,0 +1,12 @@
+---
+defaultNamespace: &name local-static-provisioner
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://kubernetes-sigs.github.io/sig-storage-local-static-provisioner
+  timeoutSeconds: 120
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
