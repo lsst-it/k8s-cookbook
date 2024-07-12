@@ -68,6 +68,7 @@ nodes:
   - worker
   labels:
     role: storage-node
+    local-storage: "true"
 - address: manke09.ls.lsst.org
   hostname_override: manke09
   user: rke
@@ -75,6 +76,7 @@ nodes:
   - worker
   labels:
     role: storage-node
+    local-storage: "true"
 - address: manke10.ls.lsst.org
   hostname_override: manke10
   user: rke
@@ -82,10 +84,13 @@ nodes:
   - worker
   labels:
     role: storage-node
+    local-storage: "true"
 services:
   kubelet:
     extra_args:
       node-status-max-images: "-1"
+    extra_binds:
+    - /drives/localdrive:/drives/localdrive
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
