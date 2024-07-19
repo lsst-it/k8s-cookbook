@@ -152,7 +152,7 @@ spec:
       limits:
         memory: "8Gi"
     roles:
-     - "-"
+    - "ingest"
     persistence:
       emptyDir: {}
   - component: hot-nodes
