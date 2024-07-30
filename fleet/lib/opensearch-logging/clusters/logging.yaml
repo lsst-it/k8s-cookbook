@@ -98,6 +98,7 @@ spec:
     httpPort: 9200
     serviceName: logging
     setVMMaxMapCount: true
+    drainDataNodes: true
     version: *os_version
     monitoring:
       enable: true
