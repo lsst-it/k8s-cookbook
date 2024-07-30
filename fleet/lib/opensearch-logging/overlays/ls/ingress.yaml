@@ -15,7 +15,7 @@ spec:
       paths:
       - backend:
           service:
-            name: logging-hot-nodes
+            name: logging-coordinators
             port:
               number: 9200
         path: /
