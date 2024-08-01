@@ -1,0 +1,14 @@
+---
+defaultNamespace: &name alertmanager2kafka
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: https://o11ydev.github.io/helm-charts
+  releaseName: *name
+  version: v0.1.2
+  valuesFiles:
+    - values.yaml
+  waitForJobs: true
+  timeoutSeconds: 90
