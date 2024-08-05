@@ -136,6 +136,32 @@ data:
         - "ayekan"
       users:
         - "{{ .grafanaUsername }}"
+    square:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-admin"
+        - "monitor-sqre-user"
+    monitor-sqre-admin:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-admin"
+    monitor-sqre-user:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-user"
+    tssw:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-admin"
+        - "monitor-tssw-user"
+    monitor-tssw-admin:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-admin"
+    monitor-tssw-user:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-user"
   roles.yml: |-
     ---
     _meta:
@@ -218,6 +244,58 @@ data:
           - "*"
           allowed_actions:
             - "kibana_all_read"
+    monitor-sqre-admin:
+      reserved: true
+      tenant_permissions:
+       - tenant_patterns:
+        - "square"
+        - "Global"
+        allowed_actions:
+          - "kibana_all_write"
+    monitor-sqre-user:
+      reserved: true
+        tenant_permissions:
+        - tenant_patterns:
+          - "square"
+          - "Global"
+          allowed_actions:
+           - "kibana_all_read"
+    square:
+      reserved: true
+      cluster_permissions:
+        - "cluster_composite_ops_ro"
+      index_permissions:
+        - index_patterns:
+          - ".ds-logs-*"
+          allowed_actions:
+            - "search"
+          dls: "\"bool\": { \"should\": [ { \"match\": { \"kubernetes.namespace_name.keyword\": \"argocd\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"gafaelfawr\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"kafka-producers\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nightreport\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-bkalmbach\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-cwalter\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-cwaters\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-eurbach\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-gmegias\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-grodeghiero\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-jmeyers\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-lrosignoli\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-pfragelius\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-pzorzi\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-stubbs\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-tribeiro\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"portal\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rolex\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"sasquatch\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"schedview\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"squareone\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"strimzi\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"vault-secrets-operator\" }} ] }"
+    monitor-tssw-admin:
+      reserved: false
+      tenant_permissions:
+        - tenant_patterns:
+          - "tssw"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_write"
+    monitor-tssw-user:
+      reserved: false
+      tenant_permissions:
+        - tenant_patterns:
+          - "tssw"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_read"
+    tssw:
+      reserved: false
+      cluster_permissions:
+        - "cluster_composite_ops_ro"
+      index_permissions:
+        - index_patterns:
+          - ".ds-logs-*"
+          allowed_actions:
+            - "search"
+          dls: "\"bool\": { \"should\": [ { \"match\": { \"kubernetes.namespace_name.keyword\": \"auxtel\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"calsys\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"consdb\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"dds-test\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"eas\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"exposurelog\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"love\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"maintel\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"narrativelog\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"obssys\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"ospl-daemon\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rapid-analysis\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rubintv\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"uws\" }} ] }"
   tenants.yml: |
     ---
     _meta:
