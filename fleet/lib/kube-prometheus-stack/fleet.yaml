@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
-  version: 61.6.1
+  version: 61.7.1
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
