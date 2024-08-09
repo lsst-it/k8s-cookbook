@@ -247,14 +247,14 @@ data:
     monitor-sqre-admin:
       reserved: true
       tenant_permissions:
-       - tenant_patterns:
-        - "square"
-        - "Global"
-        allowed_actions:
-          - "kibana_all_write"
+        - tenant_patterns:
+          - "square"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_write"
     monitor-sqre-user:
       reserved: true
-        tenant_permissions:
+      tenant_permissions:
         - tenant_patterns:
           - "square"
           - "Global"
