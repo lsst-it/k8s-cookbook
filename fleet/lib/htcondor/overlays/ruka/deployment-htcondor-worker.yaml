@@ -28,7 +28,7 @@ spec:
         - name: pool-password
           mountPath: /etc/condor/pool_password
         - name: rsphome
-          mountPath: /rsphome
+          mountPath: /home
         - name: project
           mountPath: /project
         ports:
