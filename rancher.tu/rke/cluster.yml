@@ -25,6 +25,6 @@ network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
 ignore_docker_version: true
-kubernetes_version: v1.28.10-rancher1-1
+kubernetes_version: v1.28.12-rancher1-1
 ingress:
   provider: none
