@@ -9,7 +9,7 @@ helm:
   chart: &chart mimir-distributed
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 5.4.0
+  version: 5.4.1
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
