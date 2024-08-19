@@ -52,7 +52,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "MDS Performance",
+         "title": "Ceph MDS (MetaDataServer) Performance",
          "titleSize": "h6",
          "type": "row"
       },
