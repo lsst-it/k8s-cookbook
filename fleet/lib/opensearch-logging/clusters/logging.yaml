@@ -16,7 +16,7 @@ spec:
       generate: false
       secret:
         name: opensearch-dashboards-certs
-    basePath: "/dashboard"
+    basePath: /dashboard
     opensearchCredentialsSecret:
       name: opensearch-dashboard-server-credentials
     replicas: 2
@@ -35,16 +35,16 @@ spec:
     additionalConfig:
       logging.verbose: "true"
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
-      opensearch.ssl.verificationMode: "full"
+      opensearch.ssl.verificationMode: full
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: "https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard"
-      opensearch_security.openid.client_id: "${KEYCLOAK_CLIENT_ID}"
-      opensearch_security.openid.client_secret: "${KEYCLOAK_CLIENT_SECRET}"
-      opensearch_security.openid.connect_url: "${KEYCLOAK_URL}"
-      opensearch_security.openid.header: "Authorization"
-      opensearch_security.openid.scope: "openid profile email offline_access"
-      opensearch_security.ui.openid.login.buttonname: "Login with keycloak"
+      opensearch_security.openid.base_redirect_url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard
+      opensearch_security.openid.client_id: ${KEYCLOAK_CLIENT_ID}
+      opensearch_security.openid.client_secret: ${KEYCLOAK_CLIENT_SECRET}
+      opensearch_security.openid.connect_url: ${KEYCLOAK_URL}
+      opensearch_security.openid.header: Authorization
+      opensearch_security.openid.scope: openid profile email offline_access
+      opensearch_security.ui.openid.login.buttonname: Login with keycloak
       opensearch_security.multitenancy.enabled: "true"
       opensearch_security.multitenancy.tenants.enable_global: "true"
       opensearch_security.multitenancy.tenants.enable_private: "false"
@@ -80,8 +80,8 @@ spec:
         perNode: false
         secret:
           name: opensearch-certs
-        nodesDn: ["CN=Opensearch_Node"]
-        adminDn: ["CN=OpenSearch_Admin"]
+        nodesDn: [CN=Opensearch_Node]
+        adminDn: [CN=OpenSearch_Admin]
       http:
         generate: false
         secret:
@@ -102,7 +102,7 @@ spec:
     monitoring:
       enable: true
       scrapeInterval: 30s
-      pluginUrl: "https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.0.0/prometheus-exporter-2.11.0.0.zip"
+      pluginUrl: https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.0.0/prometheus-exporter-2.11.0.0.zip
       tlsConfig:
         insecureSkipVerify: true
     additionalConfig:
@@ -147,12 +147,12 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "8Gi"
+        memory: 8Gi
         cpu: "4"
       limits:
-        memory: "8Gi"
+        memory: 8Gi
     roles:
-    - "ingest"
+    - ingest
     persistence:
       emptyDir: {}
   - component: hot-nodes
@@ -189,10 +189,10 @@ spec:
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: "16Gi"
+        memory: 16Gi
         cpu: "4"
       limits:
-        memory: "16Gi"
+        memory: 16Gi
     additionalConfig:
       node.attr.temp: cold
     roles:

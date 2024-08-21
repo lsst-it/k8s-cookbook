@@ -23,7 +23,7 @@ diff:
       kind: Certificate
       namespace: logging
       operations:
-        - op: "remove"
-          path: "/spec/duration"
-        - op: "remove"
-          path: "/spec/renewBefore"
+        - op: remove
+          path: /spec/duration
+        - op: remove
+          path: /spec/renewBefore
