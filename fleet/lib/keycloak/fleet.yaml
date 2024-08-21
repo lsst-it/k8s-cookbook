@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.bitnami.com/bitnami
-  version: 22.1.1
+  version: 22.1.2
   waitForJobs: true
   valuesFiles:
     - values.yaml
