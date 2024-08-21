@@ -69,8 +69,8 @@ spec:
           key: url
   security:
     tls:
-      # TODO: figure out a certificate differentiation for the transport and
-      # admin interface.
+      # The certificates are managed by cert-manager externally by the resource
+      # defined in the opensearch-logging-pre bundle.
       # sources:
       # - https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/docs/userguide/main.md
       # - https://github.com/opensearch-project/opensearch-k8s-operator/issues/141
@@ -82,8 +82,6 @@ spec:
           name: opensearch-certs
         nodesDn: ["CN=Opensearch_Node"]
         adminDn: ["CN=OpenSearch_Admin"]
-      # We don't directly expose the HTTP API externally, so no need to handle
-      # TLS here for the HTTP API
       http:
         generate: false
         secret:
