@@ -189,8 +189,8 @@ gateway:
   replicas: 2
   nginx:
     config:
+      clientMaxBodySize: 10m
       serverSnippet: |
-        client_max_body_size    10m;
         client_body_buffer_size 10m;
   ingress:
     enabled: true
