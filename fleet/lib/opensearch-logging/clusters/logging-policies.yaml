@@ -7,15 +7,15 @@ spec:
   opensearchCluster:
     name: logging
   indexPatterns:
-    - "logs-network*"
-    - "logs-hosts*"
-    - "logs-kube*"
+    - logs-network*
+    - logs-hosts*
+    - logs-kube*
   priority: 50
   template:
     settings:
       number_of_shards: 1
       number_of_replicas: 1
-      refresh_interval: "15s"
+      refresh_interval: 15s
     aliases:
       logs: {}
   dataStream: {}
@@ -25,7 +25,7 @@ spec:
   #     name: "@timestamp"
   version: 1
   _meta:
-    flow: "simple"
+    flow: simple
 ---
 apiVersion: opensearch.opster.io/v1
 kind: OpenSearchISMPolicy
@@ -34,12 +34,12 @@ metadata:
 spec:
   opensearchCluster:
     name: logging
-  description: "Rollover policy for the logs (except firewall)."
+  description: Rollover policy for the logs (except firewall).
   ismTemplate:
     indexPatterns:
-      - "logs-hosts*"
-      - "logs-kube*"
-      - "logs-network*"
+      - logs-hosts*
+      - logs-kube*
+      - logs-network*
     priority: 100
   defaultState: new
   states:
@@ -48,11 +48,11 @@ spec:
         - replicaCount:
             numberOfReplicas: 2
         - rollover:
-            minSize: "25gb"
+            minSize: 25gb
       transitions:
         - stateName: downscale
           conditions:
-            minIndexAge: "2d"
+            minIndexAge: 2d
     - name: downscale
       actions:
         - replicaCount:
@@ -60,7 +60,7 @@ spec:
       transitions:
         - stateName: delete
           conditions:
-            minIndexAge: "5d"
+            minIndexAge: 5d
     - name: delete
       actions:
         - delete: {}
@@ -73,25 +73,25 @@ spec:
   opensearchCluster:
     name: logging
   indexPatterns:
-    - "logs-firewall*"
+    - logs-firewall*
   priority: 50
   template:
     settings:
       number_of_shards: 1
       number_of_replicas: 1
-      refresh_interval: "15s"
+      refresh_interval: 15s
     aliases:
       logs: {}
     mappings:
       properties:
         src_ip:
-          type: "ip"
+          type: ip
         src_port:
-          type: "integer"
+          type: integer
         dst_ip:
-          type: "ip"
+          type: ip
         dst_port:
-          type: "integer"
+          type: integer
   dataStream: {}
   # Seem like this is currently bugged in the operator
   # source: https://github.com/opensearch-project/opensearch-k8s-operator/issues/798
@@ -99,7 +99,7 @@ spec:
   #     name: "@timestamp"
   version: 1
   _meta:
-    flow: "simple"
+    flow: simple
 ---
 apiVersion: opensearch.opster.io/v1
 kind: OpenSearchISMPolicy
@@ -108,10 +108,10 @@ metadata:
 spec:
   opensearchCluster:
     name: logging
-  description: "Rollover policy for the firewall logs."
+  description: Rollover policy for the firewall logs.
   ismTemplate:
     indexPatterns:
-      - "logs-firewall*"
+      - logs-firewall*
     priority: 100
   defaultState: new
   states:
@@ -120,12 +120,12 @@ spec:
         - replicaCount:
             numberOfReplicas: 2
         - rollover:
-            minSize: "50gb"
-            minIndexAge: "1d"
+            minSize: 50gb
+            minIndexAge: 1d
       transitions:
         - stateName: downscale
           conditions:
-            minIndexAge: "2d"
+            minIndexAge: 2d
     - name: downscale
       actions:
         - replicaCount:
@@ -133,7 +133,7 @@ spec:
       transitions:
         - stateName: delete
           conditions:
-            minIndexAge: "3d"
+            minIndexAge: 3d
     - name: delete
       actions:
         - delete: {}
