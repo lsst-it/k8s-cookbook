@@ -131,6 +131,7 @@ nodes:
   - worker
   labels:
     role: storage-node
+    local-storage: "true"
 - address: yagan18.cp.lsst.org
   hostname_override: yagan18
   user: rke
