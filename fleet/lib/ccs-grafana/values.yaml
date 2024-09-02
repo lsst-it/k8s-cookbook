@@ -64,5 +64,4 @@ datasources:
 sidecar:
   dashboards:
     enabled: true
-    namespace: ~
     label: grafana_dashboard
