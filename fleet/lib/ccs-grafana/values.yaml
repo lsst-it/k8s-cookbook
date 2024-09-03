@@ -51,9 +51,17 @@ datasources:
     datasources:
       - name: InfluxDB
         type: influxdb
-        url: http://influxdb.ccs-monitor:8086
         access: proxy
+        url: http://influxdb.ccs-monitor:8086
         isDefault: true
         database: grafana
         user: ${`${INFLUXDB_USERNAME}`}
-        password: ${`${INFLUXDB_PASSWORD}`}
+        jsonData:
+          httpMode: GET
+        secureJsonData:
+          password: ${`${INFLUXDB_PASSWORD}`}
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
