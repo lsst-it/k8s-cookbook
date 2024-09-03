@@ -14,4 +14,4 @@ spec:
     - name: gaw
       clusterName: gaw
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true

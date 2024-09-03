@@ -14,4 +14,4 @@ spec:
     - name: pillan
       clusterName: pillan
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true

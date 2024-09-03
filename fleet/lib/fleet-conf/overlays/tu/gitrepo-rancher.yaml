@@ -13,3 +13,5 @@ spec:
   targets:
     - name: rancher
       clusterName: local
+  correctDrift:
+    enabled: true
