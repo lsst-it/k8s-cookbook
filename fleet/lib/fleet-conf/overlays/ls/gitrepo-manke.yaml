@@ -14,4 +14,4 @@ spec:
     - name: manke
       clusterName: manke
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true
