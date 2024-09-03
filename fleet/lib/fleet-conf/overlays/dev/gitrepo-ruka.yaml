@@ -14,4 +14,4 @@ spec:
     - name: ruka
       clusterName: ruka
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true

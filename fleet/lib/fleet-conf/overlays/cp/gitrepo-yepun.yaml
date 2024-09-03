@@ -14,4 +14,4 @@ spec:
     - name: yepun
       clusterName: yepun
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true
