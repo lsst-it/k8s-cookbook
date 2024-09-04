@@ -27,3 +27,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ayekan/values.yaml
+  - name: rke2
+    clusterName: ruka
+    helm:
+      valuesFiles:
+        - overlays/rke2/values.yaml
