@@ -48,3 +48,9 @@ targetCustomizations:
         pools:
           - one-pool
           - lhn
+  - name: elqui
+    clusterName: elqui
+    helm:
+      values:
+        pools:
+          - reserved

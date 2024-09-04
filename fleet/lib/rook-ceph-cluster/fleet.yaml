@@ -114,3 +114,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/antu/values.yaml
+  - name: elqui
+    clusterName: elqui
+    helm:
+      valuesFiles:
+        - overlays/elqui/values.yaml

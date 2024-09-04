@@ -124,3 +124,10 @@ targetCustomizations:
         subchart:
           antu:
             enabled: true
+  - name: elqui
+    clusterName: elqui
+    helm:
+      values:
+        subchart:
+          elqui:
+            enabled: true

@@ -34,3 +34,5 @@ dependencies:
     condition: subchart.yepun.enabled
   - name: antu
     condition: subchart.antu.enabled
+  - name: elqui
+    condition: subchart.elqui.enabled

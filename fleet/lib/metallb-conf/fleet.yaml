@@ -82,6 +82,11 @@ targetCustomizations:
     yaml:
       overlays:
         - antu
+  - name: elqui
+    clusterName: elqui
+    yaml:
+      overlays:
+        - elqui
   - name: rancher.dev
     clusterSelector:
       matchExpressions:
