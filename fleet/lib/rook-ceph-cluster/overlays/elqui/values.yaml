@@ -2,6 +2,10 @@
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    osd:
+      osd_scrub_auto_repair: "true"
+
   storage:
     useAllNodes: true
     useAllDevices: false
