@@ -8,6 +8,7 @@ cephClusterSpec:
     mgr:
       mgr/balancer/upmap_max_deviation: "1"
     osd:
+      osd_op_queue: wpq
       osd_scrub_auto_repair: "true"
 
   storage:
