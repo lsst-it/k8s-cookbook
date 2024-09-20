@@ -3,6 +3,8 @@ cephClusterSpec:
   mon:
     count: 5
   cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
     mgr:
       mgr/balancer/upmap_max_deviation: "1"
     osd:
