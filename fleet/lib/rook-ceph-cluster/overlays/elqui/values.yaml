@@ -29,6 +29,11 @@ cephBlockPools:
       quotas:
         maxSize: 2Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "128"
     storageClass:
       name: rook-ceph-block
       enabled: true
