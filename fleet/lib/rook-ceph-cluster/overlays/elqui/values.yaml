@@ -5,6 +5,7 @@ cephClusterSpec:
   cephConfig:
     global:
       osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
     mgr:
       mgr/balancer/upmap_max_deviation: "1"
     osd:
