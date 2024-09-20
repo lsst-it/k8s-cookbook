@@ -3,6 +3,8 @@ cephClusterSpec:
   mon:
     count: 5
   cephConfig:
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
     osd:
       osd_scrub_auto_repair: "true"
 
