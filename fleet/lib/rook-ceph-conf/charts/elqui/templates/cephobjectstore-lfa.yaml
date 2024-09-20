@@ -11,6 +11,11 @@ spec:
       size: 3
     quotas:
       maxSize: 10Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "1024"
   dataPool:
     failureDomain: host
     erasureCoded:
@@ -18,6 +23,12 @@ spec:
       codingChunks: 3
     quotas:
       maxSize: 1Pi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      bulk: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "2048"
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
