@@ -6,12 +6,15 @@ cephClusterSpec:
     global:
       osd_pool_default_pg_autoscale_mode: warn
       rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
     mgr:
       mgr/balancer/upmap_max_deviation: "1"
     osd:
       osd_max_pg_per_osd_hard_ratio: "10"
       osd_op_queue: wpq
       osd_scrub_auto_repair: "true"
+    client.rgw.lfa.a:
+      rgw_enable_usage_log: "false"
 
   storage:
     useAllNodes: true
