@@ -44,10 +44,10 @@ spec:
     resources:
       limits:
         cpu: "3"
-        memory: 8Gi
+        memory: 16Gi
       requests:
         cpu: "3"
-        memory: 8Gi
+        memory: 16Gi
 ---
 apiVersion: v1
 kind: Service
