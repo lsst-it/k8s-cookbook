@@ -29,7 +29,7 @@ spec:
       bulk: "true"
       pg_autoscale_mode: "off"
       pg_num: "2048"
-  preservePoolsOnDelete: false
+  preservePoolsOnDelete: true
   gateway:
     sslCertificateRef:
     port: 80
