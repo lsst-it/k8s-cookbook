@@ -2,6 +2,9 @@
 defaultNamespace: htcondor
 labels:
   bundle: &name htcondor
+helm:
+  timeoutSeconds: 60
+  waitForJobs: true
 dependsOn:
   - selector:
       matchLabels:

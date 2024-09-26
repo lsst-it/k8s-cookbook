@@ -7,5 +7,5 @@ namespaceLabels:
 helm:
   releaseName: *name
   takeOwnership: true
-  timeoutSeconds: 300
+  timeoutSeconds: 60
   waitForJobs: false

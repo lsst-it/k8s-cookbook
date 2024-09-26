@@ -11,6 +11,7 @@ helm:
   version: v1.15.2
   valuesFiles:
     - values.yaml
+  timeoutSeconds: 60
   waitForJobs: false
 dependsOn:
   - selector:

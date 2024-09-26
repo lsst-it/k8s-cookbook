@@ -6,4 +6,5 @@ namespaceLabels:
   lsst.io/discover: "true"
 helm:
   releaseName: *name
+  timeoutSeconds: 60
   waitForJobs: true
