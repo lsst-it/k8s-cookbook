@@ -5,6 +5,7 @@ labels:
 helm:
   releaseName: *name
   takeOwnership: true
+  timeoutSeconds: 60
   waitForJobs: true
 targetCustomizations:
   - name: kueyen

@@ -6,6 +6,7 @@ labels:
   bundle: &name external-secrets-conf
 helm:
   releaseName: *name
+  timeoutSeconds: 60
   waitForJobs: true
   values:
     site: ${ .ClusterLabels.site }

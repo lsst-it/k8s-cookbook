@@ -8,6 +8,7 @@ helm:
   repo: https://cloudnative-pg.github.io/charts
   version: 0.21.6
   takeOwnership: true
+  timeoutSeconds: 60
   waitForJobs: true
   values:
     resources:

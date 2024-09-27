@@ -6,6 +6,7 @@ labels:
   bundle: *name
 helm:
   releaseName: *name
+  timeoutSeconds: 60
   waitForJobs: true
 dependsOn:
   - selector:

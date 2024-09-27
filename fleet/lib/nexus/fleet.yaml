@@ -9,6 +9,7 @@ helm:
   releaseName: *name
   repo: https://stevehipwell.github.io/helm-charts
   version: 5.0.0
+  timeoutSeconds: 60
   waitForJobs: true
   values:
     ingress:

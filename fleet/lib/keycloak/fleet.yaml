@@ -9,6 +9,7 @@ helm:
   releaseName: *name
   repo: https://charts.bitnami.com/bitnami
   version: 22.1.2
+  timeoutSeconds: 60
   waitForJobs: true
   valuesFiles:
     - values.yaml

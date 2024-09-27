@@ -9,6 +9,7 @@ helm:
   releaseName: *name
   takeOwnership: true
   force: true
+  timeoutSeconds: 60
   waitForJobs: true
 dependsOn:
   - selector:

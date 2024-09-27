@@ -5,6 +5,8 @@ labels:
   bundle: &name fleet-conf
 helm:
   releaseName: *name
+  timeoutSeconds: 60
+  waitForJobs: true
 ignore:
   conditions:
     - type: Ready

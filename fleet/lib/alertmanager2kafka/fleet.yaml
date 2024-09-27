@@ -10,5 +10,5 @@ helm:
   version: v0.1.2
   valuesFiles:
     - values.yaml
-  waitForJobs: true
   timeoutSeconds: 90
+  waitForJobs: true
