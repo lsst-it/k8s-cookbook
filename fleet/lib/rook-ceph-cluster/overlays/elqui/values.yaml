@@ -15,6 +15,7 @@ cephClusterSpec:
       osd_scrub_auto_repair: "true"
     client.rgw.lfa.a:
       rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "false"  # disable object gc
 
   storage:
     useAllNodes: true
