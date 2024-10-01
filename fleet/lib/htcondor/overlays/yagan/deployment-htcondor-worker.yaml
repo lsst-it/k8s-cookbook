@@ -65,16 +65,16 @@ spec:
           server: nfs-auxtel.cp.lsst.org
       - name: lsstcomcam
         nfs:
-          path: /repo/LSSTComCam
-          server: comcam-archiver.cp.lsst.org
+          path: /comcam/repo/LSSTComCam
+          server: nfs3.cp.lsst.org
       - name: lsstdata-other
         nfs:
           path: /lsstdata
           server: nfs1.cp.lsst.org
       - name: lsstdata-comcam
         nfs:
-          path: /lsstdata
-          server: comcam-archiver.cp.lsst.org
+          path: /comcam/lsstdata
+          server: nfs3.cp.lsst.org
       - name: lsstdata-auxtel
         nfs:
           path: /auxtel/lsstdata
