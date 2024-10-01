@@ -6,3 +6,7 @@ ingress:
   extraAnnotations:
     "cert-manager.io/cluster-issuer": letsencrypt
     "kubernetes.io/ingress.class": nginx
+extraEnv:
+  # version strings from https://github.com/rancher/charts/tree/dev-v2.9/charts/fleet
+  - name: CATTLE_FLEET_MIN_VERSION
+    value: 104.0.2+up0.10.2
