@@ -1,0 +1,36 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: butler
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 2
+    maxSize: 2Pi
+---
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: rook-ceph-object-user-lfa-butler
+  namespace: rook-ceph
+spec:
+  secretStoreRefs:
+    - kind: ClusterSecretStore
+      name: onepassword-oods
+  selector:
+    secret:
+      name: rook-ceph-object-user-lfa-butler
+  data:
+    - match:
+        secretKey: AccessKey
+        remoteRef:
+          remoteKey: butler
+          property: AWS_ACCESS_KEY_ID
+    - match:
+        secretKey: SecretKey
+        remoteRef:
+          remoteKey: butler
+          property: AWS_SECRET_ACCESS_KEY
