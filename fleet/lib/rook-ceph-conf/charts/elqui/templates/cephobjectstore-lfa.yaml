@@ -148,7 +148,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "32"
+    pg_num: "128"
   replicated:
     size: 3
 ---
