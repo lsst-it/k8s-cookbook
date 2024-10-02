@@ -1,5 +1,27 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: lfa
+  namespace: rook-ceph
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  realm: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  zoneGroup: lfa
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: lfa
@@ -16,6 +38,28 @@ spec:
       requests:
         cpu: "16"
         memory: 8Gi
+  zone:
+    name: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: lfagc  # gc only
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
+    instances: 3
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "16"
+        memory: 8Gi
+  zone:
+    name: lfa
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
