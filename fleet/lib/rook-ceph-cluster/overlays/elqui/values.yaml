@@ -16,6 +16,9 @@ cephClusterSpec:
     client.rgw.lfa.a:
       rgw_enable_usage_log: "false"
       rgw_enable_lc_threads: "false"  # disable object gc
+    client.rgw.lfagc.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "true"  # enable object gc
 
   storage:
     useAllNodes: true
