@@ -1,0 +1,318 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-config-tmpl
+data:
+  config.yml: |-
+    ---
+    _meta:
+      type: "config"
+      config_version: 2
+    config:
+      dynamic:
+        kibana:
+          multitenancy_enabled: true
+          private_tenant_enabled: false
+          default_tenant: "lsst"
+          server_username: "{{ .dashboardUsername }}"
+          index: ".kibana"
+        authc:
+          basic_internal_auth_domain:
+            http_enabled: true
+            transport_enabled: true
+            order: 0
+            http_authenticator:
+              type: basic
+              challenge: false
+            authentication_backend:
+              type: internal
+          openid_auth_domain:
+            http_enabled: true
+            transport_enabled: true
+            order: 1
+            http_authenticator:
+              type: openid
+              challenge: false
+              config:
+                subject_key: preferred_username
+                roles_key: groups
+                openid_connect_url: "{{ .keycloakURL }}"
+            authentication_backend:
+              type: noop
+  internal_users.yml: |-
+    ---
+    _meta:
+      type: "internalusers"
+      config_version: 2
+    {{ .adminUsername }}:
+      hash: "{{ .adminPassword }}"
+      reserved: true
+      description: "Logging admin user"
+    {{ .dashboardUsername }}:
+      hash: "{{ .dashboardPassword }}"
+      reserved: true
+      description: "Logging OpenSearch Dashboards user"
+    {{ .externalUsername }}:
+      hash: "{{ .externalPassword }}"
+      reserved: true
+      description: "User for out-off-cluster logging inputs"
+    {{ .kubeUsername }}:
+      hash: "{{ .kubePassword }}"
+      reserved: true
+      description: "User for kubernetes logging inputs"
+    {{ .grafanaUsername }}:
+      hash: "{{ .grafanaPassword }}"
+      reserved: true
+      description: "User for grafana dashboards"
+  roles_mapping.yml: |-
+    ---
+    _meta:
+      type: "rolesmapping"
+      config_version: 2
+    all_access:
+      reserved: true
+      hidden: false
+      backend_roles:
+        - "admins"
+        - "ayekan"
+      users:
+        - "{{ .adminUsername }}"
+    admin:
+      reserved: true
+      hidden: false
+      backend_roles:
+        - "ayekan"
+        - "admins"
+        - "opensearch-admin"
+      users:
+        - "{{ .adminUsername }}"
+      description: "Maps the LSST admin roles to cluster admin"
+    kibana_user:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    kibanauser:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    kibana_server:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    kibanaserver:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    dashboardserver:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .dashboardUsername }}"
+    logstash:
+      reserved: true
+      hidden: false
+      users:
+        - "external-logging"
+        - "kube-logging"
+    logging_writer:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .kubeUsername }}"
+        - "{{ .externalUsername }}"
+    grafana_server:
+      reserved: true
+      hidden: false
+      users:
+        - "{{ .grafanaUsername }}"
+    readall_and_monitor:
+      reserved: true
+      backend_roles:
+        - "ayekan"
+      users:
+        - "{{ .grafanaUsername }}"
+    square:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-admin"
+        - "monitor-sqre-user"
+    monitor-sqre-admin:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-admin"
+    monitor-sqre-user:
+      reserved: true
+      backend_roles:
+        - "monitor-sqre-user"
+    tssw:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-admin"
+        - "monitor-tssw-user"
+    monitor-tssw-admin:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-admin"
+    monitor-tssw-user:
+      reserved: false
+      backend_roles:
+        - "monitor-tssw-user"
+  roles.yml: |-
+    ---
+    _meta:
+      type: "roles"
+      config_version: 2
+    admin:
+      reserved: true
+      cluster_permissions:
+      - "*"
+      index_permissions:
+      - index_patterns:
+        - "*"
+        allowed_actions:
+        - "*"
+      tenant_permissions:
+      - tenant_patterns:
+        - "*"
+        allowed_actions:
+        - "*"
+    logging_writer:
+      reserved: true
+      cluster_permissions:
+      - "cluster_composite_ops"
+      index_permissions:
+      - index_patterns:
+        - 'logs-*'
+        - "log-*"
+        - ".ds-logs-*"
+        allowed_actions:
+        - "crud"
+        - "create_index"
+        - "indices:data/write/bulk"
+    grafana_server:
+      reserved: true
+      cluster_permissions:
+        - "cluster_monitor"
+        - "cluster_composite_ops"
+        - "indices:admin/template*"
+        - "indices:data/read/scroll*"
+      index_permissions:
+        - index_patterns:
+          - ".kibana"
+          - ".opensearch_dashboards"
+          - ".kibana-*"
+          - ".opensearch_dashboards-*"
+          - ".kibana_*"
+          - ".opensearch_dashboards_*"
+          - ".tasks"
+          - ".management-beats*"
+          - "*"
+          allowed_actions:
+            - "indices_all"
+      tenant_permissions:
+        - tenant_patterns:
+          - "*"
+          allowed_actions:
+            - "kibana_all_read"
+    dashboardserver:
+      reserved: true
+      cluster_permissions:
+        - "cluster_monitor"
+        - "cluster_composite_ops"
+        - "indices:admin/template*"
+        - "indices:data/read/scroll*"
+      index_permissions:
+        - index_patterns:
+          - ".kibana"
+          - ".opensearch_dashboards"
+          - ".kibana-*"
+          - ".opensearch_dashboards-*"
+          - ".kibana_*"
+          - ".opensearch_dashboards_*"
+          - ".tasks"
+          - ".management-beats*"
+          - "*"
+          allowed_actions:
+            - "indices_all"
+      tenant_permissions:
+        - tenant_patterns:
+          - "*"
+          allowed_actions:
+            - "kibana_all_read"
+    monitor-sqre-admin:
+      reserved: true
+      tenant_permissions:
+        - tenant_patterns:
+          - "square"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_write"
+    monitor-sqre-user:
+      reserved: true
+      tenant_permissions:
+        - tenant_patterns:
+          - "square"
+          - "Global"
+          allowed_actions:
+           - "kibana_all_read"
+    square:
+      reserved: true
+      cluster_permissions:
+        - "cluster_composite_ops_ro"
+      index_permissions:
+        - index_patterns:
+          - ".ds-logs-*"
+          allowed_actions:
+            - "search"
+          dls: "\"bool\": { \"should\": [ { \"match\": { \"kubernetes.namespace_name.keyword\": \"argocd\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"gafaelfawr\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"kafka-producers\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nightreport\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-bkalmbach\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-cwalter\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-cwaters\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-eurbach\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-gmegias\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-grodeghiero\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-jmeyers\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-lrosignoli\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-pfragelius\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-pzorzi\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-stubbs\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"nublado-tribeiro\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"portal\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rolex\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"sasquatch\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"schedview\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"squareone\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"strimzi\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"vault-secrets-operator\" }} ] }"
+    monitor-tssw-admin:
+      reserved: false
+      tenant_permissions:
+        - tenant_patterns:
+          - "tssw"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_write"
+    monitor-tssw-user:
+      reserved: false
+      tenant_permissions:
+        - tenant_patterns:
+          - "tssw"
+          - "Global"
+          allowed_actions:
+            - "kibana_all_read"
+    tssw:
+      reserved: false
+      cluster_permissions:
+        - "cluster_composite_ops_ro"
+      index_permissions:
+        - index_patterns:
+          - ".ds-logs-*"
+          allowed_actions:
+            - "search"
+          dls: "\"bool\": { \"should\": [ { \"match\": { \"kubernetes.namespace_name.keyword\": \"auxtel\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"calsys\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"consdb\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"dds-test\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"eas\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"exposurelog\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"love\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"maintel\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"narrativelog\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"obssys\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"ospl-daemon\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rapid-analysis\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"rubintv\" }}, { \"match\": { \"kubernetes.namespace_name.keyword\": \"uws\" }} ] }"
+  tenants.yml: |
+    ---
+    _meta:
+      type: "tenants"
+      config_version: 2
+    lsst:
+      reserved: true
+      description: "Tenant for the LSST project"
+    infra:
+      reserved: true
+      description: "Tenant for the infra team"
+    devops:
+      reserved: true
+      description: "Tenant for the devops team"
+    square:
+      reserved: true
+      description: "Tenant for the square team"
+    tssw:
+      reserved: true
+      description: "Tenant for the tssw team"

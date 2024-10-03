@@ -11,11 +11,16 @@ spec:
   confMgmt: {}
   dashboards:
     enable: true
+    tls:
+      enable: true
+      generate: false
+      secret:
+        name: opensearch-dashboards-certs
     basePath: /dashboard
-    opensearchCredentialsSecret: {}
+    opensearchCredentialsSecret:
+      name: opensearch-dashboard-server-credentials
     replicas: 2
     labels:
-      lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
@@ -26,56 +31,83 @@ spec:
         memory: 1Gi
     service:
       type: ClusterIP
-    version: 2.11.1
+    version: &os_version 2.11.0
     additionalConfig:
       logging.verbose: "true"
-      opensearch.password: admin
       opensearch.requestHeadersWhitelist: '[authorization, securitytenant]'
-      opensearch.ssl.verificationMode: none
-      opensearch.username: admin
+      opensearch.ssl.verificationMode: full
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: https://opensearch.ayekan.dev.lsst.org/dashboard
+      opensearch_security.openid.base_redirect_url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard
       opensearch_security.openid.client_id: ${KEYCLOAK_CLIENT_ID}
       opensearch_security.openid.client_secret: ${KEYCLOAK_CLIENT_SECRET}
       opensearch_security.openid.connect_url: ${KEYCLOAK_URL}
       opensearch_security.openid.header: Authorization
       opensearch_security.openid.scope: openid profile email offline_access
-      opensearch_security.openid.trust_dynamic_headers: "true"
+      opensearch_security.ui.openid.login.buttonname: Login with keycloak
+      opensearch_security.multitenancy.enabled: "true"
+      opensearch_security.multitenancy.tenants.enable_global: "true"
+      opensearch_security.multitenancy.tenants.enable_private: "false"
+      opensearch_security.multitenancy.tenants.preferred: '["Global", "lsst"]'
+      opensearch_security.multitenancy.enable_filter: "false"
+      opensearchDashboards.autocompleteTimeout: 5000
     env:
     - name: KEYCLOAK_CLIENT_ID
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: CLIENT_ID
     - name: KEYCLOAK_CLIENT_SECRET
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: CLIENT_SECRET
     - name: KEYCLOAK_URL
       valueFrom:
         secretKeyRef:
-          name: os-dashboard-keycloak-credentials
+          name: opensearch-keycloak-credentials
           key: url
   security:
+    tls:
+      # The certificates are managed by cert-manager externally by the resource
+      # defined in the opensearch-logging-pre bundle.
+      # sources:
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/blob/main/docs/userguide/main.md
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/issues/141
+      # - https://github.com/opensearch-project/opensearch-k8s-operator/issues/338
+      transport:
+        generate: false
+        perNode: false
+        secret:
+          name: opensearch-certs
+        nodesDn: [CN=Opensearch_Node]
+        adminDn: [CN=OpenSearch_Admin]
+      http:
+        generate: false
+        secret:
+          name: opensearch-certs
     config:
       securityConfigSecret:
-        name: os-security-config
+        name: opensearch-security-config
+      adminSecret:
+        name: opensearch-admin-certs
       adminCredentialsSecret:
-        name: os-admin-credentials
+        name: opensearch-admin-credentials
   general:
     httpPort: 9200
     serviceName: logging
     setVMMaxMapCount: true
-    version: 2.11.1
+    drainDataNodes: true
+    version: *os_version
     monitoring:
       enable: true
       scrapeInterval: 30s
-      pluginUrl: https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.1.0/prometheus-exporter-2.11.1.0.zip
+      pluginUrl: https://github.com/aiven/prometheus-exporter-plugin-for-opensearch/releases/download/2.11.0.0/prometheus-exporter-2.11.0.0.zip
       tlsConfig:
         insecureSkipVerify: true
-    pluginsList: [repository-s3]
+    additionalConfig:
+      plugins.security.ssl.transport.enforce_hostname_verification: "false"
+      plugins.security.allow_unsafe_democertificates: "false"
   initHelper:
     resources:
       requests:
@@ -86,12 +118,12 @@ spec:
   nodePools:
   - component: cluster-manager
     replicas: 3
-    diskSize: 10Gi
+    diskSize: 5Gi
     labels:
       lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
-    jvm: -Xmx3G -Xms3G
+    jvm: -Xmx2G -Xms2G
     resources:
       requests:
         memory: 4Gi
@@ -101,29 +133,32 @@ spec:
     roles:
     - cluster_manager
     persistence:
-      emptyDir: {}
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce
   - component: coordinators
     replicas: 3
-    diskSize: 50Gi
-    jvm: -Xmx3G -Xms3G
+    diskSize: 2Gi
+    jvm: -Xmx4G -Xms4G
     labels:
       lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: 4Gi
+        memory: 8Gi
         cpu: "4"
       limits:
-        memory: 4Gi
+        memory: 8Gi
     roles:
-    - coordinating
+    - ingest
     persistence:
       emptyDir: {}
   - component: hot-nodes
     replicas: 3
-    diskSize: 400Gi
-    jvm: -Xmx14G -Xms14G
+    diskSize: 100Gi
+    jvm: -Xmx8G -Xms8G
     labels:
       lsst.io/author: fbegyn
       lsst.io/monitor: "true"
@@ -139,21 +174,31 @@ spec:
     roles:
     - data
     - ingest
+    persistence:
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce
   - component: cold-nodes
     replicas: 3
-    diskSize: 400Gi
-    jvm: -Xmx7G -Xms7G
+    diskSize: 100Gi
+    jvm: -Xmx8G -Xms8G
     labels:
       lsst.io/author: fbegyn
       lsst.io/monitor: "true"
       prometheus.io/scrape: "true"
     resources:
       requests:
-        memory: 8Gi
+        memory: 16Gi
         cpu: "4"
       limits:
-        memory: 8Gi
+        memory: 16Gi
     additionalConfig:
       node.attr.temp: cold
     roles:
     - data
+    persistence:
+      pvc:
+        storageClass: rook-ceph-block
+        accessModes:
+        - ReadWriteOnce

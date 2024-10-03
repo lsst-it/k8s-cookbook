@@ -1,0 +1,29 @@
+---
+defaultNamespace: logging
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: &name logging-pre
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  waitForJobs: true
+  atomic: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cert-manager-conf
+  - selector:
+      matchLabels:
+        bundle: external-secrets-conf
+diff:
+  comparePatches:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      namespace: logging
+      operations:
+        - op: remove
+          path: /spec/duration
+        - op: remove
+          path: /spec/renewBefore
