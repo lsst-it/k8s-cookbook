@@ -10,10 +10,12 @@ helm:
   waitForJobs: true
   values:
     site: ${ .ClusterLabels.site }
-    vaults:
-      ${ .ClusterName }.${ .ClusterLabels.site }: 1
-      k8s-${ .ClusterLabels.site }: 2
-      k8s-common: 3
+    clusterSecretStores:
+      onepassword:
+        vaults:
+          ${ .ClusterName }.${ .ClusterLabels.site }: 1
+          k8s-${ .ClusterLabels.site }: 2
+          k8s-common: 3
 dependsOn:
   - selector:
       matchLabels:
@@ -34,3 +36,28 @@ targetCustomizations:
           ${ .ClusterName }.${ .ClusterLabels.site }: ~
           # it probaly would have been easier to name the vaults local.<site>...
           rancher.${ .ClusterLabels.site }: 1
+  - name: oods-cluster
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chonchon
+            - elqui
+            - konkong
+            - pillan
+            - ruka
+    helm:
+      values:
+        clusterSecretStores:
+          onepassword-oods:
+            vaults:
+              oods.${ .ClusterLabels.site }: 1
+  - name: elqui  # will replace chonchon
+    clusterName: elqui
+    helm:
+      values:
+        clusterSecretStores:
+          onepassword-oods:
+            vaults:
+              oods.elqui: 1
