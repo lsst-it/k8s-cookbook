@@ -1,0 +1,59 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: ccs
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+    quotas:
+      maxSize: 100M
+  dataPool:
+    failureDomain: host
+    erasureCoded:
+      dataChunks: 2
+      codingChunks: 1
+    quotas:
+      maxSize: 1Gi
+  preservePoolsOnDelete: false
+  gateway:
+    sslCertificateRef:
+    port: 80
+    # securePort: 443
+    instances: 3
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 4Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-ingress-ccs
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  tls:
+    - hosts:
+        - s3.ccs.cp.lsst.org
+      secretName: rook-ceph-rgw-ingress-ccs-tls
+  rules:
+    - host: s3.ccs.cp.lsst.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-ccs
+                port:
+                  number: 80
