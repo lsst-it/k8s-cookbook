@@ -11,7 +11,7 @@ spec:
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: rook-ceph-object-user-oods-latiss
+  name: rook-ceph-object-user-lfa-oods-latiss
   namespace: rook-ceph
 spec:
   secretStoreRefs:
@@ -19,7 +19,7 @@ spec:
       name: onepassword-oods
   selector:
     secret:
-      name: rook-ceph-object-user-oods-latiss
+      name: rook-ceph-object-user-lfa-oods-latiss
   data:
     - match:
         secretKey: AccessKey
