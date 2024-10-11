@@ -45,7 +45,6 @@ targetCustomizations:
             - chonchon
             - elqui
             - konkong
-            - pillan
             - ruka
     helm:
       values:
@@ -61,3 +60,14 @@ targetCustomizations:
           onepassword-oods:
             vaults:
               oods.elqui: 1
+  - name: pillan
+    clusterName: pillan
+    helm:
+      values:
+        clusterSecretStores:
+          onepassword-oods:
+            vaults:
+              oods.tu: 1
+          onepassword-ccs:
+            vaults:
+              oods.ccs: 1
