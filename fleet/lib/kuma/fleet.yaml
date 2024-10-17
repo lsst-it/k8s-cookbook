@@ -1,0 +1,13 @@
+---
+defaultNamespace: kuma
+labels:
+  bundle: kuma
+helm:
+  chart: &chart uptime-kuma
+  releaseName: *chart
+  repo: https://dirsigler.github.io/uptime-kuma-helm
+  version: 2.20.0
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
