@@ -1,0 +1,21 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: rubinobs-butler-lsstcam
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: rubinobs-butler-lsstcam
+  namespace: rook-ceph
+spec:
+  bucketName: rubinobs-butler-lsstcam
+  storageClassName: rubinobs-butler-lsstcam
+  additionalConfig:
+    maxSize: 34Ti  # quota for BTS; XXX increase for cp
