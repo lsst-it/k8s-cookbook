@@ -1,0 +1,35 @@
+---
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_ssl_verify off;
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  hosts:
+    - host: kuma.dev.lsst.org
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: kuma-dashboard-ingress-tls
+      hosts:
+        - kuma.dev.lsst.org
+
+
+volume:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 4Gi
+  existingClaim: ""
+
+resources:
+  limits:
+    cpu: "2"
+    memory: 8Gi
+  requests:
+    cpu: "2"
+    memory: 8Gi
