@@ -31,7 +31,7 @@ spec:
 # Resources and Storage Needs to be Adjust!
 
   storage:
-    size: 10Gi
+    size: 30Gi
 
   monitoring:
     enablePodMonitor: true
