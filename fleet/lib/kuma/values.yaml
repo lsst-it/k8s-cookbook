@@ -1,0 +1,28 @@
+---
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  hosts:
+    - host: kuma.dev.lsst.org
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: kuma-dashboard-ingress-tls
+      hosts:
+        - kuma.dev.lsst.org
+
+volume:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 4Gi
+
+resources:
+  limits:
+    cpu: "2"
+    memory: 8Gi
+  requests:
+    cpu: "2"
+    memory: 8Gi
