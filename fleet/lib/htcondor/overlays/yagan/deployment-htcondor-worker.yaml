@@ -17,6 +17,17 @@ spec:
       labels:
         app: htcondor-worker
     spec:
+      initContainers:
+      - name: init-symlinks
+        image: busybox
+        command: [sh, -c, ln -s /readonly/lsstdata/comcam/base/comcam /data/lsstdata/base/comcam && ln -s /readonly/lsstdata/auxtel/base/auxtel /data/lsstdata/base/auxtel]
+        volumeMounts:
+        - name: lsstdata-comcam
+          mountPath: /readonly/lsstdata/comcam
+        - name: lsstdata-auxtel
+          mountPath: /readonly/lsstdata/auxtel
+        - name: lsstdata-symlinks
+          mountPath: /data/lsstdata/base
       containers:
       - name: htcondor-worker
         image: docker.io/lsstit/htcondor-worker:23
@@ -43,10 +54,8 @@ spec:
           mountPath: /readonly/lsstdata/comcam
         - name: lsstdata-auxtel
           mountPath: /readonly/lsstdata/auxtel
-        - name: lsstdata-comcam
-          mountPath: /data/lsstdata/
-        - name: lsstdata-auxtel
-          mountPath: /data/lsstdata/
+        - name: lsstdata-symlinks
+          mountPath: /data/lsstdata/base
         ports:
         - containerPort: 9618
           protocol: TCP
@@ -83,3 +92,5 @@ spec:
         nfs:
           path: /auxtel/lsstdata
           server: nfs-auxtel.cp.lsst.org
+      - name: lsstdata-symlinks
+        emptyDir: {}
