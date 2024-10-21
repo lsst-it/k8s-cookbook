@@ -43,6 +43,10 @@ spec:
           mountPath: /readonly/lsstdata/comcam
         - name: lsstdata-auxtel
           mountPath: /readonly/lsstdata/auxtel
+        - name: lsstdata-comcam
+          mountPath: /data/lsstdata/base/comcam
+        - name: lsstdata-auxtel
+          mountPath: /data/lsstdata/base/auxtel
         ports:
         - containerPort: 9618
           protocol: TCP
