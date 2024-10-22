@@ -6,20 +6,19 @@ config:
 
   positions:
     filename: /run/promtail/positions.yaml
-
   clients:
     - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
 
   scrape_configs:
     - job_name: syslog
       syslog:
-        listen_address: '0.0.0.0:1514'
+        listen_address:"0.0.0.0:1514"
         label_structured_data: true
         labels:
-          job: 'syslog'
+          job:"syslog"
       relabel_configs:
-        - source_labels: ['__syslog_message_hostname']
-          target_label: 'host'
+        - source_labels: ["__syslog_message_hostname]
+          target_label:"host"
 
 extraPorts:
   - name: syslog

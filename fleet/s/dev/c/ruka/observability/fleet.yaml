@@ -6,7 +6,6 @@ helmCharts:
     version: 5.8.4
     valuesFiles:
       - loki/values.yaml
-  
   - name: promtail
     repo: https://grafana.github.io/helm-charts
     chart: promtail
