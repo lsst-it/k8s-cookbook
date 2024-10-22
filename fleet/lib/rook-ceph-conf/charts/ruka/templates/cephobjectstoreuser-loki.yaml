@@ -16,7 +16,7 @@ metadata:
 spec:
   secretStoreRefs:
     - kind: ClusterSecretStore
-      name: onepassword-ruka.dev
+      name: onepassword-ruka
   selector:
     secret:
       name: rook-ceph-object-user-lfa-loki
@@ -24,10 +24,10 @@ spec:
     - match:
         secretKey: AccessKey
         remoteRef:
-          remoteKey: loki-user
+          remoteKey: loki
           property: AWS_ACCESS_KEY_ID
     - match:
         secretKey: SecretKey
         remoteRef:
-          remoteKey: loki-user
+          remoteKey: loki
           property: AWS_SECRET_ACCESS_KEY
