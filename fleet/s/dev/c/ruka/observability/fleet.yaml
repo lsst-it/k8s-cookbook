@@ -1,0 +1,15 @@
+defaultNamespace: monitoring
+helmCharts:
+  - name: loki
+    repo: https://grafana.github.io/helm-charts
+    chart: loki
+    version: 5.8.4
+    valuesFiles:
+      - loki/values.yaml
+  
+  - name: promtail
+    repo: https://grafana.github.io/helm-charts
+    chart: promtail
+    version: 6.11.1
+    valuesFiles:
+      - promtail/values.yaml

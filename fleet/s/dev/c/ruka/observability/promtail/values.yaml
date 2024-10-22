@@ -1,0 +1,35 @@
+# promtail/values.yaml
+config:
+  server:
+    http_listen_port: 9080
+    grpc_listen_port: 0  # Disable if not needed
+
+  positions:
+    filename: /run/promtail/positions.yaml
+
+  clients:
+    - url: http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push
+
+  scrape_configs:
+    - job_name: syslog
+      syslog:
+        listen_address: '0.0.0.0:1514'
+        label_structured_data: true
+        labels:
+          job: 'syslog'
+      relabel_configs:
+        - source_labels: ['__syslog_message_hostname']
+          target_label: 'host'
+
+extraPorts:
+  - name: syslog
+    containerPort: 1514
+    protocol: TCP
+
+service:
+  type: LoadBalancer
+  ports:
+    - name: syslog
+      port: 1514
+      targetPort: syslog
+      protocol: TCP
