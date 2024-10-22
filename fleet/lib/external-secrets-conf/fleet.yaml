@@ -70,4 +70,4 @@ targetCustomizations:
               oods.tu: 1
           onepassword-ccs:
             vaults:
-              oods.ccs: 1
+              ccs: 1
