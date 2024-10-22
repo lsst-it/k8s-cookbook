@@ -1,0 +1,35 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: ccs
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 1
+---
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: rook-ceph-object-user-lfa-ccs
+  namespace: rook-ceph
+spec:
+  secretStoreRefs:
+    - kind: ClusterSecretStore
+      name: onepassword-ccs
+  selector:
+    secret:
+      name: rook-ceph-object-user-lfa-ccs
+  data:
+    - match:
+        secretKey: AccessKey
+        remoteRef:
+          remoteKey: ccs-tu
+          property: AWS_ACCESS_KEY_ID
+    - match:
+        secretKey: SecretKey
+        remoteRef:
+          remoteKey: ccs-tu
+          property: AWS_SECRET_ACCESS_KEY
