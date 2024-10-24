@@ -1,0 +1,29 @@
+---
+defaultNamespace: rook-ceph
+labels:
+  bundle: &name extended-ceph-exporter
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://galexrt.github.io/extended-ceph-exporter
+  version: 1.5.0
+  waitForJobs: true
+  values:
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        lsst.io/monitor: "true"
+    config:
+      rgw:
+        host: http://rook-ceph-rgw-lfa:80
+        existingSecret:
+          name: rook-ceph-object-user-lfa-extended-ceph-exporter
+          keys:
+            access: AccessKey
+            secret: SecretKey
+dependsOn:
+  - selector:
+    matchLabels:
+      bundle: prometheus-operator-crds
