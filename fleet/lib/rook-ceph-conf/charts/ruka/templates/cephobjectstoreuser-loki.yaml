@@ -16,7 +16,7 @@ metadata:
 spec:
   secretStoreRefs:
     - kind: ClusterSecretStore
-      name: onepassword-ruka
+      name: onepassword-ruka.dev
   selector:
     secret:
       name: rook-ceph-object-user-lfa-loki
