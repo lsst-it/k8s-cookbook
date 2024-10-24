@@ -33,7 +33,7 @@ spec:
     instances: 15
     resources:
       limits:
-        cpu: "16"
+        cpu: "64"
         memory: 32Gi
       requests:
         cpu: "16"
