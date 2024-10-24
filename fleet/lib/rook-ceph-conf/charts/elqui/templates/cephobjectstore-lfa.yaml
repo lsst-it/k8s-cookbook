@@ -30,7 +30,7 @@ spec:
   preservePoolsOnDelete: true
   gateway:
     port: 80
-    instances: 18
+    instances: 15
     resources:
       limits:
         cpu: "16"
