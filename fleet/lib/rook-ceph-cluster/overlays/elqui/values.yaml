@@ -23,9 +23,10 @@ cephClusterSpec:
   storage:
     useAllNodes: true
     useAllDevices: false
-    devicePathFilter: ^/dev/disk/by-id/nvme-Micron_9400.*_1-part1$
+    devicePathFilter: ^/dev/disk/by-id/nvme-Micron_9400.*$
     config:
       osdsPerDevice: "1"
+      encryptedDevice: "true"
 
 cephBlockPools:
   - name: replicapool
