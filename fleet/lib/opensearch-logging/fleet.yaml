@@ -20,7 +20,13 @@ dependsOn:
         bundle: cert-manager-crds
   - selector:
       matchLabels:
-        bundle: external-secrets
+        bundle: external-secrets-conf
+  - selector:
+      matchLabels:
+        bundle: ingress-nginx
+  - selector:
+      matchLabels:
+        bundle: logging-pre
 targetCustomizations:
   # first match is used
   - name: ayekan
