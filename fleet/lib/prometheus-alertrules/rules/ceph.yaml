@@ -1,0 +1,164 @@
+groups:
+  - name: ceph.rules
+    rules:
+      - alert: CephQuotaFillingUp
+        annotations:
+          summary: The Ceph pool quota in cluster {{ $labels.prom_cluster }} is almost full
+          description: |
+            Ceph pool id {{ $labels.pool_id }} on {{ $labels.prom_cluster }}/ {{
+            $labels.namespace }}/{{ $labels.pod }} is at {{ $value }}%. Please
+            keep in mind that ceph pools reaching 100% is dangerous.
+        labels:
+          secverity: warning
+          receivers: ",slack,"
+        expr: |
+          (ceph_pool_stored/ceph_pool_quota_bytes > 0.75 and ceph_pool_quota_bytes != 0)*100
+      - alert: CephQuotaFillingUp
+        annotations:
+          summary: The Ceph pool quota is almost full
+          description: |
+            Ceph pool id {{ $labels.pool_id }} on {{ $labels.prom_cluster }}/ {{
+            $labels.namespace }}/{{ $labels.pod }} is at {{ $value }}%. Please
+            keep in mind that ceph pools reaching 100% is dangerous.
+        labels:
+          secverity: critical
+          receivers: ",slack,"
+        expr: |
+          (ceph_pool_stored/ceph_pool_quota_bytes > 0.9 and ceph_pool_quota_bytes != 0)*100
+      - alert: CephTargetDown
+        expr: up{job=".*ceph.*"} == 0
+        for: 10m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            CEPH target on {{ $labels.prom_cluster }} down for more than 2m,
+            please check - it could be a either exporter crash or a whole cluster
+            crash
+          summary: CEPH exporter down on {{ $labels.prom_cluster }}
+      - alert: CephErrorState
+        expr: ceph_health_status > 1
+        for: 5m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Ceph is in Error state on {{ $labels.prom_cluster }} for longer than
+            5m, please check status of pools and OSDs
+          summary: CEPH in ERROR
+      - alert: CephWarnState
+        expr: ceph_health_status == 1
+        for: 30m
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Ceph is in Warn state on {{ $labels.prom_cluster }} for longer than
+            30m, please check status of pools and OSDs
+          summary: CEPH in WARN
+      - alert: OsdDown
+        expr: ceph_osd_up == 0
+        for: 30m
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            OSD is down longer than 30 min on {{ $labels.prom_cluster }}, please
+            check whats the status
+          summary: OSD down
+      - alert: OsdApplyLatencyTooHigh
+        expr: ceph_osd_apply_latency_ms > 5000
+        for: 90s
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            OSD latency for {{ $labels.osd }} is too high on {{
+            $labels.prom_cluster }}. Please check if it doesn't stuck in weird
+            state
+          summary: OSD latency too high {{ $labels.osd }}
+      - alert: CephPgDown
+        expr: ceph_pg_down > 0
+        for: 3m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are down (unavailable) for too long on {{
+            $labels.prom_cluster }}. Please ensure that all the data are
+            available
+          summary: PG DOWN [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephPgIncomplete
+        expr: ceph_pg_incomplete > 0
+        for: 2m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are incomplete (unavailable) for too long on {{
+            $labels.prom_cluster }}. Please ensure that all the data are
+            available
+          summary: PG INCOMPLETE [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephPgInconsistent
+        expr: ceph_pg_inconsistent > 0
+        for: 1m
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are inconsistent for too long on {{ $labels.prom_cluster
+            }}. Data is available but inconsistent across nodes
+          summary: PG INCONSISTENT [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephPgActivating
+        expr: ceph_pg_activating > 0
+        for: 5m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are activating for too long on {{ $labels.prom_cluster
+            }}. Those PGs are unavailable for too long!
+          summary: PG ACTIVATING [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephPgBackfillTooFull
+        expr: ceph_pg_backfill_toofull > 0
+        for: 5m
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are located on full OSD on cluster {{
+            $labels.prom_cluster }}. Those PGs can be unavailable shortly. Please
+            check OSDs, change weight or reconfigure CRUSH rules.
+          summary: PG TOO FULL [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephPgUnavailable
+        expr: ceph_pg_total - ceph_pg_active > 0
+        for: 5m
+        labels:
+          severity: critical
+          receivers: ",slack,"
+        annotations:
+          description: |
+            Some groups are unavailable on {{ $labels.prom_cluster }}. Please
+            check their detailed status and current configuration.
+          summary: PG UNAVAILABLE [{{ $value }}] on {{ $labels.prom_cluster }}
+      - alert: CephOsdReweighted
+        expr: ceph_osd_weight < 1
+        for: 1h
+        labels:
+          severity: warning
+          receivers: ",slack,"
+        annotations:
+          description: |
+            OSD on cluster {{ $labels.prom_cluster}} was reweighted for too long.
+            Please either create silent or fix that issue
+          summary: OSD {{ $labels.ceph_daemon }} on {{ $labels.prom_cluster }} reweighted - {{ $value }}

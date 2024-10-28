@@ -5,25 +5,25 @@ metadata:
 data:
   slack-generic-alert.tmpl: |
     {{ define "slack.o11y.generic.text" }}
-    *Site:* {{ .CommonLabels.site }}
+    *Site:* {{ .CommonLabels.prom_site }}
     *Alert:* {{ .GroupLabels.alertname }}
     *Summary:* {{ .CommonAnnotations.summary }}
-    {{ template "__o11y_alert_list" . }}
+    {{ template "__o11y_alert_short_list" . }}
     {{ end }}
     {{ define "slack.o11y.generic.title"}}
-    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom }}/{{ .GroupLabels.alertname }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom_cluster }}/{{ .GroupLabels.alertname }}
     {{ end }}
   slack-kube-alert.tmpl: |
     {{ define "slack.o11y.kube.text" }}
     *Alert:* {{ .GroupLabels.alertname }}
-    *Site:* {{ .CommonLabels.site }}
-    *Kube cluster:* {{ .CommonLabels.prom }}
+    *Site:* {{ .CommonLabels.prom_site }}
+    *Kube cluster:* {{ .CommonLabels.prom_cluster }}
     *Namespace:* {{ .GroupLabels.namespace }}
     *Summary:* {{ .CommonAnnotations.summary }}
     {{ template "__o11y_alert_list" . }}
     {{ end }}
     {{ define "slack.o11y.kube.title"}}
-    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom }}/{{ .GroupLabels.namespace }}/{{ .GroupLabels.alertname }}
+    [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.prom_cluster }}/{{ .GroupLabels.namespace }}/{{ .GroupLabels.alertname }}
     {{ end }}
   slack-network-alert.tmpl: |
     {{ define "slack.o11y.network.text" }}
@@ -47,12 +47,13 @@ data:
     [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.host }}/{{ .GroupLabels.alertname }}
     {{ end }}
   template-helpers.tmpl: |
+    {{ define "__o11y_alert_title" }}
+    {{ end }}
     {{ define "__o11y_alert_list" }}
     *Alerts:*
     =========
     {{ range .Alerts -}}
     - *Alert:* {{ .Labels.alertname }}
-      *Summary:* {{ .Annotations.summary }}
       *Description:* {{ .Annotations.description }}
       *Severity:* {{ .Labels.severity }}
       *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
@@ -70,12 +71,5 @@ data:
       *Description:* {{ .Annotations.description }}
       *Severity:* {{ .Labels.severity }}
       *Time:* {{ .StartsAt.Format "2006-01-02 15:04:05 MST" }}
-    {{ end }}
-    {{ end }}
-    {{ define "__o11y_log_list" }}
-    Labels:
-    =========
-    {{ range .Labels.SortedPairs -}}
-    - *{{ .Name }}:* {{ .Value }}
     {{ end }}
     {{ end }}
