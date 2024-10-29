@@ -1,0 +1,24 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: reserved-lhn
+  namespace: metallb-system
+spec:
+  addresses:
+    - 139.229.181.66/32
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: reserved-lhn
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - reserved-lhn
+  interfaces:
+    - br1803
+  nodeSelectors:
+    - matchLabels:
+        metallb/speaker: "true"
