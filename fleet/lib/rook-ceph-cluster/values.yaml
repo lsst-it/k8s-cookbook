@@ -81,6 +81,16 @@ cephClusterSpec:
           operator: Equal
           value: storage-node
           effect: NoSchedule
+    prepareosd:
+      tolerations:
+        - key: metallb/speaker
+          operator: Exists
+          effect: NoExecute
+    osd:
+      tolerations:
+        - key: metallb/speaker
+          operator: Exists
+          effect: NoExecute
   removeOSDsIfOutAndSafeToRemove: false
   #  priorityClassNames:
   #    all: rook-ceph-default-priority-class
