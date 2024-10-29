@@ -22,8 +22,10 @@ nodes:
   - worker
   - etcd
 services:
-  kubelet:
+  etcd:
     extra_args:
+      auto-compaction-mode: periodic
+      auto-compaction-retention: 30m
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa

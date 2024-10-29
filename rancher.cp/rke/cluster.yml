@@ -24,9 +24,10 @@ nodes:
   - worker
   - etcd
 services:
-  kubelet:
+  etcd:
     extra_args:
-      node-status-max-images: "-1"
+      auto-compaction-mode: periodic
+      auto-compaction-retention: 30m
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
