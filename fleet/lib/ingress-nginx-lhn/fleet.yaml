@@ -14,8 +14,11 @@ helm:
       kind: DaemonSet
       allowSnippetAnnotations: true
       ingressClass: nginx-lhn
+      ingressClassByName: true
       ingressClassResource:
         name: nginx-lhn
+        enabled: true
+        controllerValue: k8s.io/ingress-nginx-lhn
       metrics:
         enabled: true
         serviceMonitor:
