@@ -40,12 +40,6 @@ targetCustomizations:
         networks:
           - dds
           - lhn
-  - name: chonchon
-    clusterName: chonchon
-    helm:
-      values:
-        networks:
-          - lhn
   - name: yagan
     clusterName: yagan
     helm:
