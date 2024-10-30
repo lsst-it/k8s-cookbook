@@ -37,6 +37,9 @@ cephClusterSpec:
   labels:
     monitoring:
       lsst.io/monitor: "true"
+  cephConfig:
+    global:
+      rgw_allow_notification_secrets_in_cleartext: "true"
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
