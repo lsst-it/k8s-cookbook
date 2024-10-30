@@ -21,6 +21,11 @@ nodes:
   - controlplane
   - worker
   - etcd
+services:
+  etcd:
+    extra_args:
+      auto-compaction-mode: periodic
+      auto-compaction-retention: 30m
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
