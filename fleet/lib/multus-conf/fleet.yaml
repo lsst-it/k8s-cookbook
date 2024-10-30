@@ -38,11 +38,6 @@ targetCustomizations:
     yaml:
       overlays:
         - manke
-  - name: chonchon
-    clusterName: chonchon
-    yaml:
-      overlays:
-        - chonchon
   - name: yagan
     clusterName: yagan
     yaml:
