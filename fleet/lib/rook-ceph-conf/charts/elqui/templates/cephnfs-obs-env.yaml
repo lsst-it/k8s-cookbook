@@ -28,7 +28,7 @@ spec:
         pg_autoscale_mode: "off"
         pg_num: "128"
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
