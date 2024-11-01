@@ -45,8 +45,6 @@ metadata:
 spec:
   rados:
     pool: comcam-data0
-    # RADOS namespace where NFS client recovery data is stored in the pool.
-    namespace: nfs-ns
   server:
     active: 1
     resources:

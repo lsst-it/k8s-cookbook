@@ -33,8 +33,6 @@ metadata:
 spec:
   rados:
     pool: backup-data0
-    # RADOS namespace where NFS client recovery data is stored in the pool.
-    namespace: nfs-ns
   server:
     active: 1
     resources:
