@@ -1,28 +1,55 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: lfa
+  namespace: rook-ceph
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  realm: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  zoneGroup: lfa
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: lfa
   namespace: rook-ceph
 spec:
-  metadataPool:
-    failureDomain: host
-    replicated:
-      size: 3
-    quotas:
-      maxSize: 10Gi
-  dataPool:
-    failureDomain: host
-    erasureCoded:
-      dataChunks: 8
-      codingChunks: 3
-    quotas:
-      maxSize: 1Pi
-  preservePoolsOnDelete: false
+  preservePoolsOnDelete: true
   gateway:
-    sslCertificateRef:
     port: 80
-    # securePort: 443
+    instances: 30  # 2 per node
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "16"
+        memory: 8Gi
+  zone:
+    name: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: lfagc  # gc only
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
     instances: 3
     resources:
       limits:
@@ -31,6 +58,8 @@ spec:
       requests:
         cpu: "16"
         memory: 8Gi
+  zone:
+    name: lfa
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -39,9 +68,9 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - &host s3.elqui.cp.lsst.org  # XXX change to s3.cp.lsst.org
@@ -57,3 +86,136 @@ spec:
                 name: rook-ceph-rgw-lfa
                 port:
                   number: 80
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: rgw.root
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  name: .rgw.root
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.control
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.meta
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.log
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "128"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "1024"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "1"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  erasureCoded:
+    dataChunks: 8
+    codingChunks: 3
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    bulk: "true"
+    pg_num: "2048"
+  quotas:
+    maxSize: 1Pi

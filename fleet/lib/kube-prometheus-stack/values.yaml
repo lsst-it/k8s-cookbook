@@ -135,6 +135,12 @@ prometheus-node-exporter:
     monitor:
       additionalLabels:
         lsst.io/monitor: "true"
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: metallb/speaker
+      operator: Exists
+      effect: NoExecute
 kube-state-metrics:
   resources:
     limits:

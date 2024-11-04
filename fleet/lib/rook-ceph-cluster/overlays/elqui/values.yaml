@@ -2,12 +2,31 @@
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
+    client.rgw.lfa.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "false"  # disable object gc
+    client.rgw.lfagc.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "true"  # enable object gc
+
   storage:
     useAllNodes: true
     useAllDevices: false
-    devicePathFilter: ^/dev/disk/by-id/nvme-Micron_9400.*_1-part1$
+    devicePathFilter: ^/dev/disk/by-id/nvme-Micron_9400.*$
     config:
       osdsPerDevice: "1"
+      encryptedDevice: "true"
 
 cephBlockPools:
   - name: replicapool
@@ -19,6 +38,11 @@ cephBlockPools:
       quotas:
         maxSize: 2Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "128"
     storageClass:
       name: rook-ceph-block
       enabled: true

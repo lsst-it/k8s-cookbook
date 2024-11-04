@@ -43,7 +43,6 @@ targetCustomizations:
           operator: In
           values:
             - chonchon
-            - elqui
             - konkong
             - ruka
     helm:

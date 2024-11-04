@@ -33,6 +33,10 @@ helm:
         requests:
           cpu: 50m
           memory: 192Mi
+      tolerations:
+        - key: metallb/speaker
+          operator: Exists
+          effect: NoExecute
     prometheus:
       namespace: kube-prometheus-stack
       serviceAccount: kube-prometheus-stack-prometheus
