@@ -64,7 +64,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-lfa
+  name: rook-ceph-rgw-lfa-elqui
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
@@ -74,7 +74,85 @@ spec:
   tls:
     - hosts:
         - &host s3.elqui.cp.lsst.org  # XXX change to s3.cp.lsst.org
-      secretName: rook-ceph-rgw-ingress-lfa-tls
+      secretName: rook-ceph-rgw-lfa-elqui-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-lfa
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.cp.lsst.org
+      secretName: rook-ceph-rgw-lfa-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-lfa-rubintv
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.rubintv.cp.lsst.org
+      secretName: rook-ceph-rgw-lfa-rubintv-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-lfa-lhn
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx-lhn
+  tls:
+    - hosts:
+        - &host s3-lhn.cp.lsst.org
+      secretName: rook-ceph-rgw-lfa-lhn-ingress-tls
   rules:
     - host: *host
       http:
