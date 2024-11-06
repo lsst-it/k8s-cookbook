@@ -9,7 +9,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://opensearch-project.github.io/opensearch-k8s-operator
-  version: 2.6.1
+  version: 2.7.0
   values:
     installCRDs: true
     manager:
