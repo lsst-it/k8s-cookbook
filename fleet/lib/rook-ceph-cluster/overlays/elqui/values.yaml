@@ -7,6 +7,7 @@ cephClusterSpec:
       osd_pool_default_pg_autoscale_mode: warn
       rgw_override_bucket_index_max_shards: "401"
       rgw_enable_usage_log: "false"
+      rgw_multipart_min_part_size: "1048576"
     mgr:
       mgr/balancer/upmap_max_deviation: "1"
     osd:
