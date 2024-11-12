@@ -14,6 +14,7 @@ targetCustomizations:
       values:
         networks:
           - dds
+          - ra-lhn
   - name: ruka
     clusterName: ruka
     helm:
@@ -47,3 +48,4 @@ targetCustomizations:
         networks:
           - dds
           - lhn
+          - ra-lhn-demo
