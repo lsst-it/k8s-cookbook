@@ -15,6 +15,7 @@ spec:
       max_connections: "500"
       shared_buffers: 256MB
       idle_session_timeout: 4h
+      max_slot_wal_keep_size: 10GB
     pg_hba:
       - host replication replicauser all md5
       - host all all 139.229.134.0/23 md5
@@ -28,10 +29,8 @@ spec:
   superuserSecret:
     name: cnpg-cluster-superuser
 
-# Resources and Storage Needs to be Adjust!
-
   storage:
-    size: 30Gi
+    size: 57Gi
 
   monitoring:
     enablePodMonitor: true
