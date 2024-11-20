@@ -1,0 +1,15 @@
+{
+    "Rules": [
+        {
+            "Expiration": {
+                "Days": 30
+            },
+            "ID": "30DaysRetention",
+            "Prefix": "",
+            "Status": "Enabled",
+            "AbortIncompleteMultipartUpload":{
+              "DaysAfterInitiation":1
+            }
+        }
+    ]
+}
