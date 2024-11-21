@@ -64,11 +64,3 @@ targetCustomizations:
           onepassword-ccs:
             vaults:
               ccs: 1
-  - name: ruka
-    clusterName: ruka
-    helm:
-      values:
-        clusterSecretStores:
-          onepassword-ruka:
-            vaults:
-              ruka.dev: 1
