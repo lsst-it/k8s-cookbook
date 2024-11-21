@@ -295,5 +295,3 @@ spec:
     pg_autoscale_mode: "off"
     bulk: "true"
     pg_num: "2048"
-  quotas:
-    maxSize: 1Pi
