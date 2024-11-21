@@ -44,7 +44,7 @@ targetCustomizations:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
-            - chonchon
+            - elqui
             - konkong
             - ruka
     helm:
@@ -53,14 +53,6 @@ targetCustomizations:
           onepassword-oods:
             vaults:
               oods.${ .ClusterLabels.site }: 1
-  - name: elqui  # will replace chonchon
-    clusterName: elqui
-    helm:
-      values:
-        clusterSecretStores:
-          onepassword-oods:
-            vaults:
-              oods.elqui: 1
   - name: pillan
     clusterName: pillan
     helm:
