@@ -38,6 +38,10 @@ data:
     ceph nfs export rm comcam /comcam
     ceph nfs export create cephfs comcam /comcam comcam
 
+    waitfornfs rsphome
+    ceph nfs export rm rsphome /rsphome
+    ceph nfs export create cephfs rsphome /rsphome rsphome
+
     ceph mgr module enable rook
     ceph orch set backend rook
     ceph device monitoring on
