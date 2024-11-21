@@ -6,7 +6,7 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: cp_production
+  branch: IT-5665/ceph-tuning
   keepResources: true
   paths:
     - fleet/s/cp/c/elqui/*
