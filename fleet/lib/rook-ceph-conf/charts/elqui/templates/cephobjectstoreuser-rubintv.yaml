@@ -2,18 +2,18 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
-  name: butler
+  name: rubintv
   namespace: rook-ceph
 spec:
   store: lfa
   clusterNamespace: rook-ceph
   quotas:
-    maxBuckets: 2
+    maxBuckets: 1
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: rook-ceph-object-user-lfa-butler
+  name: rook-ceph-object-user-lfa-rubintv
   namespace: rook-ceph
 spec:
   secretStoreRefs:
@@ -21,15 +21,15 @@ spec:
       name: onepassword-oods
   selector:
     secret:
-      name: rook-ceph-object-user-lfa-butler
+      name: rook-ceph-object-user-lfa-rubintv
   data:
     - match:
         secretKey: AccessKey
         remoteRef:
-          remoteKey: butler
+          remoteKey: rubintv
           property: AWS_ACCESS_KEY_ID
     - match:
         secretKey: SecretKey
         remoteRef:
-          remoteKey: butler
+          remoteKey: rubintv
           property: AWS_SECRET_ACCESS_KEY

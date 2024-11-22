@@ -1,19 +1,21 @@
 ---
+# XXX this user should be read-only. E.g.:
+# radosgw-admin user create --uid=s3lhn --display-name=s3lhn --max-buckets 0 --op-mask=read ...
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
-  name: latiss
+  name: s3lhn
   namespace: rook-ceph
 spec:
   store: lfa
   clusterNamespace: rook-ceph
   quotas:
-    maxBuckets: 1
+    maxBuckets: 0
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: rook-ceph-object-user-lfa-latiss
+  name: rook-ceph-object-user-lfa-s3lhn
   namespace: rook-ceph
 spec:
   secretStoreRefs:
@@ -21,15 +23,15 @@ spec:
       name: onepassword-oods
   selector:
     secret:
-      name: rook-ceph-object-user-lfa-latiss
+      name: rook-ceph-object-user-lfa-s3lhn
   data:
     - match:
         secretKey: AccessKey
         remoteRef:
-          remoteKey: latiss
+          remoteKey: s3lhn
           property: AWS_ACCESS_KEY_ID
     - match:
         secretKey: SecretKey
         remoteRef:
-          remoteKey: latiss
+          remoteKey: s3lhn
           property: AWS_SECRET_ACCESS_KEY
