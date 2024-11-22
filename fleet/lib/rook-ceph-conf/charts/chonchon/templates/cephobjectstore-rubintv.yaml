@@ -56,3 +56,29 @@ spec:
             name: rook-ceph-rgw-rubintv
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-ingress-rubintv-chonchon
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  tls:
+  - hosts:
+    - s3.rubintv.chonchon.cp.lsst.org
+    secretName: rook-ceph-rgw-ingress-rubintv-chonchon-tls
+  rules:
+  - host: s3.rubintv.chonchon.cp.lsst.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: rook-ceph-rgw-rubintv
+            port:
+              number: 80
