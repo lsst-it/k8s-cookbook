@@ -2,21 +2,21 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: ingress-lhn
+  name: reserved-lhn-embargo
   namespace: metallb-system
 spec:
   addresses:
-    - 139.229.181.65/32
+    - 139.229.181.66/32
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: ingress-lhn
+  name: reserved-lhn-embargo
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - ingress-lhn
+    - reserved-lhn-embargo
   interfaces:
     - br1803
   nodeSelectors:
