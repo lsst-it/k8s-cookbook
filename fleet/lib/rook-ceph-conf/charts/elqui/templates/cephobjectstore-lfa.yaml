@@ -148,7 +148,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
-  ingressClassName: nginx-lhn
+  ingressClassName: nginx
   tls:
     - hosts:
         - &host s3-lhn.cp.lsst.org
