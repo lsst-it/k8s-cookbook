@@ -1,0 +1,52 @@
+---
+defaultNamespace: &name ingress-nginx-lhn-embargo
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: ingress-nginx
+  releaseName: *name
+  repo: https://kubernetes.github.io/ingress-nginx
+  version: 4.11.3
+  values:
+    controller:
+      kind: DaemonSet
+      allowSnippetAnnotations: true
+      ingressClass: nginx-lhn-embargo
+      ingressClassByName: true
+      ingressClassResource:
+        name: nginx-lhn-embargo
+        enabled: true
+        controllerValue: k8s.io/ingress-nginx-lhn-embargo
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            lsst.io/monitor: "true"
+        prometheusRule:
+          enabled: false
+          additionalLabels:
+            lsst.io/rule: "true"
+    rbac:
+      create: true
+  timeoutSeconds: 60
+  waitForJobs: true
+targetCustomizations:
+  - name: default
+    clusterSelector:
+      matchLabels:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - dev
+            - ls
+            - cp
+    helm:
+      values:
+        controller:
+          service:
+            annotations:
+              metallb.universe.tf/address-pool: ingress-lhn-embargo
