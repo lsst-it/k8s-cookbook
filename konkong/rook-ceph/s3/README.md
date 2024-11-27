@@ -55,10 +55,18 @@ aws s3api --profile s3-bts-lsstcam put-bucket-policy --bucket rubinobs-butler-ls
 
 ```bash
 aws s3api put-bucket-lifecycle-configuration --profile lfa-ls --no-verify-ssl --region lfa --bucket rubinobs-lfa-ls --lifecycle-configuration file://lfa-ls-lifecycle.json
+aws s3api put-bucket-lifecycle-configuration --profile s3-bts-latiss --no-verify-ssl --region s3-butler --bucket rubinobs-butler-latiss --lifecycle-configuration file://rubinobs-butler-lifecycle.json
+aws s3api put-bucket-lifecycle-configuration --profile s3-bts-latiss --no-verify-ssl --region s3-butler --bucket rubinobs-raw-latiss --lifecycle-configuration file://rubinobs-butler-lifecycle.json
+aws s3api put-bucket-lifecycle-configuration --profile s3-bts-lsstcam --no-verify-ssl --region s3-butler --bucket rubinobs-raw-lsstcam --lifecycle-configuration file://rubinobs-butler-lifecycle.json
+aws s3api put-bucket-lifecycle-configuration --profile s3-bts-lsstcam --no-verify-ssl --region s3-butler --bucket rubinobs-butler-lsstcam --lifecycle-configuration file://rubinobs-butler-lifecycle.json
 ```
 
 ## Check Current Policy
 
 ```bash
 aws s3api get-bucket-lifecycle-configuration --profile lfa-ls --no-verify-ssl --region lfa --bucket rubinobs-lfa-ls
+aws s3api get-bucket-lifecycle-configuration --profile s3-bts-latiss --no-verify-ssl --region s3-butler --bucket rubinobs-butler-latiss
+aws s3api get-bucket-lifecycle-configuration --profile s3-bts-latiss --no-verify-ssl --region s3-butler --bucket rubinobs-raw-latiss
+aws s3api get-bucket-lifecycle-configuration --profile s3-bts-lsstcam --no-verify-ssl --region s3-butler --bucket rubinobs-raw-lsstcam
+aws s3api get-bucket-lifecycle-configuration --profile s3-bts-lsstcam --no-verify-ssl --region s3-butler --bucket rubinobs-butler-lsstcam
 ```
