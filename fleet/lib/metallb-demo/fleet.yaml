@@ -54,4 +54,4 @@ targetCustomizations:
       values:
         pools:
           - reserved
-          - reserved-lhn
+          - reserved-lhn-embargo
