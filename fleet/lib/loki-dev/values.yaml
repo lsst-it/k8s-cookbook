@@ -1,0 +1,84 @@
+loki:
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+  ingester:
+    chunk_encoding: snappy
+  querier:
+    max_concurrent: 4
+  pattern_ingester:
+    enabled: true
+  limits_config:
+    allow_structured_metadata: true
+    volume_enabled: true
+    retention_period: 672h
+    ingestion_rate_mb: 4  # Increase to allow higher data throughput
+    ingestion_burst_size_mb: 8  # Allow larger bursts
+  compactor:
+    retention_enabled: true
+    delete_request_store: s3
+  auth_enabled: false
+  storage:
+    type: s3
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-ruler
+      admin: loki-admin
+    s3:
+      s3: s3://loki-dev
+      endpoint: s3.kueyen.dev.lsst.org
+      accessKeyId: loki-dev
+      secretAccessKey:
+        valueFrom:
+          secretKeyRef:
+            name: loki-s3-credentials
+            key: secretAccessKey
+      insecure: false
+      s3ForcePathStyle: true
+      http_config:
+        insecure_skip_verify: true
+
+deploymentMode: SimpleScalable
+
+backend:
+  replicas: 2
+read:
+  replicas: 2
+write:
+  replicas: 2
+
+# Enable minio for storage
+minio:
+  enabled: false
+
+commonConfig:
+  ring:
+    kvstore:
+      store: memberlist
+
+gateway:
+  enabled: true
+  service:
+    type: LoadBalancer
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-staging
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    hosts:
+      - host: loki.kueyen.dev.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: loki-dashboard-ingress-tls
+        hosts:
+          - loki.kueyen.dev.lsst.org
