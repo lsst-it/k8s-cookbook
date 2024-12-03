@@ -1,0 +1,13 @@
+---
+defaultNamespace: loki-dev
+labels:
+  bundle: loki-dev
+helm:
+  chart: &chart loki
+  releaseName: *chart
+  repo: https://grafana.github.io/helm-charts
+  version: 6.22.0
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
