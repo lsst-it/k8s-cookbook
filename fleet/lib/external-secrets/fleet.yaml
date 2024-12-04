@@ -1,7 +1,7 @@
 ---
 defaultNamespace: &name external-secrets
 labels:
-  bundle: *name
+  bundle: external-secrets
 namespaceLabels:
   lsst.io/discover: "true"
 helm:
