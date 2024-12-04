@@ -14,8 +14,10 @@ resources:
 
 serviceMonitor:
   enabled: true
+  scrapeTimeout: 20s
   selector:
     lsst.io/monitor: "true"
+
 
 extraSecretMounts:
   - name: snmp-config
