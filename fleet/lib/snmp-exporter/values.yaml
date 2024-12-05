@@ -13,7 +13,7 @@ resources:
     cpu: 500m
 
 serviceMonitor:
-  enabled: true
+  enabled: false
   scrapeTimeout: 20s
   selector:
     lsst.io/monitor: "true"
