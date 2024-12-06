@@ -4,13 +4,13 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/server-snippet: |
       proxy_ssl_verify off;
   name: it-kuma-dashboard
   namespace: kuma
 spec:
+  ingressClassName: nginx
   rules:
   - host: it-kuma01.ls.lsst.org
     http:
