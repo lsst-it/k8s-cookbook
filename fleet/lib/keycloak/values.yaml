@@ -20,10 +20,10 @@ extraEnvVars:
 
 ingress:
   enabled: true
+  ingressClassName: nginx
   servicePort: http
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
   hostname: keycloak.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
   tls: true
 

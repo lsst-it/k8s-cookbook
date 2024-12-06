@@ -3,12 +3,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/proxy-ssl-verify: "false"
     cert-manager.io/cluster-issuer: letsencrypt
   name: logging-os-api
 spec:
+  ingressClassName: nginx
   rules:
   - host: logging.tu.lsst.org
     http:
@@ -29,13 +29,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
   name: logging-os-dashboard
 spec:
+  ingressClassName: nginx
   rules:
   - host: logging.tu.lsst.org
     http:
