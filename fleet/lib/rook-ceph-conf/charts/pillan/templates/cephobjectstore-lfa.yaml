@@ -35,6 +35,32 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: rook-ceph-rgw-lfa-pillan
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.pillan.tu.lsst.org
+      secretName: rook-ceph-rgw-lfa-pillan-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
   name: rook-ceph-rgw-ingress
   namespace: rook-ceph
   annotations:
@@ -43,17 +69,17 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - s3.tu.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls
+    - hosts:
+        - s3.tu.lsst.org
+      secretName: rook-ceph-rgw-ingress-tls
   rules:
-  - host: s3.tu.lsst.org
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-rgw-lfa
-            port:
-              number: 80
+    - host: s3.tu.lsst.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
