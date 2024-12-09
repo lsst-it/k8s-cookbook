@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 140.252.147.196-140.252.147.222  # ~140.252.147.192/27
+    - 140.252.147.196-140.252.147.222  # ~140.252.147.192/27
   autoAssign: true
 ---
 apiVersion: metallb.io/v1beta1
@@ -16,15 +16,6 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - general
+    - general
   interfaces:
-  - br3035
-  # restrict this pool to EL9 nodes to avoid having to setup ip rules on EL7
-  # XXX should a new node label be used instead of pinning to specific nodes?
-  nodeSelectors:
-  - matchLabels:
-      kubernetes.io/hostname: pillan07
-  - matchLabels:
-      kubernetes.io/hostname: pillan08
-  - matchLabels:
-      kubernetes.io/hostname: pillan09
+    - br3035
