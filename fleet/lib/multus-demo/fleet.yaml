@@ -27,7 +27,6 @@ targetCustomizations:
       values:
         networks:
           - dds
-          - misc-dds
   - name: konkong
     clusterName: konkong
     helm:

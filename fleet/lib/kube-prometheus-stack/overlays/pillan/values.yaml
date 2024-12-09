@@ -109,12 +109,9 @@ prometheus:
 grafana:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/server-snippet: |
-        proxy_ssl_verify off;
     paths:
       - /
     pathType: Prefix
