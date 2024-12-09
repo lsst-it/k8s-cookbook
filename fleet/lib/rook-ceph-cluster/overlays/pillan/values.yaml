@@ -1,4 +1,7 @@
 ---
+ingress:
+  dashboard:
+    ingressClassName: traefik
 cephClusterSpec:
   mon:
     count: 5
