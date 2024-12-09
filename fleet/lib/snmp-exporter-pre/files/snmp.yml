@@ -3014,8 +3014,6 @@ modules:
         type: gauge
       - labelname: inletId
         type: gauge
-      - labelname: sensorType
-        type: EnumAsInfo
         enum_values:
           1: rmsCurrent
           2: peakCurrent
