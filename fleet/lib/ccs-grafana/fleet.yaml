@@ -17,3 +17,9 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: ccs-influxdb
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml

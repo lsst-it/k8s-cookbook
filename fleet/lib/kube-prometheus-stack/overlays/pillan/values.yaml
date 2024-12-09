@@ -1,5 +1,7 @@
 ---
 prometheus:
+  ingress:
+    ingressClassName: traefik
   prometheusSpec:
     configMaps:
       - sd-snmp-network
@@ -106,15 +108,15 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
+alertmanager:
+  ingress:
+    ingressClassName: traefik
 grafana:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/server-snippet: |
-        proxy_ssl_verify off;
     paths:
       - /
     pathType: Prefix
