@@ -39,9 +39,9 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - s3.cp.lsst.org
@@ -65,9 +65,9 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - s3.chonchon.cp.lsst.org
@@ -91,8 +91,9 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    kubernetes.io/ingress.class: nginx-lhn
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
+  ingressClassName: nginx-lhn
   tls:
     - hosts:
         - s3-lhn.cp.lsst.org

@@ -1,11 +1,12 @@
 ---
 hostname: rancher.dev.lsst.org
 ingress:
+  enabled: true
+  ingressClassName: nginx
   tls:
     source: secret
   extraAnnotations:
-    "cert-manager.io/cluster-issuer": letsencrypt
-    "kubernetes.io/ingress.class": nginx
+    cert-manager.io/cluster-issuer: letsencrypt
 extraEnv:
   # version strings from https://github.com/rancher/charts/tree/dev-v2.9/charts/fleet
   - name: CATTLE_FLEET_MIN_VERSION

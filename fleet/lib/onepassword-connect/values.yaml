@@ -8,9 +8,9 @@ connect:
 
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
-      kubernetes.io/ingress.class: nginx
     hosts:
       - host: connect.${ .ClusterLabels.site }.lsst.org
         paths:

@@ -61,8 +61,8 @@ extraEnvVars:
 ingress:
   enabled: true
   servicePort: http
+  ingressClassName: nginx
   annotations:
-    kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: letsencrypt
   hostname: ${KEYCLOAK_INGRESS}
   tls: true
