@@ -64,6 +64,11 @@ cephBlockPools:
       quotas:
         maxSize: 5Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "512"
     storageClass:
       name: rook-ceph-block
       enabled: true
