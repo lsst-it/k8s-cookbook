@@ -17,7 +17,8 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: pillan01
         devices:
