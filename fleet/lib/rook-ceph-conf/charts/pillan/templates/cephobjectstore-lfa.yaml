@@ -46,9 +46,8 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - &host s3.pillan.tu.lsst.org
@@ -72,9 +71,8 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - s3.tu.lsst.org
@@ -98,9 +96,8 @@ metadata:
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
         - s3.rubintv.tu.lsst.org
