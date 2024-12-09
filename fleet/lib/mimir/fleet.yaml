@@ -32,3 +32,9 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/rke2/values.yaml
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml
+        - overlays/rke2/values.yaml
