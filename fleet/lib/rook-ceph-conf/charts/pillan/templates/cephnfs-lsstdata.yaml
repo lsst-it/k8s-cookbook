@@ -18,7 +18,7 @@ spec:
       quotas:
         maxSize: 100Gi
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
