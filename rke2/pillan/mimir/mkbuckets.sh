@@ -38,13 +38,13 @@ tmpdir=$(mktemp -d -t "$(basename BASH_SOURCE)-XXXXXXXX")
 # shellcheck disable=SC2064
 trap "{ rm -rf $tmpdir; }" EXIT
 
-ENDPOINT='--ca-bundle /etc/ssl/certs/ca-bundle.crt --endpoint-url https://s3.o11y.tu.lsst.org'
+ENDPOINT='--ca-bundle /etc/ssl/certs/ca-bundle.crt --endpoint-url https://s3.pillan.tu.lsst.org'
 
 # shellcheck disable=SC2086
-aws s3 $ENDPOINT --region o11y mb s3://pillan-mimir
+aws s3 $ENDPOINT --region lfa mb s3://pillan-mimir
 # shellcheck disable=SC2086
-aws s3 $ENDPOINT --region o11y mb s3://pillan-mimir-blocks
+aws s3 $ENDPOINT --region lfa mb s3://pillan-mimir-blocks
 # shellcheck disable=SC2086
-aws s3 $ENDPOINT --region o11y mb s3://pillan-mimir-alertmanager
+aws s3 $ENDPOINT --region lfa mb s3://pillan-mimir-alertmanager
 # shellcheck disable=SC2086
-aws s3 $ENDPOINT --region o11y mb s3://pillan-mimir-ruler
+aws s3 $ENDPOINT --region lfa mb s3://pillan-mimir-ruler
