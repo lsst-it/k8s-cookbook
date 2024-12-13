@@ -50,7 +50,7 @@ spec:
       opensearch_security.multitenancy.tenants.enable_private: "false"
       opensearch_security.multitenancy.tenants.preferred: '["Global", "lsst"]'
       opensearch_security.multitenancy.enable_filter: "false"
-      opensearchDashboards.autocompleteTimeout: 5000
+      opensearchDashboards.autocompleteTimeout: "5000"
     env:
     - name: KEYCLOAK_CLIENT_ID
       valueFrom:
