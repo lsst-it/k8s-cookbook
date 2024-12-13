@@ -27,7 +27,21 @@ serviceMonitor:
       hostname: google.com
       interval: 60s
       module: http_2xx
-
+    - name: vpnls
+      url: https://vpn.ls.lsst.org
+      hostname: vpn.ls.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: s3lhn
+      url: https://s3-lhn.cp.lsst.org
+      hostname: s3-lhn.cp.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: s3cp
+      url: https://s3.cp.lsst.org
+      hostname: s3.cp.lsst.org
+      interval: 60s
+      module: http_2xx
 prometheusRule:
   enabled: true
   additionalLabels:
