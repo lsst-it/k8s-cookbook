@@ -7,3 +7,7 @@ mimir:
           endpoint: s3.o11y.${ .ClusterLabels.site }.lsst.org
     limits:
       compactor_blocks_retention_period: 90d
+
+ingester:
+  persistentVolume:
+    size: 300Gi
