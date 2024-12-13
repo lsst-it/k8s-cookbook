@@ -1,12 +1,27 @@
 ---
+ingress:
+  dashboard:
+    ingressClassName: traefik
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: pillan01
         devices:
@@ -64,6 +79,11 @@ cephBlockPools:
       quotas:
         maxSize: 5Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "512"
     storageClass:
       name: rook-ceph-block
       enabled: true

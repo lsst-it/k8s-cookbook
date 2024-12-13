@@ -11,6 +11,11 @@ spec:
       size: 3
     quotas:
       maxSize: 10Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "16"
   dataPools:
     - name: default
       failureDomain: host
@@ -18,6 +23,11 @@ spec:
         size: 3
       quotas:
         maxSize: 25Gi
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
     - name: ec
       failureDomain: host
       erasureCoded:
@@ -25,8 +35,13 @@ spec:
         codingChunks: 3
       quotas:
         maxSize: 250Gi
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:

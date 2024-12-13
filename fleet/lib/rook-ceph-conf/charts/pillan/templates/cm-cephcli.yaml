@@ -12,19 +12,19 @@ data:
 
     waitfornfs jhome
     ceph nfs export rm jhome /jhome
-    ceph nfs export create cephfs jhome /jhome jhome /jhome
+    ceph nfs export create cephfs jhome /jhome jhome
 
     waitfornfs lsstdata
     ceph nfs export rm lsstdata /lsstdata
-    ceph nfs export create cephfs lsstdata /lsstdata lsstdata # no /lsstdata relative export
+    ceph nfs export create cephfs lsstdata /lsstdata lsstdata
 
     waitfornfs project
     ceph nfs export rm project /project
-    ceph nfs export create cephfs project /project project /project
+    ceph nfs export create cephfs project /project project
 
     waitfornfs scratch
     ceph nfs export rm scratch /scratch
-    ceph nfs export create cephfs scratch /scratch scratch /scratch
+    ceph nfs export create cephfs scratch /scratch scratch
 
     waitfornfs obs-env
     ceph nfs export rm obs-env /obs-env
@@ -40,9 +40,11 @@ data:
 
     waitfornfs rsphome
     ceph nfs export rm rsphome /rsphome
-    ceph nfs export create cephfs rsphome /rsphome rsphome /rsphome
+    ceph nfs export create cephfs rsphome /rsphome rsphome
 
-    ceph mgr module enable rook
-    ceph orch set backend rook
     ceph device monitoring on
     ceph config set global device_failure_prediction_mode local
+    ceph telemetry on --license sharing-1-0
+
+    ceph osd pool set .mgr nodelete true
+    ceph osd pool set .mgr nosizechange true

@@ -13,3 +13,9 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml

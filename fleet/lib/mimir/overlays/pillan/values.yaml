@@ -1,0 +1,13 @@
+---
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          region: lfa
+          endpoint: s3.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+    limits:
+      compactor_blocks_retention_period: 180d
+gateway:
+  ingress:
+    ingressClassName: traefik

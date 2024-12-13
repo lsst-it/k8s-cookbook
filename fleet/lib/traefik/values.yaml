@@ -1,0 +1,27 @@
+---
+deployment:
+  kind: DaemonSet
+rbac:
+  namespaced: false
+ingressClass:
+  name: traefik
+  isDefaultClass: false
+providers:
+  kubernetesCRD:
+    enabled: false
+  kubernetesIngress:
+    ingressClass: traefik
+ports:
+  websecure:
+    http3:
+      enabled: true
+metrics:
+  prometheus:
+    service:
+      enabled: true
+    disableAPICheck: false
+    serviceMonitor:
+      enabled: true
+service:
+  annotations:
+    metallb.universe.tf/address-pool: ingress

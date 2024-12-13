@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-config-override
+  namespace: rook-ceph
+data:
+  config: |
+    [mon]
+    mon_data_avail_warn = 20

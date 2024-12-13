@@ -20,3 +20,9 @@ dependsOn:
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
+targetCustomizations:
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml
