@@ -42,6 +42,26 @@ serviceMonitor:
       hostname: s3.cp.lsst.org
       interval: 60s
       module: http_2xx
+    - name: rspls
+      url: https://summit-lsp.lsst.codes
+      hostname: summit-lsp.lsst.codes
+      interval: 60s
+      module: http_2xx
+    - name: rspcp
+      url: https://base-lsp.lsst.codes/
+      hostname: base-lsp.lsst.codes
+      interval: 60s
+      module: http_2xx
+    - name: keycloakcp
+      url: https://keycloak.cp.lsst.org/
+      hostname: keycloak.cp.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: keycloakls
+      url: https://keycloak.ls.lsst.org/
+      hostname: keycloak.ls.lsst.org
+      interval: 60s
+      module: http_2xx
 prometheusRule:
   enabled: true
   additionalLabels:
