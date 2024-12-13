@@ -157,8 +157,20 @@ alertmanager:
           matchers:
             - prod = "true"
           continue: true
+        - receiver: gnocpush
+          continue: true
+          repeat_interval: 30s
+          group_interval: 30s
+          group_wait: 30s
+          group_by:
+            - gnoc
+          # matchers:
+          #   - gnoc = "true"
     receivers:
       - name: blackhole
+      - name: gnocpush
+        webhook_configs:
+          - url: http://gnocpush.gnocpush:8080/alerts
       - name: squadcast-alertmanager
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager
