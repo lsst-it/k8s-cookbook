@@ -1,0 +1,52 @@
+# loki/values.yaml
+config:
+  auth_enabled: false
+  server:
+    http_listen_port: 3100
+
+  storage_config:
+    aws:
+      s3: s3://s3.ruka.dev.lsst.org
+      endpoint: http://rook-ceph-rgw-lfa.rook-ceph.svc.cluster.local:80
+      region: us-east-1
+      access_key_id: ${ACCESS_KEY_ID}
+      secret_access_key: ${SECRET_ACCESS_KEY}
+      s3forcepathstyle: true
+      insecure: true
+    boltdb_shipper:
+      active_index_directory: /data/loki/index
+      shared_store: s3
+
+  schema_config:
+    configs:
+      - from: "2022-01-01"
+        store: boltdb-shipper
+        object_store: s3
+        schema: v11
+        index:
+          prefix: loki_index_
+          period: 168h
+
+  limits_config:
+    enforce_metric_name: false
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+
+extraEnv:
+  - name: ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: rook-ceph-object-user-rook-ceph-loki
+        key: access_key_id
+  - name: SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: rook-ceph-object-user-rook-ceph-loki
+        key: secret_access_key
+
+persistence:
+  enabled: true
+  storageClassName: <your-storage-class>
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
