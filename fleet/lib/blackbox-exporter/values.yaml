@@ -27,6 +27,46 @@ serviceMonitor:
       hostname: google.com
       interval: 60s
       module: http_2xx
+    - name: vpnls
+      url: https://vpn.ls.lsst.org
+      hostname: vpn.ls.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: s3lhn
+      url: https://s3-lhn.cp.lsst.org
+      hostname: s3-lhn.cp.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: s3cp
+      url: https://s3.cp.lsst.org
+      hostname: s3.cp.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: rspls
+      url: https://summit-lsp.lsst.codes
+      hostname: summit-lsp.lsst.codes
+      interval: 60s
+      module: http_2xx
+    - name: rspcp
+      url: https://base-lsp.lsst.codes/
+      hostname: base-lsp.lsst.codes
+      interval: 60s
+      module: http_2xx
+    - name: keycloakcp
+      url: https://keycloak.cp.lsst.org/
+      hostname: keycloak.cp.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: keycloakls
+      url: https://keycloak.ls.lsst.org/
+      hostname: keycloak.ls.lsst.org
+      interval: 60s
+      module: http_2xx
+    - name: mail
+      url: https://mail.lsst.org/
+      hostname: mail.lsst.org
+      interval: 60s
+      module: http_2xx
 
 prometheusRule:
   enabled: true
