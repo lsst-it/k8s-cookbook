@@ -62,6 +62,11 @@ serviceMonitor:
       hostname: keycloak.ls.lsst.org
       interval: 60s
       module: http_2xx
+    - name: mail
+      url: https://mail.lsst.org/
+      hostname: mail.lsst.org
+      interval: 60s
+      module: http_2xx 
 prometheusRule:
   enabled: true
   additionalLabels:
