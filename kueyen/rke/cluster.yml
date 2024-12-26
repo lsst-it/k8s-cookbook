@@ -33,6 +33,8 @@ services:
     extra_args:
       node-status-max-images: "-1"
       max-pods: 250
+      kube-reserved: memory=4Gi
+      system-reserved: memory=4Gi
     extra_binds:
     - /drives/localdrive:/drives/localdrive
 network:

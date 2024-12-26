@@ -32,6 +32,8 @@ services:
     extra_args:
       node-status-max-images: "-1"
       max-pods: 250
+      kube-reserved: memory=4Gi
+      system-reserved: memory=4Gi
 network:
   plugin: canal
 ssh_key_path: ~/.ssh/id_rsa
