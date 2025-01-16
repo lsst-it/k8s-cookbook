@@ -26,6 +26,8 @@ csi:
   cephcsi:
     image: quay.io/cephcsi/cephcsi:v3.13.0
   enableLiveness: true
+  nfs:
+    enabled: true
   provisionerTolerations:
     - <<: *storage_node_tol
   provisionerNodeAffinity: *storage_node_aff
