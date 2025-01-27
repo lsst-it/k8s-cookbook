@@ -27,7 +27,7 @@ mimir:
         s3:
           region: o11y
           bucket_name: ${ .ClusterName }-mimir
-          endpoint: s3.o11y.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          endpoint: s3.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
           access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
           secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
     blocks_storage:
