@@ -1,0 +1,92 @@
+---
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          region: lfa
+          endpoint: s3.kueyen.dev.lsst.org
+          bucket_name: mimir-kueyen
+          access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
+          secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
+          insecure: true
+      
+    limits:
+      compactor_blocks_retention_period: 90d
+distributor:
+  replicas: 1
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 1
+      memory: 512Mi
+ingester:
+  persistentVolume:
+    size: 200Gi
+  replicas: 1
+  resources:
+    limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+querier:
+  replicas: 1
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 2
+      memory: 128Mi
+query_frontend:
+  replicas: 1
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      cpu: 2
+      memory: 128Mi
+
+store_gateway:
+  persistentVolume:
+    size: 10Gi
+  replicas: 1
+  resources:
+    limits:
+      memory: 2.5Gi
+    requests:
+      cpu: 1
+      memory: 512Mi
+ruler:
+  resources:
+    limits:
+      memory: 1Gi
+    requests: 128Mi
+
+compactor:
+  resources:
+    limits:
+      memory: 1Gi
+    requests: 512Mi
+
+## caching components
+admin-cache:
+  enabled: true
+  replicas: 1
+chunks-cache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1024
+index-cache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 1024
+metadata-cache:
+  enabled: true
+  allocatedMemory: 512
+results-cache:
+  enabled: true
+  replicas: 1
+  allocatedMemory: 512
