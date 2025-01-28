@@ -8,7 +8,7 @@ spec:
   store: lfa
   clusterNamespace: rook-ceph
   quotas:
-    maxBuckets: 1
+    maxBuckets: 2
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
