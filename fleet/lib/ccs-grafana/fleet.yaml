@@ -18,6 +18,11 @@ dependsOn:
       matchLabels:
         bundle: ccs-influxdb
 targetCustomizations:
+  - name: manke
+    clusterName: manke
+    helm:
+      valuesFiles:
+        - overlays/manke/values.yaml
   - name: pillan
     clusterName: pillan
     helm:

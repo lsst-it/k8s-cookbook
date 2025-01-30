@@ -1,0 +1,11 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: saluser
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 2

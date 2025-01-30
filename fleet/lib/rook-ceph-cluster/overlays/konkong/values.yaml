@@ -2,39 +2,39 @@
 cephClusterSpec:
   mon:
     count: 3
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: konkong01
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301315
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301319
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6D4D8
-            config:
-              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6DF3F
-            config:
-              osdsPerDevice: "1"
       - name: konkong02
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301027
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301320
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6EC63
-            config:
-              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6D119
-            config:
-              osdsPerDevice: "1"
       - name: konkong03
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301033
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301328
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6EF4B
-            config:
-              osdsPerDevice: "1"
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_233945502DBF
-            config:
-              osdsPerDevice: "1"
