@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: jhome
+  name: lsstdata
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -11,14 +11,24 @@ spec:
       size: 3
     quotas:
       maxSize: 10Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "16"
   dataPools:
     - failureDomain: host
       replicated:
         size: 3
       quotas:
-        maxSize: 250Gi
+        maxSize: 100Gi
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
@@ -32,11 +42,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: jhome
+  name: lsstdata
   namespace: rook-ceph
 spec:
   rados:
-    pool: jhome-data0
+    pool: lsstdata-data0
   server:
     active: 1
     resources:
@@ -53,13 +63,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: jhome
+    ceph_nfs: lsstdata
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-jhome
+  name: rook-ceph-nfs-lsstdata
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.151.151
+    metallb.universe.tf/loadBalancerIPs: 139.229.151.228
 spec:
   ports:
     - name: nfs
@@ -69,7 +79,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: jhome
+    ceph_nfs: lsstdata
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer

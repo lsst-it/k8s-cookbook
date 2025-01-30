@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: obs-env
+  name: scratch
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -11,14 +11,24 @@ spec:
       size: 3
     quotas:
       maxSize: 10Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "16"
   dataPools:
     - failureDomain: host
       replicated:
         size: 3
       quotas:
         maxSize: 2Ti
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
@@ -32,11 +42,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: obs-env
+  name: scratch
   namespace: rook-ceph
 spec:
   rados:
-    pool: obs-env-data0
+    pool: scratch-data0
   server:
     active: 1
     resources:
@@ -53,13 +63,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: scratch
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-obs-env
+  name: rook-ceph-nfs-scratch
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.151.158
+    metallb.universe.tf/loadBalancerIPs: 139.229.151.231
 spec:
   ports:
     - name: nfs
@@ -69,7 +79,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: obs-env
+    ceph_nfs: scratch
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer
