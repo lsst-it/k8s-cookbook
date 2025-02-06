@@ -24,7 +24,7 @@ spec:
                     name: keycloak-pg-backup
               env:
                 - name: HOST
-                  value: cnpg-loadbalancer.cloudnativepg.svc.cluster.local
+                  value: keycloak-pg.keycloak-pg.svc.cluster.local
           volumes:
             - name: ephemeral
               ephemeral:

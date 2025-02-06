@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.bitnami.com/bitnami
-  version: 24.1.0
+  version: 17.3.1
   timeoutSeconds: 60
   waitForJobs: true
   valuesFiles:
@@ -21,11 +21,11 @@ dependsOn:
       matchLabels:
         bundle: keycloak-pg
 targetCustomizations:
-  - name: manke
-    clusterName: manke
+  - name: luan
+    clusterName: luan
     helm:
       valuesFiles:
-        - overlays/manke/values.yaml
+        - overlays/luan/values.yaml
   - name: pillan
     clusterName: pillan
     helm:
