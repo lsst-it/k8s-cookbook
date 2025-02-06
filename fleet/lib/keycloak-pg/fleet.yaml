@@ -13,6 +13,11 @@ dependsOn:
       matchLabels:
         bundle: cnpg-system
 targetCustomizations:
+  - name: luan
+    clusterName: luan
+    yaml:
+      overlays:
+        - luan
   - name: ruka
     clusterName: ruka
     yaml:
