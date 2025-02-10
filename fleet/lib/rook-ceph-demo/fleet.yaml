@@ -108,9 +108,9 @@ targetCustomizations:
             - name: comcam
               path: /comcam
               server: nfs-comcam.ls.lsst.org
-            - name: jhome
-              path: /jhome
-              server: nfs-jhome.ls.lsst.org
+            - name: rsphome
+              path: /rsphome
+              server: nfs-rsphome.ls.lsst.org
             - name: lsstdata
               path: /lsstdata
               server: nfs-lsstdata.ls.lsst.org
