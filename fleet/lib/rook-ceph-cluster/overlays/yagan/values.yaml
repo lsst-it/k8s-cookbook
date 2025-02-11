@@ -17,7 +17,8 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: yagan01
         devices:
@@ -80,13 +81,9 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102JB3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206313P8CGN
       - name: yagan11
-        config:
-          osdsPerDevice: "4"
         devices:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402R53P8CGN
       - name: yagan12
-        config:
-          osdsPerDevice: "1"
         devices:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX235301FJ3P8CGN
       #- name: yagan13
