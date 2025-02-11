@@ -17,3 +17,5 @@ metadata:
 spec:
   ipAddressPools:
     - one-pool
+  interfaces:
+    - br1101

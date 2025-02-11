@@ -2,20 +2,20 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: general
+  name: ingress
   namespace: metallb-system
 spec:
   addresses:
-    - 139.229.160.191-139.229.160.199
-  autoAssign: true
+    - 139.229.160.200/32
+  autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: general
+  name: ingress
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - general
+    - ingress
   interfaces:
     - br1101
