@@ -24,3 +24,8 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
+  - name: yagan
+    clusterName: yagan
+    helm:
+      valuesFiles:
+        - overlays/yagan/values.yaml
