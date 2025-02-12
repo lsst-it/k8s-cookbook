@@ -6,7 +6,7 @@ labels:
   bundle: *name
 helm:
   releaseName: *name
-  timeoutSeconds: 60
+  timeoutSeconds: 300
   waitForJobs: true
 dependsOn:
   - selector:
@@ -23,3 +23,9 @@ targetCustomizations:
     yaml:
       overlays:
         - ruka
+  - name: yepun
+    clusterName: yepun
+    yaml:
+      overlays:
+        - generic
+        - yepun
