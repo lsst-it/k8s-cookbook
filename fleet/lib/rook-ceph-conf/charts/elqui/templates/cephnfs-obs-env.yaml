@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: auxtel
+  name: obs-env
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -16,36 +16,36 @@ spec:
       replicated:
         size: 3
       quotas:
-        maxSize: 15Ti
+        maxSize: 250Gi
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
         cpu: "4"
         memory: 4Gi
       requests:
-        cpu: "4"
+        cpu: "1"
         memory: 4Gi
   preserveFilesystemOnDelete: false
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: auxtel
+  name: obs-env
   namespace: rook-ceph
 spec:
   rados:
-    pool: auxtel-data0
+    pool: obs-env-data0
   server:
     active: 1
     resources:
       limits:
         cpu: "3"
-        memory: 16Gi
+        memory: 8Gi
       requests:
-        cpu: "3"
-        memory: 16Gi
+        cpu: "1"
+        memory: 8Gi
 ---
 apiVersion: v1
 kind: Service
@@ -53,13 +53,13 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: auxtel
+    ceph_nfs: obs-env
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-auxtel
+  name: rook-ceph-nfs-obs-env
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.160.153
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.24
 spec:
   ports:
     - name: nfs
@@ -69,7 +69,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: auxtel
+    ceph_nfs: obs-env
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer

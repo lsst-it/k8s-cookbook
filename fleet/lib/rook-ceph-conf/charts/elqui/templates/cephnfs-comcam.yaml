@@ -18,7 +18,7 @@ spec:
       quotas:
         maxSize: 15Ti
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
@@ -59,7 +59,7 @@ metadata:
   name: rook-ceph-nfs-comcam
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.160.154
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.23
 spec:
   ports:
     - name: nfs
