@@ -18,6 +18,10 @@ data:
     ceph nfs export rm comcam /comcam
     ceph nfs export create cephfs comcam /comcam comcam
 
+    waitfornfs obs-env
+    ceph nfs export rm obs-env /obs-env
+    ceph nfs export create cephfs obs-env /obs-env obs-env
+
     ceph device monitoring on
     ceph config set global device_failure_prediction_mode local
     ceph telemetry on --license sharing-1-0
