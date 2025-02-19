@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 139.229.160.221/32
+  - 139.229.180.66/32
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
@@ -18,4 +18,4 @@ spec:
   ipAddressPools:
   - htcondor
   interfaces:
-  - br1101
+  - br1800

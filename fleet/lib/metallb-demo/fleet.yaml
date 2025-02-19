@@ -46,8 +46,7 @@ targetCustomizations:
     helm:
       values:
         pools:
-          - one-pool
-          - lhn
+          - general
   - name: elqui
     clusterName: elqui
     helm:

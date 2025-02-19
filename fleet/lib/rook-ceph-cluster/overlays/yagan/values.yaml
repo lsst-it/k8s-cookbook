@@ -1,12 +1,27 @@
 ---
+ingress:
+  dashboard:
+    ingressClassName: traefik
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: yagan01
         devices:
@@ -34,7 +49,7 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220202S53P8CGN
       - name: yagan05
         devices:
-          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703108
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605073
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703130
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102HH3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220202S63P8CGN
@@ -46,19 +61,19 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102GL3P8CGN
       - name: yagan07
         devices:
-          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605071
+          - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R605069
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703134
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102BC3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102KZ3P8CGN
       - name: yagan08
         devices:
-          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56A01
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D5690C
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D57152
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2201029T3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220103XG3P8CGN
       - name: yagan09
         devices:
-          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56B58
+          - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D57167
           - name: /dev/disk/by-id/nvme-MTFDHAL1T9TCT_190620D56DDC
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102BR3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220103XE3P8CGN
@@ -69,13 +84,9 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102JB3P8CGN
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206313P8CGN
       - name: yagan11
-        config:
-          osdsPerDevice: "4"
         devices:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX236402R53P8CGN
       - name: yagan12
-        config:
-          osdsPerDevice: "1"
         devices:
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX235301FJ3P8CGN
       #- name: yagan13
@@ -113,6 +124,11 @@ cephBlockPools:
       quotas:
         maxSize: 10Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "2048"
     storageClass:
       name: rook-ceph-block
       enabled: true

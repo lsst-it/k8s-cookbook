@@ -2,20 +2,21 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: lhn
+  name: reserved
   namespace: metallb-system
 spec:
   addresses:
-    - 139.229.180.1-139.229.180.62
+    # all assigments within 139.229.180.64/26
+    - 139.229.180.90-139.229.180.109
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: lhn
+  name: l2ad
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - lhn
+    - reserved
   interfaces:
     - br1800

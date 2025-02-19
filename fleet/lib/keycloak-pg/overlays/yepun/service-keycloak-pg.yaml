@@ -1,17 +1,18 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: cnpg-loadbalancer-lhn
+  name: keycloak-pg
   labels:
-    cnpg.io/cluster: cnpg-cluster
+    cnpg.io/cluster: keycloak-pg
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.180.6
+    metallb.universe.tf/loadBalancerIPs: 139.229.160.131
 spec:
   ports:
     - name: postgres
       port: 5432
       protocol: TCP
   selector:
-    cnpg.io/cluster: cnpg-cluster
+    cnpg.io/cluster: keycloak-pg
     role: primary
   type: LoadBalancer
