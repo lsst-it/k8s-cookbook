@@ -17,6 +17,7 @@ targetCustomizations:
     clusterName: luan
     yaml:
       overlays:
+        - generic
         - luan
   - name: ruka
     clusterName: ruka
