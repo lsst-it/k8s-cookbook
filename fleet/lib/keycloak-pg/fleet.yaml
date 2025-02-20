@@ -22,6 +22,7 @@ targetCustomizations:
     clusterName: ruka
     yaml:
       overlays:
+        - generic
         - ruka
   - name: yepun
     clusterName: yepun
