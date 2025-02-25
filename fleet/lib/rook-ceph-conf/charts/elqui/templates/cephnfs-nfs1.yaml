@@ -1,0 +1,166 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: nfs1
+  namespace: rook-ceph
+spec:
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+    quotas:
+      maxSize: 10Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "32"
+  dataPools:
+    - failureDomain: host
+      replicated:
+        size: 3
+      quotas:
+        maxSize: 200Ti
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "256"
+  metadataServer:
+    activeCount: 1
+    activeStandby: true
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "4"
+        memory: 4Gi
+  preserveFilesystemOnDelete: false
+---
+apiVersion: ceph.rook.io/v1
+kind: CephNFS
+metadata:
+  name: nfs1
+  namespace: rook-ceph
+spec:
+  rados:
+    pool: nfs1-data0
+  server:
+    active: 4
+    resources:
+      limits:
+        cpu: "4"
+        memory: 16Gi
+      requests:
+        cpu: "4"
+        memory: 16Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: a
+    rook_cluster: rook-ceph
+  name: rook-ceph-nfs-nfs1-a
+  namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.25
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+      protocol: TCP
+      targetPort: 2049
+  selector:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: a
+    rook_cluster: rook-ceph
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: b
+    rook_cluster: rook-ceph
+  name: rook-ceph-nfs-nfs1-b
+  namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.26
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+      protocol: TCP
+      targetPort: 2049
+  selector:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: b
+    rook_cluster: rook-ceph
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: c
+    rook_cluster: rook-ceph
+  name: rook-ceph-nfs-nfs1-c
+  namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.19
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+      protocol: TCP
+      targetPort: 2049
+  selector:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: c
+    rook_cluster: rook-ceph
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: d
+    rook_cluster: rook-ceph
+  name: rook-ceph-nfs-nfs1-d
+  namespace: rook-ceph
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.181.23
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+      protocol: TCP
+      targetPort: 2049
+  selector:
+    app: rook-ceph-nfs
+    ceph_daemon_type: nfs
+    ceph_nfs: nfs1
+    instance: d
+    rook_cluster: rook-ceph
+  type: LoadBalancer
