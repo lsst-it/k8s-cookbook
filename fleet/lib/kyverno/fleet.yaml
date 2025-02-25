@@ -9,7 +9,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://kyverno.github.io/kyverno/
-  version: 3.3.3
+  version: 3.3.7
   timeoutSeconds: 300
   waitForJobs: true
   values:
