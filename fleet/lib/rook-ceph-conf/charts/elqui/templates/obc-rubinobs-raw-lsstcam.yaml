@@ -1,0 +1,71 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: rubinobs-raw-lsstcam
+  namespace: rook-ceph
+spec:
+  bucketName: rubinobs-raw-lsstcam
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: lsstcam
+    bucketMaxSize: 200Ti
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/butler"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-raw-lsstcam",
+                      "arn:aws:s3:::rubinobs-raw-lsstcam/*"
+                  ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-lsstcam"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:PutObject",
+                      "s3:DeleteObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-raw-lsstcam",
+                      "arn:aws:s3:::rubinobs-raw-lsstcam/*"
+                  ]
+              }
+          ]
+      }
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          },
+          {
+            "ID": "ExpireAfter30Days",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+              "Days": 90
+            }
+          }
+        ]
+      }
