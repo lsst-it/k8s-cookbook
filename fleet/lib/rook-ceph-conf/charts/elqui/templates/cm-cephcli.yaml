@@ -14,10 +14,6 @@ data:
     ceph nfs export rm auxtel /auxtel
     ceph nfs export create cephfs auxtel /auxtel auxtel
 
-    waitfornfs comcam
-    ceph nfs export rm comcam /comcam
-    ceph nfs export create cephfs comcam /comcam comcam
-
     waitfornfs obs-env
     ceph nfs export rm obs-env /obs-env
     ceph nfs export create cephfs obs-env /obs-env obs-env
