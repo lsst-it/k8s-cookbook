@@ -6,7 +6,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - 139.229.154.65/32
+    - 139.229.154.106/32
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
@@ -18,4 +18,4 @@ spec:
   ipAddressPools:
     - ingress
   interfaces:
-    - br2130
+    - enp65s0f1  # this should be replaced with a bridge interface
