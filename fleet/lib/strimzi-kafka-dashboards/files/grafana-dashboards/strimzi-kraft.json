@@ -1,4 +1,35 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_MIMIR",
+      "label": "Mimir",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.3.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,13 +49,11 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": null,
   "links": [],
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "uid": "${DS_PROMETHEUS}"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -33,14 +62,6 @@
       },
       "id": 28,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "uid": "${DS_PROMETHEUS}"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "KRaft",
       "type": "row"
     },
@@ -61,6 +82,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -123,17 +145,20 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(container_memory_usage_bytes{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\"}) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(container_memory_usage_bytes{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}) by (pod)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "{{pod}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -157,6 +182,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -219,17 +245,20 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\"}[5m])) by (pod)",
+          "editorMode": "code",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (pod)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "{{pod}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -254,6 +283,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -316,14 +346,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
           "editorMode": "code",
-          "expr": "sum(kubelet_volume_stats_available_bytes{namespace=\"$kubernetes_namespace\",persistentvolumeclaim=~\"data(-[0-9]+)?-$strimzi_cluster_name-(kafka|$pool_name)-[0-9]+\"}) by (persistentvolumeclaim)",
+          "expr": "sum(kubelet_volume_stats_available_bytes{namespace=\"$kubernetes_namespace\",persistentvolumeclaim=~\"data(-[0-9]+)?-$strimzi_cluster_name-(kafka|$pool_name)-[0-9]+\",prom_cluster=\"$prom_cluster\"}) by (persistentvolumeclaim)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
@@ -352,6 +383,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -414,17 +446,20 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(process_open_fds{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(process_open_fds{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -448,6 +483,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -510,14 +546,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
           "editorMode": "code",
-          "expr": "sum(jvm_memory_used_bytes{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}) by (kubernetes_pod_name)",
+          "expr": "sum(jvm_memory_used_bytes{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
@@ -544,6 +581,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -606,16 +644,19 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(rate(jvm_gc_collection_seconds_sum{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}[5m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(rate(jvm_gc_collection_seconds_sum{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -638,6 +679,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -700,16 +742,19 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(rate(jvm_gc_collection_seconds_count{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}[5m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(rate(jvm_gc_collection_seconds_count{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -733,6 +778,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -795,16 +841,19 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(jvm_threads_current{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(jvm_threads_current{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -828,6 +877,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -890,13 +940,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_append_records_rate{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_append_records_rate{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -926,6 +978,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -988,17 +1041,20 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_fetch_records_rate{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_fetch_records_rate{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "D"
         }
       ],
@@ -1022,6 +1078,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 10,
             "gradientMode": "none",
@@ -1084,13 +1141,15 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "7.3.7",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_commit_latency_avg{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_commit_latency_avg{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "instant": false,
@@ -1104,316 +1163,375 @@
       "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The current quorum leader's id; -1 indicates unknown",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 0,
         "y": 23
       },
-      "hiddenSeries": false,
       "id": 104,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Current Quorum Leader",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2747",
-          "decimals": 0,
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2748",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The current voted leader's id; -1 indicates not voted for anyone",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 8,
         "y": 23
       },
-      "hiddenSeries": false,
       "id": 105,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_current_vote{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_current_vote{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Current Voted Leader",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2802",
-          "decimals": 0,
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2803",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The current quorum epoch",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 16,
         "y": 23
       },
-      "hiddenSeries": false,
       "id": 113,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_current_epoch{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_current_epoch{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Current Quorum Epoch",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2857",
-          "decimals": 0,
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2858",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The number of bytes read off all sockets per second",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1421,94 +1539,101 @@
         "y": 31
       },
       "id": 114,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(irate(kafka_server_raftchannelmetrics_incoming_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}[1m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(irate(kafka_server_raftchannelmetrics_incoming_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Metadata Topic Incoming Bytes Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2912",
-          "format": "bytes",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2913",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The number of outgoing bytes sent to all servers per second",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1516,94 +1641,101 @@
         "y": 31
       },
       "id": 115,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(irate(kafka_server_raftchannelmetrics_outgoing_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}[1m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(irate(kafka_server_raftchannelmetrics_outgoing_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Metadata Topic Outgoing Bytes Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:2967",
-          "format": "bytes",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:2968",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The number of requests sent per second",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1611,94 +1743,101 @@
         "y": 39
       },
       "id": 116,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(irate(kafka_server_raftchannelmetrics_request_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}[1m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(irate(kafka_server_raftchannelmetrics_request_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Metadata Topic Requests Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:3078",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:3079",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The number of responses received per second",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1706,94 +1845,100 @@
         "y": 39
       },
       "id": 117,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(irate(kafka_server_raftchannelmetrics_response_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\"}[1m])) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(irate(kafka_server_raftchannelmetrics_response_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Metadata Topic Responses Rate",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:3022",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:3023",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The high watermark maintained on this member; -1 if it is unknown.",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1801,94 +1946,100 @@
         "y": 47
       },
       "id": 118,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_high_watermark{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_high_watermark{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "High Watermark",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:3022",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:3023",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {},
-      "autoMigrateFrom": "graph",
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "uid": "${DS_PROMETHEUS}"
       },
       "description": "The current raft log end offset.",
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -1896,80 +2047,43 @@
         "y": 47
       },
       "id": 119,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "alertThreshold": true,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "paceLength": 10,
-      "percentage": false,
-      "pluginVersion": "7.3.7",
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
-            "uid": "${DS_PROMETHEUS}"
+            "type": "prometheus",
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum(kafka_server_raftmetrics_log_end_offset{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\"}) by (kubernetes_pod_name)",
+          "editorMode": "code",
+          "expr": "sum(kafka_server_raftmetrics_log_end_offset{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
           "format": "time_series",
           "hide": false,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{kubernetes_pod_name}}",
+          "range": true,
           "refId": "A"
         }
       ],
-      "thresholds": [],
-      "timeRegions": [],
       "title": "Log End Offset",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "timeseries",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:3022",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:3023",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     }
   ],
   "refresh": "1m",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [
     "Strimzi",
     "Kafka"
@@ -1977,81 +2091,64 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "Mimir",
-          "value": "mimir"
-        },
-        "hide": 0,
+        "current": {},
         "includeAll": false,
         "label": "datasource",
-        "multi": false,
         "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "sasquatch",
-          "value": "sasquatch"
+        "current": {},
+        "definition": "label_values(kafka_server_raftchannelmetrics_connection_count,prom_cluster)",
+        "label": "K8s Cluster",
+        "name": "prom_cluster",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kafka_server_raftchannelmetrics_connection_count,prom_cluster)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "current": {},
         "datasource": {
           "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
-        "hide": 0,
         "includeAll": false,
         "label": "Namespace",
-        "multi": false,
         "name": "kubernetes_namespace",
         "options": [],
         "query": "query_result(kafka_server_raftmetrics_current_leader)",
         "refresh": 1,
         "regex": "/.*namespace=\"([^\"]*).*/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "sasquatch",
-          "value": "sasquatch"
-        },
+        "current": {},
         "datasource": {
-          "uid": "${DS_PROMETHEUS}"
+          "type": "prometheus",
+          "uid": "${DS_MIMIR}"
         },
         "definition": "",
-        "hide": 0,
         "includeAll": false,
         "label": "Cluster Name",
-        "multi": false,
         "name": "strimzi_cluster_name",
         "options": [],
         "query": "query_result(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\"})",
         "refresh": 1,
         "regex": "/.*strimzi_io_cluster=\"([^\"]*).*/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "uid": "${DS_PROMETHEUS}"
         },
@@ -2065,39 +2162,29 @@
         "query": "query_result(kafka_server_replicamanager_leadercount{namespace=\"$kubernetes_namespace\"})",
         "refresh": 1,
         "regex": "/.*strimzi_io_pool_name=\"([^\"]*).*/",
-        "skipUrlSync": false,
         "sort": 3,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "allValue": ".*",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
-          "uid": "${DS_PROMETHEUS}"
+          "type": "prometheus",
+          "uid": "${DS_MIMIR}"
         },
-        "definition": "",
-        "hide": 0,
+        "definition": "query_result(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",prom_cluster=\"$prom_cluster\"})",
         "includeAll": true,
         "label": "Broker",
-        "multi": false,
         "name": "kraft_node",
         "options": [],
-        "query": "query_result(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\"})",
+        "query": {
+          "qryType": 3,
+          "query": "query_result(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",prom_cluster=\"$prom_cluster\"})",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
         "refresh": 1,
         "regex": "/.*pod_name=\"$strimzi_cluster_name-([^\"]*).*/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
@@ -2105,34 +2192,10 @@
     "from": "now-1h",
     "to": "now"
   },
-  "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
-  },
+  "timepicker": {},
   "timezone": "",
   "title": "Strimzi KRaft",
-  "uid": "0nVoON14z",
+  "uid": "deav6f7fx454wf",
   "version": 1,
   "weekStart": ""
 }
