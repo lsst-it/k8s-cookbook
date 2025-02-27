@@ -13,6 +13,13 @@ cephClusterSpec:
       osd_max_pg_per_osd_hard_ratio: "10"
       osd_op_queue: wpq
       osd_scrub_auto_repair: "true"
+    client.rgw.lfa.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "false"  # disable object gc
+    client.rgw.lfagc.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "true"  # enable object gc
+
   storage:
     useAllNodes: false
     useAllDevices: false
