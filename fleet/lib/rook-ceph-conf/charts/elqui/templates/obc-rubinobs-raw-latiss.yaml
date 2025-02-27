@@ -75,7 +75,7 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephBucketNotification
 metadata:
-  name: rubinobs-raw-latiss
+  name: lsst.s3.raw.latiss
   namespace: rook-ceph
 spec:
   topic: lsst.s3.raw.latiss
