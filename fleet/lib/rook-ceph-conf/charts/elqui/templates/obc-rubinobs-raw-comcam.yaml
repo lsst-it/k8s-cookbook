@@ -4,6 +4,8 @@ kind: ObjectBucketClaim
 metadata:
   name: rubinobs-raw-comcam
   namespace: rook-ceph
+  labels:
+    bucket-notification-lsst.s3.raw.comcam: lsst.s3.raw.comcam
 spec:
   bucketName: rubinobs-raw-comcam
   storageClassName: lfa
@@ -69,3 +71,13 @@ spec:
           }
         ]
       }
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketNotification
+metadata:
+  name: lsst.s3.raw.comcam
+  namespace: rook-ceph
+spec:
+  topic: lsst.s3.raw.comcam
+  events:
+    - s3:ObjectCreated:*

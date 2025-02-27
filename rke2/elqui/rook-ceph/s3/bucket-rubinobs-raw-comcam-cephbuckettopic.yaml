@@ -1,0 +1,16 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketTopic
+metadata:
+  name: lsst.s3.raw.comcam
+  namespace: rook-ceph
+spec:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+  persistent: false
+  opaqueData: "&mechanism=SCRAM-SHA-512"
+  endpoint:
+    kafka:
+      uri: kafka://@sasquatch-summit-kafka-bootstrap.lsst.codes:9094
+      ackLevel: broker
+      useSSL: true
