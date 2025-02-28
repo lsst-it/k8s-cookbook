@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_MIMIR",
+      "label": "Mimir",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.3.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,7 +55,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1439,
+  "id": null,
   "links": [],
   "panels": [
     {
@@ -38,6 +75,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -102,7 +140,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -110,7 +148,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "expr": "sum by (namespace) (\n  rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) \n  * \n  on (prom_cluster,namespace,pod) group_left\n  kube_pod_info{host_network=\"false\"}\n)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -136,6 +174,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -200,15 +239,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -305,16 +346,23 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Namespace"
+          }
+        ]
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "A"
@@ -322,9 +370,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "B"
@@ -334,7 +383,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "avg by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "avg by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "C"
@@ -342,9 +392,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "avg by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "avg by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "D"
@@ -354,7 +405,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "E"
@@ -362,9 +414,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "F"
@@ -374,7 +427,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "G"
@@ -382,9 +436,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "${DS_MIMIR}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "format": "table",
           "instant": true,
           "refId": "H"
@@ -465,6 +520,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -529,15 +585,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "avg by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "avg by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -561,6 +619,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -625,15 +684,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "avg by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "avg by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -657,6 +718,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -687,8 +749,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -721,15 +782,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -753,6 +816,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -783,8 +847,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -817,15 +880,17 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -839,8 +904,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "pps"
         },
@@ -857,23 +968,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -887,8 +1002,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "pps"
         },
@@ -905,23 +1066,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -935,8 +1100,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "pps"
         },
@@ -953,23 +1164,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_receive_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_receive_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -983,8 +1198,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "pps"
         },
@@ -1001,23 +1262,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (namespace) (rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (namespace) (rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1031,8 +1296,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "percentunit"
         },
@@ -1049,23 +1360,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (instance) (rate(node_netstat_Tcp_RetransSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_OutSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_netstat_Tcp_RetransSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_OutSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1079,8 +1394,54 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
-            "showPoints": "never"
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
           },
           "unit": "percentunit"
         },
@@ -1097,23 +1458,27 @@
       "options": {
         "legend": {
           "asTable": true,
+          "calcs": [],
           "displayMode": "table",
           "placement": "right",
           "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "expr": "sum by (instance) (rate(node_netstat_TcpExt_TCPSynRetrans{prom_cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_RetransSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) kube_pod_info{host_network=\"false\"})",
+          "editorMode": "code",
+          "expr": "sum by (instance) (rate(node_netstat_TcpExt_TCPSynRetrans{prom_cluster=\"$cluster\"}[$__rate_interval]) / rate(node_netstat_Tcp_RetransSegs{prom_cluster=\"$cluster\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
           "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1121,44 +1486,30 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 39,
+  "refresh": "1m",
+  "schemaVersion": 40,
   "tags": [
     "kubernetes-mixin"
   ],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": true,
-          "text": "Mimir",
-          "value": "mimir"
-        },
-        "hide": 0,
+        "current": {},
         "includeAll": false,
         "label": "Data source",
-        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
         "allValue": ".*",
-        "current": {
-          "selected": false,
-          "text": "ayekan.dev",
-          "value": "ayekan.dev"
-        },
+        "current": {},
         "definition": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"},prom_cluster)",
-        "hide": 0,
         "includeAll": false,
         "label": "cluster",
-        "multi": false,
         "name": "cluster",
         "options": [],
         "query": {
@@ -1168,7 +1519,6 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       }
@@ -1180,8 +1530,8 @@
   },
   "timepicker": {},
   "timezone": "utc",
-  "title": "Kubernetes / Networking / Cluster",
-  "uid": "ff635a025bcfea7bc3dd4f508990a3e9",
+  "title": "Kubernetes / Networking / Cluster Fixed!",
+  "uid": "feddgqyej6cjke",
   "version": 1,
   "weekStart": ""
 }
