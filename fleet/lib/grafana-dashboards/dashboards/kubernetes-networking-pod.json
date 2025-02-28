@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_MIMIR",
+      "label": "Mimir",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.3.0"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -18,7 +55,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1391,
+  "id": null,
   "links": [],
   "panels": [
     {
@@ -78,7 +115,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -152,7 +189,7 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "10.4.1",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -184,6 +221,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -248,7 +286,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -280,6 +318,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -344,7 +383,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -376,6 +415,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -440,7 +480,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -472,6 +512,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -536,7 +577,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.3.0",
       "targets": [
         {
           "datasource": {
@@ -568,6 +609,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -598,8 +640,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -632,7 +673,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -664,6 +705,7 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -694,8 +736,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -728,7 +769,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "v10.4.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -745,46 +786,33 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [
     "kubernetes-mixin"
   ],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "default",
-          "value": "default"
-        },
-        "hide": 0,
+        "current": {},
         "includeAll": false,
         "label": "Data source",
-        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       },
       {
         "allValue": ".*",
-        "current": {
-          "selected": false,
-          "text": "ayekan.dev",
-          "value": "ayekan.dev"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_MIMIR}"
         },
         "definition": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"},prom_cluster)",
-        "hide": 0,
         "includeAll": false,
         "label": "cluster",
-        "multi": false,
         "name": "cluster",
         "options": [],
         "query": {
@@ -794,26 +822,19 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
       {
         "allValue": ".+",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
         "definition": "label_values(container_network_receive_packets_total{prom_cluster=\"$cluster\"},namespace)",
-        "hide": 0,
         "includeAll": true,
         "label": "namespace",
-        "multi": false,
         "name": "namespace",
         "options": [],
         "query": {
@@ -823,25 +844,18 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "alertbit-555b86958f-2nf6f",
-          "value": "alertbit-555b86958f-2nf6f"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_MIMIR}"
         },
         "definition": "label_values(container_network_receive_packets_total{prom_cluster=\"$cluster\", namespace=~\"$namespace\"},pod)",
-        "hide": 0,
         "includeAll": false,
         "label": "pod",
-        "multi": false,
         "name": "pod",
         "options": [],
         "query": {
@@ -851,7 +865,6 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
         "sort": 1,
         "type": "query"
       }
@@ -864,7 +877,7 @@
   "timepicker": {},
   "timezone": "utc",
   "title": "Kubernetes / Networking / Pod",
-  "uid": "7a18067ce943a40ae25454675c19ff5c",
+  "uid": "deddgr83nhgcgc",
   "version": 1,
   "weekStart": ""
 }
