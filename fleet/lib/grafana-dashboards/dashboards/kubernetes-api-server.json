@@ -1128,8 +1128,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1162,7 +1161,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1226,8 +1225,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1260,7 +1258,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -1550,7 +1548,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${datasource}"
+          "uid": "${DS_MIMIR}"
         },
         "definition": "",
         "includeAll": true,
@@ -1572,6 +1570,6 @@
   "timezone": "utc",
   "title": "Kubernetes / API server (per_cluster)",
   "uid": "aeddgq1o7kohsc",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }
