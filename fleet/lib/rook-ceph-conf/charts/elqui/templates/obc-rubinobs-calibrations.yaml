@@ -1,0 +1,91 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: rubinobs-calibrations
+  namespace: rook-ceph
+spec:
+  bucketName: rubinobs-calibrations
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: calib
+    bucketMaxSize: 10Ti
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/butler"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-calibrations",
+                      "arn:aws:s3:::rubinobs-calibrations/*"
+                  ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-latiss"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-calibrations",
+                      "arn:aws:s3:::rubinobs-calibrations/*"
+                  ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-comcam"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-calibrations",
+                      "arn:aws:s3:::rubinobs-calibrations/*"
+                  ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-lsstcam"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-calibrations",
+                      "arn:aws:s3:::rubinobs-calibrations/*"
+                  ]
+              }
+          ]
+      }
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }

@@ -347,3 +347,13 @@ spec:
     pg_autoscale_mode: "off"
     bulk: "true"
     pg_num: "2048"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: lfa
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
