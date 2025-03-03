@@ -197,7 +197,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{prom_cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
@@ -305,7 +305,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{prom_cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
@@ -327,7 +327,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_limits{prom_cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
@@ -520,7 +520,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{prom_cluster=\"$cluster\", node=~\"$node\", container!=\"\"}) by (pod)",
@@ -629,7 +629,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{prom_cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
@@ -651,7 +651,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{prom_cluster=\"$cluster\", node=~\"$node\"}) by (pod)",
@@ -673,7 +673,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(node_namespace_pod_container:container_memory_rss{prom_cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
@@ -695,7 +695,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum(node_namespace_pod_container:container_memory_swap{prom_cluster=\"$cluster\", node=~\"$node\",container!=\"\"}) by (pod)",
@@ -788,7 +788,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(kube_node_info{prom_cluster=\"$cluster\"},node)",
         "includeAll": false,

@@ -370,7 +370,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
@@ -392,7 +392,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "avg by (namespace) (rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
@@ -414,7 +414,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum by (namespace) (rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",
@@ -436,7 +436,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "editorMode": "code",
           "expr": "sum by (namespace) (rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace!=\"\"}[$__rate_interval]) * on (prom_cluster,namespace,pod) group_left kube_pod_info{host_network=\"false\"})",

@@ -884,7 +884,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(kube_pod_info{job=\"kube-state-metrics\"},prom_cluster)",
         "includeAll": false,
@@ -927,7 +927,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=~\"$namespace\", workload=~\".+\"},workload)",
         "includeAll": false,

@@ -1527,7 +1527,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(up{job=\"apiserver\"},prom_cluster)",
         "includeAll": false,
@@ -1548,7 +1548,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "",
         "includeAll": true,
