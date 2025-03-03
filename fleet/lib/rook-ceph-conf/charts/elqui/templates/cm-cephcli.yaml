@@ -10,14 +10,6 @@ data:
     ceph orch set backend ""
     ceph mgr module disable rook
 
-    waitfornfs auxtel
-    ceph nfs export rm auxtel /auxtel
-    ceph nfs export create cephfs auxtel /auxtel auxtel
-
-    waitfornfs obs-env
-    ceph nfs export rm obs-env /obs-env
-    ceph nfs export create cephfs obs-env /obs-env obs-env
-
     # migrated from nfs1.cp.lsst.org
     waitfornfs nfs1
     declare -A exports
