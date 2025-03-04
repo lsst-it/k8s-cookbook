@@ -808,7 +808,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"},prom_cluster)",
         "includeAll": false,
@@ -851,7 +851,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(container_network_receive_packets_total{prom_cluster=\"$cluster\", namespace=~\"$namespace\"},pod)",
         "includeAll": false,

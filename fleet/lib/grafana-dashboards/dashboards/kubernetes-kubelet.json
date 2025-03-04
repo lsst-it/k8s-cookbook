@@ -844,7 +844,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(kubelet_pod_worker_duration_seconds_count{prom_cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[$__rate_interval])) by (instance)",
           "legendFormat": "{{instance}} worker",
@@ -952,7 +952,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{prom_cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[$__rate_interval])) by (instance, le))",
           "legendFormat": "{{instance}} worker",
@@ -1528,7 +1528,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(rest_client_requests_total{prom_cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"3..\"}[$__rate_interval]))",
           "legendFormat": "3xx",
@@ -1546,7 +1546,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(rest_client_requests_total{prom_cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"5..\"}[$__rate_interval]))",
           "legendFormat": "5xx",
@@ -1792,7 +1792,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics\"},prom_cluster)",
         "includeAll": false,

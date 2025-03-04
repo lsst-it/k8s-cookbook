@@ -323,7 +323,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sort_desc(sum(rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod) kube_pod_info{prom_cluster=\"$cluster\",namespace=\"$namespace\",host_network=\"false\"}\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\",namespace=\"$namespace\", workload=~\".+\", workload_type=~\"$type\"}) by (workload, workload_type))\n",
           "format": "table",
@@ -343,7 +343,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sort_desc(avg(rate(container_network_transmit_bytes_total{prom_cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod) kube_pod_info{prom_cluster=\"$cluster\",namespace=\"$namespace\",host_network=\"false\"}\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\",namespace=\"$namespace\", workload=~\".+\", workload_type=~\"$type\"}) by (workload, workload_type))\n",
           "format": "table",
@@ -363,7 +363,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sort_desc(sum(rate(container_network_transmit_packets_total{prom_cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod) kube_pod_info{prom_cluster=\"$cluster\",namespace=\"$namespace\",host_network=\"false\"}\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\",namespace=\"$namespace\", workload=~\".+\", workload_type=~\"$type\"}) by (workload, workload_type))\n",
           "format": "table",
@@ -383,7 +383,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sort_desc(sum(rate(container_network_transmit_packets_dropped_total{prom_cluster=\"$cluster\",namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod) kube_pod_info{prom_cluster=\"$cluster\",namespace=\"$namespace\",host_network=\"false\"}\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\",namespace=\"$namespace\", workload=~\".+\", workload_type=~\"$type\"}) by (workload, workload_type))\n",
           "format": "table",
@@ -1095,7 +1095,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(up{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\"},prom_cluster)",
         "includeAll": false,
@@ -1137,7 +1137,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload=~\".+\"},workload_type)",
         "includeAll": true,

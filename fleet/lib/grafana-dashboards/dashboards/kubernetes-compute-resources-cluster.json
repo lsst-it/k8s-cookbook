@@ -648,7 +648,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "count(avg(namespace_workload_pod:kube_pod_owner:relabel{ prom_cluster=\"$cluster\"}) by (workload, namespace)) by (namespace)",
           "format": "table",
@@ -668,7 +668,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(namespace_cpu:kube_pod_container_resource_requests:sum{ prom_cluster=\"$cluster\"}) by (namespace)",
           "format": "table",
@@ -688,7 +688,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(namespace_cpu:kube_pod_container_resource_limits:sum{ prom_cluster=\"$cluster\"}) by (namespace)",
           "format": "table",
@@ -990,7 +990,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "count(avg(namespace_workload_pod:kube_pod_owner:relabel{ prom_cluster=\"$cluster\"}) by (workload, namespace)) by (namespace)",
           "format": "table",
@@ -1010,7 +1010,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(namespace_memory:kube_pod_container_resource_requests:sum{ prom_cluster=\"$cluster\"}) by (namespace)",
           "format": "table",
@@ -1030,7 +1030,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(namespace_memory:kube_pod_container_resource_limits:sum{ prom_cluster=\"$cluster\"}) by (namespace)",
           "format": "table",
@@ -1208,7 +1208,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\",  prom_cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
           "format": "table",
@@ -1228,7 +1228,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\",  prom_cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
           "format": "table",
@@ -1248,7 +1248,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(rate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\",  prom_cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
           "format": "table",
@@ -2382,7 +2382,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum by(namespace) (rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\",  prom_cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
           "format": "table",
@@ -2402,7 +2402,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\",  prom_cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
           "format": "table",
@@ -2422,7 +2422,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\",  prom_cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", device=~\"(/dev/)?(mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|md.+|dasd.+)\", container!=\"\",  prom_cluster=\"$cluster\", namespace!=\"\"}[$__rate_interval]))",
           "format": "table",

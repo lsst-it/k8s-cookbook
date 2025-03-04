@@ -150,7 +150,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}) by (pod)",
@@ -250,7 +250,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$kubernetes_namespace\",pod=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (pod)",
@@ -351,7 +351,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kubelet_volume_stats_available_bytes{namespace=\"$kubernetes_namespace\",persistentvolumeclaim=~\"data(-[0-9]+)?-$strimzi_cluster_name-(kafka|$pool_name)-[0-9]+\",prom_cluster=\"$prom_cluster\"}) by (persistentvolumeclaim)",
@@ -451,7 +451,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(process_open_fds{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",container=\"kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -551,7 +551,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(jvm_memory_used_bytes{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -649,7 +649,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(rate(jvm_gc_collection_seconds_sum{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (kubernetes_pod_name)",
@@ -747,7 +747,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(rate(jvm_gc_collection_seconds_count{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}[5m])) by (kubernetes_pod_name)",
@@ -846,7 +846,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(jvm_threads_current{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -945,7 +945,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_append_records_rate{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1046,7 +1046,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_fetch_records_rate{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1146,7 +1146,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_commit_latency_avg{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1249,7 +1249,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1352,7 +1352,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_current_vote{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1455,7 +1455,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_current_epoch{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -1557,7 +1557,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(irate(kafka_server_raftchannelmetrics_incoming_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
@@ -1659,7 +1659,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(irate(kafka_server_raftchannelmetrics_outgoing_byte_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
@@ -1761,7 +1761,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(irate(kafka_server_raftchannelmetrics_request_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
@@ -1863,7 +1863,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(irate(kafka_server_raftchannelmetrics_response_total{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",prom_cluster=\"$prom_cluster\"}[1m])) by (kubernetes_pod_name)",
@@ -1964,7 +1964,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_high_watermark{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -2065,7 +2065,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "sum(kafka_server_raftmetrics_log_end_offset{namespace=\"$kubernetes_namespace\",kubernetes_pod_name=~\"$strimzi_cluster_name-$kraft_node\",strimzi_io_name=\"$strimzi_cluster_name-kafka\",prom_cluster=\"$prom_cluster\"}) by (kubernetes_pod_name)",
@@ -2135,7 +2135,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "",
         "includeAll": false,
@@ -2170,7 +2170,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "query_result(kafka_server_raftmetrics_current_leader{namespace=\"$kubernetes_namespace\",strimzi_io_cluster=\"$strimzi_cluster_name\",prom_cluster=\"$prom_cluster\"})",
         "includeAll": true,

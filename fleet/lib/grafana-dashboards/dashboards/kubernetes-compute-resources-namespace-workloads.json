@@ -208,7 +208,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "scalar(kube_resourcequota{prom_cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"requests.cpu\"})",
           "legendFormat": "quota - requests",
@@ -334,7 +334,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n  node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{prom_cluster=\"$cluster\", namespace=\"$namespace\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -354,7 +354,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n  node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{prom_cluster=\"$cluster\", namespace=\"$namespace\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_requests{job=\"kube-state-metrics\", prom_cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -374,7 +374,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n  node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{prom_cluster=\"$cluster\", namespace=\"$namespace\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_limits{job=\"kube-state-metrics\", prom_cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -593,7 +593,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "scalar(kube_resourcequota{prom_cluster=\"$cluster\", namespace=\"$namespace\", type=\"hard\",resource=\"requests.memory\"})",
           "legendFormat": "quota - requests",
@@ -720,7 +720,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n    container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -740,7 +740,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n    container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_requests{job=\"kube-state-metrics\", prom_cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -760,7 +760,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "sum(\n    container_memory_working_set_bytes{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_limits{job=\"kube-state-metrics\", prom_cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}\n) by (workload, workload_type)\n",
           "format": "table",
@@ -937,7 +937,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "(sum(rate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}) by (workload))\n",
           "format": "table",
@@ -957,7 +957,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "(sum(rate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}) by (workload))\n",
           "format": "table",
@@ -977,7 +977,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_MIMIR}"
+            "uid": "${datasource}"
           },
           "expr": "(sum(rate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", prom_cluster=\"$cluster\", namespace=\"$namespace\"}[$__rate_interval])\n* on (namespace,pod)\ngroup_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload_type=~\"$type\"}) by (workload))\n",
           "format": "table",
@@ -1851,7 +1851,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(up{job=\"kube-state-metrics\"},prom_cluster)",
         "includeAll": false,
@@ -1893,7 +1893,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_MIMIR}"
+          "uid": "${datasource}"
         },
         "definition": "label_values(namespace_workload_pod:kube_pod_owner:relabel{prom_cluster=\"$cluster\", namespace=\"$namespace\", workload=~\".+\"},workload_type)",
         "includeAll": true,
