@@ -18,18 +18,18 @@ prometheusOperator:
   resources:
     limits:
       cpu: 1
-      memory: 128Mi
+      memory: 256Mi
     requests:
       cpu: 10m
-      memory: 128Mi
+      memory: 256Mi
   prometheusConfigReloader:
     resources:
       limits:
         cpu: 100m
-        memory: 128Mi
+        memory: 256Mi
       requests:
         cpu: 10m
-        memory: 128Mi
+        memory: 256Mi
 
 prometheus:
   prometheusSpec:
@@ -37,10 +37,10 @@ prometheus:
     resources:
       limits:
         cpu: 4
-        memory: 12Gi
+        memory: 24Gi
       requests:
         cpu: 1
-        memory: 12Gi
+        memory: 24Gi
     externalLabels:
       prom_site: ${ .ClusterLabels.site }
       prom_cluster: ${ .ClusterName }.${ .ClusterLabels.site }
