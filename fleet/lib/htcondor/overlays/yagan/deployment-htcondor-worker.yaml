@@ -48,8 +48,6 @@ spec:
           mountPath: /repo/LATISS
         - name: lsstcomcam
           mountPath: /repo/LSSTComCam
-        - name: lsstdata-other
-          mountPath: /readonly/lsstdata/other
         - name: lsstdata-comcam
           mountPath: /readonly/lsstdata/comcam
         - name: lsstdata-auxtel
@@ -71,7 +69,7 @@ spec:
       - name: project
         nfs:
           path: /project
-          server: nfs1.cp.lsst.org
+          server: nfs-project.cp.lsst.org
       - name: latiss
         nfs:
           path: /auxtel/repo/LATISS
@@ -79,15 +77,11 @@ spec:
       - name: lsstcomcam
         nfs:
           path: /comcam/repo/LSSTComCam
-          server: nfs3.cp.lsst.org
-      - name: lsstdata-other
-        nfs:
-          path: /lsstdata
-          server: nfs1.cp.lsst.org
+          server: nfs-comcam.cp.lsst.org
       - name: lsstdata-comcam
         nfs:
           path: /comcam/lsstdata
-          server: nfs3.cp.lsst.org
+          server: nfs-comcam.cp.lsst.org
       - name: lsstdata-auxtel
         nfs:
           path: /auxtel/lsstdata
