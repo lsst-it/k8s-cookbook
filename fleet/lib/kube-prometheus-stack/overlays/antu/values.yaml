@@ -132,6 +132,13 @@ grafana:
       - secretName: grafana-ingress-tls
         hosts:
           - *hostname
+  resources:
+    limits:
+      cpu: 4
+      memory: 4Gi
+    requests:
+      cpu: 4
+      memory: 4Gi
 
 alertmanager:
   config:
