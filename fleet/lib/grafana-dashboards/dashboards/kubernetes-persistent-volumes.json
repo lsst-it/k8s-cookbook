@@ -1,41 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_MIMIR",
-      "label": "Mimir",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "11.3.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -55,8 +18,20 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "links": [],
+  "id": 1153,
+  "links": [
+    {
+      "asDropdown": true,
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "kubernetes-mixin"
+      ],
+      "targetBlank": false,
+      "title": "Kubernetes",
+      "type": "dashboards"
+    }
+  ],
   "panels": [
     {
       "datasource": {
@@ -142,7 +117,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
@@ -158,7 +133,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "mimir"
           },
           "editorMode": "code",
           "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_available_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n",
@@ -227,13 +202,14 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "max without(instance,node) (\n(\n  topk(1, kubelet_volume_stats_capacity_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n  -\n  topk(1, kubelet_volume_stats_available_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n)\n/\ntopk(1, kubelet_volume_stats_capacity_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
           "instant": true,
           "refId": "A"
@@ -326,24 +302,28 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))",
           "legendFormat": "Used inodes",
+          "range": true,
           "refId": "A"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${datasource}"
+            "uid": "mimir"
           },
+          "editorMode": "code",
           "expr": "(\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n  -\n  sum without(instance, node) (topk(1, (kubelet_volume_stats_inodes_used{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})))\n)\n",
           "legendFormat": "Free inodes",
+          "range": true,
           "refId": "B"
         }
       ],
@@ -407,13 +387,14 @@
         "showThresholdMarkers": true,
         "sizing": "auto"
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.4.0",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "editorMode": "code",
           "expr": "max without(instance,node) (\ntopk(1, kubelet_volume_stats_inodes_used{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n/\ntopk(1, kubelet_volume_stats_inodes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\", persistentvolumeclaim=\"$volume\"})\n* 100)\n",
           "instant": true,
           "refId": "A"
@@ -423,6 +404,7 @@
       "type": "gauge"
     }
   ],
+  "preload": false,
   "refresh": "10s",
   "schemaVersion": 40,
   "tags": [
@@ -431,8 +413,10 @@
   "templating": {
     "list": [
       {
-        "current": {},
-        "includeAll": false,
+        "current": {
+          "text": "Mimir",
+          "value": "mimir"
+        },
         "label": "Data source",
         "name": "datasource",
         "options": [],
@@ -443,14 +427,16 @@
       },
       {
         "allValue": ".*",
-        "current": {},
+        "current": {
+          "text": "antu.ls",
+          "value": "antu.ls"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
         "definition": "label_values(kubelet_volume_stats_capacity_bytes{job=\"kubelet\", metrics_path=\"/metrics\"},prom_cluster)",
-        "includeAll": false,
-        "label": "cluster",
+        "label": "k8s cluster",
         "name": "cluster",
         "options": [],
         "query": {
@@ -459,18 +445,19 @@
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
-        "regex": "",
         "sort": 1,
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "text": "kube-prometheus-stack",
+          "value": "kube-prometheus-stack"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
         "definition": "label_values(kubelet_volume_stats_capacity_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"},namespace)",
-        "includeAll": false,
         "label": "Namespace",
         "name": "namespace",
         "options": [],
@@ -480,18 +467,19 @@
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
-        "regex": "",
         "sort": 1,
         "type": "query"
       },
       {
-        "current": {},
+        "current": {
+          "text": "kube-prometheus-stack-grafana",
+          "value": "kube-prometheus-stack-grafana"
+        },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
         "definition": "label_values(kubelet_volume_stats_capacity_bytes{prom_cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", namespace=\"$namespace\"},persistentvolumeclaim)",
-        "includeAll": false,
         "label": "PersistentVolumeClaim",
         "name": "volume",
         "options": [],
@@ -501,7 +489,6 @@
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
-        "regex": "",
         "sort": 1,
         "type": "query"
       }
@@ -514,7 +501,7 @@
   "timepicker": {},
   "timezone": "utc",
   "title": "Kubernetes / Persistent Volumes",
-  "uid": "eeddgrdoltds0b",
-  "version": 1,
+  "uid": "919b92a8e8041bd567af9edab12c841a",
+  "version": 3,
   "weekStart": ""
 }
