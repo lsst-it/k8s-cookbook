@@ -28,6 +28,27 @@ nodes:
   - etcd
   labels:
     role: storage-node
+- address: kueyen04.dev.lsst.org
+  hostname_override: kueyen04
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: kueyen05.dev.lsst.org
+  hostname_override: kueyen05
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
+- address: kueyen06.dev.lsst.org
+  hostname_override: kueyen06
+  user: rke
+  role:
+  - worker
+  labels:
+    role: storage-node
 services:
   kubelet:
     extra_args:
