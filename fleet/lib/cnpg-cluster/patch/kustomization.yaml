@@ -1,2 +1,15 @@
-patchesStrategicMerge:
-- podMonitor-label-patch.yaml
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+patches:
+  - target:
+      group: monitoring.coreos.com
+      version: v1
+      kind: PodMonitor
+      name: cnpg-cluster
+      namespace: cloudnativepg
+    patch: |-
+      - op: add
+        path: /metadata/labels/lsst.io~1monitor
+        value: "true"
