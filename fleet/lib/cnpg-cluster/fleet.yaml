@@ -2,6 +2,8 @@
 defaultNamespace: cloudnativepg
 labels:
   bundle: &name cnpg-cluster
+namespaceLabels:
+  lsst.io/discover: "true"
 helm:
   releaseName: *name
   takeOwnership: true
@@ -34,6 +36,8 @@ targetCustomizations:
     yaml:
       overlays:
         - ruka
+    kustomize:
+      dir: patch
   - name: yagan
     clusterName: yagan
     yaml:

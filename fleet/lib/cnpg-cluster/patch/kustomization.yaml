@@ -1,0 +1,2 @@
+patchesStrategicMerge:
+- podMonitor-label-patch.yaml
