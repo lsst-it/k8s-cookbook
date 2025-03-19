@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://traefik.github.io/charts
-  version: 34.4.0
+  version: 34.4.1
   valuesFiles:
     - values.yaml
   timeoutSeconds: 60
