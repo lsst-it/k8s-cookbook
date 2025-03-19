@@ -8,7 +8,7 @@ helm:
   chart: nexus3
   releaseName: *name
   repo: https://stevehipwell.github.io/helm-charts
-  version: 5.4.1
+  version: 5.8.2
   timeoutSeconds: 60
   waitForJobs: true
   values:
