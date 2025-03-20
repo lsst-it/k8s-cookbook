@@ -90,6 +90,8 @@ prometheus:
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
       - job_name: blackbox-snmp-raritan-pdu
         metrics_path: /snmp
+        scrape_interval: 2m
+        scrape_timeout: 1m
         params:
           module: [raritan]
           auth: [rubin_v2]
