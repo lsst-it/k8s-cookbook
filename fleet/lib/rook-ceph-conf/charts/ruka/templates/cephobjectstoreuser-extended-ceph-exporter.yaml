@@ -1,0 +1,32 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: extended-ceph-exporter-lfa
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  displayName: extended-ceph-exporter
+  capabilities:
+    buckets: read
+    users: read
+    usage: read
+    metadata: read
+    zone: read
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: extended-ceph-exporter-o11y
+  namespace: rook-ceph
+spec:
+  store: o11y
+  clusterNamespace: rook-ceph
+  displayName: extended-ceph-exporter
+  capabilities:
+    buckets: read
+    users: read
+    usage: read
+    metadata: read
+    zone: read
