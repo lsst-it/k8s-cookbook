@@ -16,6 +16,8 @@ helm:
       additionalLabels:
         lsst.io/monitor: "true"
     config:
+      config:
+        logLevel: DEBUG
       rgw:
         host: http://rook-ceph-rgw-lfa:80
         existingSecret:
