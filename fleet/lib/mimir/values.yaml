@@ -201,8 +201,6 @@ gateway:
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
       nginx.ingress.kubernetes.io/proxy-body-size: 10m
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/server-snippet: |
-        proxy_ssl_verify off;
     hosts:
       - host: mimir.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
         paths:
