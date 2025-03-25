@@ -152,7 +152,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "32"
+    pg_num: "8"
   replicated:
     size: 3
 ---
@@ -168,7 +168,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "32"
+    pg_num: "8"
   replicated:
     size: 3
 ---
@@ -184,7 +184,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "32"
+    pg_num: "8"
   replicated:
     size: 3
 ---
@@ -200,7 +200,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "128"
+    pg_num: "32"
   replicated:
     size: 3
 ---
@@ -216,7 +216,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "128"
+    pg_num: "32"
   replicated:
     size: 3
 ---
@@ -232,7 +232,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "32"
+    pg_num: "8"
   replicated:
     size: 3
 ---
@@ -265,6 +265,6 @@ spec:
     nosizechange: "true"
     pg_autoscale_mode: "off"
     bulk: "true"
-    pg_num: "512"
+    pg_num: "256"
   replicated:
     size: 3
