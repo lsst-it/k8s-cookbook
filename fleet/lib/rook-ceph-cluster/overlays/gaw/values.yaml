@@ -1,12 +1,12 @@
 ---
 cephClusterSpec:
   mon:
-    count: 5
+    count: 3
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "3"
+      osdsPerDevice: "1"
     nodes:
       - name: gaw01
         devices:
@@ -68,11 +68,6 @@ cephClusterSpec:
           - name: sdh
           - name: sdi
           - name: sdj
-  resources:
-    osd:
-      requests:
-        cpu: 100m
-        memory: 4Gi
 
 cephBlockPools:
   - name: replicapool
