@@ -40,6 +40,7 @@ cephClusterSpec:
   cephConfig:
     global:
       rgw_allow_notification_secrets_in_cleartext: "true"
+      mon_pg_warn_max_object_skew: "0"
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
