@@ -5,10 +5,12 @@ labels:
 namespaceLabels:
   lsst.io/discover: "true"
 helm:
-  chart: *name
+  # chart: *name
   releaseName: *name
-  repo: https://galexrt.github.io/extended-ceph-exporter
-  version: 1.6.8
+  # repo: https://galexrt.github.io/extended-ceph-exporter
+  # version: 1.6.8
+  takeOwnership: true
+  timeoutSeconds: 60
   waitForJobs: true
   values:
     serviceMonitor:
@@ -18,13 +20,18 @@ helm:
     config:
       config:
         logLevel: DEBUG
-      rgw:
-        host: http://rook-ceph-rgw-lfa:80
-        existingSecret:
-          name: rook-ceph-object-user-lfa-extended-ceph-exporter
-          keys:
-            access: AccessKey
-            secret: SecretKey
+      mountRealms: false
+    postpostInstallJob:
+      enabled: false
+    volumes:
+      - name: realms-config
+        secret:
+          secretName: extended-ceph-exporter-realms
+    volumeMounts:
+      - name: realms-config
+        mountPath: "/realms"
+        readOnly: true
+
 dependsOn:
   - selector:
     matchLabels:
