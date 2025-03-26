@@ -157,6 +157,7 @@ grafana:
     requests:
       cpu: 4
       memory: 4Gi
+  defaultDashboardsEnabled: false
 
 alertmanager:
   config:
