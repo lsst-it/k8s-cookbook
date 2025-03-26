@@ -34,3 +34,8 @@ targetCustomizations:
     yaml:
       overlays:
         - antu
+  - name: kueyen
+    clusterName: kueyen
+    yaml:
+      overlays:
+        - kueyen
