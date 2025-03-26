@@ -32,8 +32,6 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_ssl_verify off;
   hosts:
     - snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
   tls:
