@@ -15,7 +15,7 @@ spec:
       nodelete: "true"
       nosizechange: "true"
       pg_autoscale_mode: "off"
-      pg_num: "16"
+      pg_num: "8"
   dataPools:
     - failureDomain: host
       replicated:
@@ -26,7 +26,7 @@ spec:
         nodelete: "true"
         nosizechange: "true"
         pg_autoscale_mode: "off"
-        pg_num: "32"
+        pg_num: "16"
   metadataServer:
     activeCount: 1
     activeStandby: true
