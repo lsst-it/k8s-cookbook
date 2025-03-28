@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1968,
+  "id": 79,
   "links": [],
   "panels": [
     {
@@ -79,6 +79,10 @@
       "repeatDirection": "h",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
           "editorMode": "code",
           "expr": "measurementsExternalSensorValue{instance=~\"$instance\", sensorID=\"3\"} / 10",
           "legendFormat": "__auto",
@@ -110,6 +114,10 @@
                 "value": null
               },
               {
+                "color": "#EAB839",
+                "value": 22
+              },
+              {
                 "color": "red",
                 "value": 25
               }
@@ -121,7 +129,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 5,
+        "w": 4,
         "x": 0,
         "y": 0
       },
@@ -144,7 +152,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.5.2",
       "repeat": "instance",
       "repeatDirection": "v",
       "targets": [
@@ -200,8 +208,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 5,
-        "x": 5,
+        "w": 4,
+        "x": 4,
         "y": 0
       },
       "id": 3,
@@ -222,11 +230,15 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.3.0",
+      "pluginVersion": "11.5.2",
       "repeat": "instance",
       "repeatDirection": "v",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
           "editorMode": "code",
           "expr": "measurementsExternalSensorValue{instance=~\"$instance\", sensorID=\"3\"} / 10",
           "legendFormat": "__auto",
@@ -234,7 +246,7 @@
           "refId": "A"
         }
       ],
-      "title": "Back Temperature $instance",
+      "title": "Back Temp. $instance",
       "type": "stat"
     },
     {
@@ -268,7 +280,7 @@
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 10,
+        "x": 8,
         "y": 0
       },
       "id": 4,
@@ -292,6 +304,10 @@
       "repeatDirection": "v",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
           "editorMode": "code",
           "exemplar": false,
           "expr": "measurementsExternalSensorValue{instance=~\"$instance\", sensorID=\"2\"}",
@@ -322,6 +338,7 @@
     },
     {
       "datasource": {
+        "type": "prometheus",
         "uid": "mimir"
       },
       "fieldConfig": {
@@ -385,7 +402,7 @@
       "gridPos": {
         "h": 4,
         "w": 3,
-        "x": 14,
+        "x": 12,
         "y": 0
       },
       "id": 5,
@@ -406,6 +423,10 @@
       "repeatDirection": "v",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
           "editorMode": "code",
           "expr": "measurementsExternalSensorValue{instance=~\"$instance\", sensorID=\"5\"}",
           "format": "time_series",
@@ -496,7 +517,7 @@
       "gridPos": {
         "h": 4,
         "w": 3,
-        "x": 17,
+        "x": 15,
         "y": 0
       },
       "id": 6,
@@ -517,6 +538,10 @@
       "repeatDirection": "v",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
           "editorMode": "code",
           "expr": "measurementsExternalSensorValue{instance=~\"$instance\", sensorID=\"7\"}",
           "legendFormat": "__auto",
@@ -526,42 +551,257 @@
       ],
       "title": "Water Detector",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 18,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.5.2",
+      "repeat": "instance",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "measurementsInletSensorValue{inletId=\"1\", instance=\"$instance\", pduId=\"1\", sensorType=\"activePower\"}/1000",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Front",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "InLet Active Power",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "light-red",
+                "value": 6
+              }
+            ]
+          },
+          "unit": "amp"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.5.2",
+      "repeat": "instance",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(measurementsOutletSensorValue{instance=\"$instance\",outletId=~\"[1-9]|1[0-6]\",sensorType=\"rmsCurrent\"}/1000)",
+          "format": "time_series",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "L1",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "sum(measurementsOutletSensorValue{instance=\"$instance\",outletId=~\"1[7-9]|2[0-9]|3[0-2]\",sensorType=\"rmsCurrent\"}/1000)\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "L2",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "sum(measurementsOutletSensorValue{instance=\"$instance\",outletId=~\"3[2-9]|4[0-8]\",sensorType=\"rmsCurrent\"}/1000)\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "L3",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Outlet Active Power",
+      "type": "bargauge"
     }
   ],
   "preload": false,
   "schemaVersion": 40,
-  "tags": [],
+  "tags": [
+    "pdu",
+    "overview"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "text": [
+            "pdu1-a01.cp.lsst.org",
+            "pdu1-a02.cp.lsst.org",
             "pdu1-a03.cp.lsst.org",
             "pdu1-a04.cp.lsst.org",
+            "pdu1-a05.cp.lsst.org",
+            "pdu1-a06.cp.lsst.org",
+            "pdu1-a07.cp.lsst.org",
+            "pdu1-b01.cp.lsst.org",
+            "pdu1-b01.ls.lsst.org",
+            "pdu1-b02.cp.lsst.org",
             "pdu1-b02.ls.lsst.org",
+            "pdu1-b03.cp.lsst.org",
             "pdu1-b03.ls.lsst.org",
             "pdu1-b04.cp.lsst.org",
             "pdu1-b04.ls.lsst.org",
+            "pdu1-b05.cp.lsst.org",
+            "pdu1-b05.ls.lsst.org",
+            "pdu1-b06.cp.lsst.org",
             "pdu1-b06.ls.lsst.org",
+            "pdu1-b07.cp.lsst.org",
             "pdu1-b07.ls.lsst.org",
+            "pdu1-b08.ls.lsst.org",
             "pdu1-b13.ls.lsst.org",
             "pdu1-b14.ls.lsst.org",
+            "pdu1-b15.ls.lsst.org",
             "pdu1-b16.ls.lsst.org",
-            "pdu1-main5-as01.cp.lsst.org"
+            "pdu1-main5-as01.cp.lsst.org",
+            "pdu2-b04.ls.lsst.org"
           ],
           "value": [
+            "pdu1-a01.cp.lsst.org",
+            "pdu1-a02.cp.lsst.org",
             "pdu1-a03.cp.lsst.org",
             "pdu1-a04.cp.lsst.org",
+            "pdu1-a05.cp.lsst.org",
+            "pdu1-a06.cp.lsst.org",
+            "pdu1-a07.cp.lsst.org",
+            "pdu1-b01.cp.lsst.org",
+            "pdu1-b01.ls.lsst.org",
+            "pdu1-b02.cp.lsst.org",
             "pdu1-b02.ls.lsst.org",
+            "pdu1-b03.cp.lsst.org",
             "pdu1-b03.ls.lsst.org",
             "pdu1-b04.cp.lsst.org",
             "pdu1-b04.ls.lsst.org",
+            "pdu1-b05.cp.lsst.org",
+            "pdu1-b05.ls.lsst.org",
+            "pdu1-b06.cp.lsst.org",
             "pdu1-b06.ls.lsst.org",
+            "pdu1-b07.cp.lsst.org",
             "pdu1-b07.ls.lsst.org",
+            "pdu1-b08.ls.lsst.org",
             "pdu1-b13.ls.lsst.org",
             "pdu1-b14.ls.lsst.org",
+            "pdu1-b15.ls.lsst.org",
             "pdu1-b16.ls.lsst.org",
-            "pdu1-main5-as01.cp.lsst.org"
+            "pdu1-main5-as01.cp.lsst.org",
+            "pdu2-b04.ls.lsst.org"
           ]
         },
         "definition": "label_values(measurementsExternalSensorValue, instance)",
@@ -580,13 +820,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "PDUs",
-  "uid": "be615ofb5iltsb",
-  "version": 26,
+  "title": "PDU / Overview",
+  "uid": "be615ofb5iltsb4342wrfr",
+  "version": 3,
   "weekStart": ""
 }
