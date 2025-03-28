@@ -1,0 +1,245 @@
+# Default values for extended-ceph-exporter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- Number of replicas of the exporter
+replicaCount: 1
+
+image:
+  # @ignore
+  repository: docker.io/galexrt/extended-ceph-exporter
+  # @ignore
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# @ignore
+imagePullSecrets: []
+# -- Override chart name
+nameOverride: ""
+# -- Override fully-qualified app name
+fullnameOverride: ""
+
+serviceAccount:
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# -- [Pod priority class](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/)
+priorityClassName: ""
+
+# -- Annotations to add to the pod
+podAnnotations: {}
+
+# -- [Pod security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+# -- [Security context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+# @ignore
+sidecars: []
+
+service:
+  type: ClusterIP
+  port: 9138
+
+# -- These are sane defaults for "small" object storages
+resources:
+  limits:
+    cpu: 125m
+    memory: 150Mi
+  requests:
+    cpu: 25m
+    memory: 150Mi
+
+# -- Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# -- [Create a pod that gets scheduled to your chosen node](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/#create-a-pod-that-gets-scheduled-to-your-chosen-node)
+nodeSelector: {}
+
+# -- [Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)
+tolerations: []
+
+# -- [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity)
+affinity: {}
+
+serviceMonitor:
+  # -- Specifies whether a prometheus-operator ServiceMonitor should be created
+  enabled: false
+  # -- Additional Labels for the ServiceMonitor object
+  additionalLabels: {}
+  #namespace: "monitoring"
+  namespaceSelector:
+  # Default: scrape .Release.Namespace only
+  # To scrape all, use the following:
+  #  matchNames:
+  #    - monitoring
+  #   any: true
+  # -- (duration) Interval at which metrics should be scraped
+  scrapeInterval: 30s
+  # -- (duration) Timeout for scraping
+  scrapeTimeout: 20s
+  # honorLabels: true
+
+prometheusRule:
+  # -- Specifies whether a prometheus-operator PrometheusRule should be created
+  enabled: false
+  # -- Additional Labels for the PrometheusRule object
+  additionalLabels: {}
+  # Default: .Release.Namespace
+  # namespace: ""
+  # prometheusRule.rules # Checkout the file for example alerts
+  # -- (prometheusrules.monitoring.coreos.com)
+  rules: []
+
+config:
+  # -- Disable to mount your own `config.yaml` at `/config`. If disabled a volume and volumeMount are required!
+  mountConfig: true
+
+  # -- `config.yaml` for the exporter, make sure to checkout the `config.example.yaml` for more information
+  config:
+    # Set log level
+    logLevel: "INFO"
+    # -- Exporter listen host
+    listenHost: ":9138"
+    # -- Set the metrics endpoint path
+    metricsPath: "/metrics"
+
+    # -- Skip TLS cert verification globally
+    skipTLSVerify: false
+
+    timeouts:
+      # Context timeout for collecting metrics per collector
+      collector: "60s"
+      # HTTP request timeout for collecting metrics for RGW API HTTP client
+      http: "55s"
+
+    cache:
+      # -- Enable metrics caching to reduce load
+      enabled: false
+      # -- Cache duration in seconds
+      duration: "20s"
+
+    rbd:
+      # -- Ceph Config file to read (if left empty will read default Ceph config file)
+      cephConfig: ""
+      # -- List of namespaces and pools to collect RBD related metrics from
+      pools: [] # empty list = all pools and namespaces
+        # - name: my_pool
+        #   namespaces: [] # empty list = all namespaces
+        #     # - my_namespace # only namespaces listed in the list
+
+  # -- Disable to mount your own `realms.yaml` at `/realms`. If disabled a volume and volumeMount are required!
+  mountRealms: true
+  # -- `realms.yaml` exporter RGW Realms config. If left empty will attempt to detect **one** existing Rook CephObjectStore as a target.
+  rgwRealms:
+    realms:
+        # -- RGW Realm name (used in metrics as a label)
+      - name: default
+        # -- The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443". Env vars can will be substitued.
+        host: "$RGW_HOST" # By default only available when the `postInstallJob` below is enabled.
+        # -- RGW S3 access key
+        accessKey: "$RGW_ACCESS_KEY" # By default only available when the `postInstallJob` below is enabled.
+        # -- RGW S3 secret key
+        secretKey: "$RGW_SECRET_KEY" # By default only available when the `postInstallJob` below is enabled.
+        # -- Skip tls verify for this RGW endpoint
+        skipTLSVerify: false
+      ## Multiple realms can be specified
+      #- name: example2
+      #  host: "https://your-rgw-host.example.com:8443"
+      #  accessKey: "YOUR_ACCESS_KEY"
+      #  secretKey: "YOUR_SECRET_KEY"
+      #  skipTLSVerify: false
+
+# -- Will be put in a Secret and used as env vars
+additionalEnv: {}
+
+postInstallJob:
+  # -- If enabled, will create a rgw admin user `extended-ceph-exporter` either on
+  # Rook/Ceph cluster pre upgrade (when having extended-ceph-exporter as a helm
+  # dependency) or on post install of extended-ceph-exporter(needs existing
+  # Rook/Ceph cluster). This user will be used for extended ceph metrics.
+  enabled: true
+  # @ignore
+  image:
+    repository: quay.io/ceph/ceph
+    pullPolicy: IfNotPresent
+    tag: v17.2.8
+  # -- RGW Realms config and options
+  rgw:
+    # -- The Ceph RGW endpoint as a URL, e.g. "https://your-ceph-rgw-endpoint-here:8443"
+    # @default -- First detected RGW endpoint
+    host: ""
+    # -- Existing RGW admin credentials secret config
+    existingSecret:
+      # -- Name of the existing RGW admin credentials secret
+      name: ""
+      keys:
+        # -- Access key secret key name
+        access: "access"
+        # -- Secret key secret key name
+        secret: "secret"
+    # -- RGW admin access key
+    # @default -- Randomly generated
+    accessKey: null
+    # -- RGW admin secret key
+    # @default -- Randomly generated
+    secretKey: null
+
+# -- Extra volumes to add to the deployment
+volumes: []
+#  - name: realms-config
+#    projected:
+#      sources:
+#        - secret:
+#            name: your-realms-config-secret
+#            items:
+#              - key: realms.yaml
+#                path: realms.yaml
+#                mode: 600
+
+# -- Extra volume mounts to add to the deployment
+volumeMounts: []
+#  - name: realms-config
+#    mountPath: "/realms"
+#    readOnly: true
+
+# -- Extra objects to deploy (value evaluated as a template)
+extraObjects: []
+# Example secret for realms config
+#  - apiVersion: v1
+#    kind: Secret
+#    metadata:
+#      name: realms-config
+#    data:
+#      # See https://github.com/galexrt/extended-ceph-exporter/blob/main/realms.example.yaml
+#      realms.yaml: |
+#        realms:
+#        - name: example1
+#          host: your-rgw-host.example.com
+#          accessKey: YOUR_ACCESS_KEY
+#          secretKey: YOUR_SECRET_KEY
+#        - name: example2
+#          host: your-rgw-host.example.com
+#          accessKey: YOUR_ACCESS_KEY
+#          secretKey: YOUR_SECRET_KEY

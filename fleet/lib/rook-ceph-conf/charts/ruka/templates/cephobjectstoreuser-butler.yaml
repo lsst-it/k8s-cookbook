@@ -9,6 +9,7 @@ spec:
   clusterNamespace: rook-ceph
   quotas:
     maxBuckets: 2
+    maxSize: 2Pi
 ---
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret

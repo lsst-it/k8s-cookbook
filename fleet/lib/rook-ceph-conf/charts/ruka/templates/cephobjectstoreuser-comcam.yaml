@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
-  name: latiss
+  name: comcam
   namespace: rook-ceph
 spec:
   store: lfa
@@ -13,7 +13,7 @@ spec:
 apiVersion: external-secrets.io/v1alpha1
 kind: PushSecret
 metadata:
-  name: rook-ceph-object-user-lfa-latiss
+  name: rook-ceph-object-user-lfa-comcam
   namespace: rook-ceph
 spec:
   secretStoreRefs:
@@ -21,15 +21,15 @@ spec:
       name: onepassword-oods
   selector:
     secret:
-      name: rook-ceph-object-user-lfa-latiss
+      name: rook-ceph-object-user-lfa-comcam
   data:
     - match:
         secretKey: AccessKey
         remoteRef:
-          remoteKey: latiss
+          remoteKey: comcam
           property: AWS_ACCESS_KEY_ID
     - match:
         secretKey: SecretKey
         remoteRef:
-          remoteKey: latiss
+          remoteKey: comcam
           property: AWS_SECRET_ACCESS_KEY
