@@ -1,0 +1,20 @@
+---
+defaultNamespace: cattle-resources-system
+labels:
+  bundle: &name rancher-backup
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.rancher.io
+  version: 104.0.2+up5.0.2
+  takeOwnership: true
+  timeoutSeconds: 60
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: rancher-backup-crd
+kustomize:
+  dir: base
