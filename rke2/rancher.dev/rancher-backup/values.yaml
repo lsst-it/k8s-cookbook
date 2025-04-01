@@ -1,0 +1,13 @@
+## Default s3 bucket for storing all backup files created by the backup-restore-operator
+s3:
+  enabled: true
+  credentialSecretName: rancher-bkp
+  credentialSecretNamespace: cattle-resources-system
+  region: us-east-1
+  bucketName: rancher-bkp-dev
+  folder: dev
+  endpoint: s3.us-east-1.amazonaws.com
+
+# Add log level flags to backup-restore
+debug: true
+trace: false

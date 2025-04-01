@@ -10,4 +10,4 @@ ingress:
 extraEnv:
   # version strings from https://github.com/rancher/charts/tree/dev-v2.9/charts/fleet
   - name: CATTLE_FLEET_MIN_VERSION
-    value: 104.1.2+up0.10.6
+    value: 106.0.0+up0.12.0
