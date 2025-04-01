@@ -1,0 +1,99 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: logs-chunks-storage
+  namespace: rook-ceph
+spec:
+  generateBucketName: logs-chunks-storage
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: s3-loki
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "AllowReadAccess",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/s3-loki"
+                  },
+                  "Action": [
+                      "s3:ListBucket",
+                      "s3:GetObject",
+                      "s3:GetObjectVersion"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::logs-chunks-storage",
+                      "arn:aws:s3:::logs-chunks-storage/*"
+                  ]
+              }
+          ]
+      }
+
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: logs-ruler-storage
+  namespace: rook-ceph
+spec:
+  generateBucketName: logs-ruler-storage
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: s3-loki
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "AllowReadAccess",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/s3-loki"
+                  },
+                  "Action": [
+                      "s3:ListBucket",
+                      "s3:GetObject",
+                      "s3:GetObjectVersion"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::logs-ruler-storage",
+                      "arn:aws:s3:::logs-ruler-storage/*"
+                  ]
+              }
+          ]
+      }
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: logs-admin-storage
+  namespace: rook-ceph
+spec:
+  generateBucketName: logs-admin-storage
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: s3-loki
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Sid": "AllowReadAccess",
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/s3-loki"
+                  },
+                  "Action": [
+                      "s3:ListBucket",
+                      "s3:GetObject",
+                      "s3:GetObjectVersion"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::logs-admin-storage",
+                      "arn:aws:s3:::logs-admin-storage/*"
+                  ]
+              }
+          ]
+      }
