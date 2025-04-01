@@ -1,0 +1,17 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: rancher
+  namespace: fleet-local
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: master
+  keepResources: true
+  paths:
+    - fleet/s/dev/c/rancher/*
+  targets:
+    - name: rancher
+      clusterName: local
+  correctDrift:
+    enabled: true

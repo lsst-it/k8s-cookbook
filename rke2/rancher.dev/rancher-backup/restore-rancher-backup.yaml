@@ -1,0 +1,7 @@
+apiVersion: resources.cattle.io/v1
+kind: Restore
+metadata:
+  name: s3-recurring
+spec:
+  prune: false
+  backupFilename: s3-recurring-4ad4e1c7-4487-459e-b34b-33f27f3b3b92-2025-04-01T14-53-45Z.tar.gz

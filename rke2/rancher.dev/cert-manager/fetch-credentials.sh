@@ -1,0 +1,1 @@
+../../../template/cert-manager/fetch-credentials.sh
