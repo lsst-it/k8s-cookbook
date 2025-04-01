@@ -57,3 +57,13 @@ spec:
                 name: rook-ceph-rgw-o11y
                 port:
                   number: 80
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: o11y
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: o11y
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
