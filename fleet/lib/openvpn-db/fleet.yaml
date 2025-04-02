@@ -1,0 +1,16 @@
+---
+defaultNamespace: &name openvpn-db
+labels:
+  bundle: *name
+helm:
+  chart: mariadb
+  releaseName: mariadb
+  repo: https://charts.bitnami.com/bitnami
+  version: 20.4.2
+  takeOwnership: true
+  timeoutSeconds: 60
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+kustomize:
+  dir: base
