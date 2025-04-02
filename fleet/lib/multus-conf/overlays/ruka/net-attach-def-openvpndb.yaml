@@ -1,0 +1,22 @@
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: openvpndb
+  namespace: openvpn-db
+spec:
+  config: '{
+      "cniVersion": "0.3.1",
+      "type": "macvlan",
+      "master": "ens2f1",
+      "mode": "bridge",
+      "ipam": {
+        "type": "dhcp",
+        "request": [
+          {
+            "SkipDefault": false,
+            "option": "121"
+          }
+        ]
+      }
+    }'
