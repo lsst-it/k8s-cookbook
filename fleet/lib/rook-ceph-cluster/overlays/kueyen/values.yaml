@@ -6,7 +6,7 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
     nodes:
       - name: kueyen01
         devices:
@@ -17,6 +17,15 @@ cephClusterSpec:
       - name: kueyen03
         devices:
           - name: /dev/nvme0n1
+      - name: kueyen04
+        devices:
+          - name: /dev/sda
+      - name: kueyen05
+        devices:
+          - name: /dev/sda
+      - name: kueyen06
+        devices:
+          - name: /dev/sda
 
 cephBlockPools:
   - name: replicapool
