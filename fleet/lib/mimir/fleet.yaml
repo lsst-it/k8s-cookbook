@@ -15,12 +15,12 @@ helm:
   valuesFiles:
     - values.yaml
 dependsOn:
-  - selector:
-      matchLabels:
-        bundle: mimir-pre
-  - selector:
-      matchLabels:
-        bundle: prometheus-operator-crds
+  # - selector:
+  #     matchLabels:
+  #       bundle: mimir-pre
+  #- selector:
+  #    matchLabels:
+  #      bundle: prometheus-operator-crds
 targetCustomizations:
   - name: ayekan
     clusterName: ayekan
@@ -38,3 +38,8 @@ targetCustomizations:
       valuesFiles:
         - overlays/pillan/values.yaml
         - overlays/rke2/values.yaml
+  - name: kueyen
+    clusterName: kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
