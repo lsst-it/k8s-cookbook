@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 metadata:
-  name: auxtel
+  name: nfs1
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -10,23 +10,25 @@ spec:
     replicated:
       size: 3
     quotas:
-      maxSize: 10Gi
+      maxSize: 1Gi
+    parameters:
+      nodelete: "true"
+      nosizechange: "true"
+      pg_autoscale_mode: "off"
+      pg_num: "8"
   dataPools:
-    - name: default
-      failureDomain: host
+    - failureDomain: host
       replicated:
         size: 3
       quotas:
-        maxSize: 200Gi
-    - name: ec
-      failureDomain: host
-      erasureCoded:
-        dataChunks: 2
-        codingChunks: 1
-      quotas:
-        maxSize: 2Ti
+        maxSize: 10Gi
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
   metadataServer:
-    activeCount: 3
+    activeCount: 1
     activeStandby: true
     resources:
       limits:
@@ -40,11 +42,11 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephNFS
 metadata:
-  name: auxtel
+  name: nfs1
   namespace: rook-ceph
 spec:
   rados:
-    pool: auxtel-data0
+    pool: nfs1-data0
   server:
     active: 1
     resources:
@@ -61,10 +63,10 @@ metadata:
   labels:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: auxtel
+    ceph_nfs: nfs1
     instance: a
     rook_cluster: rook-ceph
-  name: rook-ceph-nfs-auxtel
+  name: rook-ceph-nfs-nfs1-a
   namespace: rook-ceph
   annotations:
     metallb.universe.tf/loadBalancerIPs: 139.229.134.151
@@ -77,7 +79,7 @@ spec:
   selector:
     app: rook-ceph-nfs
     ceph_daemon_type: nfs
-    ceph_nfs: auxtel
+    ceph_nfs: nfs1
     instance: a
     rook_cluster: rook-ceph
   type: LoadBalancer
