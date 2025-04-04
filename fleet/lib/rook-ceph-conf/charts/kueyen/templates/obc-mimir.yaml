@@ -1,0 +1,96 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: kueyen-mimir
+  namespace: rook-ceph
+spec:
+  bucketName: kueyen-mimir
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: mimir
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: kueyen-mimir-blocks
+  namespace: rook-ceph
+spec:
+  bucketName: kueyen-mimir-blocks
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: mimir
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: kueyen-mimir-alertmanager
+  namespace: rook-ceph
+spec:
+  bucketName: kueyen-mimir-alertmanager
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: mimir
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: kueyen-mimir-ruler
+  namespace: rook-ceph
+spec:
+  bucketName: kueyen-mimir-ruler
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: mimir
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
