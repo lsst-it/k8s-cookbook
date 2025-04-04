@@ -1,32 +1,30 @@
 ---
 cephClusterSpec:
   mon:
-    count: 3
+    count: 1
+    allowMultiplePerNode: true # allow multiple mons per node
+  mgr:
+    count: 1
+    allowMultiplePerNode: true # allow multiple mgrs per node
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
     nodes:
       - name: kueyen01
-        devices:
-          - name: /dev/nvme0n1
-      - name: kueyen02
-        devices:
-          - name: /dev/nvme0n1
-      - name: kueyen03
         devices:
           - name: /dev/nvme0n1
 
 cephBlockPools:
   - name: replicapool
     spec:
-      failureDomain: host
+      failureDomain: osd # Suitable for single disk
       replicated:
-        size: 3
+        size: 1 # no replication possible
         requireSafeReplicaSize: true
       quotas:
-        maxSize: 1.5Ti
+        maxSize: 800Gi
       enableRBDStats: true
     storageClass:
       name: rook-ceph-block
