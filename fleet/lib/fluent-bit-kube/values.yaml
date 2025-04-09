@@ -406,7 +406,7 @@ hotReload:
   enabled: true
   image:
     repository: ghcr.io/jimmidyson/configmap-reload
-    tag: v0.11.1
+    tag: v0.15.0
     digest:
     pullPolicy: IfNotPresent
   resources:
