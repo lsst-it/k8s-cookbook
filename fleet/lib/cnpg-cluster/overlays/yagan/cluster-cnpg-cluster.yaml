@@ -12,6 +12,7 @@ spec:
 
   postgresql:
     parameters:
+      max_logical_replication_workers: "10"
       max_connections: "500"
       shared_buffers: 256MB
       idle_session_timeout: 4h
