@@ -8,9 +8,9 @@ spec:
   objectStoreName: lfa
   objectStoreNamespace: rook-ceph
   persistent: false
-  opaqueData: "&mechanism=SCRAM-SHA-512"
   endpoint:
     kafka:
       uri: kafka://@sasquatch-summit-kafka-bootstrap.lsst.codes:9094
       ackLevel: broker
       useSSL: true
+      mechanism: SCRAM-SHA-512
