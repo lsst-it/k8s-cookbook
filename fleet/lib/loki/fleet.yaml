@@ -1,0 +1,37 @@
+---
+# XXX automate provisioning of buckets and rgw user
+defaultNamespace: &name loki
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  chart: &chart loki
+  releaseName: *chart
+  repo: https://grafana.github.io/helm-charts
+  version: 6.28.0
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: loki-pre
+
+targetCustomizations:
+  - name: antu
+    clusterName: antu
+    helm:
+      valuesFiles:
+        - overlays/antu/values.yaml
+  - name: gaw
+    clusterName: gaw
+    helm:
+      valuesFiles:
+        - overlays/gaw/values.yaml
+  - name: kueyen
+    clusterName: kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
