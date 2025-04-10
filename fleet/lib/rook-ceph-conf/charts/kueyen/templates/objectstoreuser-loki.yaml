@@ -1,0 +1,35 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: s3-loki
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 3
+---
+apiVersion: external-secrets.io/v1alpha1
+kind: PushSecret
+metadata:
+  name: rook-ceph-object-user-lfa-loki
+  namespace: rook-ceph
+spec:
+  secretStoreRefs:
+    - kind: ClusterSecretStore
+      name: onepassword
+  selector:
+    secret:
+      name: rook-ceph-object-user-lfa-loki
+  data:
+    - match:
+        secretKey: AccessKey
+        remoteRef:
+          remoteKey: s3-loki
+          property: username
+    - match:
+        secretKey: SecretKey
+        remoteRef:
+          remoteKey: s3-loki
+          property: credential
