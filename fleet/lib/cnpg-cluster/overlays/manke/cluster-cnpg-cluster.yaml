@@ -13,8 +13,10 @@ spec:
   postgresql:
     parameters:
       max_connections: "500"
-      shared_buffers: 256MB
-      idle_session_timeout: 4h
+      shared_buffers: 2GB
+      work_mem: 32MB
+      effective_cache_size: 6GB
+      idle_session_timeout: 1h
     pg_hba:
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
@@ -35,8 +37,8 @@ spec:
 
   resources:
     limits:
-      cpu: "2"
-      memory: 4Gi
+      cpu: "4"
+      memory: 8Gi
     requests:
-      cpu: "1"
-      memory: 2Gi
+      cpu: "4"
+      memory: 8Gi

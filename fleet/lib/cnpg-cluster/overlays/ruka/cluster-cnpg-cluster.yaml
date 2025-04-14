@@ -14,7 +14,9 @@ spec:
     parameters:
       max_connections: "500"
       shared_buffers: 256MB
-      idle_session_timeout: 4h
+      work_mem: 8MB
+      effective_cache_size: 768MB
+      idle_session_timeout: 1h
       max_slot_wal_keep_size: 1GB
     pg_hba:
       - host replication postgres all md5
@@ -42,5 +44,5 @@ spec:
       cpu: "1"
       memory: 1Gi
     requests:
-      cpu: 500m
+      cpu: "1"
       memory: 1Gi
