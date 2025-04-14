@@ -14,8 +14,10 @@ spec:
     parameters:
       max_logical_replication_workers: "10"
       max_connections: "500"
-      shared_buffers: 256MB
-      idle_session_timeout: 4h
+      shared_buffers: 4GB
+      work_mem: 64MB
+      effective_cache_size: 12GB
+      idle_session_timeout: 1h
       max_slot_wal_keep_size: 10GB
     pg_hba:
       - host replication replicauser all md5
@@ -38,8 +40,8 @@ spec:
 
   resources:
     limits:
-      cpu: "4"
-      memory: 8Gi
+      cpu: "8"
+      memory: 16Gi
     requests:
-      cpu: "2"
-      memory: 4Gi
+      cpu: "8"
+      memory: 16Gi
