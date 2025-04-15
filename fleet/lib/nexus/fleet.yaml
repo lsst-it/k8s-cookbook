@@ -73,3 +73,4 @@ targetCustomizations:
           tls:
             - hosts:
                 - nexus.${ .ClusterLabels.site }.lsst.org
+              secretName: nexus-nexus3-tls
