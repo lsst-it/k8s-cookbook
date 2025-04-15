@@ -12,7 +12,8 @@ spec:
 
   postgresql:
     parameters:
-      max_logical_replication_workers: "10"
+      max_worker_processes: "40"
+      max_logical_replication_workers: "20"
       max_connections: "500"
       shared_buffers: 4GB
       work_mem: 64MB
@@ -41,7 +42,7 @@ spec:
   resources:
     limits:
       cpu: "8"
-      memory: 16Gi
+      memory: 32Gi
     requests:
       cpu: "8"
-      memory: 16Gi
+      memory: 32Gi
