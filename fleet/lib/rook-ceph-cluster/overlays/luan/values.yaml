@@ -2,32 +2,44 @@
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: luan01
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800264
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800467
       - name: luan02
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800526
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800528
       - name: luan03
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800466
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800509
       - name: luan04
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800053
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800496
       - name: luan05
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800262
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800511
 
 cephBlockPools:
   - name: replicapool
@@ -36,6 +48,9 @@ cephBlockPools:
       replicated:
         size: 3
         requireSafeReplicaSize: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
       quotas:
         maxSize: 8Ti
       enableRBDStats: true
