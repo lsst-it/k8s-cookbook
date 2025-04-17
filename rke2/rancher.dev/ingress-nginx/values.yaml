@@ -1,0 +1,14 @@
+controller:
+  kind: DaemonSet
+  allowSnippetAnnotations: true
+  ingressClass: nginx
+  ingressClassByName: true
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    controllerValue: k8s.io/ingress-nginx
+  service:
+    annotations:
+      metallb.universe.tf/address-pool: ingress
+rbac:
+  create: true
