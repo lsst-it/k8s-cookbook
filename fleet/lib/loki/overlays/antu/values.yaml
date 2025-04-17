@@ -1,0 +1,78 @@
+loki:
+  storage:
+    s3:
+      endpoint: http://rook-ceph-rgw-lfa.rook-ceph.svc.cluster.local:80
+      accessKeyId:
+        valueFrom:
+          secretKeyRef:
+            name: s3-loki
+            key: accessKey
+      secretAccessKey:
+        valueFrom:
+          secretKeyRef:
+            name: s3-loki
+            key: secretKey
+
+  commonConfig:
+    storage:
+      s3:
+        endpoint: http://rook-ceph-rgw-lfa.rook-ceph.svc.cluster.local:80
+        access_key_id:
+          valueFrom:
+            secretKeyRef:
+              name: s3-loki
+              key: accessKey
+        secret_access_key:
+          valueFrom:
+            secretKeyRef:
+              name: s3-loki
+              key: secretKey
+
+  limits_config:
+    retention_period: 168h
+    retention_stream:
+      - selector: '{app=~".+"}'
+        period: 168h
+
+compactor:
+  replicas: 3
+  persistence:
+    enabled: true
+    storageClassName: rook-ceph-block
+
+ingester:
+  replicas: 3
+  persistence:
+    enabled: true
+    size: 30Gi
+    storageClassName: rook-ceph-block
+
+distributor:
+  replicas: 3
+
+querier:
+  replicas: 3
+
+queryFrontend:
+  replicas: 2
+
+queryScheduler:
+  replicas: 2
+
+indexGateway:
+  replicas: 3
+
+gateway:
+  service:
+    type: LoadBalancer
+    port: 80
+  ingress:
+    hosts:
+      - host: loki.antu.prod.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: loki-dashboard-ingress-tls
+        hosts:
+          - loki.antu.prod.lsst.org
