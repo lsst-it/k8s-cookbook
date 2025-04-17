@@ -8,7 +8,7 @@ helm:
   chart: &chart grafana
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 8.11.3
+  version: 8.12.1
   timeoutSeconds: 300
   waitForJobs: true
   valuesFiles:
