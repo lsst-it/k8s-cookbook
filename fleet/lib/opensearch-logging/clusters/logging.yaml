@@ -38,7 +38,7 @@ spec:
       opensearch.ssl.verificationMode: full
       opensearch_security.auth.type: '["basicauth", "openid"]'
       opensearch_security.auth.multiple_auth_enabled: "true"
-      opensearch_security.openid.base_redirect_url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org/dashboard
+      opensearch_security.openid.base_redirect_url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org/dashboard
       opensearch_security.openid.client_id: ${KEYCLOAK_CLIENT_ID}
       opensearch_security.openid.client_secret: ${KEYCLOAK_CLIENT_SECRET}
       opensearch_security.openid.connect_url: ${KEYCLOAK_URL}

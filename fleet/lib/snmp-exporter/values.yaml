@@ -33,8 +33,8 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
   hosts:
-    - snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+    - snmp-exporter.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
   tls:
     - secretName: tls-snmp-exporter-ingress
       hosts:
-        - snmp-exporter.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+        - snmp-exporter.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org

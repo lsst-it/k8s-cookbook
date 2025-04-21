@@ -301,7 +301,7 @@ config:
     [FILTER]
         name  modify
         match *
-        add   prom_cluster ${ .ClusterName }.${ .ClusterLabels.site }
+        add   prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |

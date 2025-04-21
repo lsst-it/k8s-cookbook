@@ -26,19 +26,19 @@ mimir:
         backend: s3
         s3:
           region: o11y
-          bucket_name: ${ .ClusterName }-mimir
-          endpoint: s3.o11y.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          bucket_name: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }-mimir
+          endpoint: s3.o11y.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
           secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
     blocks_storage:
       s3:
-        bucket_name: ${ .ClusterName }-mimir-blocks
+        bucket_name: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }-mimir-blocks
     alertmanager_storage:
       s3:
-        bucket_name: ${ .ClusterName }-mimir-alertmanager
+        bucket_name: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }-mimir-alertmanager
     ruler_storage:
       s3:
-        bucket_name: ${ .ClusterName }-mimir-ruler
+        bucket_name: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }-mimir-ruler
     limits:
       out_of_order_time_window: 30s
       ingestion_rate: 1000000
@@ -202,14 +202,14 @@ gateway:
       nginx.ingress.kubernetes.io/proxy-body-size: 10m
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: mimir.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      - host: mimir.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: tls-mimir-ingress
         hosts:
-          - mimir.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          - mimir.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
   resources:
     limits:
       memory: 1250Mi

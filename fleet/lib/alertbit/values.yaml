@@ -6,7 +6,7 @@ config:
     alertmanagers:
       - static_configs:
           - targets:
-              - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+              - alertmanager.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
 
 ingress:
   enabled: false

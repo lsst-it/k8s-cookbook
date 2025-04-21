@@ -184,7 +184,7 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
     host:
-      name: &hostname ceph.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      name: &hostname ceph.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     ingressClassName: nginx
     tls:
       - hosts:
