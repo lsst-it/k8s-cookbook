@@ -14,4 +14,4 @@ spec:
     - name: ayekan
       clusterName: ayekan
   correctDrift:
-    enabled: false  # XXX do not enable because of rook
+    enabled: true
