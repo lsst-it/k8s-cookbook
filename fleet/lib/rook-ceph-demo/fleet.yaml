@@ -160,6 +160,27 @@ targetCustomizations:
             - name: comcam
               path: /comcam
               server: nfs-comcam.cp.lsst.org
+            - name: dimm
+              path: /dimm
+              server: nfs-dimm.cp.lsst.org
+            - name: jhome
+              path: /jhome
+              server: nfs-jhome.cp.lsst.org
+            - name: lsstcam
+              path: /lsstcam
+              server: nfs-lsstcam.cp.lsst.org
+            - name: obs-env
+              path: /obs-env
+              server: nfs-obs-env.cp.lsst.org
+            - name: project
+              path: /project
+              server: nfs-project.cp.lsst.org
+            - name: rsphome
+              path: /rsphome
+              server: nfs-rsphome.cp.lsst.org
+            - name: scratch
+              path: /scratch
+              server: nfs-scratch.cp.lsst.org
   - name: pvc-only
     clusterSelector:
       matchExpressions:
@@ -186,3 +207,39 @@ targetCustomizations:
             - name: backup
               path: /backup
               server: 139.229.160.212
+  - name: elqui
+    clusterName: elqui
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: nfs-auxtel.cp.lsst.org
+            - name: comcam
+              path: /comcam
+              server: nfs-comcam.cp.lsst.org
+            - name: dimm
+              path: /dimm
+              server: nfs-dimm.cp.lsst.org
+            - name: jhome
+              path: /jhome
+              server: nfs-jhome.cp.lsst.org
+            - name: lsstcam
+              path: /lsstcam
+              server: nfs-lsstcam.cp.lsst.org
+            - name: obs-env
+              path: /obs-env
+              server: nfs-obs-env.cp.lsst.org
+            - name: project
+              path: /project
+              server: nfs-project.cp.lsst.org
+            - name: rsphome
+              path: /rsphome
+              server: nfs-rsphome.cp.lsst.org
+            - name: scratch
+              path: /scratch
+              server: nfs-scratch.cp.lsst.org
