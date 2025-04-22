@@ -1,4 +1,7 @@
 ---
+image:
+  repository: ghcr.io/lsst-it/rook
+  tag: v1.17.0-lsst2
 obcAllowAdditionalConfigFields: maxObjects,maxSize,bucketMaxObjects,bucketMaxSize,bucketPolicy,bucketLifecycle,bucketOwner
 priorityClassName: system-node-critical
 monitoring:
