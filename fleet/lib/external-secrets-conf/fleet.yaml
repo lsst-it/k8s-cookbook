@@ -13,7 +13,7 @@ helm:
     clusterSecretStores:
       onepassword:
         vaults:
-          ${ .ClusterName }.${ .ClusterLabels.site }: 1
+          ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }: 1
           k8s-${ .ClusterLabels.site }: 2
           k8s-common: 3
 dependsOn:
@@ -35,7 +35,7 @@ targetCustomizations:
           onepassword:
             vaults:
               # helm merges the maps, so we need to remove the default 1 vault
-              ${ .ClusterName }.${ .ClusterLabels.site }: ~
+              ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }: ~
               # it probaly would have been easier to name the vaults local.<site>...
               rancher.${ .ClusterLabels.site }: 1
   - name: oods-cluster

@@ -24,7 +24,7 @@ ingress:
   servicePort: http
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-  hostname: keycloak.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+  hostname: keycloak.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
   tls: true
 
 auth:

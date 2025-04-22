@@ -59,13 +59,6 @@ targetCustomizations:
         - aggregator/values.yaml
         - ldap/values.yaml
         - overlays/ruka/values.yaml
-  - name: ayekan
-    clusterName: ayekan
-    helm:
-      valuesFiles:
-        - pvc/values.yaml
-        - aggregator/values.yaml
-        - overlays/ayekan/values.yaml
   - name: antu
     clusterName: antu
     helm:

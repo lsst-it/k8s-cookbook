@@ -20,7 +20,7 @@ helm:
         nginx.ingress.kubernetes.io/backend-protocol: HTTP
         nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
       hosts:
-        - nexus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+        - nexus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
       http:
         paths:
           - backend:
@@ -33,7 +33,7 @@ helm:
             pathType: Prefix
       tls:
         - hosts:
-            - nexus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+            - nexus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           secretName: nexus-dashboard-ingress-tls
 
     persistence:

@@ -43,7 +43,7 @@ prometheus:
         memory: 24Gi
     externalLabels:
       prom_site: ${ .ClusterLabels.site }
-      prom_cluster: ${ .ClusterName }.${ .ClusterLabels.site }
+      prom_cluster: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorNamespaceSelector:

@@ -1,7 +1,7 @@
 ---
 prometheus:
   prometheusSpec:
-    externalUrl: https://prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+    externalUrl: https://prometheus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
   ingress:
@@ -14,15 +14,15 @@ prometheus:
       - /
     pathType: Prefix
     hosts:
-      - prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      - prometheus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-prometheus-ingress
         hosts:
-          - prometheus.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          - prometheus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
 
 alertmanager:
   alertmanagerSpec:
-    externalUrl: https://alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+    externalUrl: https://alertmanager.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     secrets:
       - alertmanager-webhooks
     configMaps:
@@ -37,11 +37,11 @@ alertmanager:
       - /
     pathType: Prefix
     hosts:
-      - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      - alertmanager.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-alertmanager-ingress
         hosts:
-          - alertmanager.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          - alertmanager.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
   config:
     global:
       resolve_timeout: 5m
@@ -82,8 +82,8 @@ grafana:
     type: Recreate  # default is RollingUpdate, which doesn't work w/ persistence enabled
   grafana.ini:
     server:
-      domain: grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
-      root_url: https://grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      domain: grafana.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+      root_url: https://grafana.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     feature_toggles:
       enable: autoMigrateOldPanels
     auth.generic_oauth:
@@ -112,11 +112,11 @@ grafana:
       - /
     pathType: Prefix
     hosts:
-      - grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+      - grafana.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     tls:
       - secretName: tls-grafana-ingress
         hosts:
-          - grafana.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          - grafana.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
   sidecar:
     resources:
       limits:
@@ -172,7 +172,7 @@ grafana:
           uid: os-logs-kube
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-kube*
@@ -191,7 +191,7 @@ grafana:
           uid: os-logs-hosts
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-hosts*
@@ -210,7 +210,7 @@ grafana:
           uid: os-logs-firewall
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-firewall*
@@ -229,7 +229,7 @@ grafana:
           uid: os-logs-network
           basicAuth: true
           basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
           access: proxy
           jsonData:
             database: logs-network*

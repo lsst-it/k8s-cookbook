@@ -301,7 +301,7 @@ config:
     [FILTER]
         name  modify
         match *
-        add   prom_cluster ${ .ClusterName }.${ .ClusterLabels.site }
+        add   prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
@@ -309,7 +309,7 @@ config:
         Name               opensearch
         Buffer_Size        1M
         Match_Regex        (?:rsyslog)\.(.*)
-        Host               opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
         Port               9200
         HTTP_User          ${`${OS_LOGGING_USERNAME}`}
         HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
@@ -324,7 +324,7 @@ config:
         Name               opensearch
         Buffer_Size        1M
         Match_Regex        (?:firewall)\.(.*)
-        Host               opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
         Port               9200
         HTTP_User          ${`${OS_LOGGING_USERNAME}`}
         HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
@@ -339,7 +339,7 @@ config:
         Name               opensearch
         Buffer_Size        1M
         Match_Regex        (?:netlog)\.(.*)
-        Host               opensearch.${ .ClusterName }.${ .ClusterLabels.site }.lsst.org
+        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
         Port               9200
         HTTP_User          ${`${OS_LOGGING_USERNAME}`}
         HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
