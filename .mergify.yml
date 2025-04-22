@@ -5,11 +5,11 @@ pull_request_rules:
     actions:
       backport:
         title: "{{ title }} (backport #{{ number }} to {{ destination_branch }})"
-        bot_account: {{ author }}
+        bot_account: "{{ author }}"
         labels:
-            - base-{{ base }}
-            - head-{{ head }}
-            - dest-{{ destination_branch }}
+            - "base-{{ base }}"
+            - "head-{{ head }}"
+            - "dest-{{ destination_branch }}"
         branches:
           - cp_production
           - ls_production
