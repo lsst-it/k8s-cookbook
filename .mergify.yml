@@ -4,7 +4,7 @@ pull_request_rules:
       - label=backport-production
     actions:
       backport:
-        title: "{{ title }} (backport #{{ number }} to {{ base }})"
+        title: "{{ title }} (backport #{{ number }} to {{ destination_branch }})"
         branches:
           - cp_production
           - ls_production
