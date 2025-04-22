@@ -1,0 +1,10 @@
+pull_request_rules:
+  - name: backport to production branches
+    conditions:
+      - label=backport-production
+    actions:
+      backport:
+        branches:
+          - cp_production
+          - ls_production
+          - tu_production
