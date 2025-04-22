@@ -3,12 +3,12 @@ pull_request_rules:
     conditions:
       - label=backport-production
     actions:
-      label:
-        add:
-          - base-{{ base }}
-          - head-{{ head }}
       backport:
         title: "{{ title }} (backport #{{ number }} to {{ destination_branch }})"
+        labels:
+            - base-{{ base }}
+            - head-{{ head }}
+            - dest-{{ destination_branch }}
         branches:
           - cp_production
           - ls_production
