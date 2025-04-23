@@ -1,0 +1,2172 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 97,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "PDU total utilization percentage based on current",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#3274d9"
+                },
+                {
+                  "color": "#e5ac0e",
+                  "value": 70
+                },
+                {
+                  "color": "dark-red",
+                  "value": 85
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 0,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"rmsCurrent\"} > 0) / 16000 * 100",
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "PDU Total Utilization",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Number of outlets with high utilization (>70% of historical maximum)",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 1
+                },
+                {
+                  "color": "dark-red",
+                  "value": 3
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 4,
+          "y": 0
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "count(\n  measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"rmsCurrent\"} > 0\n  and\n  measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"rmsCurrent\"} / \n  measurementsOutletSensorMaxValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"rmsCurrent\"} > 0.7\n)",
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Critical Outlets Alert",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Average power factor of all active outlets",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 4,
+          "x": 8,
+          "y": 0
+        },
+        "id": 12,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "avg(\n  measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"powerFactor\"} > 0\n)",
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Average Power Factor",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "temperature measured on the front of the rack. ",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                },
+                {
+                  "color": "dark-red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 7,
+          "x": 12,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsExternalSensorValue{instance=~\"$pdu\", sensorID=\"1\"} / 10",
+            "legendFormat": "Front",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsExternalSensorValue{instance=~\"$pdu\", sensorID=\"3\"} / 10",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Back",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Temperature $pdu",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                },
+                {
+                  "color": "dark-red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 5,
+          "x": 19,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "minVizHeight": 75,
+          "minVizWidth": 75,
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true,
+          "sizing": "auto"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "measurementsExternalSensorValue{instance=~\"$pdu\", sensorID=\"2\"}",
+            "legendFormat": "Front",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsExternalSensorValue{instance=~\"$pdu\", sensorID=\"4\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Back",
+            "range": true,
+            "refId": "B"
+          }
+        ],
+        "title": "Humidity $pdu",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Total active power consumption over time",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "barWidthFactor": 0.6,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "insertNulls": false,
+              "lineInterpolation": "smooth",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "auto",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 24,
+          "x": 0,
+          "y": 5
+        },
+        "id": 13,
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "tooltip": {
+            "hideZeros": false,
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "sum(measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"activePower\"})",
+            "legendFormat": "Power",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Active Energy History",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Top 8 outlets with highest active power consumption",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 10
+        },
+        "id": 9,
+        "options": {
+          "displayMode": "lcd",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "topk(8, max(measurementsOutletSensorSignedValue{instance=\"$pdu\",sensorType=\"activePower\"}) by (outletId))",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "B"
+          }
+        ],
+        "title": "Top 8 Outlets Power Comparison",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Top 8 outlets with highest active power consumption",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                }
+              ]
+            },
+            "unit": "amp"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 10
+        },
+        "id": 14,
+        "options": {
+          "displayMode": "lcd",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "topk(8, max(measurementsOutletSensorSignedValue{instance=\"$pdu\",sensorType=\"rmsCurrent\"}/1000) by (outletId))",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "B"
+          }
+        ],
+        "title": "Top 8 Outlets Current Comparison",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#747474"
+                },
+                {
+                  "color": "dark-blue",
+                  "value": 1
+                },
+                {
+                  "color": "#EAB839",
+                  "value": 240
+                },
+                {
+                  "color": "dark-red",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "watt"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 0,
+          "y": 18
+        },
+        "id": 4,
+        "options": {
+          "displayMode": "lcd",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"1\",sensorType=\"activePower\"}",
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"2\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"3\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"4\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "D"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"5\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "E"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"6\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "F"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"7\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "G"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"8\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "H"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"9\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "I"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"10\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "J"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"11\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "K"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"12\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "L"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"13\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "M"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"14\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "N"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"15\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "O"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"16\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "P"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"17\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "Q"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"18\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "R"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"19\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "S"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"20\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "T"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"21\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "U"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"22\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "V"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"23\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "W"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"24\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "X"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"25\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "Y"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"26\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "Z"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"27\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AA"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"28\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AB"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"29\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AC"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"30\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AD"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"31\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AE"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"32\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AF"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"33\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AG"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"34\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AH"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"35\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AI"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"36\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AJ"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"37\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AK"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"38\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AL"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"39\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AM"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"40\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AN"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"41\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AO"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"42\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AP"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"43\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AQ"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"44\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AR"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"45\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AS"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"46\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AT"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"47\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AU"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"48\",sensorType=\"activePower\"}",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": false,
+            "refId": "AV"
+          }
+        ],
+        "title": "Outlet Active Power",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "dark-blue"
+                }
+              ]
+            },
+            "unit": "amp"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 12,
+          "x": 12,
+          "y": 18
+        },
+        "id": 5,
+        "options": {
+          "displayMode": "lcd",
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"1\",sensorType=\"rmsCurrent\"}/1000",
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"2\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"3\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"4\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "D"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"5\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "E"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"6\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "F"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"7\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "G"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"8\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "H"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"9\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "I"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"10\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "J"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"11\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "K"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"12\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "L"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"13\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "M"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"14\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "N"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"15\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "O"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"16\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "P"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"17\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "Q"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"18\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "R"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"19\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "S"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"20\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "T"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"21\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "U"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"22\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "V"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"23\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "W"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"24\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "X"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"25\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "Y"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"26\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "Z"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"27\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AA"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"28\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AB"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"29\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AC"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"30\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AD"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"31\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AE"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"32\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AF"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"33\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AG"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"34\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AH"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"35\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AI"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"36\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AJ"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"37\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AK"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"38\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AL"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"39\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AM"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"40\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AN"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"41\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AO"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"42\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AP"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"43\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AQ"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"44\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AR"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"45\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AS"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"46\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AT"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"47\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AU"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "mimir"
+            },
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorValue{instance=\"$pdu\",outletId=\"48\",sensorType=\"rmsCurrent\"}/1000",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "Outlet {{outletId}}",
+            "range": true,
+            "refId": "AV"
+          }
+        ],
+        "title": "RMS Current",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "mimir"
+        },
+        "description": "Active power distribution by outlet over time",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "scaleDistribution": {
+                "type": "linear"
+              }
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 14,
+          "w": 24,
+          "x": 0,
+          "y": 28
+        },
+        "id": 8,
+        "options": {
+          "calculate": false,
+          "calculation": {
+            "xBuckets": {
+              "mode": "size",
+              "value": ""
+            }
+          },
+          "cellGap": 1,
+          "cellValues": {
+            "unit": "watt"
+          },
+          "color": {
+            "exponent": 0.5,
+            "fill": "dark-orange",
+            "max": 300,
+            "min": 0,
+            "mode": "scheme",
+            "reverse": false,
+            "scale": "exponential",
+            "scheme": "Viridis",
+            "steps": 64
+          },
+          "exemplars": {
+            "color": "rgba(255,0,255,0.7)"
+          },
+          "filterValues": {
+            "le": 1e-9
+          },
+          "legend": {
+            "show": true
+          },
+          "rowsFrame": {
+            "layout": "unknown"
+          },
+          "tooltip": {
+            "mode": "single",
+            "showColorScale": false,
+            "yHistogram": false
+          },
+          "yAxis": {
+            "axisPlacement": "right",
+            "reverse": true,
+            "unit": ""
+          }
+        },
+        "pluginVersion": "11.6.0",
+        "targets": [
+          {
+            "editorMode": "code",
+            "expr": "measurementsOutletSensorSignedValue{instance=\"$pdu\", outletId=~\"[1-9]|[1-4][0-8]\", sensorType=\"activePower\"}",
+            "legendFormat": "{{outletId}}",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Outlet Heat Map",
+        "type": "heatmap"
+      }
+    ],
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 41,
+    "tags": [
+      "pdu",
+      "power",
+      "details"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allowCustomValue": true,
+          "current": {
+            "text": "pdu1-a03.cp.lsst.org",
+            "value": "pdu1-a03.cp.lsst.org"
+          },
+          "definition": "label_values(measurementsExternalSensorValue, instance)",
+          "includeAll": false,
+          "label": "PDU",
+          "name": "pdu",
+          "options": [],
+          "query": {
+            "qryType": 5,
+            "query": "label_values(measurementsExternalSensorValue, instance)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-12h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "PDU / Details",
+    "uid": "deizxhgw1we0we",
+    "version": 24
+  }
