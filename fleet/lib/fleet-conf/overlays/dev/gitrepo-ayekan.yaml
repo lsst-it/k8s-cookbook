@@ -12,6 +12,11 @@ spec:
     - fleet/s/dev/c/ayekan/*
   targets:
     - name: ayekan
-      clusterName: ayekan
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - ayekan
   correctDrift:
     enabled: true
