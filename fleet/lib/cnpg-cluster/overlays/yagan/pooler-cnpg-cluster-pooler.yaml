@@ -1,0 +1,56 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: cnpg-cluster-pooler
+  namespace: cloudnativepg
+spec:
+  cluster:
+    name: cnpg-cluster
+  instances: 3
+  type: rw
+
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "1000"
+      default_pool_size: "140"
+      reserve_pool_size: "10"
+      reserve_pool_timeout: "5.0"
+      server_lifetime: "3600"
+      server_idle_timeout: "600"
+      idle_transaction_timeout: "60"
+      ignore_startup_parameters: extra_float_digits
+  template:
+    metadata:
+      labels:
+        app: pooler
+        lsst.io/monitor: "true"
+    spec:
+      containers:
+        - name: pgbouncer
+          resources:
+            requests:
+              cpu: "0.1"
+              memory: 100Mi
+            limits:
+              cpu: "0.5"
+              memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cnpg-cluster-pooler-rw
+  namespace: cloudnativepg
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.180.95
+spec:
+  type: LoadBalancer
+  internalTrafficPolicy: Cluster
+  ports:
+    - name: pgbouncer
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/poolerName: cnpg-cluster-pooler
