@@ -12,7 +12,7 @@ spec:
 
   postgresql:
     parameters:
-      max_connections: "500"
+      max_connections: "1000"
       shared_buffers: 2GB
       work_mem: 32MB
       effective_cache_size: 6GB

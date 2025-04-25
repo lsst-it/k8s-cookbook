@@ -14,7 +14,7 @@ spec:
     parameters:
       max_worker_processes: "40"
       max_logical_replication_workers: "20"
-      max_connections: "500"
+      max_connections: "1000"
       shared_buffers: 4GB
       work_mem: 64MB
       effective_cache_size: 12GB
@@ -34,7 +34,7 @@ spec:
     name: cnpg-cluster-superuser
 
   storage:
-    size: 57Gi
+    size: 100Gi
 
   monitoring:
     enablePodMonitor: true
