@@ -28,7 +28,7 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703118
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703123
           - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX2202062X3P8CGN
-          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220206NF3P8CGN
+          - name: /dev/disk/by-id/nvme-INTEL_SSDPF2KX038T1_PHAX220102LF3P8CGN
       - name: yagan02
         devices:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQLB1T9HAJR-00007_S439NC0R703121
