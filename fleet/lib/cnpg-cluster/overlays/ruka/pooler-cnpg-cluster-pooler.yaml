@@ -13,14 +13,20 @@ spec:
   pgbouncer:
     poolMode: session
     parameters:
-      max_client_conn: "1000"
-      default_pool_size: "140"
+      max_client_conn: "2000"
+      default_pool_size: "40"
       reserve_pool_size: "10"
-      reserve_pool_timeout: "5.0"
+      reserve_pool_timeout: "60"
       server_lifetime: "3600"
-      server_idle_timeout: "600"
-      idle_transaction_timeout: "60"
+      server_idle_timeout: "1200"
+      idle_transaction_timeout: "1200"
       ignore_startup_parameters: extra_float_digits
+
+    databases:
+      butler:
+        default_pool_size: "700"
+        reserve_pool_size: "52"
+
   template:
     metadata:
       labels:
@@ -54,3 +60,17 @@ spec:
       targetPort: 5432
   selector:
     cnpg.io/poolerName: cnpg-cluster-pooler
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: cnpg-cluster-pooler
+  namespace: cloudnativepg
+  labels:
+    lsst.io/monitor: "true"
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/poolerName: cnpg-cluster-pooler
+  podMetricsEndpoints:
+    - port: metrics
