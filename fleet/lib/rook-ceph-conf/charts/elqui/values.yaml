@@ -1,0 +1,29 @@
+---
+exports:
+  - name: nfs1-auxtel
+    pool: &pool nfs1-data0
+    ip: 139.229.181.27
+  - name: nfs1-comcam
+    pool: *pool
+    ip: 139.229.181.28
+  - name: nfs1-dimm
+    pool: *pool
+    ip: 139.229.181.29
+  - name: nfs1-jhome
+    pool: *pool
+    ip: 139.229.181.30
+  - name: nfs1-lsstcam
+    pool: *pool
+    ip: 139.229.181.31
+  - name: nfs1-obs-env
+    pool: *pool
+    ip: 139.229.181.32
+  - name: nfs1-project
+    pool: *pool
+    ip: 139.229.181.33
+  - name: nfs1-rsphome
+    pool: *pool
+    ip: 139.229.181.34
+  - name: nfs1-scratch
+    pool: *pool
+    ip: 139.229.181.35
