@@ -1,0 +1,68 @@
+# Image configuration
+image:
+  registry: docker.io
+  repository: bitnami/mariadb
+  tag: 11.0.3-debian-11-r49
+  pullPolicy: IfNotPresent
+
+# Architecture
+architecture: standalone
+
+# Authentication settings
+auth:
+  existingSecret: mariadb-secrets
+
+# Primary configuration
+primary:
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: rook-ceph-block
+
+  configuration: |-
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/opt/bitnami/mariadb
+    datadir=/bitnami/mariadb/data
+    plugin_dir=/opt/bitnami/mariadb/plugin
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    tmpdir=/opt/bitnami/mariadb/tmp
+    max_allowed_packet=64M
+    bind-address=0.0.0.0
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+    log-error=/opt/bitnami/mariadb/logs/mysqld.log
+    log_bin=/opt/bitnami/mariadb/logs/mariadb-bin.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    innodb_buffer_pool_size=6G
+    slow_query_log=1
+    slow_query_log_file=/opt/bitnami/mariadb/logs/slow.log
+    long_query_time=1
+    expire_logs_days=30
+    max_connections=300
+    wait_timeout=28800
+    net_read_timeout=60
+    net_write_timeout=60
+    net_retry_count=10
+
+    [client]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    default-character-set=UTF8
+    plugin_dir=/opt/bitnami/mariadb/plugin
+
+    [manager]
+    port=3306
+    socket=/opt/bitnami/mariadb/tmp/mysql.sock
+    pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
+
+  # Resource requests and limits
+  resources:
+    limits:
+      cpu: 4
+      memory: 8Gi
+    requests:
+      cpu: 4
+      memory: 8Gi
