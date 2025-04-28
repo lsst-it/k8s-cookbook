@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://galexrt.github.io/extended-ceph-exporter
-  version: 1.6.8
+  version: 1.6.9
   waitForJobs: true
   values:
     serviceMonitor:
