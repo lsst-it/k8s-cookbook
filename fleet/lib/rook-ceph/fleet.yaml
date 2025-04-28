@@ -7,8 +7,8 @@ namespaceLabels:
 helm:
   chart: *name
   releaseName: *name
-  repo: https://lsst-it.github.io/rook
-  version: v1.17.0-lsst2
+  repo: https://charts.rook.io/release
+  version: v1.17.1
   valuesFiles:
     - values.yaml
   timeoutSeconds: 60
