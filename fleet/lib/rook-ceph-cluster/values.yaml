@@ -32,7 +32,7 @@ monitoring:
 
 cephClusterSpec:
   cephVersion:
-    image: quay.io/ceph/ceph:v18.2.4
+    image: quay.io/ceph/ceph:v18.2.6
     allowUnsupported: false
   labels:
     monitoring:
