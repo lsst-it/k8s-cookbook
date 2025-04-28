@@ -14,18 +14,13 @@ spec:
     poolMode: session
     parameters:
       max_client_conn: "2000"
-      default_pool_size: "40"
-      reserve_pool_size: "10"
-      reserve_pool_timeout: "60"
+      default_pool_size: "280"
+      reserve_pool_size: "20"
       server_lifetime: "3600"
-      server_idle_timeout: "1200"
-      idle_transaction_timeout: "1200"
+      log_connections: "1"
+      log_disconnections: "1"
+      idle_transaction_timeout: "0"
       ignore_startup_parameters: extra_float_digits
-
-    databases:
-      butler:
-        default_pool_size: "700"
-        reserve_pool_size: "52"
 
   template:
     metadata:
