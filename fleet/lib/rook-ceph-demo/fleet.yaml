@@ -116,7 +116,7 @@ targetCustomizations:
               server: nfs-lsstdata.ls.lsst.org
             - name: obs-env
               path: /obs-env
-              server: nfs-obsenv.ls.lsst.org
+              server: nfs-obsenv.ls.lsst.org  # fix fqdn
             - name: project
               path: /project
               server: nfs-project.ls.lsst.org
@@ -243,3 +243,31 @@ targetCustomizations:
             - name: scratch
               path: /scratch
               server: nfs-scratch.cp.lsst.org
+  - name: konkong
+    clusterName: konkong
+    helm:
+      values:
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: nfs-auxtel.ls.lsst.org
+            - name: comcam
+              path: /comcam
+              server: nfs-comcam.ls.lsst.org
+            - name: lsstdata
+              path: /lsstdata
+              server: nfs-lsstdata.ls.lsst.org
+            - name: obs-env
+              path: /obs-env
+              server: nfs-obsenv.ls.lsst.org  # fix fqdn
+            - name: project
+              path: /project
+              server: nfs-project.ls.lsst.org
+            - name: rsphome
+              path: /rsphome
+              server: nfs-rsphome.ls.lsst.org
+            - name: scratch
+              path: /scratch
+              server: nfs-scratch.ls.lsst.org
