@@ -7,7 +7,7 @@ metadata:
 spec:
   addresses:
     - 139.229.181.19/32
-    - 139.229.181.21-139.229.181.26
+    - 139.229.181.21-139.229.181.49
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
