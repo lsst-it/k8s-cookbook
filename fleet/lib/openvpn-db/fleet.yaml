@@ -11,7 +11,7 @@ helm:
   repo: https://charts.bitnami.com/bitnami
   version: 20.5.3
   takeOwnership: true
-  timeoutSeconds: 60
+  timeoutSeconds: 300
   waitForJobs: true
   valuesFiles:
     - values.yaml
