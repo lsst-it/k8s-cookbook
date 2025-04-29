@@ -9,7 +9,7 @@ helm:
   chart: mariadb
   releaseName: mariadb
   repo: https://charts.bitnami.com/bitnami
-  version: 20.4.2
+  version: 20.5.3
   takeOwnership: true
   timeoutSeconds: 60
   waitForJobs: true
