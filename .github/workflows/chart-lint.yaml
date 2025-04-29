@@ -6,7 +6,7 @@ name: helm chart lint
   - push
 
 jobs:
-  fleet-symlinks:
+  chart-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
