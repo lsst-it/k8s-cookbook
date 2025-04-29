@@ -5,8 +5,9 @@ namespaceLabels:
 labels:
   bundle: *name
 helm:
-  chart: https://o11ydev.github.io/helm-charts
+  chart: *name
   releaseName: *name
+  repo: https://o11ydev.github.io/helm-charts
   version: v0.1.0
   valuesFiles:
     - values.yaml

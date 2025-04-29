@@ -1,0 +1,27 @@
+---
+# yamllint disable rule:quoted-strings
+name: fleet bundles build
+
+"on":
+  - push
+
+permissions:
+  contents: read
+
+jobs:
+  fleet-symlinks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: |
+          sudo curl -sL https://github.com/rancher/fleet/releases/download/v0.11.7/fleet-linux-amd64 -o /bin/fleet
+          sudo chmod +x /bin/fleet
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.23
+
+      - name: check that fleet bundles build
+        run: go run ./utils/fleet-bundles.go --path fleet
