@@ -1,3 +1,4 @@
 ---
 resources:
 - external-secret-openvpndb.yaml
+- external-secret-dockerhub.yaml

@@ -4,6 +4,8 @@ image:
   repository: bitnami/mariadb
   tag: 11.0.3-debian-11-r49
   pullPolicy: IfNotPresent
+  pullSecrets:
+    - dockerhub-secret
 
 # Architecture
 architecture: standalone
