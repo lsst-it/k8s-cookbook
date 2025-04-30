@@ -1,7 +1,0 @@
----
-defaultNamespace: openvpn-db
-labels:
-  bundle: openvpn-db-pre
-name: openvpn-db-pre
-kustomize:
-  dir: base
