@@ -12,12 +12,16 @@ spec:
 
   postgresql:
     parameters:
+      max_worker_processes: "40"
+      max_logical_replication_workers: "20"
       max_connections: "1000"
-      shared_buffers: 2GB
-      work_mem: 32MB
-      effective_cache_size: 6GB
+      shared_buffers: 4GB
+      work_mem: 64MB
+      effective_cache_size: 12GB
       idle_session_timeout: 1h
+      max_slot_wal_keep_size: 10GB
     pg_hba:
+      - host replication replicauser all md5
       - host all all 139.229.134.0/23 md5
       - host all all 139.229.136.0/21 md5
       - host all all 139.229.144.0/20 md5
@@ -30,15 +34,15 @@ spec:
     name: cnpg-cluster-superuser
 
   storage:
-    size: 5Gi
+    size: 150Gi
 
   monitoring:
     enablePodMonitor: true
 
   resources:
     limits:
-      cpu: "4"
-      memory: 8Gi
+      cpu: "16"
+      memory: 64Gi
     requests:
-      cpu: "4"
-      memory: 8Gi
+      cpu: "16"
+      memory: 64Gi
