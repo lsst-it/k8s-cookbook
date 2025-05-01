@@ -1,0 +1,9 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: oods-comcam
+  namespace: rook-ceph
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph

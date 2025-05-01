@@ -1,0 +1,229 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: lfa
+  namespace: rook-ceph
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  realm: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  zoneGroup: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: lfa
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
+    instances: 3
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "1"
+        memory: 8Gi
+  zone:
+    name: lfa
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: lfagc  # gc only
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
+    instances: 3
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "1"
+        memory: 8Gi
+  zone:
+    name: lfa
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-lfa
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.ayekan.dev.lsst.org
+      secretName: rook-ceph-rgw-lfa-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: rgw.root
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  name: .rgw.root
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "16"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.control
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "16"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.meta
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "16"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.log
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "16"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "16"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "1"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: lfa.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  erasureCoded:
+    dataChunks: 2
+    codingChunks: 1
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    bulk: "true"
+    pg_num: "256"
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: lfa
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
