@@ -1,0 +1,25 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: rubintv
+  namespace: rook-ceph
+spec:
+  bucketName: rubintv
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: rubintv
+    bucketMaxSize: 10Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
