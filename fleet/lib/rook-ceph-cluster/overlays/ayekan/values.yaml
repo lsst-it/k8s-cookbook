@@ -1,7 +1,5 @@
 ---
 cephClusterSpec:
-  network:
-    provider: host
   mon:
     count: 3
   cephConfig:
@@ -46,7 +44,7 @@ cephBlockPools:
         nodelete: "true"
         nosizechange: "true"
         pg_autoscale_mode: "off"
-        pg_num: "128"
+        pg_num: "32"
     storageClass:
       name: rook-ceph-block
       enabled: true
