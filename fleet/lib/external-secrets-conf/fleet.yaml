@@ -44,6 +44,7 @@ targetCustomizations:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
+            - ayekan
             - elqui
             - konkong
             - ruka
