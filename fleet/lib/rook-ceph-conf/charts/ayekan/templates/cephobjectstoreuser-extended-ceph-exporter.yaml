@@ -10,7 +10,7 @@ spec:
   displayName: extended-ceph-exporter
   capabilities:
     buckets: read
-    users: read
-    usage: read
     metadata: read
+    usage: read
+    users: read
     zone: read
