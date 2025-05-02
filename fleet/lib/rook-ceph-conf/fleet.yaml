@@ -94,13 +94,6 @@ targetCustomizations:
         subchart:
           manke:
             enabled: true
-  - name: chonchon
-    clusterName: chonchon
-    helm:
-      values:
-        subchart:
-          chonchon:
-            enabled: true
   - name: lukay
     clusterName: lukay
     helm:

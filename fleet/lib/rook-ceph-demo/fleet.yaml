@@ -123,16 +123,6 @@ targetCustomizations:
             - name: scratch
               path: /scratch
               server: nfs-scratch.ls.lsst.org
-  - name: chonchon
-    clusterName: chonchon
-    helm:
-      values:
-        nfs:
-          enabled: true
-          mounts:
-            - name: obs-env
-              path: /obs-env
-              server: nfs-obsenv.cp.lsst.org
   - name: gaw
     clusterName: gaw
     helm:

@@ -34,13 +34,6 @@ targetCustomizations:
         pools:
           - general
           - lhn
-  - name: chonchon
-    clusterName: chonchon
-    helm:
-      values:
-        pools:
-          - default
-          - lhn
   - name: yagan
     clusterName: yagan
     helm:

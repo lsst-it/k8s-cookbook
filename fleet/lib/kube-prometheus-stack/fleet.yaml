@@ -78,7 +78,6 @@ targetCustomizations:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
-            - chonchon
             - konkong
             - local
     helm:
