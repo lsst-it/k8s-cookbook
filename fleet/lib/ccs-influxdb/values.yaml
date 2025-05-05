@@ -12,7 +12,7 @@ ingress:
 persistence:
   enabled: true
   accessMode: ReadWriteOnce
-  size: 8Gi
+  size: 12Gi
 
 influxdb:
   authEnabled: true
