@@ -63,11 +63,6 @@ targetCustomizations:
     yaml:
       overlays:
         - manke
-  - name: chonchon
-    clusterName: chonchon
-    yaml:
-      overlays:
-        - chonchon
   - name: lukay
     clusterName: lukay
     yaml:

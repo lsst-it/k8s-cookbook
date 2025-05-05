@@ -18,8 +18,6 @@ subchart:
     enabled: false
   manke:
     enabled: false
-  chonchon:
-    enabled: false
   lukay:
     enabled: false
   yagan:

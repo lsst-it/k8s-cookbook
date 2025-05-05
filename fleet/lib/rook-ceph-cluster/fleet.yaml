@@ -94,11 +94,6 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/manke/values.yaml
-  - name: chonchon
-    clusterName: chonchon
-    helm:
-      valuesFiles:
-        - overlays/chonchon/values.yaml
   - name: lukay
     clusterName: lukay
     helm:
