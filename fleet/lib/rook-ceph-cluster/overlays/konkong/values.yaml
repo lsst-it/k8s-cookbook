@@ -45,3 +45,39 @@ cephClusterSpec:
           - name: /dev/disk/by-id/nvme-SAMSUNG_MZQL21T9HCJR-00A07_S64GNE0T301328
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_232345B6EF4B
           - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_233945502DBF
+
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      quotas:
+        maxSize: 2Ti
+      enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      mountOptions:
+        - discard
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4
