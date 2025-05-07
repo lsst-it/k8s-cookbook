@@ -192,8 +192,8 @@ alertmanager:
           group_wait: 30s
           group_by:
             - gnoc
-          # matchers:
-          #   - gnoc = "true"
+          matchers:
+            - gnoc = "true"
     receivers:
       - name: blackhole
       - name: gnocpush

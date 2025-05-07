@@ -529,7 +529,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "rubinobs-br01.ls.lsst.org"
+      "__meta_hostname": "rubinobs-br01.ls.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.49.0.5"
@@ -537,7 +538,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "rubinobs-br02.ls.lsst.org"
+      "__meta_hostname": "rubinobs-br02.ls.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.49.0.6"
@@ -665,7 +667,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-a02-ipsec01.cp.lsst.org"
+      "__meta_hostname": "sdc-a02-ipsec01.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.3"
@@ -673,7 +676,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-a02-ipsec02.cp.lsst.org"
+      "__meta_hostname": "sdc-a02-ipsec02.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.4"
@@ -833,7 +837,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-b03-lf01.cp.lsst.org"
+      "__meta_hostname": "sdc-b03-lf01.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.119"
@@ -841,7 +846,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-b03-lf02.cp.lsst.org"
+      "__meta_hostname": "sdc-b03-lf02.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.120"
@@ -857,7 +863,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-b05-lf01.cp.lsst.org"
+      "__meta_hostname": "sdc-b05-lf01.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.123"
@@ -865,7 +872,8 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-b05-lf02.cp.lsst.org"
+      "__meta_hostname": "sdc-b05-lf02.cp.lsst.org",
+      "gnoc": "true"
     },
     "targets": [
       "10.17.0.124"
