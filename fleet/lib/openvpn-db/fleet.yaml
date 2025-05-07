@@ -1,0 +1,37 @@
+---
+defaultNamespace: &name openvpn-db
+labels:
+  bundle: *name
+dependsOn:
+  - name: openvpn-db-pre
+    namespace: openvpn-db
+helm:
+  chart: oci://registry-1.docker.io/bitnamicharts/mariadb
+  releaseName: mariadb
+  version: 20.5.3
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+targetCustomizations:
+  - name: ruka
+    clusterName: ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml
+  - name: yepun
+    clusterName: yepun
+    helm:
+      valuesFiles:
+        - overlays/yepun/values.yaml
+  - name: luan
+    clusterName: luan
+    helm:
+      valuesFiles:
+        - overlays/luan/values.yaml
+  - name: pillan
+    clusterName: pillan
+    helm:
+      valuesFiles:
+        - overlays/pillan/values.yaml
