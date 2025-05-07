@@ -1,1 +1,28 @@
 ---
+users:
+  - name: butler
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: ccs
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: comcam
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: latiss
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: oods-comcam
+    spec:
+      store: lfa
+  - name: oods-latiss
+    spec:
+      store: lfa
