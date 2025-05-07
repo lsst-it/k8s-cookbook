@@ -1,0 +1,8 @@
+primary:
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 139.229.134.140
+    ports:
+      mysql: 3306
+    annotations:
+      metallb.universe.tf/address-pool: openvpndb
