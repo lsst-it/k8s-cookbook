@@ -49,7 +49,12 @@ targetCustomizations:
               path: /auxtel
               server: 139.229.134.151
   - name: pillan
-    clusterName: pillan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
     helm:
       values:
         pvc:

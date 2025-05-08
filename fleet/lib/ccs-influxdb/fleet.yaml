@@ -20,7 +20,12 @@ targetCustomizations:
       valuesFiles:
         - overlays/manke/values.yaml
   - name: pillan
-    clusterName: pillan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
