@@ -1,1 +1,36 @@
 ---
+users:
+  - name: butler
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: calib
+    spec:
+      store: lfa
+  - name: latiss
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: lsstcam
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: oods-latiss
+    spec:
+      store: lfa
+  - name: oods-lsstcam
+    spec:
+      store: lfa
+  - name: rubintv
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: saluser
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
