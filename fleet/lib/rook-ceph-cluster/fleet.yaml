@@ -49,11 +49,6 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/kueyen/values.yaml
-  - name: namkueyen
-    clusterName: namkueyen
-    helm:
-      valuesFiles:
-        - overlays/namkueyen/values.yaml
   - name: ayekan
     clusterSelector:
       matchExpressions:
