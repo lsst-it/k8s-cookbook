@@ -12,6 +12,11 @@ spec:
     - fleet/s/tu/c/pillan/*
   targets:
     - name: pillan
-      clusterName: pillan
+      clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
   correctDrift:
     enabled: true

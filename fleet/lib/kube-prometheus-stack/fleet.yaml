@@ -44,7 +44,12 @@ diff:
         - /spec/automountServiceAccountToken
 targetCustomizations:
   - name: pillan
-    clusterName: pillan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
     helm:
       valuesFiles:
         - pvc/values.yaml

@@ -54,7 +54,12 @@ targetCustomizations:
             vaults:
               oods.${ .ClusterLabels.site }: 1
   - name: pillan
-    clusterName: pillan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
     helm:
       values:
         clusterSecretStores:

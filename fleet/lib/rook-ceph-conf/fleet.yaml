@@ -53,7 +53,12 @@ targetCustomizations:
           ruka:
             enabled: true
   - name: pillan
-    clusterName: pillan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pillan
     helm:
       values:
         subchart:

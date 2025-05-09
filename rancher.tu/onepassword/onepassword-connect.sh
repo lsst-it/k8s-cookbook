@@ -1,1 +1,0 @@
-../../template/onepassword/onepassword-connect.sh
