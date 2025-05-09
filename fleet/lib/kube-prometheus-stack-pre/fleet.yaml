@@ -26,6 +26,7 @@ targetCustomizations:
           values:
             - pillan
             - ruka
+            - kueyen
     yaml:
       overlays:
         - prod

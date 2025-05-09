@@ -45,7 +45,12 @@ diff:
         - /spec/upgradeOSDRequiresHealthyPGs
 targetCustomizations:
   - name: kueyen
-    clusterName: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
     helm:
       valuesFiles:
         - overlays/kueyen/values.yaml
