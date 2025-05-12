@@ -1,9 +1,0 @@
----
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
-metadata:
-  name: oods-latiss
-  namespace: rook-ceph
-spec:
-  store: lfa
-  clusterNamespace: rook-ceph

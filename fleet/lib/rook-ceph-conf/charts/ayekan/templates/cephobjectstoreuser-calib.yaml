@@ -1,9 +1,0 @@
----
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStoreUser
-metadata:
-  name: calib
-  namespace: rook-ceph
-spec:
-  store: lfa
-  clusterNamespace: rook-ceph
