@@ -13,7 +13,12 @@ dependsOn:
         bundle: rook-ceph
 targetCustomizations:
   - name: kueyen
-    clusterName: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
     helm:
       values:
         pvc:
