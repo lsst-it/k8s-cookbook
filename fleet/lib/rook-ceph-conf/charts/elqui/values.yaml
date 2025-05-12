@@ -1,0 +1,54 @@
+---
+users:
+  - name: butler
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+        maxSize: 2Pi
+  - name: calib
+    spec:
+      store: lfa
+  - name: comcam
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: latiss
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: lsstcam
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
+  - name: oods-comcam
+    spec:
+      store: lfa
+  - name: oods-latiss
+    spec:
+      store: lfa
+  - name: oods-lsstcam
+    spec:
+      store: lfa
+  - name: rubintv
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: s3lhn
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 0
+      capabilities:
+        buckets: read
+        metadata: read
+        usage: read
+  - name: saluser
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
