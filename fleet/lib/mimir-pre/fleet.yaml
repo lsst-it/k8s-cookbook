@@ -35,7 +35,12 @@ targetCustomizations:
       overlays:
         - ruka
   - name: ayekan
-    clusterName: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
     yaml:
       overlays:
         - ayekan
