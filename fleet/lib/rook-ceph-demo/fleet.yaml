@@ -25,7 +25,12 @@ targetCustomizations:
               path: /auxtel
               server: 139.229.134.81
   - name: ruka
-    clusterName: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
     helm:
       values:
         pvc:
