@@ -14,9 +14,9 @@ spec:
       ackLevel: broker
       useSSL: true
       mechanism: SCRAM-SHA-512
-      UserSecretRef:  # lowercase for rook >= 1.17.2
+      userSecretRef:
         name: &item kafka-bucket-notifications
         key: username
-      PasswordSecretRef:  # lowercase for rook >= 1.17.2
+      passwordSecretRef:
         name: *item
         key: password
