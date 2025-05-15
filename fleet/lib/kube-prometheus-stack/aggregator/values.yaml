@@ -100,7 +100,7 @@ grafana:
       name: $__file{/etc/secrets/keycloak-credentials/url}
       role_attribute_path: contains(groups[*], 'grafana-admin') && 'GrafanaAdmin' || contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'
       scopes: openid profile email groups roles offline_access
-      token_url: https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token
+      token_url: $__file{/etc/secrets/keycloak-credentials/url}/realms/master/protocol/openid-connect/token
       use_refresh_token: true
   ingress:
     enabled: true

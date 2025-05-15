@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: lfa
+  name: o11y
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -17,36 +17,43 @@ spec:
       dataChunks: 2
       codingChunks: 1
     quotas:
-      maxSize: 1Ti
+      maxSize: 40Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
     port: 80
     # securePort: 443
     instances: 3
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "4"
+        memory: 4Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-ingress
+  name: rook-ceph-rgw-ingress-o11y
   namespace: rook-ceph
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - s3.kueyen.dev.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls
+    - &host s3.o11y.kueyen.dev.lsst.org
+    secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
-  - host: s3.kueyen.dev.lsst.org
+  - host: *host
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-lfa
+            name: rook-ceph-rgw-o11y
             port:
               number: 80
