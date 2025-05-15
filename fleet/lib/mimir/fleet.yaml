@@ -23,12 +23,22 @@ dependsOn:
         bundle: prometheus-operator-crds
 targetCustomizations:
   - name: ayekan
-    clusterName: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
     helm:
       valuesFiles:
         - overlays/ayekan/values.yaml
   - name: rke2
-    clusterName: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
     helm:
       valuesFiles:
         - overlays/rke2/values.yaml

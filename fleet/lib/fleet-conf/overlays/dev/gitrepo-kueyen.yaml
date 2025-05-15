@@ -12,6 +12,11 @@ spec:
     - fleet/s/dev/c/kueyen/*
   targets:
     - name: kueyen
-      clusterName: kueyen
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - kueyen
   correctDrift:
     enabled: false  # XXX do not enable because of rook

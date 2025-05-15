@@ -12,6 +12,11 @@ spec:
     - fleet/s/dev/c/ruka/*
   targets:
     - name: ruka
-      clusterName: ruka
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - ruka
   correctDrift:
     enabled: true

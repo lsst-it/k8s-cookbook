@@ -14,12 +14,22 @@ dependsOn:
         bundle: multus
 targetCustomizations:
   - name: kueyen
-    clusterName: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
     yaml:
       overlays:
         - kueyen
   - name: ruka
-    clusterName: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
     yaml:
       overlays:
         - ruka

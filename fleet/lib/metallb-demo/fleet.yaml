@@ -8,7 +8,12 @@ helm:
   force: true
 targetCustomizations:
   - name: ruka
-    clusterName: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
     helm:
       values:
         pools:
