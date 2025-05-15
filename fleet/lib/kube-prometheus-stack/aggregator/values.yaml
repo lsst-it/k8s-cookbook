@@ -167,81 +167,13 @@ grafana:
           jsonData:
             handleGrafanaManagedAlerts: false
             implementation: prometheus
-        - name: logs-kube
-          type: grafana-opensearch-datasource
-          uid: os-logs-kube
-          basicAuth: true
-          basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+        - name: loki
+          type: loki
+          uid: loki
+          url: http://loki-gateway.loki
           access: proxy
           jsonData:
-            database: logs-kube*
-            flavor: opensearch
-            logLevelField: ""
-            logMessageField: log
-            maxConcurrentShardRequests: 5
-            oauthPassThru: true
-            pplEnabled: true
-            timeField: "@timestamp"
-            version: 2.11.0
-          secureJsonData:
-            basicAuthPassword: $OS_LOGGING_PASSWORD
-        - name: logs-hosts
-          type: grafana-opensearch-datasource
-          uid: os-logs-hosts
-          basicAuth: true
-          basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-          access: proxy
-          jsonData:
-            database: logs-hosts*
-            flavor: opensearch
-            logLevelField: ""
-            logMessageField: message
-            maxConcurrentShardRequests: 5
-            oauthPassThru: true
-            pplEnabled: true
-            timeField: "@timestamp"
-            version: 2.11.0
-          secureJsonData:
-            basicAuthPassword: $OS_LOGGING_PASSWORD
-        - name: logs-firewall
-          type: grafana-opensearch-datasource
-          uid: os-logs-firewall
-          basicAuth: true
-          basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-          access: proxy
-          jsonData:
-            database: logs-firewall*
-            flavor: opensearch
-            logLevelField: ""
-            logMessageField: message
-            maxConcurrentShardRequests: 5
-            oauthPassThru: true
-            pplEnabled: true
-            timeField: "@timestamp"
-            version: 2.11.0
-          secureJsonData:
-            basicAuthPassword: $OS_LOGGING_PASSWORD
-        - name: logs-network
-          type: grafana-opensearch-datasource
-          uid: os-logs-network
-          basicAuth: true
-          basicAuthUser: $OS_LOGGING_USERNAME
-          url: https://opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-          access: proxy
-          jsonData:
-            database: logs-network*
-            flavor: opensearch
-            logLevelField: ""
-            logMessageField: message
-            maxConcurrentShardRequests: 5
-            oauthPassThru: true
-            pplEnabled: true
-            timeField: "@timestamp"
-            version: 2.11.0
-          secureJsonData:
-            basicAuthPassword: $OS_LOGGING_PASSWORD
-  envFromSecrets:
-    - name: grafana-opensearch-credentials
+            maxLines: 1000
+            httpMethod: POST
+            timeout: 60
+            timeInterval: 60s
