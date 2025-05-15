@@ -1,0 +1,10 @@
+---
+mimir:
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          region: o11y
+          endpoint: s3.o11y.kueyen.dev.lsst.org
+    limits:
+      compactor_blocks_retention_period: 90d
