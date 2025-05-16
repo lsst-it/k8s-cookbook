@@ -32,6 +32,17 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ayekan/values.yaml
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
+        - overlays/rke2/values.yaml
   - name: rke2
     clusterSelector:
       matchExpressions:

@@ -6,27 +6,37 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
     nodes:
       - name: kueyen01
         devices:
-          - name: /dev/nvme0n1
+          - name: /dev/disk/by-id/scsi-35000c500a15cf937
       - name: kueyen02
         devices:
-          - name: /dev/nvme0n1
+          - name: /dev/disk/by-id/scsi-35000c500a15847b7
       - name: kueyen03
         devices:
-          - name: /dev/nvme0n1
+          - name: /dev/disk/by-id/scsi-35000c500a15ca7af
+      - name: kueyen04
+        devices:
+          - name: /dev/disk/by-id/scsi-35000c500a15ce4d3
+          - name: /dev/disk/by-id/scsi-35000c500a1588b9b
+      - name: kueyen05
+        devices:
+          - name: /dev/disk/by-id/scsi-35000c500a157854b
+      - name: kueyen06
+        devices:
+          - name: /dev/disk/by-id/scsi-35000c500a1584f37
 
 cephBlockPools:
   - name: replicapool
     spec:
       failureDomain: host
       replicated:
-        size: 3
+        size: 2
         requireSafeReplicaSize: true
       quotas:
-        maxSize: 1.5Ti
+        maxSize: 2Ti
       enableRBDStats: true
     storageClass:
       name: rook-ceph-block
