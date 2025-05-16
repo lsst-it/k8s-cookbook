@@ -2,12 +2,12 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-raw-comcam
+  name: &name rubinobs-raw-comcam
   namespace: rook-ceph
   labels:
     bucket-notification-lsst.s3.raw.comcam: lsst.s3.raw.comcam
 spec:
-  bucketName: rubinobs-raw-comcam
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
     bucketOwner: comcam

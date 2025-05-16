@@ -2,10 +2,10 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubintv
+  name: &name rubintv
   namespace: rook-ceph
 spec:
-  bucketName: rubintv
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
     bucketOwner: rubintv

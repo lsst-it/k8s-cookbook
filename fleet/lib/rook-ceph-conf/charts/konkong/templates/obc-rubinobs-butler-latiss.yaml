@@ -8,7 +8,7 @@ spec:
   bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: latiss
+    bucketOwner: butler
     bucketMaxSize: 1Ti
     bucketPolicy: |
       {

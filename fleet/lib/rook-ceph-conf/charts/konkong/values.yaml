@@ -8,6 +8,8 @@ users:
   - name: calib
     spec:
       store: lfa
+      quotas:
+        maxBuckets: 1
   - name: latiss
     spec:
       store: lfa
@@ -21,9 +23,13 @@ users:
   - name: oods-latiss
     spec:
       store: lfa
+      quotas:
+        maxBuckets: 0
   - name: oods-lsstcam
     spec:
       store: lfa
+      quotas:
+        maxBuckets: 0
   - name: rubintv
     spec:
       store: lfa
@@ -33,4 +39,4 @@ users:
     spec:
       store: lfa
       quotas:
-        maxBuckets: 2
+        maxBuckets: 1

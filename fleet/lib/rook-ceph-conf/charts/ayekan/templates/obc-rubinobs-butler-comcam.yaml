@@ -2,13 +2,13 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-butler-comcam
+  name: &name rubinobs-butler-comcam
   namespace: rook-ceph
 spec:
-  bucketName: rubinobs-butler-comcam
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: comcam
+    bucketOwner: butler
     bucketMaxSize: 20Ti
     bucketPolicy: |
       {
