@@ -2,10 +2,10 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-lfa-cp
+  name: &name rubinobs-lfa-cp
   namespace: rook-ceph
 spec:
-  bucketName: rubinobs-lfa-cp
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
     bucketOwner: saluser
