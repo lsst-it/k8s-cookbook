@@ -2,55 +2,46 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: &name rubinobs-butler-lsstcam
+  name: &name rubinobs-lfa-cp
   namespace: rook-ceph
 spec:
   bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: butler
-    bucketMaxSize: 2.5Pi
+    bucketOwner: saluser
+    bucketMaxSize: 10Ti
     bucketPolicy: |
       {
           "Version": "2012-10-17",
           "Statement": [
               {
+                  "Sid": "AllowReadAccess",
                   "Effect": "Allow",
                   "Principal": {
-                      "AWS": "arn:aws:iam:::user/butler"
+                      "AWS": "arn:aws:iam:::user/s3lhn"
                   },
                   "Action": [
-                      "s3:GetObject",
-                      "s3:PutObject",
-                      "s3:DeleteObject",
                       "s3:ListBucket",
-                      "s3:GetBucketLocation"
+                      "s3:GetObject",
+                      "s3:GetObjectVersion"
                   ],
                   "Resource": [
-                      "arn:aws:s3:::rubinobs-butler-lsstcam",
-                      "arn:aws:s3:::rubinobs-butler-lsstcam/*"
+                      "arn:aws:s3:::rubinobs-lfa-cp",
+                      "arn:aws:s3:::rubinobs-lfa-cp/*"
                   ]
               },
               {
+                  "Sid": "PublicRead",
                   "Effect": "Allow",
-                  "Principal": {
-                      "AWS": "arn:aws:iam:::user/oods-lsstcam"
-                  },
+                  "Principal": "*",
                   "Action": [
                       "s3:GetObject",
-                      "s3:PutObject",
-                      "s3:DeleteObject",
-                      "s3:ListBucket",
-                      "s3:GetBucketLocation"
+                      "s3:GetObjectVersion"
                   ],
-                  "Resource": [
-                      "arn:aws:s3:::rubinobs-butler-lsstcam",
-                      "arn:aws:s3:::rubinobs-butler-lsstcam/*"
-                  ]
+                  "Resource": ["arn:aws:s3:::*"]
               }
           ]
       }
-
     bucketLifecycle: |
       {
         "Rules": [
@@ -67,7 +58,7 @@ spec:
             "Status": "Enabled",
             "Prefix": "",
             "Expiration": {
-              "Days": 90
+              "Days": 30
             }
           }
         ]
