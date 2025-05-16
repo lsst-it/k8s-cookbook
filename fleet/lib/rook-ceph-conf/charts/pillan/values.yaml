@@ -14,15 +14,19 @@ users:
     spec:
       store: lfa
       quotas:
-        maxBuckets: 1
+        maxBuckets: 2
   - name: latiss
     spec:
       store: lfa
       quotas:
-        maxBuckets: 1
+        maxBuckets: 2
   - name: oods-comcam
     spec:
       store: lfa
+      quotas:
+        maxBuckets: 0
   - name: oods-latiss
     spec:
       store: lfa
+      quotas:
+        maxBuckets: 0
