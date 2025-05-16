@@ -2,13 +2,13 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-butler-latiss
+  name: &name rubinobs-butler-latiss
   namespace: rook-ceph
 spec:
-  bucketName: rubinobs-butler-latiss
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: latiss
+    bucketOwner: butler
     bucketMaxSize: 10Ti
     bucketPolicy: |
       {
@@ -59,14 +59,6 @@ spec:
             "Prefix": "",
             "AbortIncompleteMultipartUpload": {
               "DaysAfterInitiation": 1
-            }
-          },
-          {
-            "ID": "ExpireAfter30Days",
-            "Status": "Enabled",
-            "Prefix": "",
-            "Expiration": {
-              "Days": 90
             }
           }
         ]
