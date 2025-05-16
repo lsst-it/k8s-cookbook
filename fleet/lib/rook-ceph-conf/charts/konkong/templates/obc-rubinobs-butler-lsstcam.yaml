@@ -8,7 +8,7 @@ spec:
   bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: lsstcam
+    bucketOwner: butler
     bucketMaxSize: 34Ti
     bucketPolicy: |
       {
