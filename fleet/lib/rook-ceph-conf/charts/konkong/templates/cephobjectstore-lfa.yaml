@@ -268,3 +268,13 @@ spec:
     pg_num: "256"
   replicated:
     size: 3
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: lfa
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain

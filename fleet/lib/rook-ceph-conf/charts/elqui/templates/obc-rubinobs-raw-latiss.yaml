@@ -62,7 +62,7 @@ spec:
             }
           },
           {
-            "ID": "ExpireAfter30Days",
+            "ID": "ExpireAfter90Days",
             "Status": "Enabled",
             "Prefix": "",
             "Expiration": {

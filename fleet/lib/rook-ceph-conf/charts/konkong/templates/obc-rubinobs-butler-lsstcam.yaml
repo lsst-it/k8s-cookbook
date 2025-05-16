@@ -2,16 +2,14 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-raw-lsstcam
+  name: &name rubinobs-butler-lsstcam
   namespace: rook-ceph
-  labels:
-    bucket-notification-lsst.s3.raw.lsstcam: lsst.s3.raw.lsstcam
 spec:
-  bucketName: rubinobs-raw-lsstcam
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
     bucketOwner: lsstcam
-    bucketMaxSize: 200Ti
+    bucketMaxSize: 34Ti
     bucketPolicy: |
       {
           "Version": "2012-10-17",
@@ -23,12 +21,14 @@ spec:
                   },
                   "Action": [
                       "s3:GetObject",
+                      "s3:PutObject",
+                      "s3:DeleteObject",
                       "s3:ListBucket",
                       "s3:GetBucketLocation"
                   ],
                   "Resource": [
-                      "arn:aws:s3:::rubinobs-raw-lsstcam",
-                      "arn:aws:s3:::rubinobs-raw-lsstcam/*"
+                      "arn:aws:s3:::rubinobs-butler-lsstcam",
+                      "arn:aws:s3:::rubinobs-butler-lsstcam/*"
                   ]
               },
               {
@@ -44,12 +44,13 @@ spec:
                       "s3:GetBucketLocation"
                   ],
                   "Resource": [
-                      "arn:aws:s3:::rubinobs-raw-lsstcam",
-                      "arn:aws:s3:::rubinobs-raw-lsstcam/*"
+                      "arn:aws:s3:::rubinobs-butler-lsstcam",
+                      "arn:aws:s3:::rubinobs-butler-lsstcam/*"
                   ]
               }
           ]
       }
+
     bucketLifecycle: |
       {
         "Rules": [
@@ -60,24 +61,6 @@ spec:
             "AbortIncompleteMultipartUpload": {
               "DaysAfterInitiation": 1
             }
-          },
-          {
-            "ID": "ExpireAfter90Days",
-            "Status": "Enabled",
-            "Prefix": "",
-            "Expiration": {
-              "Days": 90
-            }
           }
         ]
       }
----
-apiVersion: ceph.rook.io/v1
-kind: CephBucketNotification
-metadata:
-  name: lsst.s3.raw.lsstcam
-  namespace: rook-ceph
-spec:
-  topic: lsst.s3.raw.lsstcam
-  events:
-    - s3:ObjectCreated:*
