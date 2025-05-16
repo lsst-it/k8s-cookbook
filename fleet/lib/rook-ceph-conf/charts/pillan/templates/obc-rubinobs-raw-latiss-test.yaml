@@ -1,0 +1,33 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name rubinobs-raw-latiss-test
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: latiss
+    bucketMaxSize: 1Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          },
+          {
+            "ID": "ExpireAfter1Day",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+              "Days": 1
+            }
+          }
+        ]
+      }
