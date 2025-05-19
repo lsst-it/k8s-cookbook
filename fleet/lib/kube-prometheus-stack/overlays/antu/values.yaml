@@ -159,7 +159,7 @@ prometheus:
           - source_labels: [__meta_network_function]
             target_label: network_function
           - target_label: __address__
-            replacement: prometheus-snmp-exporter.snmp-exporter:9116      
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
 grafana:
   grafana.ini:
     server:
