@@ -115,6 +115,7 @@ modules:
       - xupsInputTable
       - xupsInputVoltage
       - xupsInputFrequency
+      - xupsOutput
       - xupsOutputTable
       - xupsOutputVoltage
       - xupsOutputFrequency
@@ -139,6 +140,7 @@ modules:
             - xupsInputVoltage
             - xupsInputFrequency
             - xupsOutputVoltage
+            - xupsOutputLoad
             - xupsOutputFrequency
             - xupsBatteryAbmStatus
           indices: ["0"]
@@ -366,3 +368,22 @@ modules:
           '':
             - regex: '(.*)'
               value: $1
+  arista_tunnel:
+    walk:
+      - aristaIpsecTunnelIfConnState
+  network_base:
+    walk:
+      - hrProcessorLoad
+      - hrStorageType
+      - hrStorageDescr
+      - hrStorageSize
+      - hrStorageUsed
+      - ciscoMemoryPoolName
+      - ciscoMemoryPoolUsed
+      - ciscoMemoryPoolFree
+      - avgBusy1
+      - avgBusy5
+      - entSensorType
+      - entSensorScale
+      - entSensorValue
+      - entSensorStatus
