@@ -2,13 +2,13 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: rubinobs-butler-lsstcam
+  name: &name rubinobs-butler-lsstcam
   namespace: rook-ceph
 spec:
-  bucketName: rubinobs-butler-lsstcam
+  bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: lsstcam
+    bucketOwner: butler
     bucketMaxSize: 2.5Pi
     bucketPolicy: |
       {
@@ -60,14 +60,6 @@ spec:
             "Prefix": "",
             "AbortIncompleteMultipartUpload": {
               "DaysAfterInitiation": 1
-            }
-          },
-          {
-            "ID": "ExpireAfter30Days",
-            "Status": "Enabled",
-            "Prefix": "",
-            "Expiration": {
-              "Days": 90
             }
           }
         ]

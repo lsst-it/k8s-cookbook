@@ -43,6 +43,21 @@ spec:
                       "arn:aws:s3:::rubinobs-calibrations",
                       "arn:aws:s3:::rubinobs-calibrations/*"
                   ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-lsstcam"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-calibrations",
+                      "arn:aws:s3:::rubinobs-calibrations/*"
+                  ]
               }
           ]
       }
