@@ -1,0 +1,145 @@
+-- ARISTA-TUNNEL-MIB: Arista tunnel information
+-- Copyright (c) 2022 Arista Networks, Inc.  All rights reserved.
+
+ARISTA-TUNNEL-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE       FROM SNMPv2-SMI
+    MODULE-COMPLIANCE, OBJECT-GROUP    FROM SNMPv2-CONF
+    TEXTUAL-CONVENTION                 FROM SNMPv2-TC
+    aristaMibs                         FROM ARISTA-SMI-MIB
+    ifIndex                            FROM IF-MIB;
+
+aristaTunnelMIB MODULE-IDENTITY
+    LAST-UPDATED "202309200000Z"
+    ORGANIZATION "Arista Networks, Inc."
+    CONTACT-INFO
+        "Arista Networks, Inc.
+
+         Postal: 5453 Great America Parkway
+                 Santa Clara, CA 95054
+
+         Tel: +1 408 547-5500
+
+         E-mail: snmp@arista.com"
+    DESCRIPTION
+            "The MIB module for additional tunnel information on Arista
+            devices."
+    REVISION    "202309200000Z"
+    DESCRIPTION "Add ikeVersionUnsupportedWithVrf"
+    REVISION    "202208240000Z"
+    DESCRIPTION "Initial version."
+    ::= { aristaMibs 34 }
+
+-- Textual Conventions --
+AristaIpsecTunnelConnectionState ::= TEXTUAL-CONVENTION
+    STATUS       current
+    DESCRIPTION
+        "A value that represents the connection state of an IPsec tunnel.
+        
+        unknown(0)                       The connection state could not be
+                                         determined.
+        connecting(1)                    The device is trying to connect to the
+                                         peer.
+        idle(2)                          IPsec connections will be accepted, but
+                                         not initiated.
+        established(3)                   IPsec connection is up, and IPsec SAs
+                                         are programmed in the data path.
+        shut(4)                          Configuration is present, but the
+                                         tunnel is in shutdown state.
+        fipsUnsupported(5)               FIPS is enabled and an unsupported
+                                         configuration is present; IPsec
+                                         connections will not be initiated
+                                         or accepted.
+        connected(6)                     IPsec connection is up, but IPsec SAs
+                                         are not yet programmed in the data
+                                         path.
+        ikeVersionUnsupportedWithVrf(7)  The configuration is unsupported
+                                         because tunnels with non-default
+                                         underlay VRFs only allow IKE version 2.
+        "
+    SYNTAX       INTEGER {
+        unknown(0),
+        connecting(1),
+        idle(2),
+        established(3),
+        shut(4),
+        fipsUnsupported(5),
+        connected(6),
+        ikeVersionUnsupportedWithVrf(7)
+    }
+
+aristaTunnelMibNotifications OBJECT IDENTIFIER
+    ::= { aristaTunnelMIB 0 }
+
+aristaTunnelMibObjects OBJECT IDENTIFIER
+    ::= { aristaTunnelMIB 1 }
+
+aristaTunnelMibConformance OBJECT IDENTIFIER
+    ::= { aristaTunnelMIB 2 }
+
+-- Notifications --
+
+-- Objects --
+
+-- IPsec tunnel interface table --
+
+aristaIpsecTunnelIfTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF AristaIpsecTunnelIfEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "This table contains information on IPsec tunnel interfaces."
+    ::= { aristaTunnelMibObjects 1 }
+
+aristaIpsecTunnelIfEntry OBJECT-TYPE
+    SYNTAX      AristaIpsecTunnelIfEntry
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+        "Information applicable to a particular IPsec tunnel interface."
+    INDEX       { ifIndex }
+    ::= { aristaIpsecTunnelIfTable 1 }
+
+AristaIpsecTunnelIfEntry ::= SEQUENCE {
+   aristaIpsecTunnelIfConnState   AristaIpsecTunnelConnectionState
+}
+
+aristaIpsecTunnelIfConnState OBJECT-TYPE
+    SYNTAX      AristaIpsecTunnelConnectionState
+    MAX-ACCESS  read-only
+    STATUS      current
+    DESCRIPTION
+        "The connection state of the IPsec tunnel identified by this
+        entry."
+    ::= { aristaIpsecTunnelIfEntry 1 }
+
+-- Conformance and Compliance --
+
+aristaTunnelMibCompliances OBJECT IDENTIFIER
+    ::= { aristaTunnelMibConformance 1 }
+
+aristaTunnelMibGroups OBJECT IDENTIFIER
+    ::= { aristaTunnelMibConformance 2 }
+
+aristaTunnelMibCompliance MODULE-COMPLIANCE
+    STATUS     current
+    DESCRIPTION
+        "The compliance statement for Arista switches that implement
+        the ARISTA-TUNNEL-MIB."
+    MODULE     -- this module
+    MANDATORY-GROUPS {
+        aristaTunnelMibIpsecGroup
+    }
+    ::= { aristaTunnelMibCompliances 1 }
+
+aristaTunnelMibIpsecGroup OBJECT-GROUP
+    OBJECTS {
+        aristaIpsecTunnelIfConnState
+    }
+    STATUS      current
+    DESCRIPTION
+        "The collection of objects that provide IPsec tunnel information."
+    ::= { aristaTunnelMibGroups 1 }
+
+END
