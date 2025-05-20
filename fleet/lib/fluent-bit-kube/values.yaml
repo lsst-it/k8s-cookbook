@@ -13,6 +13,7 @@ serviceMonitor:
   enabled: true
   selector:
     lsst.io/monitor: "true"
+    prometheus.io/cluster: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }
   #   namespace: monitoring
   #   interval: 10s
   #   scrapeTimeout: 10s
@@ -107,18 +108,6 @@ minReadySeconds:
 terminationGracePeriodSeconds:
 
 priorityClassName: ""
-
-env:
-- name: OS_LOGGING_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: fluentbit-kube-credentials
-      key: username
-- name: OS_LOGGING_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: fluentbit-kube-credentials
-      key: password
 
 # The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
 # This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
@@ -227,6 +216,8 @@ config:
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
+        HTTP_Max_Connections 200
+        HTTP_Buffer_Size 128k
 
   ## https://docs.fluentbit.io/manual/pipeline/inputs
   inputs: |
@@ -243,83 +234,100 @@ config:
         DB.Sync           Normal
 
     [INPUT]
-        Name              systemd
-        Tag               service.*
-        Path              /var/log/journal
-        DB                /fluent-bit/db/systemd.db
-        DB.Sync           Normal
-        Systemd_Filter    _SYSTEMD_UNIT=docker.service
-        Systemd_Filter    _SYSTEMD_UNIT=kubelet.service
-        Read_From_Tail    On
+        Name              tail
+        Tag               service.kubelet
+        Path              /var/lib/rancher/rke2/agent/logs/kubelet.log
+        DB                /fluent-bit/db/kubelet.db
+        Read_from_Head    false
 
   ## https://docs.fluentbit.io/manual/pipeline/filters
   filters: |
     [Filter]
-        Name                kubernetes
-        Match               kube.*
-        Kube_URL            https://kubernetes.default.svc:443
-        Kube_CA_File        /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
-        Merge_Log           On
-        Keep_Log            Off
-        K8S-Logging.Parser  On
+        Name kubernetes
+        Match kube.*
+        Kube_URL https://kubernetes.default.svc:443
+        Kube_CA_File /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        Kube_Token_File /var/run/secrets/kubernetes.io/serviceaccount/token
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
         K8S-Logging.Exclude On
-        Labels              true
-        Annotations         false
+        Labels true
+        Annotations false
+
     [Filter]
-        Name         nest
-        Match        kube.*
-        Operation    lift
+        Name nest
+        Match kube.*
+        Operation lift
         Nested_under kubernetes
-        Add_prefix   kubernetes_
+        Add_prefix kubernetes_
+
     [Filter]
-        Name   modify
-        Match  kube.*
-        Remove stream
+        Name modify
+        Match *
+        Add prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
+        Remove_wildcard kubernetes_labels_app*
+        Remove_wildcard kubernetes_labels_ceph*
+        Remove_wildcard kubernetes_labels_mgr*
+        Remove_wildcard kubernetes_labels_mon*
+        Remove_wildcard kubernetes_labels_rook*
+        Remove_wildcard kubernetes_labels_pod_template_hash
+        Remove_wildcard kubernetes_labels_controller_revision_hash
+        Remove pod_template_hash
         Remove kubernetes_pod_id
         Remove kubernetes_host
         Remove kubernetes_container_hash
-    [Filter]
-        Name          nest
-        Match         kube.*
-        Operation     nest
-        Wildcard      kubernetes_*
-        Nest_under    kubernetes
-        Remove_prefix kubernetes_
-    [Filter]
-        Name          lua
-        Match         kube.*
-        script        /fluent-bit/scripts/containerd.lua
-        call          containerd
-        time_as_table true
-    [Filter]
-        Name          lua
-        Match         service.*
-        script        /fluent-bit/scripts/systemd.lua
-        call          add_time
-        time_as_table true
-    [FILTER]
-        name  modify
-        match *
-        add   prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
+        Remove docker_id
+        Remove container_image
+        Remove _p
+        Remove pod_ip
+        Remove app_kubernetes_io_created_by
+        Remove app_kubernetes_io_managed_by
+        Remove app_kubernetes_io_instance
+        Remove app_kubernetes_io_name
+        Remove app_kubernetes_io_part_of
+        Remove controller_revision_hash
+        Remove helm_sh_chart
+        Remove service_name
+        Remove instance
+        Remove mgr
+        Remove mgr_role
+        Remove mon
+        Remove mon_cluster
+        Remove mon_daemon
+        Remove rook_io_operator_namespace
 
-  ## https://docs.fluentbit.io/manual/pipeline/outputs
-  outputs: |
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:kube|service)\.(.*)
-        Host               logging.logging
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-kube
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
+    [Filter]
+        Name modify
+        Match kube.*
+        Add log_type kubernetes
+
+    [Filter]
+        Name modify
+        Match service.kubelet
+        Add log_type kubelet_log
+
+    [Filter]
+        Name nest
+        Match kube.*
+        Operation nest
+        Wildcard kubernetes_*
+        Nest_under kubernetes
+        Remove_prefix kubernetes_
+
+    [Filter]
+        Name lua
+        Match kube.*
+        script /fluent-bit/scripts/containerd.lua
+        call containerd
+        time_as_table true
+
+    [Filter]
+        Name lua
+        Match service.*
+        script /fluent-bit/scripts/systemd.lua
+        call add_time
+        time_as_table true
 
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
   ## This configuration is deprecated, please use `extraFiles` instead.
@@ -328,15 +336,31 @@ config:
   ## https://docs.fluentbit.io/manual/pipeline/parsers
   customParsers: |
     [PARSER]
-        Name docker_no_time
-        Format json
-        Time_Keep Off
-        Time_Key time
-        Time_Format %Y-%m-%dT%H:%M:%S.%L
+      Name        docker_no_time
+      Format      json
+      Time_Keep   Off
+      Time_Key    time
+      Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+    [PARSER]
+        Name        auditd_line
+        Format      regex
+        Regex       ^node=(?<node>\S+)\s+type=(?<type>\S+)\s+msg=audit\((?<audit_time>[^)]+)\):(?<message>.*)
+        Time_Key    audit_time
+        Time_Format %s.%L
+
+    [PARSER]
+        Name        syslog_line
+        Format      regex
+        Regex       ^(?<timestamp>\d{4}-\d{2}-\d{2}T[^\s]+)\s+(?<host>\S+)\s+(?<program>[^\[]+)\[\d+\]:\s+\<(?<severity>\w+)\>\s+(?<message>.*)
+        Time_Key    timestamp
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
 
   # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
   extraFiles: {}
+
+  outputs: ""
 #     upstream.conf: |
 #       [UPSTREAM]
 #           upstream1

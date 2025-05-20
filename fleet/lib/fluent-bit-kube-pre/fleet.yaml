@@ -1,9 +1,0 @@
----
-defaultNamespace: fluent-bit-kube
-labels:
-  bundle: fluent-bit-kube-pre
-namespaceLabels:
-  lsst.io/discover: "true"
-helm:
-  timeoutSeconds: 600
-  waitForJobs: true

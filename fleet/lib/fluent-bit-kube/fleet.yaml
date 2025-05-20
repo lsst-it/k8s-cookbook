@@ -13,7 +13,11 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-dependsOn:
-  - selector:
+targetCustomizations:
+  - name: dev
+    clusterSelector:
       matchLabels:
-        bundle: fluent-bit-kube-pre
+        site: dev
+    helm:
+      valuesFiles:
+        - overlays/dev/values.yaml

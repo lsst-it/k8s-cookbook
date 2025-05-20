@@ -1,0 +1,14 @@
+config:
+    outputs: |
+        [Output]
+            Name              loki
+            Match_Regex       (?:kube|service)\.(.*)
+            Host              loki.kueyen.dev.lsst.org
+            Port              443
+            TLS               On
+            TLS.Verify        Off
+            Labels            job=fluentbit,namespace=$kubernetes_namespace_name
+            Label_keys        $prom_cluster,$log_type
+            Line_Format        json
+            Auto_Kubernetes_Labels Off
+            Remove_keys      stream
