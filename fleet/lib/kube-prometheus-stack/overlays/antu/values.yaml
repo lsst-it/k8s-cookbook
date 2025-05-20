@@ -140,6 +140,26 @@ prometheus:
             target_label: network_function
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: blackbox-snmp-arista-tunnel
+        metrics_path: /snmp
+        params:
+          module: [arista_tunnel]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__meta_hostname]
+            regex: .*ipsec.*
+            action: keep
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
 grafana:
   grafana.ini:
     server:
