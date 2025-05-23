@@ -5,5 +5,28 @@ labels:
 namespaceLabels:
   lsst.io/discover: "true"
 helm:
-  timeoutSeconds: 600
+  takeOwnership: true
+  force: true
+  timeoutSeconds: 60
   waitForJobs: true
+targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    yaml:
+      overlays:
+        - kueyen
+  - name: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
+    yaml:
+      overlays:
+        - ayekan
