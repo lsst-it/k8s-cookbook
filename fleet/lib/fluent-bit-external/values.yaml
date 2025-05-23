@@ -111,18 +111,6 @@ terminationGracePeriodSeconds:
 
 priorityClassName: ""
 
-env:
-- name: OS_LOGGING_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: fluent-bit-external-credentials
-      key: username
-- name: OS_LOGGING_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: fluent-bit-external-credentials
-      key: password
-
 # The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
 # This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
 # https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function
@@ -278,78 +266,44 @@ config:
         Name rewrite_tag
         Match rsyslog.*
         Rule $ident "sudo" sudo.$host.$ident true
+        Emitter_Name rewrite_sudo_emitter
+        Emitter_Storage.type memory
+
     [FILTER]
-        Name         parser
-        Match        sudo.*
-        Parser       sudo_parser
-        Key_Name     message
+        Name parser
+        Match sudo.*
+        Parser sudo_parser
+        Key_Name message
         Preserve_Key true
         Reserve_Data true
+
     [FILTER]
-        Name       grep
-        Match      sudo.*
-        Regex      user .*
+        Name grep
+        Match sudo.*
+        Regex user .*
+
     [FILTER]
-        name       grep
-        match      sudo.*
-        regex      command .*
+        Name grep
+        Match sudo.*
+        Regex command .*
+
     [FILTER]
-        name  modify
-        match sudo.*
-        add   alertname sudoLog
-        add   receivers  ",slack,"
+        Name modify
+        Match sudo.*
+        Add alertname sudoLog
+        Add receivers ,slack,
+        Add log_type sudo
+        Add source external
+        Rename message full_log
+
     [FILTER]
-        name  modify
-        match *
-        add   prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
+        Name modify
+        Match *
+        Add prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
+
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   outputs: |
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:rsyslog)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-hosts
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:firewall)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-firewall
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:netlog)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-network
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
     [OUTPUT]
         Name http
         Match sudo.*

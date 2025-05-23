@@ -1,0 +1,13 @@
+config:
+  output: |
+    [OUTPUT]
+        Name              loki
+        Match_Regex       (?:rsyslog|sudo|audit|syslog|firewall|network)\.(.*)
+        Host              loki.kueyen.dev.lsst.org
+        Port              443
+        TLS               On
+        TLS.Verify        Off
+        LabelKeys         prom_cluster host log_type source
+        LineFormat        json
+        Auto_Kubernetes_Labels Off
+        RemoveKeys        stream _p pod_ip container_image
