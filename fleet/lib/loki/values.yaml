@@ -1,0 +1,67 @@
+loki:
+  image:
+    repository: grafana/loki
+    tag: 3.4.2
+  auth_enabled: false
+
+  storage:
+    type: s3
+    s3:
+      access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
+      secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
+      s3ForcePathStyle: true
+      insecure: true
+      region: lfa
+    bucketNames:
+      chunks: logs-chunks
+      ruler: logs-ruler
+      admin: logs-admin
+
+  commonConfig:
+    replication_factor: 1
+
+  schemaConfig:
+    configs:
+      - from: "2025-03-01"
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  compactor:
+    retention_enabled: true
+    retention_delete_delay: 2h
+    working_directory: /var/loki/compactor
+    delete_request_store: s3
+
+deploymentMode: Distributed
+
+gateway:
+  enabled: true
+  service:
+    type: LoadBalancer
+    port: 80
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-staging
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+
+ruler:
+  enabled: false
+
+read:
+  replicas: 0
+write:
+  replicas: 0
+backend:
+  replicas: 0
+
+test:
+  enabled: true

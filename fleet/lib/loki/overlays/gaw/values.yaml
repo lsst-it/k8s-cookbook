@@ -1,0 +1,53 @@
+loki:
+  storage:
+    s3:
+      access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
+      secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
+      endpoint: http://rook-ceph-rgw-it.rook-ceph.svc.cluster.local:80
+      region: it
+
+  limits_config:
+    retention_period: 24h
+    retention_stream:
+      - selector: '{app=~".+"}'
+        period: 24h
+
+compactor:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: rook-ceph-block
+
+ingester:
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 15Gi
+    storageClassName: rook-ceph-block
+
+distributor:
+  replicas: 1
+
+querier:
+  replicas: 1
+
+queryFrontend:
+  replicas: 1
+
+queryScheduler:
+  replicas: 1
+
+indexGateway:
+  replicas: 1
+
+gateway:
+  ingress:
+    hosts:
+      - host: loki.gaw.ls.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: loki-dashboard-ingress-tls
+        hosts:
+          - loki.gaw.ls.lsst.org
