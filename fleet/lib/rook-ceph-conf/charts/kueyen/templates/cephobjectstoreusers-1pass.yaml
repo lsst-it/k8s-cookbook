@@ -1,0 +1,38 @@
+# yamllint disable-file
+{{- range .Values.users }}
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: {{ .name }}
+  namespace: rook-ceph
+spec:
+  clusterNamespace: rook-ceph
+  {{- toYaml .spec | nindent 2 }}
+  keys:
+    - accessKeyRef:
+        name: cephobjectstoreuser-{{ .name }}
+        key: AWS_ACCESS_KEY_ID
+      secretKeyRef:
+        name: cephobjectstoreuser-{{ .name }}
+        key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: cephobjectstoreuser-{{ .name }}
+  namespace: rook-ceph
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: {{ .name }}
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: {{ .name }}
+        property: AWS_SECRET_ACCESS_KEY
+{{ end }}

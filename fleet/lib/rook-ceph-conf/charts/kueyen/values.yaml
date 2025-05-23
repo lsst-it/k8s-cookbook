@@ -1,1 +1,5 @@
 ---
+users:
+  - name: mimir
+    spec:
+      store: o11y

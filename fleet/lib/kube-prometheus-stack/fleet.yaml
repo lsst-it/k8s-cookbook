@@ -43,6 +43,19 @@ diff:
       jsonPointers:
         - /spec/automountServiceAccountToken
 targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - aggregator/values.yaml
+        - ldap/values.yaml
+        - overlays/kueyen/values.yaml
   - name: pillan
     clusterSelector:
       matchExpressions:
