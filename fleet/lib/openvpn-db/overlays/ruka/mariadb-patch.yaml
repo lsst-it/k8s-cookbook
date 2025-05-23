@@ -1,0 +1,7 @@
+apiVersion: mariadb.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: openvpn-mariadb
+spec:
+  service:
+    loadBalancerIP: 139.229.134.140
