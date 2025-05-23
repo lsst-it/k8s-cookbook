@@ -1,0 +1,15 @@
+defaultNamespace: &name openvpn-db
+labels:
+  bundle: *name
+dependsOn:
+  - name: mariadb-operator
+    namespace: mariadb-system
+  - name: openvpn-db-pre
+    namespace: openvpn-db
+kustomize:
+  dir: base
+targetCustomizations:
+  - name: ruka
+    clusterName: ruka
+    kustomize:
+      dir: overlays/ruka
