@@ -1,0 +1,77 @@
+# fleet/lib/openvpn-db/base/mariadb-cr.yaml
+apiVersion: mariadb.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: openvpn-mariadb
+  namespace: openvpn-db
+spec:
+  image: docker-registry1.mariadb.com/library/mariadb:11.4.5
+  imagePullSecrets:
+    - name: dockerhub-secret
+  galera:
+    enabled: true
+    replicas: 3
+  storage:
+    size: 10Gi
+    storageClassName: rook-ceph-block
+  rootPasswordSecret:
+    name: mariadb-secrets
+    key: mariadb-root-password
+  service:
+    type: LoadBalancer
+    ports:
+      - name: mysql
+        port: 3306
+        targetPort: 3306
+    annotations:
+      metallb.universe.tf/address-pool: openvpndb
+  resources:
+    primary:
+      limits:
+        cpu: "4"
+        memory: 8Gi
+      requests:
+        cpu: "4"
+        memory: 8Gi
+    secondary:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: "2"
+        memory: 4Gi
+  configuration: |
+    [mysqld]
+    skip-name-resolve
+    explicit_defaults_for_timestamp
+    basedir=/usr
+    datadir=/var/lib/mysql
+    plugin_dir=/usr/lib/mysql/plugin
+    port=3306
+    socket=/var/run/mysqld/mysqld.sock
+    tmpdir=/tmp
+    max_allowed_packet=64M
+    bind-address=0.0.0.0
+    pid-file=/var/run/mysqld/mysqld.pid
+    log-error=/var/log/mariadb/error.log
+    log_bin=/var/log/mariadb/mariadb-bin.log
+    character-set-server=UTF8
+    collation-server=utf8_general_ci
+    innodb_buffer_pool_size=6G
+    slow_query_log=1
+    slow_query_log_file=/var/log/mariadb/slow.log
+    long_query_time=1
+    expire_logs_days=30
+    max_connections=300
+    wait_timeout=28800
+    net_read_timeout=60
+    net_write_timeout=60
+    net_retry_count=10
+    [client]
+    port=3306
+    socket=/var/run/mysqld/mysqld.sock
+    default-character-set=UTF8
+    plugin_dir=/usr/lib/mysql/plugin
+    [galera]
+    wsrep_on=ON
+    wsrep_provider=/usr/lib/galera/libgalera_smm.so

@@ -1,0 +1,4 @@
+resources:
+  - mariadb-cr.yaml
+  - ../openvpn-db-pre/base/external-secret-openvpndb.yaml
+  - ../openvpn-db-pre/base/external-secret-dockerhub.yaml
