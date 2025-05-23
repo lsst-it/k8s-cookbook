@@ -4,10 +4,6 @@ kind: Service
 metadata:
   labels:
     lsst.team.io/infra: "true"
-    lsst.io/role: logging
-    lsst.io/component: fluent-bit
-    lsst.io/env: external
-    lsst.io/project: o11y
   name: fluent-bit-external-loadbalancer
 spec:
   ports:
