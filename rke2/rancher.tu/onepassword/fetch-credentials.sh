@@ -23,4 +23,3 @@ type: Opaque
 stringData:
   1password-credentials.json: ${ENCODED_CREDS}
 END
-
