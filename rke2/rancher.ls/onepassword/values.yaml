@@ -1,0 +1,17 @@
+connect:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    hosts:
+      - host: connect.ls.lsst.org
+        paths:
+          - /
+    pathType: Prefix
+    tls:
+      - secretName: connect-ingress-tls
+        hosts:
+          - connect.ls.lsst.org
+
+  serviceType: ClusterIP
