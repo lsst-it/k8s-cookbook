@@ -1,0 +1,1 @@
+../../../template/ingress-nginx/ingress-nginx.sh
