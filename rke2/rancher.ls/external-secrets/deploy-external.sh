@@ -1,0 +1,1 @@
+../../../template/external-secrets/deploy-external.sh
