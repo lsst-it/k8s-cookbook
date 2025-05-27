@@ -1,7 +1,0 @@
-dn: uid=rancher,cn=sysaccounts,cn=etc,dc=lsst,dc=cloud
-add:objectclass:account
-add:objectclass:simplesecurityobject
-add:uid:rancher
-add:userPassword:<password>
-add:passwordExpirationTime:20380119031407Z
-add:nsIdleTimeout:0
