@@ -12,6 +12,11 @@ spec:
     - fleet/s/ls/c/luan/*
   targets:
     - name: luan
-      clusterName: luan
+      clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
   correctDrift:
     enabled: true

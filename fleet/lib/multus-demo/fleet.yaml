@@ -43,13 +43,23 @@ targetCustomizations:
         networks:
           - dds
   - name: konkong
-    clusterName: konkong
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
     helm:
       values:
         networks:
           - lhn
   - name: manke
-    clusterName: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
     helm:
       values:
         networks:

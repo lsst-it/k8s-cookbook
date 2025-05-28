@@ -45,7 +45,12 @@ targetCustomizations:
       overlays:
         - ayekan
   - name: antu
-    clusterName: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
     yaml:
       overlays:
         - antu

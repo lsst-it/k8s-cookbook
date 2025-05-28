@@ -85,22 +85,42 @@ targetCustomizations:
       valuesFiles:
         - overlays/pillan/values.yaml
   - name: gaw
-    clusterName: gaw
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - gaw
     helm:
       valuesFiles:
         - overlays/gaw/values.yaml
   - name: luan
-    clusterName: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
     helm:
       valuesFiles:
         - overlays/luan/values.yaml
   - name: konkong
-    clusterName: konkong
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
     helm:
       valuesFiles:
         - overlays/konkong/values.yaml
   - name: manke
-    clusterName: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
     helm:
       valuesFiles:
         - overlays/manke/values.yaml
@@ -120,7 +140,12 @@ targetCustomizations:
       valuesFiles:
         - overlays/yepun/values.yaml
   - name: antu
-    clusterName: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
     helm:
       valuesFiles:
         - overlays/antu/values.yaml

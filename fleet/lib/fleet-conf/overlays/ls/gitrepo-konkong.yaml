@@ -12,6 +12,11 @@ spec:
     - fleet/s/ls/c/konkong/*
   targets:
     - name: konkong
-      clusterName: konkong
+      clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
   correctDrift:
     enabled: true
