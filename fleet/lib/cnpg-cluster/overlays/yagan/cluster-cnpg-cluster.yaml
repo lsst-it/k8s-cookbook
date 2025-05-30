@@ -34,15 +34,15 @@ spec:
     name: cnpg-cluster-superuser
 
   storage:
-    size: 150Gi
+    size: 200Gi
 
   monitoring:
     enablePodMonitor: true
 
   resources:
     limits:
-      cpu: "16"
+      cpu: "48"
       memory: 64Gi
     requests:
-      cpu: "16"
+      cpu: "48"
       memory: 64Gi
