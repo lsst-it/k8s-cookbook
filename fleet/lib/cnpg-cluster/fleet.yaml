@@ -22,7 +22,12 @@ dependsOn:
         bundle: prometheus-operator-crds
 targetCustomizations:
   - name: manke
-    clusterName: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
     yaml:
       overlays:
         - manke
