@@ -42,3 +42,10 @@ externalDatabase:
   database: keycloak
   existingSecret: keycloak-pg
   existingSecretPasswordKey: password
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    labels:
+      lsst.io/monitor: "true"
