@@ -85,7 +85,12 @@ targetCustomizations:
               path: /scratch
               server: nfs-scratch.tu.lsst.org
   - name: gaw
-    clusterName: gaw
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - gaw
     helm:
       values:
         pvc:
@@ -97,7 +102,12 @@ targetCustomizations:
               path: /backup
               server: 139.229.135.203
   - name: manke
-    clusterName: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
     helm:
       values:
         pvc:
@@ -126,18 +136,6 @@ targetCustomizations:
             - name: scratch
               path: /scratch
               server: nfs-scratch.ls.lsst.org
-  - name: gaw
-    clusterName: gaw
-    helm:
-      values:
-        pvc:
-          enabled: true
-        nfs:
-          enabled: true
-          mounts:
-            - name: backup
-              path: /backup
-              server: it-nfs-backup.cp.lsst.org
   - name: yagan
     clusterName: yagan
     helm:
@@ -237,7 +235,12 @@ targetCustomizations:
               path: /scratch
               server: nfs-scratch.cp.lsst.org
   - name: konkong
-    clusterName: konkong
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
     helm:
       values:
         nfs:

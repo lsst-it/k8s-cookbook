@@ -22,7 +22,12 @@ dependsOn:
         bundle: keycloak-pg
 targetCustomizations:
   - name: luan
-    clusterName: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
     helm:
       valuesFiles:
         - overlays/luan/values.yaml

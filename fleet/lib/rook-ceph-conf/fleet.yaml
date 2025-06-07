@@ -75,28 +75,48 @@ targetCustomizations:
           pillan:
             enabled: true
   - name: gaw
-    clusterName: gaw
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - gaw
     helm:
       values:
         subchart:
           gaw:
             enabled: true
   - name: luan
-    clusterName: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
     helm:
       values:
         subchart:
           luan:
             enabled: true
   - name: konkong
-    clusterName: konkong
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
     helm:
       values:
         subchart:
           konkong:
             enabled: true
   - name: manke
-    clusterName: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
     helm:
       values:
         subchart:
@@ -124,7 +144,12 @@ targetCustomizations:
           yepun:
             enabled: true
   - name: antu
-    clusterName: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
     helm:
       values:
         subchart:

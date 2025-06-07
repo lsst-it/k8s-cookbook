@@ -12,6 +12,11 @@ spec:
     - fleet/s/ls/c/manke/*
   targets:
     - name: manke
-      clusterName: manke
+      clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
   correctDrift:
     enabled: true
