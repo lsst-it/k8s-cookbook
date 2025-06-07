@@ -16,11 +16,11 @@ spec:
           accessKeyIDSecretRef:
             key: AWS_ACCESS_KEY_ID
             name: route53
-          hostedZoneID: ZQGNOYQYRNW0C
+          hostedZoneID: ZPIEHXTK3ZPMR
           region: us-east-1
           secretAccessKeySecretRef:
             key: AWS_SECRET_ACCESS_KEY
             name: route53
       selector:
         dnsZones:
-        - dev.lsst.org
+        - ls.lsst.org
