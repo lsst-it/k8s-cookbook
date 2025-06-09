@@ -241,14 +241,6 @@
   },
   {
     "labels": {
-      "__meta_hostname": "bdc-b11-bmc.ls.lsst.org"
-    },
-    "targets": [
-      "10.49.0.211"
-    ]
-  },
-  {
-    "labels": {
       "__meta_hostname": "bdc-b11-lf01.ls.lsst.org"
     },
     "targets": [
@@ -261,14 +253,6 @@
     },
     "targets": [
       "10.49.0.122"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "bdc-b12-bmc.ls.lsst.org"
-    },
-    "targets": [
-      "10.49.0.212"
     ]
   },
   {
@@ -353,14 +337,6 @@
   },
   {
     "labels": {
-      "__meta_hostname": "cleanroom-ptptest-as01.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.34"
-    ]
-  },
-  {
-    "labels": {
       "__meta_hostname": "dimm-as01.cp.lsst.org"
     },
     "targets": [
@@ -417,26 +393,10 @@
   },
   {
     "labels": {
-      "__meta_hostname": "main1-as02.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.12"
-    ]
-  },
-  {
-    "labels": {
       "__meta_hostname": "main3-as01.cp.lsst.org"
     },
     "targets": [
       "10.17.0.31"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "main3-as02.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.32"
     ]
   },
   {
@@ -623,14 +583,6 @@
     },
     "targets": [
       "10.49.0.93"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "rot-as01.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.40"
     ]
   },
   {
