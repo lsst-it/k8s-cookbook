@@ -14,7 +14,12 @@ dependsOn:
         bundle: cnpg-system
 targetCustomizations:
   - name: luan
-    clusterName: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
     yaml:
       overlays:
         - generic

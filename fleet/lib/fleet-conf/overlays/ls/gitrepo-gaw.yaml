@@ -12,6 +12,11 @@ spec:
     - fleet/s/ls/c/gaw/*
   targets:
     - name: gaw
-      clusterName: gaw
+      clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - gaw
   correctDrift:
     enabled: true
