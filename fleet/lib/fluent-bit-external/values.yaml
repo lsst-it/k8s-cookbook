@@ -111,18 +111,6 @@ terminationGracePeriodSeconds:
 
 priorityClassName: ""
 
-env:
-- name: OS_LOGGING_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: fluent-bit-external-credentials
-      key: username
-- name: OS_LOGGING_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: fluent-bit-external-credentials
-      key: password
-
 # The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
 # This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
 # https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function
@@ -240,7 +228,7 @@ config:
         Listen 0.0.0.0
         Port   5141
         Mode   tcp
-        Parser syslog-rfc3164
+        Parser syslog-rfc5424
         tls          on
         tls.verify   off
         tls.crt_file /etc/secrets/certicate/tls.crt
@@ -251,7 +239,7 @@ config:
         Listen 0.0.0.0
         Port   5141
         Mode   udp
-        Parser syslog-rfc3164
+        Parser syslog-rfc5424
     # network logs
     [Input]
         Name   syslog
@@ -278,87 +266,81 @@ config:
         Name rewrite_tag
         Match rsyslog.*
         Rule $ident "sudo" sudo.$host.$ident true
+        Emitter_Name rewrite_sudo_emitter
+        Emitter_Storage.type memory
+
     [FILTER]
-        Name         parser
-        Match        sudo.*
-        Parser       sudo_parser
-        Key_Name     message
+        Name parser
+        Match sudo.*
+        Parser sudo_parser
+        Key_Name message
         Preserve_Key true
         Reserve_Data true
+
     [FILTER]
-        Name       grep
-        Match      sudo.*
-        Regex      user .*
+        Name grep
+        Match sudo.*
+        Regex user .*
+
     [FILTER]
-        name       grep
-        match      sudo.*
-        regex      command .*
+        Name grep
+        Match sudo.*
+        Regex command .*
+
     [FILTER]
-        name  modify
-        match sudo.*
-        add   alertname sudoLog
-        add   receivers  ",slack,"
+        Name modify
+        Match sudo.*
+        Add alertname sudoLog
+        Add receivers ,slack,
+        Add log_type sudo
+        Add source external
+        Rename message full_log
+
     [FILTER]
-        name  modify
-        match *
-        add   prom_cluster ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }
+        Name modify
+        Match rsyslog.*
+        Add log_type rsyslog
+        Add source external
+
+    [FILTER]
+        Name modify
+        Match audit.*
+        Add log_type audit
+        Add source external
+
+    [FILTER]
+        Name modify
+        Match syslog.*
+        Add log_type syslog
+        Add source external
+
+    [FILTER]
+        Name   parser
+        Match  firewall.*
+        Key_Name msg
+        Parser pfsense_syslog_parser
+        Preserve_Key true
+        Reserve_Data true
+
+    [FILTER]
+        Name   modify
+        Match  firewall.*
+        Add    log_type firewall
+        Add    source   external
+        Rename msg full_log
+        Remove anchor
+        Remove offset
+        Remove urg
+
+    [FILTER]
+        Name modify
+        Match network.*
+        Add log_type network
+        Add source external
+
 
   ## https://docs.fluentbit.io/manual/pipeline/outputs
-  outputs: |
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:rsyslog)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-hosts
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:firewall)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-firewall
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
-    [Output]
-        Name               opensearch
-        Buffer_Size        1M
-        Match_Regex        (?:netlog)\.(.*)
-        Host               opensearch.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        Port               9200
-        HTTP_User          ${`${OS_LOGGING_USERNAME}`}
-        HTTP_Passwd        ${`${OS_LOGGING_PASSWORD}`}
-        Index              logs-network
-        Write_Operation    create
-        Replace_Dots       true
-        Trace_Error        true
-        Suppress_Type_Name true
-        tls                On
-        tls.verify         false
-    [OUTPUT]
-        Name http
-        Match sudo.*
-        Host alertbit.alertbit
-        Port 8090
-        URI /api/alert
-        Format json
-        Json_date_key date
-        Json_date_format epoch
+  outputs: ""
 
   ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
   ## This configuration is deprecated, please use `extraFiles` instead.
@@ -377,10 +359,11 @@ config:
       Format regex
       Regex ^(?<user>[\w]+)\s*:?\s*(?<notification>[\w\s]+)\s*;?\s*TTY=(?<tty>[\w\/]+)\s*;?\s*PWD=(?<working_directory>[\w\/]+)\s*;?\s*USER=(?<sudo_user>[\w]+)\s*;?\s*COMMAND=(?<command>.+)$
 
-    [Parser]
-      Name         pfsense_log
-      Format       regex
-      Regex ^(?<rule_number>[\d\w]*),(?<sub_rule_number>[\d\w]*),(?<anchor>[\d\w]*),(?<tracker>[\d\w]*),(?<real_interface>[\d\w]*),(?<reason>[\d\w]*),(?<action>[\d\w]*),(?<direction>[\d\w]*),(?<ip_version>[\d]*),(?<tos>[\d\w]*),(?<ecn>[\d\w]*),(?<ttl>[\d\w]*),(?<id>[\d\w]*),(?<offset>[\d\w]*),(?<flags>[\d\w]*),(?<protocol_id>[\d\w]*),(?<protocol>[\d\w]*),(?<src_port>[\d]*),(?<src_ip>[\d\.]*),(?<dst_ip>[\d\.]*),(?<dst_port>[\d]*)
+    [PARSER]
+      Name        pfsense_syslog_parser
+      Format      regex
+      Regex       ^.*\[fwlog\] (?<rule_id>[^,]*),(?<sub_rule>[^,]*),(?<anchor>[^,]*),(?<tracker>[^,]*),(?<iface>[^,]*),(?<reason>[^,]*),(?<action>[^,]*),(?<dir>[^,]*),(?<ipver>[^,]*),(?<tos>[^,]*),(?<ecn>[^,]*),(?<ttl>[^,]*),(?<id>[^,]*),(?<offset>[^,]*),(?<flags>[^,]*),(?<proto_id>[^,]*),(?<proto>[^,]*),(?<len>[^,]*),(?<src_ip>[^,]*),(?<dst_ip>[^,]*),(?<src_port>[^,]*),(?<dst_port>[^,]*),(?<data_len>[^,]*),(?<tcp_flags>[^,]*),(?<seq>[^,]*),(?<ack>[^,]*),(?<window>[^,]*),(?<urg>[^,]*),(?<options>[^,\n]*)$
+      Time_Keep   On
 
   # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
   # The key becomes the filename, the value becomes the file content.
