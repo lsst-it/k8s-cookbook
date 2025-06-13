@@ -1,0 +1,13 @@
+---
+defaultNamespace: k8up
+namespaceLabels:
+  lsst.io/discover: "true"
+  k8up-enabled: "true"
+labels:
+  bundle: &name k8up-crds
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  timeoutSeconds: 60
+  waitForJobs: true
