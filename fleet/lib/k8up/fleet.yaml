@@ -1,0 +1,22 @@
+---
+defaultNamespace: &name k8up
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://k8up-io.github.io/k8up
+  version: 4.8.4
+  timeoutSeconds: 60
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: k8up-pre
+  - selector:
+      matchLabels:
+        bundle: k8up-crds
