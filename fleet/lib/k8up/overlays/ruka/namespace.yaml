@@ -1,0 +1,5 @@
+kind: Namespace
+metadata:
+  name: k8up
+  labels:
+    k8up-enabled=true
