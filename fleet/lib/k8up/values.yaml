@@ -1,12 +1,12 @@
 k8up:
   envVars:
-    - name: BACKUP_GLOBALACCESSKEYID
+    - name: k8up
       valueFrom:
         secretKeyRef:
-          name: global-s3-credentials
+          name: k8up-credentials
           key: access-key-id
 
-  timezone: ""
+  timezone: "America/Santiago"
 
 resources:
   limits:
