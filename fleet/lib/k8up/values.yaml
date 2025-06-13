@@ -1,10 +1,10 @@
 k8up:
-  envVars: []
-   - name: BACKUP_GLOBALACCESSKEYID
-     valueFrom:
-       secretKeyRef:
-         name: global-s3-credentials
-         key: access-key-id
+  envVars:
+    - name: BACKUP_GLOBALACCESSKEYID
+      valueFrom:
+        secretKeyRef:
+          name: global-s3-credentials
+          key: access-key-id
 
   timezone: ""
 
@@ -18,5 +18,5 @@ resources:
 metrics:
   serviceMonitor:
     enabled: true
-    additionalLabels:  
+    additionalLabels:
       lsst.io/monitor: "true"
