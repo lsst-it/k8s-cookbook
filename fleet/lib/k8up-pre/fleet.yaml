@@ -1,0 +1,11 @@
+---
+defaultNamespace: k8up
+labels:
+  bundle: &name k8up-pre
+namespaceLabels:
+  lsst.io/discover: "true"
+  k8up-enabled: "true"
+helm:
+  releaseName: *name
+  timeoutSeconds: 60
+  waitForJobs: true

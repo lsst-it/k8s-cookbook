@@ -1,0 +1,16 @@
+labels:
+  bundle: &name k8up-post
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: k8up
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    kustomize:
+      dir: overlays/ruka
