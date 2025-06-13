@@ -1,0 +1,22 @@
+k8up:
+  envVars: []
+   - name: BACKUP_GLOBALACCESSKEYID
+     valueFrom:
+       secretKeyRef:
+         name: global-s3-credentials
+         key: access-key-id
+
+  timezone: ""
+
+resources:
+  limits:
+    memory: 256Mi
+  requests:
+    cpu: 20m
+    memory: 128Mi
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    additionalLabels:  
+      lsst.io/monitor: "true"

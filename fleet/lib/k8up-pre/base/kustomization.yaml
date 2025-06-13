@@ -1,0 +1,3 @@
+---
+resources:
+- external-secrets-k8up.yaml
