@@ -42,7 +42,12 @@ targetCustomizations:
       valuesFiles:
         - overlays/pillan/values.yaml
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     helm:
       valuesFiles:
         - overlays/yepun/values.yaml

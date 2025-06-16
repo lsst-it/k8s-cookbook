@@ -137,7 +137,12 @@ targetCustomizations:
               path: /scratch
               server: nfs-scratch.ls.lsst.org
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     helm:
       values:
         pvc:
@@ -187,7 +192,12 @@ targetCustomizations:
         pvc:
           enabled: true
   - name: lukay
-    clusterName: lukay
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lukay
     helm:
       values:
         pvc:
@@ -199,7 +209,12 @@ targetCustomizations:
               path: /backup
               server: 139.229.160.212
   - name: elqui
-    clusterName: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
     helm:
       values:
         pvc:

@@ -36,7 +36,12 @@ targetCustomizations:
         - generic
         - ruka
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     yaml:
       overlays:
         - generic

@@ -62,7 +62,12 @@ dependsOn:
         bundle: cert-manager-crds
 targetCustomizations:
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     helm:
       values:
         persistence:

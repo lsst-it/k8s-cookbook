@@ -12,6 +12,11 @@ spec:
     - fleet/s/cp/c/elqui/*
   targets:
     - name: elqui
-      clusterName: elqui
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - elqui
   correctDrift:
     enabled: true

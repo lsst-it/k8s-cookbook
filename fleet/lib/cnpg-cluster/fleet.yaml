@@ -52,7 +52,12 @@ targetCustomizations:
       overlays:
         - ruka
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     yaml:
       overlays:
         - yagan

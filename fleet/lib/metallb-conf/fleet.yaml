@@ -94,17 +94,32 @@ targetCustomizations:
       overlays:
         - manke
   - name: lukay
-    clusterName: lukay
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lukay
     yaml:
       overlays:
         - lukay
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     yaml:
       overlays:
         - yagan
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     yaml:
       overlays:
         - yepun
@@ -119,7 +134,12 @@ targetCustomizations:
       overlays:
         - antu
   - name: elqui
-    clusterName: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
     yaml:
       overlays:
         - elqui

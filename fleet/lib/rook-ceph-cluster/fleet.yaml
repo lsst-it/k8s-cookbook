@@ -125,17 +125,32 @@ targetCustomizations:
       valuesFiles:
         - overlays/manke/values.yaml
   - name: lukay
-    clusterName: lukay
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lukay
     helm:
       valuesFiles:
         - overlays/lukay/values.yaml
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     helm:
       valuesFiles:
         - overlays/yagan/values.yaml
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     helm:
       valuesFiles:
         - overlays/yepun/values.yaml
@@ -150,7 +165,12 @@ targetCustomizations:
       valuesFiles:
         - overlays/antu/values.yaml
   - name: elqui
-    clusterName: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
     helm:
       valuesFiles:
         - overlays/elqui/values.yaml
