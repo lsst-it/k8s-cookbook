@@ -27,6 +27,7 @@ file with the `rules.namespace` key.
   of receivers, pre- and suffixed with `,` to make regex matching easier in the
   alertmanager. For example: `,slack,squadcast,email,` The receivers are defined
   in the alertmanager configuration.
-  Currently (20240503) the following receivers are configured:
-   * `slack-test`
-   * `squadcast-test`
+  
+  Currently (20250616) the following receivers are configured:
+   * `gnocpush`: Requires label `gnoc = "true"`
+   * `squadcast-alertmanager`: Requires label `prod = "true"`
