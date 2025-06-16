@@ -12,6 +12,11 @@ spec:
     - fleet/s/cp/c/yagan/*
   targets:
     - name: yagan
-      clusterName: yagan
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - yagan
   correctDrift:
     enabled: true

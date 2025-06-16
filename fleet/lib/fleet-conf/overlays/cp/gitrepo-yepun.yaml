@@ -12,6 +12,11 @@ spec:
     - fleet/s/cp/c/yepun/*
   targets:
     - name: yepun
-      clusterName: yepun
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - yepun
   correctDrift:
     enabled: true

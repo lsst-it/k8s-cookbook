@@ -123,21 +123,36 @@ targetCustomizations:
           manke:
             enabled: true
   - name: lukay
-    clusterName: lukay
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lukay
     helm:
       values:
         subchart:
           lukay:
             enabled: true
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     helm:
       values:
         subchart:
           yagan:
             enabled: true
   - name: yepun
-    clusterName: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
     helm:
       values:
         subchart:
@@ -156,7 +171,12 @@ targetCustomizations:
           antu:
             enabled: true
   - name: elqui
-    clusterName: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
     helm:
       values:
         subchart:

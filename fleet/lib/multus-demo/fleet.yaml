@@ -66,7 +66,12 @@ targetCustomizations:
           - dds
           - lhn
   - name: yagan
-    clusterName: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
     helm:
       values:
         networks:

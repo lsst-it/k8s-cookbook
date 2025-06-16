@@ -12,6 +12,11 @@ spec:
     - fleet/s/cp/c/lukay/*
   targets:
     - name: lukay
-      clusterName: lukay
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - lukay
   correctDrift:
     enabled: true
