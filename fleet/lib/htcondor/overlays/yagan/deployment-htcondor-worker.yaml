@@ -20,7 +20,12 @@ spec:
       initContainers:
       - name: init-symlinks
         image: busybox
-        command: [sh, -c, ln -s /readonly/lsstdata/comcam/base/comcam /data/lsstdata/base/comcam && ln -s /readonly/lsstdata/auxtel/base/auxtel /data/lsstdata/base/auxtel]
+        command:
+        - sh
+        - -c
+        - >
+          [ ! -e /data/lsstdata/base/comcam ] && ln -s /readonly/lsstdata/comcam/base/comcam /data/lsstdata/base/comcam;
+          [ ! -e /data/lsstdata/base/auxtel ] && ln -s /readonly/lsstdata/auxtel/base/auxtel /data/lsstdata/base/auxtel
         volumeMounts:
         - name: lsstdata-comcam
           mountPath: /readonly/lsstdata/comcam
