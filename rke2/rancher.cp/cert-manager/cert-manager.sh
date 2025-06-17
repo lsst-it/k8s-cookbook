@@ -1,0 +1,1 @@
+../../../template/cert-manager/cert-manager.sh
