@@ -192,7 +192,7 @@ alertmanager:
         - site
       group_wait: 30s
       group_interval: 5m
-      repeat_interval: 24h
+      repeat_interval: 120h
       receiver: blackhole
       routes:
         - receiver: blackhole

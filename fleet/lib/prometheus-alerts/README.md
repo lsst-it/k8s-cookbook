@@ -13,20 +13,10 @@ file with the `rules.namespace` key.
 
 ## Prometheus rule AURA standards
 
-* `summary` annotation: The `summary` annotation is used to be able to describe a
-  group of alerts incomming. This annotation DOES NOT contain any templated
-  variables and provides a simple single sentence summary of what the alert is
-  about. For example "Disk space full in 24h". When a cluster triggers several
-  alerts, it can be hany to group these alerts into a single notification, this
-  is when the `summary` can be used.
-* `discription` annotation: This provides a detailed overview of the alert
-  specifically to this instance of the alert. It MAY contain templated variables
-  to enrich the message.
-* `receiver` label: The receiver label is used by alertmanager to decide on the
-  routing of the notification for the alert. It exists out of `,` seperated list
-  of receivers, pre- and suffixed with `,` to make regex matching easier in the
-  alertmanager. For example: `,slack,squadcast,email,` The receivers are defined
-  in the alertmanager configuration.
-  Currently (20240503) the following receivers are configured:
-   * `slack-test`
-   * `squadcast-test`
+* `summary` annotation: This annotation MAY contain a templated variable to differentiate between hosts, pods, clusters, etc. and provides a simple single sentence summary of what the alert is about. For example, "Disk space full in acme.lsst.org". When a cluster triggers several alerts, it can be helpful to group these alerts into a single notification. A distinctive summary, it is also useful as a title for Jira tickets.
+* `description` annotation: This provides a detailed overview of the alert specifically to this instance of the alert. It MAY contain templated variables to enrich the message.
+* routing label: Rubin uses labels to route alerts. The label is used by alertmanager to determine the routing of the notification for the alert. By default, all alerts should be routed to Squadcast. The escalation and notification will be handled by Squadcast API.
+
+  Currently (20250616) the following receivers are configured:
+* `gnocpush`: Requires label `gnoc: "true"`
+* `squadcast-alertmanager`: Requires label `prod: "true"`. In most cases this should be the label of the alert.

@@ -1,0 +1,20 @@
+groups:
+  - name: k8s.rules
+    rules:
+      - alert: PVCLowFreeSpace
+        annotations:
+          summary: PVC {{ $labels.persistentvolumeclaim }} is low on free space
+          description: >
+            PVC {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }}
+            has less than 20% free space.
+        expr: |
+          (kubelet_volume_stats_available_bytes{job="kubelet",metrics_path="/metrics",namespace=~".*"}
+          / kubelet_volume_stats_capacity_bytes{job="kubelet",metrics_path="/metrics",namespace=~".*"}) < 0.20
+          and kubelet_volume_stats_used_bytes{job="kubelet",metrics_path="/metrics",namespace=~".*"} > 0
+        for: 2m
+        labels:
+          prod: "true"
+          severity: warning
+          node_name: '{{ $labels.prom_cluster }}'
+          device: null
+          service_name: null

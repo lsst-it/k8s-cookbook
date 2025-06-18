@@ -4,7 +4,7 @@ groups:
       - alert: HostDown
         annotations:
           summary: Host {{ $labels.instance }} is down
-          description: Host {{ $labels.instance }} is down. Maybe it is on fire??? 🗑🔥
+          description: Host {{ $labels.instance }} is down. Maybe it is on fire???
         expr: probe_success != 1
         for: 1m
         labels:
