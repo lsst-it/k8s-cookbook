@@ -1,0 +1,16 @@
+---
+defaultNamespace: &name mariadb-system
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  chart: mariadb-operator
+  releaseName: mariadb-operator
+  repo: https://helm.mariadb.com/mariadb-operator
+  version: 0.38.1
+  waitForJobs: true
+  timeoutSeconds: 900
+  values:
+    crds:
+      enabled: true

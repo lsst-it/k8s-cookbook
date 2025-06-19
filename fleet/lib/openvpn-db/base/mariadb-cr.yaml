@@ -1,0 +1,148 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: mariadb
+  namespace: openvpn-db
+spec:
+  replicas: 3
+  galera:
+    enabled: true
+    primary:
+      podIndex: 0
+      automaticFailover: true
+    sst: mariabackup
+  rootPasswordSecretKeyRef:
+    name: mariadb
+    key: mariadb-root-password
+  username: mariadb
+  passwordSecretKeyRef:
+    name: mariadb
+    key: mariadb-root-password
+  database: mariadb
+  image: docker.io/library/mariadb:11.4.5
+  imagePullPolicy: IfNotPresent
+  imagePullSecrets:
+    - name: dockerhub-secret
+  port: 3306
+  storage:
+    size: 5Gi
+    storageClassName: rook-ceph-block
+    volumeClaimTemplate:
+      accessModes: [ReadWriteOnce]
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: rook-ceph-block
+  connection:
+    secretName: connection-mariadb
+    secretTemplate:
+      key: dsn
+    healthCheck:
+      interval: 10s
+      retryInterval: 3s
+    params:
+      parseTime: "true"
+  myCnf: |
+    [mariadb]
+    bind-address=*
+    default_storage_engine=InnoDB
+    binlog_format=row
+    innodb_autoinc_lock_mode=2
+    innodb_buffer_pool_size=1024M
+    max_allowed_packet=256M
+
+    [galera]
+    wsrep_on=ON
+    wsrep_provider=/usr/lib/galera/libgalera_smm.so
+    wsrep_cluster_name=mariadb-galera
+    wsrep_sst_method=mariabackup
+    wsrep_cluster_address=gcomm://mariadb-galera.openvpn-db.svc.cluster.local
+  timeZone: UTC
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  env:
+    - name: TZ
+      value: SYSTEM
+    - name: MARIADB_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mariadb
+          key: mariadb-root-password
+  podSecurityContext:
+    runAsUser: 0
+  securityContext:
+    allowPrivilegeEscalation: false
+  livenessProbe:
+    exec:
+      command:
+        - bash
+        - -c
+        - mariadb -u root -p"$MARIADB_ROOT_PASSWORD" -e "SELECT 1;"
+    periodSeconds: 10
+    timeoutSeconds: 5
+  readinessProbe:
+    exec:
+      command:
+        - bash
+        - -c
+        - mariadb -u root -p"$MARIADB_ROOT_PASSWORD" -e "SELECT 1;"
+    periodSeconds: 10
+    timeoutSeconds: 5
+  startupProbe:
+    exec:
+      command:
+        - bash
+        - -c
+        - mariadb -u root -p"$MARIADB_ROOT_PASSWORD" -e "SELECT 1;"
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+  podDisruptionBudget:
+    maxUnavailable: 50%
+  updateStrategy:
+    type: ReplicasFirstPrimaryLast
+  service:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: openvpndb
+    loadBalancerIP: 139.229.134.140
+    externalTrafficPolicy: Cluster
+    sessionAffinity: None
+  primaryService:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: openvpndb
+    loadBalancerIP: 139.229.134.145
+    externalTrafficPolicy: Cluster
+  secondaryService:
+    type: LoadBalancer
+    metadata:
+      annotations:
+        metallb.universe.tf/address-pool: openvpndb
+    loadBalancerIP: 139.229.134.146
+    externalTrafficPolicy: Cluster
+  tolerations:
+    - key: k8s.mariadb.com/ha
+      operator: Exists
+      effect: NoSchedule
+  nodeSelector:
+    k8s.mariadb.com/node: ha
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: mariadb
+            topologyKey: kubernetes.io/hostname
+  metrics:
+    enabled: true
+  suspend: false
