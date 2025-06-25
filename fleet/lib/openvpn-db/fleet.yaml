@@ -1,0 +1,19 @@
+name: openvpn-db
+defaultNamespace: &name openvpn-db
+labels:
+  bundle: *name
+dependsOn:
+  - name: mariadb-operator
+    namespace: mariadb-system
+  - name: openvpn-db-pre
+    namespace: openvpn-db
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    kustomize:
+      dir: overlays/ruka
