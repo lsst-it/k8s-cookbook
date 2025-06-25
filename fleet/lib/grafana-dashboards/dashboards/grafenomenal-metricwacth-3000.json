@@ -19,8 +19,33 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 85,
-  "links": [],
+  "id": 95,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "bolt",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Last Night Run",
+      "tooltip": "Dashboard adjusted to last night observation period, from 19:00 to 7:00",
+      "type": "link",
+      "url": "https://grafana.ls.lsst.org/d/grafenomenal-v3/grafanomenal-metricwatch-3000?from=now%2Fd-5h&to=now%2Fd-1d%2B7h&timezone=browser&orgId=1&refresh=30s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "bolt",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Previous Night Run",
+      "tooltip": "Dashboard adjusted to the previous night observation period, from 19:00 to 7:00",
+      "type": "link",
+      "url": "https://grafana.ls.lsst.org/d/grafenomenal-v3/grafanomenal-metricwatch-3000?from=now%2Fd-1d-5h&to=now%2Fd-2d%2B7h&timezone=browser&orgId=1&refresh=30s"
+    }
+  ],
   "panels": [
     {
       "datasource": {
@@ -39,15 +64,14 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
-                "color": "red",
+                "color": "#a8dadc",
                 "value": 0
               },
               {
-                "color": "green",
+                "color": "#457b9d",
                 "value": 1
               }
             ]
@@ -63,7 +87,7 @@
       },
       "id": 1,
       "options": {
-        "colorMode": "background",
+        "colorMode": "background_solid",
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
@@ -79,7 +103,7 @@
         "textMode": "none",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "datasource": {
@@ -109,6 +133,19 @@
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "up{job=\"blackbox-snmp-raritan-pdu\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "C"
         }
       ],
       "title": "Endpoints Up / Down ",
@@ -136,8 +173,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -198,12 +234,12 @@
           }
         ]
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{job=~\"node-.*|blackbox-snmp-network\"} == 0",
+          "expr": "up{job=~\"node-.*|blackbox-snmp-network|blackbox-snmp-raritan-pdu\"} == 0",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -266,8 +302,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -297,19 +332,18 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "light-red",
-                      "value": null
+                      "color": "#e63946"
                     },
                     {
-                      "color": "light-orange",
+                      "color": "#f1faee",
                       "value": 20
                     },
                     {
-                      "color": "light-yellow",
+                      "color": "#a8dadc",
                       "value": 30
                     },
                     {
-                      "color": "light-green",
+                      "color": "#457b9d",
                       "value": 40
                     }
                   ]
@@ -340,7 +374,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -476,31 +510,62 @@
           "color": {
             "mode": "thresholds"
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "from": 200,
+                "result": {
+                  "color": "#dda15e",
+                  "index": 0,
+                  "text": "Stable"
+                },
+                "to": 250
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 50,
+                "result": {
+                  "color": "#bc6c25",
+                  "index": 1,
+                  "text": "Unstable"
+                },
+                "to": 199
+              },
+              "type": "range"
+            },
+            {
+              "options": {
+                "from": 0,
+                "result": {
+                  "color": "light-red",
+                  "index": 2,
+                  "text": "Down"
+                },
+                "to": 49
+              },
+              "type": "range"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "light-red",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": 80
+                "color": "green"
               }
             ]
-          },
-          "unit": "percent"
+          }
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 5,
-        "w": 5,
+        "h": 3,
+        "w": 10,
         "x": 0,
         "y": 9
       },
-      "id": 4,
+      "id": 24,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -518,82 +583,17 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
-          "expr": "xupsBatCapacity{instance=\"power-ups.cp.lsst.org\"}",
-          "legendFormat": "{{instance}}",
+          "expr": "avg(xupsBypassVoltage{xupsBypassPhase=~\"1|2|3\"})\n",
+          "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "UPS Principal",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "mimir"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "light-red",
-                "value": null
-              },
-              {
-                "color": "light-green",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 5,
-        "x": 5,
-        "y": 9
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.5.2",
-      "targets": [
-        {
-          "editorMode": "code",
-          "expr": "xupsBatCapacity{instance=\"aux-ups01.cp.lsst.org\"}",
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "UPS Auxtel",
+      "title": "Commercial Power Status",
       "type": "stat"
     },
     {
@@ -613,15 +613,14 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "#a8dadc"
               },
               {
-                "color": "light-orange",
+                "color": "#a8dadc",
                 "value": 20
               },
               {
-                "color": "red",
+                "color": "#457b9d",
                 "value": 25
               }
             ]
@@ -631,7 +630,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 8,
         "x": 10,
         "y": 9
@@ -667,7 +666,7 @@
         "sizing": "auto",
         "valueMode": "color"
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "datasource": {
@@ -705,13 +704,23 @@
             },
             "inspect": false
           },
-          "mappings": [],
+          "mappings": [
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "index": 0,
+                  "text": "0"
+                }
+              },
+              "type": "special"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
-                "value": null
+                "color": "#a8dadc"
               },
               {
                 "color": "light-orange",
@@ -722,7 +731,7 @@
                 "value": 2
               },
               {
-                "color": "light-green",
+                "color": "#457b9d",
                 "value": 3
               }
             ]
@@ -732,13 +741,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Instances Configured"
+              "options": "Configured"
             },
             "properties": [
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "mode": "gradient",
+                  "mode": "basic",
                   "type": "color-background"
                 }
               },
@@ -750,13 +759,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Instances Up"
+              "options": "Up"
             },
             "properties": [
               {
                 "id": "custom.cellOptions",
                 "value": {
-                  "mode": "gradient",
+                  "mode": "basic",
                   "type": "color-background"
                 }
               },
@@ -771,7 +780,7 @@
         ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 6,
         "x": 18,
         "y": 9
@@ -789,7 +798,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -818,7 +827,7 @@
           "refId": "B"
         }
       ],
-      "title": "Postgres Status",
+      "title": "Postgres Instances",
       "transformations": [
         {
           "id": "joinByField",
@@ -837,8 +846,8 @@
             "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "Value #A": "Instances Configured",
-              "Value #B": "Instances Up",
+              "Value #A": "Configured",
+              "Value #B": "Up",
               "prom_cluster": "K8s Cluster"
             }
           }
@@ -861,8 +870,203 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "#dda15e"
+              },
+              {
+                "color": "#bc6c25",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "xupsBatCapacity{instance=\"power-ups.cp.lsst.org\"}",
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "UPS Principal Bat Capacity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#dda15e"
+              },
+              {
+                "color": "#bc6c25",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 12
+      },
+      "id": 30,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "xupsOutputLoad{instance=\"power-ups.cp.lsst.org\"}",
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "UPS Principal Bat Full Load",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "light-red"
+              },
+              {
+                "color": "#dda15e",
+                "value": 80
+              },
+              {
+                "color": "#bc6c25",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 8,
+        "y": 12
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "xupsBatCapacity{instance=\"aux-ups01.cp.lsst.org\"}",
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "UPS Auxtel",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#dda15e"
               }
             ]
           },
@@ -874,7 +1078,7 @@
         "h": 3,
         "w": 5,
         "x": 0,
-        "y": 14
+        "y": 15
       },
       "id": 5,
       "options": {
@@ -894,7 +1098,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -922,8 +1126,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "#dda15e"
               }
             ]
           },
@@ -935,7 +1138,7 @@
         "h": 3,
         "w": 5,
         "x": 5,
-        "y": 14
+        "y": 15
       },
       "id": 7,
       "options": {
@@ -955,7 +1158,7 @@
         "textMode": "auto",
         "wideLayout": true
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -987,7 +1190,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 7,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -996,6 +1199,615 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 15
+      },
+      "id": 25,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "VPN Status",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "light-blue",
+                  "index": 1,
+                  "text": "Backup Link"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "light-green",
+                  "index": 0,
+                  "text": "Primary Link"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 26,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) > 100",
+          "hide": true,
+          "instant": false,
+          "legendFormat": "Primary",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) > 100",
+          "hide": true,
+          "instant": false,
+          "legendFormat": "Secondary",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "clamp_max(count_over_time((rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) > 100)[1m:1s]), 1)\n",
+          "hide": true,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "clamp_max(count_over_time((rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) > 500)[1m:1s]), 1)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "LHN in Use",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "#f1faee",
+                  "index": 0,
+                  "text": "Unknown"
+                },
+                "1": {
+                  "color": "super-light-blue",
+                  "index": 1,
+                  "text": "Connecting"
+                },
+                "2": {
+                  "color": "#f1faee",
+                  "index": 2,
+                  "text": "Idle"
+                },
+                "3": {
+                  "color": "#457b9d",
+                  "index": 3,
+                  "text": "Established"
+                },
+                "4": {
+                  "index": 4,
+                  "text": "Shut"
+                },
+                "5": {
+                  "index": 5,
+                  "text": "fipsUnsupported"
+                },
+                "6": {
+                  "color": "#a8dadc",
+                  "index": 6,
+                  "text": "Connected"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 6,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1d3557",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#457b9d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "C"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#a8dadc",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "D"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f1faee",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "id": 31,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "aristaIpsecTunnelIfConnState{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifIndex=\"15000101\"}",
+          "instant": false,
+          "legendFormat": "{{ifIndex}} - {{instance}}",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "aristaIpsecTunnelIfConnState{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifIndex=\"15000102\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{ifIndex}} - {{instance}}",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "aristaIpsecTunnelIfConnState{instance=\"sdc-a02-ipsec02.cp.lsst.org\",ifIndex=\"15000103\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{ifIndex}} - {{instance}}",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "aristaIpsecTunnelIfConnState{instance=\"sdc-a02-ipsec02.cp.lsst.org\",ifIndex=\"15000104\"}",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{ifIndex}} - {{instance}}",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "IPsec Tunnels",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "light-blue",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 21
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(increase(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[$__range])) + sum(increase(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[$__range])) ",
+          "legendFormat": "Total In",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(ifHCOutOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[$__range])) + sum(increase(ifHCOutOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[$__range]))",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Total Out",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "LHN Bytes (Includes Embargo)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "light-blue",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "decbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 21
+      },
+      "id": 29,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "sum(increase(ifHCInOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet27/1\"}[$__range])) + sum(increase(ifHCInOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet28/1\"}[$__range])) + sum(increase(ifHCInOctets{instance=\"sdc-a02-ipsec02.cp.lsst.org\",ifName=\"Ethernet27/1\"}[$__range])) + sum(increase(ifHCInOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet28/1\"}[$__range])) ",
+          "legendFormat": "Total In",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "sum(increase(ifHCOutOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet27/1\"}[$__range])) + sum(increase(ifHCOutOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet28/1\"}[$__range])) + sum(increase(ifHCOutOctets{instance=\"sdc-a02-ipsec02.cp.lsst.org\",ifName=\"Ethernet27/1\"}[$__range])) + sum(increase(ifHCOutOctets{instance=\"sdc-a02-ipsec01.cp.lsst.org\",ifName=\"Ethernet28/1\"}[$__range])) ",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "Total Out",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Embargo Bytes",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 7,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
             "lineStyle": {
               "fill": "solid"
             },
@@ -1019,8 +1831,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1030,13 +1841,74 @@
           },
           "unit": "decbits"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "In Primary"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1d3557",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Out Primary"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#457b9d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "In Secondary"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#a8dadc",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Out Secondary"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f1faee",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 25
       },
       "id": 9,
       "options": {
@@ -1056,11 +1928,11 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
           "format": "time_series",
           "interval": "",
           "legendFormat": "In Primary",
@@ -1073,7 +1945,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1087,7 +1959,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -1101,7 +1973,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet1/1\"}[1m]) *8",
           "hide": false,
           "instant": false,
           "legendFormat": "Out Secondary",
@@ -1120,6 +1992,98 @@
       "fieldConfig": {
         "defaults": {
           "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "light-green",
+                  "index": 0,
+                  "text": "DWDM"
+                }
+              },
+              "type": "value"
+            },
+            {
+              "options": {
+                "match": "null+nan",
+                "result": {
+                  "color": "light-blue",
+                  "index": 1,
+                  "text": "Telconor"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "mimir"
+          },
+          "editorMode": "code",
+          "expr": "clamp_max(count_over_time((rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) > 102400)[1m:1s]), 1)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "Summit - Base in Use",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "yellow",
             "mode": "palette-classic"
           },
           "custom": {
@@ -1160,8 +2124,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1171,13 +2134,104 @@
           },
           "unit": "decbits"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "In Control 1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#457b9d",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Out Control 1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#a8dadc",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "In Control 2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#f1faee",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Out Control 2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#1d3557",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "In Science 1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e63946",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Out Science 1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#a2d2ff",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 17
+        "y": 28
       },
       "id": 10,
       "options": {
@@ -1197,11 +2251,11 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
           "legendFormat": "In Control 1",
           "range": true,
           "refId": "A"
@@ -1212,7 +2266,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Control 1",
           "range": true,
@@ -1224,7 +2278,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "In Control 2",
           "range": true,
@@ -1236,7 +2290,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet13/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Control 2",
           "range": true,
@@ -1248,7 +2302,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "In Science 1",
           "range": true,
@@ -1260,7 +2314,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Science 1",
           "range": true,
@@ -1272,7 +2326,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "In Science 3",
           "range": true,
@@ -1284,7 +2338,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br01.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Science 3",
           "range": true,
@@ -1296,7 +2350,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "In Science 2",
           "range": true,
@@ -1308,7 +2362,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet17/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Science 2",
           "range": true,
@@ -1320,7 +2374,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "In Science 4",
           "range": true,
@@ -1332,7 +2386,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"new-rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"rubinobs-br02.ls.lsst.org\",ifName=\"Ethernet18/1\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Science 4",
           "range": true,
@@ -1442,8 +2496,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1459,7 +2512,7 @@
         "h": 10,
         "w": 12,
         "x": 0,
-        "y": 27
+        "y": 35
       },
       "id": 16,
       "options": {
@@ -1479,7 +2532,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -1576,8 +2629,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1593,7 +2645,7 @@
         "h": 10,
         "w": 12,
         "x": 12,
-        "y": 27
+        "y": 38
       },
       "id": 15,
       "options": {
@@ -1613,11 +2665,11 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
-          "expr": "rate(ifHCInOctets{instance=\"bdc-b01-lf1\",ifName=\"Ethernet1/47\"}[1m]) *8",
+          "expr": "rate(ifHCInOctets{instance=\"bdc-b01-lf01.ls.lsst.org\",ifName=\"Ethernet1/47\"}[1m]) *8",
           "legendFormat": "In Internet",
           "range": true,
           "refId": "A"
@@ -1628,7 +2680,7 @@
             "uid": "mimir"
           },
           "editorMode": "code",
-          "expr": "rate(ifHCOutOctets{instance=\"bdc-b01-lf1\",ifName=\"Ethernet1/47\"}[1m]) *8",
+          "expr": "rate(ifHCOutOctets{instance=\"bdc-b01-lf01.ls.lsst.org\",ifName=\"Ethernet1/47\"}[1m]) *8",
           "hide": false,
           "legendFormat": "Out Internet",
           "range": true,
@@ -1686,8 +2738,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1703,7 +2754,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 45
       },
       "id": 21,
       "options": {
@@ -1723,7 +2774,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -1784,8 +2835,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1801,7 +2851,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 37
+        "y": 48
       },
       "id": 20,
       "options": {
@@ -1821,7 +2871,7 @@
           "sort": "none"
         }
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -1850,6 +2900,7 @@
           "custom": {
             "align": "auto",
             "cellOptions": {
+              "mode": "basic",
               "type": "color-background"
             },
             "inspect": false
@@ -1859,11 +2910,10 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "#457b9d"
               },
               {
-                "color": "red",
+                "color": "#f1faee",
                 "value": 1
               }
             ]
@@ -1932,7 +2982,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 56
       },
       "id": 22,
       "options": {
@@ -1953,7 +3003,7 @@
           }
         ]
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "editorMode": "code",
@@ -2113,8 +3163,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2139,6 +3188,7 @@
                 "id": "custom.cellOptions",
                 "value": {
                   "applyToRow": false,
+                  "mode": "basic",
                   "type": "color-background"
                 }
               },
@@ -2151,15 +3201,14 @@
                   "mode": "absolute",
                   "steps": [
                     {
-                      "color": "green",
-                      "value": null
+                      "color": "#457b9d"
                     },
                     {
-                      "color": "light-orange",
+                      "color": "#a8dadc",
                       "value": 70
                     },
                     {
-                      "color": "red",
+                      "color": "#f1faee",
                       "value": 80
                     }
                   ]
@@ -2173,7 +3222,7 @@
         "h": 11,
         "w": 24,
         "x": 0,
-        "y": 56
+        "y": 67
       },
       "id": 23,
       "options": {
@@ -2194,7 +3243,7 @@
           }
         ]
       },
-      "pluginVersion": "11.5.2",
+      "pluginVersion": "12.0.0",
       "targets": [
         {
           "datasource": {
@@ -2301,8 +3350,8 @@
     }
   ],
   "preload": false,
-  "refresh": "1m",
-  "schemaVersion": 40,
+  "refresh": "30s",
+  "schemaVersion": 41,
   "tags": [
     "kubernetes",
     "grafenomenal",
@@ -2313,13 +3362,12 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Grafanomenal  Metricwatch 3000",
-  "uid": "be3uchr34jny8d",
-  "version": 52,
-  "weekStart": ""
+  "uid": "grafenomenalv69",
+  "version": 69
 }
