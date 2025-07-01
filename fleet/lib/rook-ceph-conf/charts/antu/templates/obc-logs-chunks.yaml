@@ -1,0 +1,24 @@
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: logs-chunks
+  namespace: rook-ceph
+spec:
+  bucketName: logs-chunks
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: s3-loki
+    bucketMaxSize: 5Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
