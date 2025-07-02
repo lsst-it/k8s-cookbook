@@ -22,7 +22,7 @@ data:
     exports["obs-env"]=$((50*1024**3))
     exports["project"]=$((3200*1024**3))
     exports["rsphome"]=$((800*1024**3))
-    exports["scratch"]=$((800*1024**3))
+    exports["scratch"]=$((850*1024**3))
 
     for k in "${!exports[@]}"; do
       ceph nfs export rm nfs1 "/${k}"
