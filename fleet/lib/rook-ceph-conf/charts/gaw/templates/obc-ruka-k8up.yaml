@@ -1,0 +1,25 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name ruka-k8up
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: k8up-backups
+  additionalConfig:
+    bucketOwner: ruka-k8up
+    bucketMaxSize: 10Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
