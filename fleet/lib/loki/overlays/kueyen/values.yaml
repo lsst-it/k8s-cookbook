@@ -38,13 +38,7 @@ gateway:
   service:
     type: LoadBalancer
     port: 80
+    annotations:
+      metallb.universe.tf/address-pool: reserved
   ingress:
-    hosts:
-      - host: loki.kueyen.dev.lsst.org
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: loki-dashboard-ingress-tls
-        hosts:
-          - loki.kueyen.dev.lsst.org
+    enabled: false
