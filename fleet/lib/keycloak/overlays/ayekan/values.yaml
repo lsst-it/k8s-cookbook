@@ -1,0 +1,43 @@
+---
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/enable-hsts: "false"
+
+# extraVolumes:
+#   - name: keycloak-backup
+#     secret:
+#       secretName: keycloak-realm-master
+#
+# extraVolumeMounts:
+#   - name: keycloak-backup
+#     mountPath: /mnt/keycloak-backup
+#     readOnly: true
+#
+# extraEnvVars:
+#   - name: KC_CACHE
+#     value: local
+#
+# keycloakConfigCli:
+#   enabled: true
+#   extraVolumes:
+#     - name: keycloak-backup
+#       secret:
+#         secretName: keycloak-realm-master
+#   extraVolumeMounts:
+#     - name: keycloak-backup
+#       mountPath: /mnt/keycloak-backup
+#       readOnly: true
+#   extraEnvVars:
+#     - name: IMPORT_FILES_LOCATIONS
+#       value: /mnt/keycloak-backup/realm-master.json
