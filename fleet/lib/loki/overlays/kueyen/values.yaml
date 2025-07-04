@@ -35,9 +35,6 @@ indexGateway:
   replicas: 1
 
 gateway:
-  service:
-    type: LoadBalancer
-    port: 80
   ingress:
     hosts:
       - host: loki.kueyen.dev.lsst.org
@@ -45,6 +42,6 @@ gateway:
           - path: /
             pathType: Prefix
     tls:
-      - secretName: loki-dashboard-ingress-tls
+      - secretName: tls-loki-ingress
         hosts:
           - loki.kueyen.dev.lsst.org
