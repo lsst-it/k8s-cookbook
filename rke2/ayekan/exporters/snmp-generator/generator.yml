@@ -387,3 +387,6 @@ modules:
       - entSensorScale
       - entSensorValue
       - entSensorStatus
+  pfsense:
+    walk:
+      - 1.3.6.1.4.1.12325.1.200
