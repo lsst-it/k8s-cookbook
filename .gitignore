@@ -1,6 +1,5 @@
 creds.sh
 secret.yaml
 template.yaml
-**/snmp-generator/mibs
 .DS_Store
 *\ [2-9].sh
