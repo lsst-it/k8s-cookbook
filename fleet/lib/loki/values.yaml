@@ -43,9 +43,6 @@ deploymentMode: Distributed
 
 gateway:
   enabled: true
-  service:
-    type: LoadBalancer
-    port: 80
   ingress:
     enabled: true
     ingressClassName: nginx
