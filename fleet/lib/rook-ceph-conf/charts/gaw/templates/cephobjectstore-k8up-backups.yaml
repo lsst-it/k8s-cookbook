@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: it
+  name: k8up-backups
   namespace: rook-ceph
 spec:
   metadataPool:
@@ -37,16 +37,26 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - it-s3.ls.lsst.org
+    - s3.gaw.ls.lsst.org
     secretName: rook-ceph-rgw-ingress-tls
   rules:
-  - host: it-s3.ls.lsst.org
+  - host: s3.gaw.ls.lsst.org
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-it
+            name: rook-ceph-rgw-k8up-backups
             port:
               number: 80
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: k8up-backups
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: k8up-backups
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
