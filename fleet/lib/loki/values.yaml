@@ -52,6 +52,15 @@ gateway:
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
       nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    hosts:
+      - host: loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-loki-ingress
+        hosts:
+          - loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
 
 ruler:
   enabled: false
