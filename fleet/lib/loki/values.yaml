@@ -11,6 +11,7 @@ loki:
   storage:
     type: s3
     s3:
+      endpoint: http://rook-ceph-rgw-o11y.rook-ceph.svc.cluster.local:80
       access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
       secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
       s3ForcePathStyle: true
@@ -19,6 +20,9 @@ loki:
       chunks: logs-chunks
       ruler: logs-ruler
       admin: logs-admin
+
+  limit_config:
+    query_timeout: 60s
 
   commonConfig:
     replication_factor: 1

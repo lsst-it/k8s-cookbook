@@ -1,0 +1,27 @@
+compactor:
+  replicas: 2
+  persistence:
+    enabled: true
+    storageClassName: rook-ceph-block
+
+ingester:
+  replicas: 3
+  persistence:
+    enabled: true
+    size: 30Gi
+    storageClassName: rook-ceph-block
+
+distributor:
+  replicas: 2
+
+querier:
+  replicas: 2
+
+queryFrontend:
+  replicas: 2
+
+queryScheduler:
+  replicas: 2
+
+indexGateway:
+  replicas: 2
