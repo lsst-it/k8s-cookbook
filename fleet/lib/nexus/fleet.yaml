@@ -2,6 +2,7 @@
 defaultNamespace: nexus
 namespaceLabels:
   lsst.io/discover: "true"
+  k8up-enabled: "true"
 labels:
   bundle: &name nexus
 helm:
