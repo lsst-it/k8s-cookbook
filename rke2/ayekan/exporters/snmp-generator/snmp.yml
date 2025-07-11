@@ -1511,6 +1511,698 @@ modules:
         1: ok
         2: unavailable
         3: nonoperational
+  pfsense:
+    walk:
+    - 1.3.6.1.4.1.12325.1.200
+    metrics:
+    - name: pfStatusRunning
+      oid: 1.3.6.1.4.1.12325.1.200.1.1.1
+      type: gauge
+      help: True if pf is currently enabled. - 1.3.6.1.4.1.12325.1.200.1.1.1
+      enum_values:
+        1: "true"
+        2: "false"
+    - name: pfStatusRuntime
+      oid: 1.3.6.1.4.1.12325.1.200.1.1.2
+      type: gauge
+      help: Indicates how long pf has been enabled - 1.3.6.1.4.1.12325.1.200.1.1.2
+    - name: pfStatusDebug
+      oid: 1.3.6.1.4.1.12325.1.200.1.1.3
+      type: gauge
+      help: Indicates the debug level at which pf is running. - 1.3.6.1.4.1.12325.1.200.1.1.3
+      enum_values:
+        0: none
+        1: urgent
+        2: misc
+        3: loud
+    - name: pfStatusHostId
+      oid: 1.3.6.1.4.1.12325.1.200.1.1.4
+      type: OctetString
+      help: The (unique) host identifier of the machine running pf. - 1.3.6.1.4.1.12325.1.200.1.1.4
+    - name: pfCounterMatch
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.1
+      type: counter
+      help: Number of packets that matched a filter rule. - 1.3.6.1.4.1.12325.1.200.1.2.1
+    - name: pfCounterBadOffset
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.2
+      type: counter
+      help: Number of packets with bad offset. - 1.3.6.1.4.1.12325.1.200.1.2.2
+    - name: pfCounterFragment
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.3
+      type: counter
+      help: Number of fragmented packets. - 1.3.6.1.4.1.12325.1.200.1.2.3
+    - name: pfCounterShort
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.4
+      type: counter
+      help: Number of short packets. - 1.3.6.1.4.1.12325.1.200.1.2.4
+    - name: pfCounterNormalize
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.5
+      type: counter
+      help: Number of normalized packets. - 1.3.6.1.4.1.12325.1.200.1.2.5
+    - name: pfCounterMemDrop
+      oid: 1.3.6.1.4.1.12325.1.200.1.2.6
+      type: counter
+      help: Number of packets dropped due to memory limitations. - 1.3.6.1.4.1.12325.1.200.1.2.6
+    - name: pfStateTableCount
+      oid: 1.3.6.1.4.1.12325.1.200.1.3.1
+      type: gauge
+      help: Number of entries in the state table. - 1.3.6.1.4.1.12325.1.200.1.3.1
+    - name: pfStateTableSearches
+      oid: 1.3.6.1.4.1.12325.1.200.1.3.2
+      type: counter
+      help: Number of searches against the state table. - 1.3.6.1.4.1.12325.1.200.1.3.2
+    - name: pfStateTableInserts
+      oid: 1.3.6.1.4.1.12325.1.200.1.3.3
+      type: counter
+      help: Number of entries inserted into the state table. - 1.3.6.1.4.1.12325.1.200.1.3.3
+    - name: pfStateTableRemovals
+      oid: 1.3.6.1.4.1.12325.1.200.1.3.4
+      type: counter
+      help: Number of entries removed from the state table. - 1.3.6.1.4.1.12325.1.200.1.3.4
+    - name: pfSrcNodesCount
+      oid: 1.3.6.1.4.1.12325.1.200.1.4.1
+      type: gauge
+      help: Number of entries in the source tracking table. - 1.3.6.1.4.1.12325.1.200.1.4.1
+    - name: pfSrcNodesSearches
+      oid: 1.3.6.1.4.1.12325.1.200.1.4.2
+      type: counter
+      help: Number of searches against the source tracking table. - 1.3.6.1.4.1.12325.1.200.1.4.2
+    - name: pfSrcNodesInserts
+      oid: 1.3.6.1.4.1.12325.1.200.1.4.3
+      type: counter
+      help: Number of entries inserted into the source tracking table. - 1.3.6.1.4.1.12325.1.200.1.4.3
+    - name: pfSrcNodesRemovals
+      oid: 1.3.6.1.4.1.12325.1.200.1.4.4
+      type: counter
+      help: Number of entries removed from the source tracking table. - 1.3.6.1.4.1.12325.1.200.1.4.4
+    - name: pfLimitsStates
+      oid: 1.3.6.1.4.1.12325.1.200.1.5.1
+      type: gauge
+      help: Maximum number of 'keep state' rules in the ruleset. - 1.3.6.1.4.1.12325.1.200.1.5.1
+    - name: pfLimitsSrcNodes
+      oid: 1.3.6.1.4.1.12325.1.200.1.5.2
+      type: gauge
+      help: Maximum number of 'sticky-address' or 'source-track' rules in the ruleset.
+        - 1.3.6.1.4.1.12325.1.200.1.5.2
+    - name: pfLimitsFrags
+      oid: 1.3.6.1.4.1.12325.1.200.1.5.3
+      type: gauge
+      help: Maximum number of 'scrub' rules in the ruleset. - 1.3.6.1.4.1.12325.1.200.1.5.3
+    - name: pfTimeoutsTcpFirst
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.1
+      type: gauge
+      help: State after the first packet in a connection. - 1.3.6.1.4.1.12325.1.200.1.6.1
+    - name: pfTimeoutsTcpOpening
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.2
+      type: gauge
+      help: State before the destination host ever sends a packet. - 1.3.6.1.4.1.12325.1.200.1.6.2
+    - name: pfTimeoutsTcpEstablished
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.3
+      type: gauge
+      help: The fully established state. - 1.3.6.1.4.1.12325.1.200.1.6.3
+    - name: pfTimeoutsTcpClosing
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.4
+      type: gauge
+      help: State after the first FIN has been sent. - 1.3.6.1.4.1.12325.1.200.1.6.4
+    - name: pfTimeoutsTcpFinWait
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.5
+      type: gauge
+      help: State after both FINs have been exchanged and the connection is closed.
+        - 1.3.6.1.4.1.12325.1.200.1.6.5
+    - name: pfTimeoutsTcpClosed
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.6
+      type: gauge
+      help: State after one endpoint sends an RST. - 1.3.6.1.4.1.12325.1.200.1.6.6
+    - name: pfTimeoutsUdpFirst
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.7
+      type: gauge
+      help: State after the first packet. - 1.3.6.1.4.1.12325.1.200.1.6.7
+    - name: pfTimeoutsUdpSingle
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.8
+      type: gauge
+      help: State if the source host sends more than one packet but the destination
+        host has never sent one back. - 1.3.6.1.4.1.12325.1.200.1.6.8
+    - name: pfTimeoutsUdpMultiple
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.9
+      type: gauge
+      help: State if both hosts have sent packets. - 1.3.6.1.4.1.12325.1.200.1.6.9
+    - name: pfTimeoutsIcmpFirst
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.10
+      type: gauge
+      help: State after the first packet. - 1.3.6.1.4.1.12325.1.200.1.6.10
+    - name: pfTimeoutsIcmpError
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.11
+      type: gauge
+      help: State after an ICMP error came back in response to an ICMP packet. - 1.3.6.1.4.1.12325.1.200.1.6.11
+    - name: pfTimeoutsOtherFirst
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.12
+      type: gauge
+      help: State after the first packet. - 1.3.6.1.4.1.12325.1.200.1.6.12
+    - name: pfTimeoutsOtherSingle
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.13
+      type: gauge
+      help: State if the source host sends more than one packet but the destination
+        host has never sent one back. - 1.3.6.1.4.1.12325.1.200.1.6.13
+    - name: pfTimeoutsOtherMultiple
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.14
+      type: gauge
+      help: State if both hosts have sent packets. - 1.3.6.1.4.1.12325.1.200.1.6.14
+    - name: pfTimeoutsFragment
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.15
+      type: gauge
+      help: Seconds before an unassembled fragment is expired. - 1.3.6.1.4.1.12325.1.200.1.6.15
+    - name: pfTimeoutsInterval
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.16
+      type: gauge
+      help: Interval between purging expired states and fragments. - 1.3.6.1.4.1.12325.1.200.1.6.16
+    - name: pfTimeoutsAdaptiveStart
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.17
+      type: gauge
+      help: When the number of state entries exceeds this value, adaptive scaling
+        begins. - 1.3.6.1.4.1.12325.1.200.1.6.17
+    - name: pfTimeoutsAdaptiveEnd
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.18
+      type: gauge
+      help: When reaching this number of state entries, all timeout values become
+        zero, effectively purging all state entries immediately. - 1.3.6.1.4.1.12325.1.200.1.6.18
+    - name: pfTimeoutsSrcNode
+      oid: 1.3.6.1.4.1.12325.1.200.1.6.19
+      type: gauge
+      help: Length of time to retain a source tracking entry after the last state
+        expires. - 1.3.6.1.4.1.12325.1.200.1.6.19
+    - name: pfLogInterfaceName
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.1
+      type: OctetString
+      help: The name of the interface configured with 'set loginterface' - 1.3.6.1.4.1.12325.1.200.1.7.1
+    - name: pfLogInterfaceIp4BytesIn
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.2
+      type: counter
+      help: Number of IPv4 bytes passed in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.2
+    - name: pfLogInterfaceIp4BytesOut
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.3
+      type: counter
+      help: Number of IPv4 bytes passed out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.3
+    - name: pfLogInterfaceIp4PktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.4
+      type: counter
+      help: Number of IPv4 packets passed in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.4
+    - name: pfLogInterfaceIp4PktsInDrop
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.5
+      type: counter
+      help: Number of IPv4 packets dropped coming in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.5
+    - name: pfLogInterfaceIp4PktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.6
+      type: counter
+      help: Number of IPv4 packets passed out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.6
+    - name: pfLogInterfaceIp4PktsOutDrop
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.7
+      type: counter
+      help: Number of IPv4 packets dropped going out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.7
+    - name: pfLogInterfaceIp6BytesIn
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.8
+      type: counter
+      help: Number of IPv6 bytes passed in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.8
+    - name: pfLogInterfaceIp6BytesOut
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.9
+      type: counter
+      help: Number of IPv6 bytes passed out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.9
+    - name: pfLogInterfaceIp6PktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.10
+      type: counter
+      help: Number of IPv6 packets passed in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.10
+    - name: pfLogInterfaceIp6PktsInDrop
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.11
+      type: counter
+      help: Number of IPv6 packets dropped coming in on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.11
+    - name: pfLogInterfaceIp6PktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.12
+      type: counter
+      help: Number of IPv6 packets passed out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.12
+    - name: pfLogInterfaceIp6PktsOutDrop
+      oid: 1.3.6.1.4.1.12325.1.200.1.7.13
+      type: counter
+      help: Number of IPv6 packets dropped going out on the loginterface. - 1.3.6.1.4.1.12325.1.200.1.7.13
+    - name: pfInterfacesIfNumber
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.1
+      type: gauge
+      help: The number of network interfaces on this system. - 1.3.6.1.4.1.12325.1.200.1.8.1
+    - name: pfInterfacesIfIndex
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.1
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIfDescr
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.2
+      type: OctetString
+      help: The name of the interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.2
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIfType
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.3
+      type: gauge
+      help: Indicates whether the interface is a group inteface, an interface instance,
+        or whether it has been removed or destroyed. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.3
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+      enum_values:
+        0: group
+        1: instance
+        2: detached
+    - name: pfInterfacesIfTZero
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.4
+      type: gauge
+      help: Time since statistics were last reset or since the interface was loaded.
+        - 1.3.6.1.4.1.12325.1.200.1.8.2.1.4
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIfRefsState
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.5
+      type: gauge
+      help: The number of state and/or source track entries referencing this interface.
+        - 1.3.6.1.4.1.12325.1.200.1.8.2.1.5
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIfRefsRule
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.6
+      type: gauge
+      help: The number of rules referencing this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.6
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4BytesInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.7
+      type: counter
+      help: The number of IPv4 bytes passed coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.7
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4BytesInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.8
+      type: counter
+      help: The number of IPv4 bytes blocked coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.8
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4BytesOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.9
+      type: counter
+      help: The number of IPv4 bytes passed going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.9
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4BytesOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.10
+      type: counter
+      help: The number of IPv4 bytes blocked going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.10
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4PktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.11
+      type: counter
+      help: The number of IPv4 packets passed coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.11
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4PktsInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.12
+      type: counter
+      help: The number of IPv4 packets blocked coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.12
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4PktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.13
+      type: counter
+      help: The number of IPv4 packets passed going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.13
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf4PktsOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.14
+      type: counter
+      help: The number of IPv4 packets blocked going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.14
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6BytesInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.15
+      type: counter
+      help: The number of IPv6 bytes passed coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.15
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6BytesInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.16
+      type: counter
+      help: The number of IPv6 bytes blocked coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.16
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6BytesOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.17
+      type: counter
+      help: The number of IPv6 bytes passed going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.17
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6BytesOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.18
+      type: counter
+      help: The number of IPv6 bytes blocked going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.18
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6PktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.19
+      type: counter
+      help: The number of IPv6 packets passed coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.19
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6PktsInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.20
+      type: counter
+      help: The number of IPv6 packets blocked coming in on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.20
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6PktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.21
+      type: counter
+      help: The number of IPv6 packets passed going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.21
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfInterfacesIf6PktsOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.8.2.1.22
+      type: counter
+      help: The number of IPv6 packets blocked going out on this interface. - 1.3.6.1.4.1.12325.1.200.1.8.2.1.22
+      indexes:
+      - labelname: pfInterfacesIfIndex
+        type: gauge
+    - name: pfTablesTblNumber
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.1
+      type: gauge
+      help: The number of tables on this system. - 1.3.6.1.4.1.12325.1.200.1.9.1
+    - name: pfTablesTblIndex
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.1
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblDescr
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.2
+      type: OctetString
+      help: The name of the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.2
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblCount
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.3
+      type: gauge
+      help: The number of addresses in the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.3
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblTZero
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.4
+      type: gauge
+      help: The time passed since the statistics of this table were last cleared or
+        the time since this table was loaded, whichever is sooner. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.4
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblRefsAnchor
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.5
+      type: gauge
+      help: The number of anchors referencing this table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.5
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblRefsRule
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.6
+      type: gauge
+      help: The number of rules referencing this table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.6
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblEvalMatch
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.7
+      type: counter
+      help: The number of evaluations returning a match. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.7
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblEvalNoMatch
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.8
+      type: counter
+      help: The number of evaluations not returning a match. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.8
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.9
+      type: counter
+      help: The number of bytes passed in matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.9
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.10
+      type: counter
+      help: The number of bytes blocked coming in matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.10
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesInXPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.11
+      type: counter
+      help: The number of bytes statefully passed in where the state entry refers
+        to the table, but the table no longer contains the address in question. -
+        1.3.6.1.4.1.12325.1.200.1.9.2.1.11
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.12
+      type: counter
+      help: The number of bytes passed out matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.12
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.13
+      type: counter
+      help: The number of bytes blocked going out matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.13
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblBytesOutXPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.14
+      type: counter
+      help: The number of bytes statefully passed out where the state entry refers
+        to the table, but the table no longer contains the address in question. -
+        1.3.6.1.4.1.12325.1.200.1.9.2.1.14
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.15
+      type: counter
+      help: The number of packets passed in matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.15
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.16
+      type: counter
+      help: The number of packets blocked coming in matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.16
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsInXPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.17
+      type: counter
+      help: The number of packets statefully passed in where the state entry refers
+        to the table, but the table no longer contains the address in question. -
+        1.3.6.1.4.1.12325.1.200.1.9.2.1.17
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.18
+      type: counter
+      help: The number of packets passed out matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.18
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.19
+      type: counter
+      help: The number of packets blocked going out matching the table. - 1.3.6.1.4.1.12325.1.200.1.9.2.1.19
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesTblPktsOutXPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.2.1.20
+      type: counter
+      help: The number of packets statefully passed out where the state entry refers
+        to the table, but the table no longer contains the address in question. -
+        1.3.6.1.4.1.12325.1.200.1.9.2.1.20
+      indexes:
+      - labelname: pfTablesTblIndex
+        type: gauge
+    - name: pfTablesAddrIndex
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each address. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.1
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrNet
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.2
+      type: InetAddressIPv4
+      help: The IP address of this particular table entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.2
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrMask
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.3
+      type: gauge
+      help: The CIDR netmask of this particular table entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.3
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrTZero
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.4
+      type: gauge
+      help: The time passed since this entry's statistics were last cleared, or the
+        time passed since this entry was loaded into the table, whichever is sooner.
+        - 1.3.6.1.4.1.12325.1.200.1.9.3.1.4
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrBytesInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.5
+      type: counter
+      help: The number of inbound bytes passed as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.5
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrBytesInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.6
+      type: counter
+      help: The number of inbound bytes blocked as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.6
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrBytesOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.7
+      type: counter
+      help: The number of outbound bytes passed as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.7
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrBytesOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.8
+      type: counter
+      help: The number of outbound bytes blocked as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.8
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrPktsInPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.9
+      type: counter
+      help: The number of inbound packets passed as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.9
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrPktsInBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.10
+      type: counter
+      help: The number of inbound packets blocked as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.10
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrPktsOutPass
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.11
+      type: counter
+      help: The number of outbound packets passed as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.11
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfTablesAddrPktsOutBlock
+      oid: 1.3.6.1.4.1.12325.1.200.1.9.3.1.12
+      type: counter
+      help: The number of outbound packets blocked as a result of this entry. - 1.3.6.1.4.1.12325.1.200.1.9.3.1.12
+      indexes:
+      - labelname: pfTablesAddrIndex
+        type: gauge
+    - name: pfAltqQueueNumber
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.1
+      type: gauge
+      help: The number of queues in the active set. - 1.3.6.1.4.1.12325.1.200.1.10.1
+    - name: pfAltqQueueIndex
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.1
+      type: gauge
+      help: A unique value, greater than zero, for each queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.1
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+    - name: pfAltqQueueDescr
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.2
+      type: OctetString
+      help: The name of the queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.2
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+    - name: pfAltqQueueParent
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.3
+      type: OctetString
+      help: Name of the queue's parent if it has one. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.3
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+    - name: pfAltqQueueScheduler
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.4
+      type: gauge
+      help: Scheduler algorithm implemented by this queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.4
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+      enum_values:
+        1: cbq
+        8: hfsc
+        11: priq
+    - name: pfAltqQueueBandwidth
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.5
+      type: gauge
+      help: Bandwitch assigned to this queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.5
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+    - name: pfAltqQueuePriority
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.6
+      type: gauge
+      help: Priority level of the queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.6
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
+    - name: pfAltqQueueLimit
+      oid: 1.3.6.1.4.1.12325.1.200.1.10.2.1.7
+      type: gauge
+      help: Maximum number of packets in the queue. - 1.3.6.1.4.1.12325.1.200.1.10.2.1.7
+      indexes:
+      - labelname: pfAltqQueueIndex
+        type: gauge
   raritan:
     walk:
     - 1.3.6.1.4.1.13742.4.1.2.2.1.3
