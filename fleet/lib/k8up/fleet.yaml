@@ -1,0 +1,32 @@
+---
+defaultNamespace: &name k8up
+namespaceLabels:
+  lsst.io/discover: "true"
+  k8up-enabled: "true"
+labels:
+  bundle: *name
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: k8up-pre
+  - selector:
+      matchLabels:
+        bundle: k8up-crds
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://k8up-io.github.io/k8up
+  version: 4.8.4
+  timeoutSeconds: 60
+  waitForJobs: true
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml
