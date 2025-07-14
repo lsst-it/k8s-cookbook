@@ -1,7 +1,15 @@
 global:
-  extraEnvFrom:
-    - secretRef:
-        name: loki-s3
+  extraEnv:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-o11y-s3-loki
+          key: AccessKey
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-o11y-s3-loki
+          key: SecretKey
 
 loki:
   image:
@@ -11,10 +19,11 @@ loki:
   storage:
     type: s3
     s3:
+      endpoint: http://rook-ceph-rgw-o11y.rook-ceph.svc.cluster.local
       access_key_id: ${`${AWS_ACCESS_KEY_ID}`}
       secret_access_key: ${`${AWS_SECRET_ACCESS_KEY}`}
-      s3ForcePathStyle: true
       region: o11y
+      s3ForcePathStyle: true
     bucketNames:
       chunks: logs-chunks
       ruler: logs-ruler

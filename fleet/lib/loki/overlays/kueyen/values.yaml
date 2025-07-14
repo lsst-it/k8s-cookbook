@@ -1,7 +1,4 @@
 loki:
-  storage:
-    s3:
-      endpoint: http://rook-ceph-rgw-o11y.rook-ceph.svc.cluster.local:80
 
   limit_config:
     query_timeout: 60s
@@ -33,15 +30,3 @@ queryScheduler:
 
 indexGateway:
   replicas: 1
-
-gateway:
-  ingress:
-    hosts:
-      - host: loki.kueyen.dev.lsst.org
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: tls-loki-ingress
-        hosts:
-          - loki.kueyen.dev.lsst.org
