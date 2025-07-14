@@ -3,7 +3,7 @@ apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
   name: s3-loki
-  namespace: rook-ceph
+  namespace: loki
 spec:
   store: o11y
   clusterNamespace: rook-ceph
