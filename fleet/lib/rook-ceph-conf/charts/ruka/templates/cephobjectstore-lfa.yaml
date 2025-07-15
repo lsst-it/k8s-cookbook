@@ -190,7 +190,7 @@ spec:
     nodelete: "true"
     nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "256"
+    pg_num: "32"
   replicated:
     size: 3
 ---
@@ -242,7 +242,7 @@ spec:
     nosizechange: "true"
     pg_autoscale_mode: "off"
     bulk: "true"
-    pg_num: "512"
+    pg_num: "64"
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
