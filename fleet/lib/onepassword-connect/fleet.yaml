@@ -8,7 +8,7 @@ helm:
   chart: connect
   releaseName: *name
   repo: https://1password.github.io/connect-helm-charts
-  version: 1.17.0
+  version: 2.0.2
   valuesFiles:
     - values.yaml
   timeoutSeconds: 60
