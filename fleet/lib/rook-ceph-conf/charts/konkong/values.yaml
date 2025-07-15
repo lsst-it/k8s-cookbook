@@ -15,6 +15,11 @@ users:
       store: lfa
       quotas:
         maxBuckets: 2
+  - name: lsstcam
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 2
   - name: oods-latiss
     spec:
       store: lfa
@@ -35,9 +40,3 @@ users:
       store: lfa
       quotas:
         maxBuckets: 1
-users_rotate_keys:
-  - name: lsstcam
-    spec:
-      store: lfa
-      quotas:
-        maxBuckets: 2
