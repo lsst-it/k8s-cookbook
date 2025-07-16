@@ -7,7 +7,6 @@ metadata:
 spec:
   objectStoreName: lfa
   objectStoreNamespace: rook-ceph
-  persistent: false
   endpoint:
     kafka:
       uri: kafka://sasquatch-summit-kafka-bootstrap.lsst.codes:9094
