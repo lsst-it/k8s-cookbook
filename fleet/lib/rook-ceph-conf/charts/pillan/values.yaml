@@ -5,6 +5,11 @@ users:
       store: lfa
       quotas:
         maxBuckets: 2
+  - name: calib
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
   - name: ccs
     spec:
       store: lfa
@@ -30,3 +35,13 @@ users:
       store: lfa
       quotas:
         maxBuckets: 0
+  - name: rubintv
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
+  - name: saluser
+    spec:
+      store: lfa
+      quotas:
+        maxBuckets: 1
