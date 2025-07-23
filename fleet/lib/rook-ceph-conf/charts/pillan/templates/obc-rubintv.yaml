@@ -2,14 +2,14 @@
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
-  name: &name rubinobs-raw-comcam-test
+  name: &name rubintv
   namespace: rook-ceph
 spec:
   bucketName: *name
   storageClassName: lfa
   additionalConfig:
-    bucketOwner: comcam
-    bucketMaxSize: 1Ti
+    bucketOwner: rubintv
+    bucketMaxSize: 10Ti
     bucketLifecycle: |
       {
         "Rules": [
@@ -19,14 +19,6 @@ spec:
             "Prefix": "",
             "AbortIncompleteMultipartUpload": {
               "DaysAfterInitiation": 1
-            }
-          },
-          {
-            "ID": "ExpireAfter1Day",
-            "Status": "Enabled",
-            "Prefix": "",
-            "Expiration": {
-              "Days": 1
             }
           }
         ]
