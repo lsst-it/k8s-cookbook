@@ -12,55 +12,15 @@ helm:
   version: 5.12.0
   timeoutSeconds: 60
   waitForJobs: true
-  values:
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt
-        nginx.ingress.kubernetes.io/backend-protocol: HTTP
-        nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
-      hosts:
-        - nexus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-      http:
-        paths:
-          - backend:
-              service:
-                name: *name
-                port:
-                  name:
-                  number: 8081
-            path: /
-            pathType: Prefix
-      tls:
-        - hosts:
-            - nexus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-          secretName: nexus-dashboard-ingress-tls
-
-    persistence:
-      enabled: true
-      accessMode: ReadWriteOnce
-      storageClass: rook-ceph-block
-      size: 10Gi  # sized for testing only
-
-    resources:
-      limits:
-        cpu: "4"
-        memory: 16Gi
-      requests:
-        cpu: "4"
-        memory: 16Gi
-
-    metrics:
-      enabled: false
-      serviceMonitor:
-        enabled: false
-        additionalLabels:
-          lsst.io/monitor: "true"
+  valuesFiles:
+    - values.yaml
 dependsOn:
   - selector:
       matchLabels:
         bundle: cert-manager-crds
+  - selector:
+      matchLabels:
+        bundle: nexus-pre
 targetCustomizations:
   - name: yepun
     clusterSelector:
@@ -73,10 +33,3 @@ targetCustomizations:
       values:
         persistence:
           size: 2Ti
-        ingress:
-          hosts:
-            - nexus.${ .ClusterLabels.site }.lsst.org
-          tls:
-            - hosts:
-                - nexus.${ .ClusterLabels.site }.lsst.org
-              secretName: nexus-nexus3-tls

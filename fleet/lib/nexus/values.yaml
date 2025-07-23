@@ -1,0 +1,50 @@
+---
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+  hosts:
+    - nexus.${ .ClusterLabels.site }.lsst.org
+  http:
+    paths:
+      - backend:
+          service:
+            name: nexus3
+            port:
+              name:
+              number: 8081
+        path: /
+        pathType: Prefix
+  tls:
+    - hosts:
+        - nexus.${ .ClusterLabels.site }.lsst.org
+      secretName: nexus-dashboard-ingress-tls
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  storageClass: rook-ceph-block
+  size: 10Gi  # sized for testing only
+
+resources:
+  limits:
+    cpu: "4"
+    memory: 16Gi
+  requests:
+    cpu: "4"
+    memory: 16Gi
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    additionalLabels:
+      lsst.io/monitor: "true"
+
+license:
+  enabled: true
+  secret: nexus-license
+  key: sonatype-license-2025-03-03T185609Z.lic

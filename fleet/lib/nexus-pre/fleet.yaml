@@ -1,0 +1,4 @@
+---
+defaultNamespace: nexus
+labels:
+  bundle: nexus-pre
