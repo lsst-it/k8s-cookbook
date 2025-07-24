@@ -23,7 +23,8 @@ querier:
   replicas: 1
 
 queryFrontend:
-  replicas: 1
+  replicas: 2
+  maxUnavailable: 1
 
 queryScheduler:
   replicas: 1
