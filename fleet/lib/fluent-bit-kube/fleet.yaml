@@ -21,3 +21,10 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/dev/values.yaml
+  - name: ls
+    clusterSelector:
+      matchLabels:
+        site: ls
+    helm:
+      valuesFiles:
+        - overlays/ls/values.yaml

@@ -3,10 +3,6 @@ kind: DaemonSet
 
 image:
   repository: cr.fluentbit.io/fluent/fluent-bit
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  # Set to "-" to not use the default value
-  tag:
-  digest:
   pullPolicy: IfNotPresent
 
 serviceMonitor:
@@ -14,32 +10,9 @@ serviceMonitor:
   selector:
     lsst.io/monitor: "true"
     prometheus.io/cluster: ${ get .ClusterLabels "management.cattle.io/cluster-display-name" }
-  #   namespace: monitoring
-  #   interval: 10s
-  #   scrapeTimeout: 10s
-  #  ## metric relabel configs to apply to samples before ingestion.
-  #  ##
-  #  metricRelabelings:
-  #    - sourceLabels: [__meta_kubernetes_service_label_cluster]
-  #      targetLabel: cluster
-  #      regex: (.*)
-  #      replacement: ${1}
-  #      action: replace
-  #  ## relabel configs to apply to samples after ingestion.
-  #  ##
-  #  relabelings:
-  #    - sourceLabels: [__meta_kubernetes_pod_node_name]
-  #      separator: ;
-  #      regex: ^(.*)$
-  #      targetLabel: nodename
-  #      replacement: $1
-  #      action: replace
-  #  scheme: ""
-  #  tlsConfig: {}
 
 prometheusRule:
   enabled: true
-  namespace: ""
   additionalLabels:
     lsst.io/rule: "true"
   rules:
@@ -58,8 +31,6 @@ dashboards:
   enabled: true
   labelKey: grafana_dashboard
   labelValue: 1
-  annotations: {}
-  namespace: ""
 
 resources:
   limits:
@@ -75,22 +46,12 @@ podDisruptionBudget:
   annotations: {}
   maxUnavailable: 30%
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 labels:
   lsst.team.io/infra: "true"
   lsst.io/role: logging
   lsst.io/component: fluent-bit
   lsst.io/env: kube
   lsst.io/project: o11y
-
-annotations: {}
-
-podAnnotations: {}
 
 podLabels:
   lsst.team.io/infra: "true"
@@ -99,52 +60,9 @@ podLabels:
   lsst.io/env: kube
   lsst.io/project: o11y
 
-## How long (in seconds) a pods needs to be stable before progressing the deployment
-##
-minReadySeconds:
-
-## How long (in seconds) a pod may take to exit (useful with lifecycle hooks to ensure lb deregistration is done)
-##
-terminationGracePeriodSeconds:
-
-priorityClassName: ""
-
-# The envWithTpl array below has the same usage as "env", but is using the tpl function to support templatable string.
-# This can be useful when you want to pass dynamic values to the Chart using the helm argument "--set <variable>=<value>"
-# https://helm.sh/docs/howto/charts_tips_and_tricks/#using-the-tpl-function
-envWithTpl: []
-#  - name: FOO_2
-#    value: "{{ .Values.foo2 }}"
-#
-# foo2: bar2
-
-envFrom: []
-
-# This supports either a structured array or a templatable string
-extraContainers: []
-
-# Array mode
-# extraContainers:
-#   - name: do-something
-#     image: busybox
-#     command: ['do', 'something']
-
-# String mode
-# extraContainers: |-
-#   - name: do-something
-#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
-#     command: ['kubectl', 'version']
-
 flush: 1
 
 metricsPort: 2020
-
-extraPorts: []
-#   - port: 5170
-#     containerPort: 5170
-#     protocol: TCP
-#     name: tcp
-#     nodePort: 30517
 
 extraVolumes:
 - name: db
@@ -155,13 +73,6 @@ extraVolumeMounts:
 - name: db
   mountPath: /fluent-bit/db
 
-updateStrategy: {}
-#   type: RollingUpdate
-#   rollingUpdate:
-#     maxUnavailable: 1
-
-# Make use of a pre-defined configmap instead of the one templated here
-existingConfigMap: ""
 
 luaScripts:
   systemd.lua: |
@@ -329,10 +240,6 @@ config:
         call add_time
         time_as_table true
 
-  ## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/upstream-servers
-  ## This configuration is deprecated, please use `extraFiles` instead.
-  upstream: {}
-
   ## https://docs.fluentbit.io/manual/pipeline/parsers
   customParsers: |
     [PARSER]
@@ -356,26 +263,7 @@ config:
         Time_Key    timestamp
         Time_Format %Y-%m-%dT%H:%M:%S.%L%z
 
-  # This allows adding more files with arbitrary filenames to /fluent-bit/etc/conf by providing key/value pairs.
-  # The key becomes the filename, the value becomes the file content.
-  extraFiles: {}
 
-  outputs: ""
-#     upstream.conf: |
-#       [UPSTREAM]
-#           upstream1
-#
-#       [NODE]
-#           name       node-1
-#           host       127.0.0.1
-#           port       43000
-#     example.conf: |
-#       [OUTPUT]
-#           Name example
-#           Match foo.*
-#           Host bar
-
-# The config volume is mounted by default, either to the existingConfigMap value, or the default of "fluent-bit.fullname"
 volumeMounts:
 - name: config
   mountPath: /fluent-bit/etc/conf
@@ -408,21 +296,6 @@ command:
 args:
 - --workdir=/fluent-bit/etc
 - --config=/fluent-bit/etc/conf/fluent-bit.conf
-
-# This supports either a structured array or a templatable string
-initContainers: []
-
-# Array mode
-# initContainers:
-#   - name: do-something
-#     image: bitnami/kubectl:1.22
-#     command: ['kubectl', 'version']
-
-# String mode
-# initContainers: |-
-#   - name: do-something
-#     image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ .Capabilities.KubeVersion.Minor }}
-#     command: ['kubectl', 'version']
 
 logLevel: info
 
