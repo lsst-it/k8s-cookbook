@@ -13,9 +13,11 @@ ingester:
 
 distributor:
   replicas: 2
+  maxUnavailable: 1
 
 querier:
   replicas: 2
+  maxUnavailable: 1
 
 queryFrontend:
   replicas: 2
@@ -23,6 +25,8 @@ queryFrontend:
 
 queryScheduler:
   replicas: 2
+  maxUnavailable: 1
 
 indexGateway:
   replicas: 2
+  maxUnavailable: 1
