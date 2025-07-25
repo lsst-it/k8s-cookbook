@@ -1,0 +1,66 @@
+[
+  {
+    "labels": {
+      "__meta_hostname": "pfsense01-bmc.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.3.111"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "pfsense02-bmc.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.3.112"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "new-pfsense01.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.3.201"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "new-pfsense02.ls.lsst.org"
+    },
+    "targets": [
+      "10.50.3.202"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "pfsense-summit01-bmc.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.3.156"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "pfsense-summit02-bmc.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.3.157"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "pfsense-pixel01.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.3.101"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "pfsense-pixel02.cp.lsst.org"
+    },
+    "targets": [
+      "10.18.3.102"
+    ]
+  },
+]
