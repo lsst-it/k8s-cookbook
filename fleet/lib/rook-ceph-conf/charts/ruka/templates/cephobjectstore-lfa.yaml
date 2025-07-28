@@ -109,7 +109,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-o11y
+            name: rook-ceph-rgw-lfa
             port:
               number: 80
 ---
