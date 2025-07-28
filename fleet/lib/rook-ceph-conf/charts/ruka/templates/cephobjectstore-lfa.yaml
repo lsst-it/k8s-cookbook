@@ -234,8 +234,8 @@ metadata:
 spec:
   application: rgw
   erasureCoded:
-    dataChunks: 8
-    codingChunks: 3
+    dataChunks: 2
+    codingChunks: 1
   failureDomain: host
   parameters:
     nodelete: "true"
