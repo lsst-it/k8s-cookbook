@@ -1,0 +1,4 @@
+---
+resources:
+  - certificate-rsyslog-cert.yaml
+  - service.yaml
