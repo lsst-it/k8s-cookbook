@@ -1,10 +1,11 @@
 ---
-# XXX automate provisioning of buckets and rgw user
 defaultNamespace: &name mimir
 labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
+kustomize:
+  dir: kustomize/base
 helm:
   chart: &chart mimir-distributed
   releaseName: *chart
@@ -17,7 +18,7 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: mimir-pre
+        bundle: rook-ceph
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
@@ -29,6 +30,8 @@ targetCustomizations:
           operator: In
           values:
             - ayekan
+    kustomize:
+      dir: kustomize/overlays/ayekan
     helm:
       valuesFiles:
         - overlays/ayekan/values.yaml
@@ -50,6 +53,8 @@ targetCustomizations:
           operator: In
           values:
             - ruka
+    kustomize:
+      dir: kustomize/overlays/ruka
     helm:
       valuesFiles:
         - overlays/rke2/values.yaml
