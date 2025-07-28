@@ -1,0 +1,8 @@
+---
+resources:
+  - ../../base
+patches:
+  - path: obc-mimir-alertmanager.yaml
+  - path: obc-mimir-blocks.yaml
+  - path: obc-mimir-ruler.yaml
+  - path: obc-mimir.yaml
