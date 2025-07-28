@@ -1,10 +1,11 @@
 ---
-# XXX automate provisioning of buckets and rgw user
 defaultNamespace: &name mimir
 labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
+kustomize:
+  dir: kustomize/base
 helm:
   chart: &chart mimir-distributed
   releaseName: *chart
@@ -17,24 +18,50 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: mimir-pre
+        bundle: rook-ceph
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
-  - name: rke2
+  - name: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
+    helm:
+      valuesFiles:
+        - overlays/antu/values.yaml
+    kustomize:
+      dir: kustomize/overlays/antu
+  - name: kona
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kona
+    kustomize:
+      dir: kustomize/overlays/kona
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    kustomize:
+      dir: kustomize/overlays/kueyen
+  - name: ruka
     clusterSelector:
       matchExpressions:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
             - ruka
-            - kueyen
-            - pillan
-            - kona
-    helm:
-      valuesFiles:
-        - overlays/rke2/values.yaml
+    kustomize:
+      dir: kustomize/overlays/ruka
   - name: pillan
     clusterSelector:
       matchExpressions:
@@ -45,3 +72,5 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
+    kustomize:
+      dir: kustomize/overlays/pillan

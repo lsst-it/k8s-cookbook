@@ -27,6 +27,8 @@ metadata:
   name: lfa
   namespace: rook-ceph
 spec:
+  allowUsersInNamespaces:
+    - mimir
   preservePoolsOnDelete: true
   gateway:
     port: 80

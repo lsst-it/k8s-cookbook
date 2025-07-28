@@ -1,0 +1,9 @@
+---
+resources:
+  - ../../base
+patches:
+  - path: cephobjectstoreuser-mimir.yaml
+  - path: obc-mimir-alertmanager.yaml
+  - path: obc-mimir-blocks.yaml
+  - path: obc-mimir-ruler.yaml
+  - path: obc-mimir.yaml

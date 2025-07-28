@@ -1,0 +1,11 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: mimir
+spec:
+  store: o11y
+  clusterNamespace: rook-ceph
+  displayName: mimir
+  quotas:
+    maxBuckets: 4
