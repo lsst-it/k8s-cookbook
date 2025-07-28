@@ -171,7 +171,82 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
-
+      - job_name: deliverator-ls-lsstcam
+        puppetdb_sd_configs:
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "S3nd::Instance" and title = "ls-lsstcam" }
+            refresh_interval: 1s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 15571
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_title]
+            target_label: cluster
+      - job_name: deliverator-ls-lsstcam
+        puppetdb_sd_configs:
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "S3nd::Instance" and title = "ls-lsstcam" }
+            refresh_interval: 1s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 15571
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_title]
+            target_label: cluster
+      - job_name: deliverator-s3dfrgw-lsstcam
+        puppetdb_sd_configs:
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "S3nd::Instance" and title = "s3dfrgw-lsstcam" }
+            refresh_interval: 1s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 15581
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_title]
+            target_label: cluster
+      - job_name: deliverator-s3dfrgw-lsstcam-test
+        puppetdb_sd_configs:
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "S3nd::Instance" and title = "s3dfrgw-lsstcam-test" }
+            refresh_interval: 1s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 15591
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_title]
+            target_label: cluster
 grafana:
   grafana.ini:
     auth.generic_oauth:
