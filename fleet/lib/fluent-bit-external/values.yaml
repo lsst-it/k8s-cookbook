@@ -148,7 +148,7 @@ config:
     [OUTPUT]
         Name              loki
         Match             *
-        Host              loki.kueyen.dev.lsst.org
+        Host              "loki.${ get .ClusterLabels \"management.cattle.io/cluster-display-name\" }.${ .ClusterLabels.site }.lsst.org"
         Port              443
         TLS               On
         TLS.Verify        Off
