@@ -13,7 +13,14 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: fluent-bit-external-pre
+targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
