@@ -1,0 +1,50 @@
+controller:
+  type: deployment
+  replicaCount: 1
+
+config:
+  alloy: |
+    local.syslog_receiver "tcp" {
+      listen_address = "0.0.0.0:1514"
+      protocol       = "tcp"
+    }
+
+    local.syslog_receiver "udp" {
+      listen_address = "0.0.0.0:514"
+      protocol       = "udp"
+    }
+
+    loki.relabel "relabel" {
+      rule {
+        source_labels = ["__syslog_message_hostname"]
+        target_label  = "host"
+      }
+    }
+
+    loki.write "send" {
+      endpoint {
+        url = "http://loki-distributor.loki.svc.cluster.local:3100/loki/api/v1/push"
+      }
+
+      labels = {
+        job = "alloy-receiver"
+      }
+
+      forward_to = [
+        local.syslog_receiver.tcp.output,
+        local.syslog_receiver.udp.output,
+      ]
+    }
+
+service:
+  enabled: true
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.85
+  ports:
+    - name: syslog-tcp
+      port: 1514
+      protocol: TCP
+    - name: syslog-udp
+      port: 514
+      protocol: UDP
