@@ -1,5 +1,5 @@
 ---
-defaultNamespace: &name fluent-bit-external
+defaultNamespace: &name fluent-bit
 labels:
   bundle: *name
 namespaceLabels:
