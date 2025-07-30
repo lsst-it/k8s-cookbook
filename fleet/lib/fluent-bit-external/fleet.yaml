@@ -13,7 +13,4 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: fluent-bit-external-pre
+
