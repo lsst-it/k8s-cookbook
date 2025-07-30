@@ -55,9 +55,6 @@ extraVolumes:
 extraVolumeMounts:
 - name: db
   mountPath: /fluent-bit/db
-- name: cert
-  mountPath: /etc/secrets/certicate
-  readOnly: true
 
 config:
   service: |
