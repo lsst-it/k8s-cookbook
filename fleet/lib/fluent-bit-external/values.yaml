@@ -78,10 +78,6 @@ config:
         Port   5140
         Mode   tcp
         Parser syslog-rfc3164
-        tls          on
-        tls.verify   off
-        tls.crt_file /etc/secrets/certicate/tls.crt
-        tls.key_file /etc/secrets/certicate/tls.key
     # firewall logs
     [Input]
         Name   syslog
@@ -90,10 +86,6 @@ config:
         Port   5141
         Mode   tcp
         Parser syslog-rfc5424
-        tls          on
-        tls.verify   off
-        tls.crt_file /etc/secrets/certicate/tls.crt
-        tls.key_file /etc/secrets/certicate/tls.key
     [Input]
         Name   syslog
         Tag    firewall.udp.*
@@ -109,10 +101,6 @@ config:
         Port   5142
         Mode   tcp
         Parser syslog-rfc3164
-        tls          on
-        tls.verify   off
-        tls.crt_file /etc/secrets/certicate/tls.crt
-        tls.key_file /etc/secrets/certicate/tls.key
     [Input]
         Name   syslog
         Tag    network.udp.*
