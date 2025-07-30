@@ -13,4 +13,3 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-
