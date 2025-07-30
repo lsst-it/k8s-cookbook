@@ -7,23 +7,6 @@ serviceMonitor:
   selector:
     lsst.io/monitor: "true"
 
-prometheusRule:
-  enabled: true
-  namespace: ""
-  additionalLabels:
-    lsst.io/rule: "true"
-  rules:
-  - alert: NoOutputBytesProcessed
-    expr: rate(fluentbit_output_proc_bytes_total[5m]) == 0
-    annotations:
-      message: |
-        Fluent Bit instance {{ $labels.instance }} output plugin {{ $labels.name
-        }} has not processed any bytes for at least 15 minutes.
-      summary: No Output Bytes Processed
-    for: 15m
-    labels:
-      severity: critical
-
 resources:
   limits:
     cpu: 750m
@@ -68,10 +51,6 @@ extraVolumes:
 - name: db
   emptyDir:
     sizeLimit: 128Mi
-- name: cert
-  secret:
-    defaultMode: 420
-    secretName: rsyslog-cert
 
 extraVolumeMounts:
 - name: db
