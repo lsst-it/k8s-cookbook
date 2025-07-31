@@ -143,6 +143,16 @@ targetCustomizations:
     yaml:
       overlays:
         - elqui
+  - name: pukem
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pukem
+    yaml:
+      overlays:
+        - pukem
   - name: rancher.dev
     clusterSelector:
       matchExpressions:
