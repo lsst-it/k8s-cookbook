@@ -46,7 +46,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - &host s3.o11y.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+        - &host s3.o11y.pukem.dev.lsst.org
       secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
     - host: *host
