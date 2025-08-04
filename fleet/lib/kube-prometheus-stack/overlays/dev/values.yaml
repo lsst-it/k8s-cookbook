@@ -163,6 +163,8 @@ grafana:
       - secretName: grafana-ingress-tls
         hosts:
           - *hostname
+  readinessProbe:
+    initialDelaySeconds: 1200  
   resources:
     limits:
       cpu: 4
