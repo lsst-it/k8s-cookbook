@@ -1,6 +1,8 @@
 ---
 prometheus:
   prometheusSpec:
+    scrapeInterval: 10s
+    scrapeTimeout: 7s
     configMaps:
       - sd-snmp-network
       - sd-snmp-power
@@ -8,12 +10,13 @@ prometheus:
     secrets:
       - puppetdb
     additionalScrapeConfigs:
-      - job_name: blackbox-ping-dev
+      - job_name: blackbox-icmp-puppetdb
         metrics_path: /probe
         params:
           module: [icmp]
         puppetdb_sd_configs:
-          - url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
+          - &blackbox-icmp-puppetdb
+            url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
@@ -29,9 +32,10 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
-      - job_name: node-exporter-dev
+      - job_name: node-puppetdb
         puppetdb_sd_configs:
-          - url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
+          - &node-puppetdb
+            url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
             basic_auth:
               username: svc_prometheus
               password_file: /etc/prometheus/secrets/puppetdb/password
@@ -58,71 +62,7 @@ prometheus:
             target_label: role
           - source_labels: [__meta_puppetdb_parameter_cluster]
             target_label: cluster
-      - job_name: blackbox-ping-ls
-        puppetdb_sd_configs:
-          - url: https://puppetdb.ls.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: resources { type = "Class" and title = "Prometheus::Node_exporter" }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
-        relabel_configs:
-          - source_labels: [__meta_puppetdb_certname]
-            target_label: __param_target
-          - source_labels: [__param_target]
-            target_label: instance
-          - target_label: __address__
-            replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
-      - job_name: node-exporter-ls
-        puppetdb_sd_configs:
-          - url: https://puppetdb.ls.lsst.org:8443
-            basic_auth:
-              username: svc_prometheus
-              password_file: /etc/prometheus/secrets/puppetdb/password
-            query: |
-              resources {
-                type = "Class" and title = "Profile::Core::Node_info" and
-                certname in resources[certname] {
-                  type = "Class" and title = "Prometheus::Node_exporter"
-                }
-              }
-            refresh_interval: 30s
-            follow_redirects: true
-            include_parameters: true
-            enable_http2: true
-            port: 9100
-        relabel_configs:
-          - source_labels: [__meta_puppetdb_certname]
-            target_label: instance
-          - source_labels: [__meta_puppetdb_environment]
-            target_label: environment
-          - source_labels: [__meta_puppetdb_parameter_site]
-            target_label: site
-          - source_labels: [__meta_puppetdb_parameter_role]
-            target_label: role
-          - source_labels: [__meta_puppetdb_parameter_cluster]
-            target_label: cluster
-      - job_name: snmp-network
-        metrics_path: /snmp
-        params:
-          module: [if_mib]
-          auth: [rubin_v2]
-        file_sd_configs:
-          - files:
-              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
-        relabel_configs:
-          - source_labels: [__address__]
-            target_label: __param_target
-          - source_labels: [__meta_hostname]
-            target_label: instance
-          - source_labels: [__meta_network_function]
-            target_label: network_function
-          - target_label: __address__
-            replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: blackbox-network
+      - job_name: blackbox-icmp-snmp
         metrics_path: /probe
         params:
           module: [icmp]
@@ -140,7 +80,24 @@ prometheus:
             target_label: network_function
           - target_label: __address__
             replacement: prometheus-blackbox-exporter.blackbox-exporter:9115
-      - job_name: snmp-power
+      - job_name: blackbox-snmp-raritan-pdu
+        metrics_path: /snmp
+        scrape_interval: 1m
+        scrape_timeout: 55s
+        params:
+          module: [raritan]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
+      - job_name: blackbox-snmp-power
         metrics_path: /snmp
         file_sd_configs:
           - files:
@@ -156,26 +113,116 @@ prometheus:
             target_label: __param_module
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
-      - job_name: snmp-raritan-pdu
+      - job_name: blackbox-snmp-network
         metrics_path: /snmp
+        scrape_interval: 30s
+        scrape_timeout: 25s
         params:
-          module: [raritan]
+          module: [if_mib]
           auth: [rubin_v2]
         file_sd_configs:
           - files:
-              - /etc/prometheus/configmaps/sd-snmp-raritan-pdu/snmp-raritan-pdu.json
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
         relabel_configs:
           - source_labels: [__address__]
             target_label: __param_target
           - source_labels: [__meta_hostname]
             target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
-
+      - job_name: blackbox-snmp-arista-tunnel
+        metrics_path: /snmp
+        params:
+          module: [arista_tunnel]
+          auth: [rubin_v2]
+        file_sd_configs:
+          - files:
+              - /etc/prometheus/configmaps/sd-snmp-network/snmp-network.json
+        relabel_configs:
+          - source_labels: [__meta_hostname]
+            regex: .*ipsec.*
+            action: keep
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__meta_hostname]
+            target_label: instance
+          - source_labels: [__meta_network_function]
+            target_label: network_function
+          - target_label: __address__
+            replacement: prometheus-snmp-exporter.snmp-exporter:9116
 grafana:
   grafana.ini:
-    auth.generic_oauth:
-      api_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/userinfo
-      auth_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/auth
-      name: keycloak.ruka.dev.lsst.org
-      token_url: https://keycloak.ruka.dev.lsst.org/realms/master/protocol/openid-connect/token
+    server:
+      domain: &hostname grafana.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+  ingress:
+    hosts:
+      - *hostname
+    tls:
+      - secretName: grafana-ingress-tls
+        hosts:
+          - *hostname
+  resources:
+    limits:
+      cpu: 4
+      memory: 4Gi
+    requests:
+      cpu: 4
+      memory: 4Gi
+  defaultDashboardsEnabled: false
+
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by:
+        - alertname
+        - namespace
+        - site
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 120h
+      receiver: blackhole
+      routes:
+        - receiver: blackhole
+          matchers:
+            - alertname = "InfoInhibitor"
+        - receiver: blackhole
+          matchers:
+            - alertname = "Watchdog"
+        - receiver: squadcast-alertmanager
+          matchers:
+            - prod = "true"
+          continue: true
+        - receiver: gnocpush
+          continue: true
+          repeat_interval: 30s
+          group_interval: 30s
+          group_wait: 30s
+          group_by:
+            - gnoc
+          matchers:
+            - gnoc = "true"
+    receivers:
+      - name: blackhole
+      - name: squadcast-alertmanager
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager
+    inhibit_rules:
+      - source_matchers:
+          - alertname = "InfoInhibitor"
+        target_matchers:
+          - severity = "info"
+        equal: [namespace]
+      - source_matchers:
+          - severity = "critical"
+        target_matchers:
+          - severity =~ "info|warning"
+        equal: [alertname]
+      - source_matchers:
+          - severity = "warning"
+        target_matchers:
+          - severity = "info"
+        equal: [alertname]
