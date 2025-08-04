@@ -196,15 +196,6 @@ alertmanager:
           matchers:
             - prod = "true"
           continue: true
-        - receiver: gnocpush
-          continue: true
-          repeat_interval: 30s
-          group_interval: 30s
-          group_wait: 30s
-          group_by:
-            - gnoc
-          matchers:
-            - gnoc = "true"
     receivers:
       - name: blackhole
       - name: squadcast-alertmanager
