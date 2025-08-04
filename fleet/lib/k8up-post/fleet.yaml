@@ -14,3 +14,12 @@ targetCustomizations:
             - ruka
     kustomize:
       dir: overlays/ruka
+  - name: manke
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - manke
+    kustomize:
+      dir: overlays/manke
