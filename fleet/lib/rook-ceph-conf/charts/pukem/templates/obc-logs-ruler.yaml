@@ -1,0 +1,25 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: logs-ruler
+  namespace: rook-ceph
+spec:
+  bucketName: logs-ruler
+  storageClassName: o11y
+  additionalConfig:
+    bucketOwner: s3-loki
+    bucketMaxSize: 1Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }

@@ -26,3 +26,5 @@ subchart:
     enabled: false
   elqui:
     enabled: false
+  pukem:
+    enabled: false
