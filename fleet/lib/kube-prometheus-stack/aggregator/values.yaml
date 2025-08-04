@@ -69,13 +69,6 @@ grafana:
   serviceMonitor:
     labels:
       lsst.io/monitor: "true"
-  resources:
-    limits:
-      cpu: 4
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
   persistence:
     enabled: true
   deploymentStrategy:
