@@ -23,3 +23,12 @@ targetCustomizations:
             - manke
     kustomize:
       dir: overlays/manke
+  - name: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
+    kustomize:
+      dir: overlays/yagan
