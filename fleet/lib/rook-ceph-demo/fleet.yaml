@@ -45,7 +45,7 @@ targetCustomizations:
           mounts:
             - name: auxtel
               path: /auxtel
-              server: 139.229.134.151
+              server: 139.229.134.181
   - name: pillan
     clusterSelector:
       matchExpressions:
