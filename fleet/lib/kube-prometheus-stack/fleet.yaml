@@ -9,7 +9,7 @@ helm:
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
   version: 75.11.0
-  timeoutSeconds: 600
+  timeoutSeconds: 1200
   waitForJobs: true
   valuesFiles:
     - values.yaml
@@ -43,19 +43,6 @@ diff:
       jsonPointers:
         - /spec/automountServiceAccountToken
 targetCustomizations:
-  - name: kueyen
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - kueyen
-    helm:
-      valuesFiles:
-        - pvc/values.yaml
-        - aggregator/values.yaml
-        - ldap/values.yaml
-        - overlays/kueyen/values.yaml
   - name: pillan
     clusterSelector:
       matchExpressions:
@@ -67,21 +54,7 @@ targetCustomizations:
       valuesFiles:
         - pvc/values.yaml
         - aggregator/values.yaml
-        - ldap/values.yaml
         - overlays/pillan/values.yaml
-  - name: ruka
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - ruka
-    helm:
-      valuesFiles:
-        - pvc/values.yaml
-        - aggregator/values.yaml
-        - ldap/values.yaml
-        - overlays/ruka/values.yaml
   - name: antu
     clusterSelector:
       matchExpressions:
@@ -91,9 +64,20 @@ targetCustomizations:
             - antu
     helm:
       valuesFiles:
-        - pvc/values.yaml
+        - pvc/values.yaml  #not needed, loaded on all sites except tu
         - aggregator/values.yaml
         - overlays/antu/values.yaml
+  - name: dev
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - dev
+    helm:
+      valuesFiles:
+        - aggregator/values.yaml
+        - overlays/dev/values.yaml
   - name: cl-nopvc
     clusterSelector:
       matchExpressions:
@@ -117,6 +101,7 @@ targetCustomizations:
               - url: https://mimir.ruka.dev.lsst.org/api/v1/push
               - url: https://mimir.antu.ls.lsst.org/api/v1/push
               - url: https://mimir.kueyen.dev.lsst.org/api/v1/push
+              - url: https://mimir.pukem.dev.lsst.org/api/v1/push
   - name: cl-default
     clusterSelector:
       matchExpressions:
