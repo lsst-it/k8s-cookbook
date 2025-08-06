@@ -1,0 +1,25 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name dreams-cp
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: lfs
+  additionalConfig:
+    bucketOwner: dreams-cp
+    bucketMaxSize: 20Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          }
+        ]
+      }
