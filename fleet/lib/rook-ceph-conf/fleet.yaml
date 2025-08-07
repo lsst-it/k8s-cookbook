@@ -204,5 +204,5 @@ targetCustomizations:
     helm:
       values:
         subchart:
-          pukem:
+          kona:
             enabled: true
