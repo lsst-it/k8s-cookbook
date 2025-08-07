@@ -28,3 +28,5 @@ subchart:
     enabled: false
   pukem:
     enabled: false
+  kona:
+    enabled: false
