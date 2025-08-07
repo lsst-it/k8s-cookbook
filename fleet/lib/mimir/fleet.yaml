@@ -32,6 +32,7 @@ targetCustomizations:
             - pukem
             - kueyen
             - pillan
+            - kona
     helm:
       valuesFiles:
         - overlays/rke2/values.yaml
