@@ -171,7 +171,30 @@ prometheus:
             target_label: instance
           - target_label: __address__
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
-
+      - job_name: deliverator-ls
+        scrape_interval: 100ms
+        puppetdb_sd_configs:
+          - url: https://puppetdb.ls.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: resources { type = "S3nd::Instance" }
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname, __meta_puppetdb_parameter_port]
+            separator: ':'
+            target_label: __address__
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_parameter_port]
+            target_label: port
+          - source_labels: [__meta_puppetdb_title]
+            target_label: service
+          - target_label: site
+            replacement: ls
 grafana:
   grafana.ini:
     auth.generic_oauth:
