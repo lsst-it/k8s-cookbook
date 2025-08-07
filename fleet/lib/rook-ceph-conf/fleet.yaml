@@ -194,3 +194,15 @@ targetCustomizations:
         subchart:
           pukem:
             enabled: true
+  - name: kona
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kona
+    helm:
+      values:
+        subchart:
+          pukem:
+            enabled: true

@@ -34,3 +34,5 @@ dependencies:
     condition: subchart.elqui.enabled
   - name: pukem
     condition: subchart.pukem.enabled
+  - name: kona
+    condition: subchart.kona.enabled
