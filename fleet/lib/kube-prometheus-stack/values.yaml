@@ -33,7 +33,6 @@ prometheusOperator:
 
 prometheus:
   prometheusSpec:
-    scrapeInterval: 30s
     resources:
       limits:
         cpu: 4

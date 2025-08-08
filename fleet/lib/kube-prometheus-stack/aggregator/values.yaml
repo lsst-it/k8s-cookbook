@@ -167,13 +167,3 @@ grafana:
           jsonData:
             handleGrafanaManagedAlerts: false
             implementation: prometheus
-        - name: loki
-          type: loki
-          uid: loki
-          url: http://loki-gateway.loki
-          access: proxy
-          jsonData:
-            maxLines: 1000
-            httpMethod: POST
-            timeout: 60
-            timeInterval: 60s
