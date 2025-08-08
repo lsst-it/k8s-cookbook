@@ -1,0 +1,5 @@
+---
+resources:
+  - externalsecret-netbox-secrets.yaml
+  - externalsecret-netbox-valkey.yaml
+  - externalsecret-netbox-postgresql.yaml
