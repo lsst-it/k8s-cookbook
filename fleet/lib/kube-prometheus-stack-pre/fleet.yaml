@@ -13,37 +13,13 @@ dependsOn:
       matchLabels:
         bundle: external-secrets
 targetCustomizations:
-  - name: ayekan
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - ayekan
-    yaml:
-      overlays:
-        - ayekan
-  - name: ogldap  # remove if/when direct ldap is dropped
+  - name: pillan
     clusterSelector:
       matchExpressions:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
             - pillan
-            - ruka
-            - kueyen
     yaml:
       overlays:
-        - prod
         - ldap
-  - name: prod
-    clusterSelector:
-      matchExpressions:
-        - key: site
-          operator: In
-          values:
-            - ls
-            - cp
-    yaml:
-      overlays:
-        - prod

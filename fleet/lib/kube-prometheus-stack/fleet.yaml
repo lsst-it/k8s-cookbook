@@ -14,9 +14,6 @@ helm:
   valuesFiles:
     - values.yaml
 dependsOn:
-  # XXX An "aggegrator" cluster should also depend on snmp-exporter-pre but
-  # targetCustomizations for dependsOn is not implemented.
-  # https://github.com/rancher/fleet/issues/2193
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
@@ -43,19 +40,17 @@ diff:
       jsonPointers:
         - /spec/automountServiceAccountToken
 targetCustomizations:
-  - name: kueyen
+  - name: dev
     clusterSelector:
       matchExpressions:
-        - key: management.cattle.io/cluster-display-name
+        - key: site
           operator: In
           values:
-            - kueyen
+            - dev
     helm:
       valuesFiles:
-        - pvc/values.yaml
         - aggregator/values.yaml
-        - ldap/values.yaml
-        - overlays/kueyen/values.yaml
+        - overlays/dev/values.yaml
   - name: pillan
     clusterSelector:
       matchExpressions:
@@ -67,21 +62,7 @@ targetCustomizations:
       valuesFiles:
         - pvc/values.yaml
         - aggregator/values.yaml
-        - ldap/values.yaml
         - overlays/pillan/values.yaml
-  - name: ruka
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - ruka
-    helm:
-      valuesFiles:
-        - pvc/values.yaml
-        - aggregator/values.yaml
-        - ldap/values.yaml
-        - overlays/ruka/values.yaml
   - name: antu
     clusterSelector:
       matchExpressions:
@@ -117,6 +98,7 @@ targetCustomizations:
               - url: https://mimir.ruka.dev.lsst.org/api/v1/push
               - url: https://mimir.antu.ls.lsst.org/api/v1/push
               - url: https://mimir.kueyen.dev.lsst.org/api/v1/push
+              - url: https://mimir.kona.dev.lsst.org/api/v1/push
   - name: cl-default
     clusterSelector:
       matchExpressions:
