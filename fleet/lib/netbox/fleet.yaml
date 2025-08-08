@@ -1,0 +1,15 @@
+# XXX automate provisioning of buckets and rgw user
+defaultNamespace: &name netbox
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  chart: &chart netbox
+  releaseName: *chart
+  repo: https://charts.netbox.oss.netboxlabs.com/
+  version: 4.3.1
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
