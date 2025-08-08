@@ -25,6 +25,8 @@ prometheus:
             follow_redirects: true
             include_parameters: true
             enable_http2: true
+          - <<: *blackbox-icmp-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
         relabel_configs:
           - source_labels: [__meta_puppetdb_certname]
             target_label: __param_target
@@ -51,6 +53,8 @@ prometheus:
             include_parameters: true
             enable_http2: true
             port: 9100
+          - <<: *node-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
         relabel_configs:
           - source_labels: [__meta_puppetdb_certname]
             target_label: instance
