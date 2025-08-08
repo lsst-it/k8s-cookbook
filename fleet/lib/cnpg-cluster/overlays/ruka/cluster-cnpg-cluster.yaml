@@ -18,6 +18,10 @@ spec:
       effective_cache_size: 768MB
       idle_session_timeout: 1h
       max_slot_wal_keep_size: 1GB
+      "pgaudit.log": all, -misc
+      "pgaudit.log_catalog": "off"
+      "pgaudit.log_parameter": "on"
+      "pgaudit.log_relation": "on"
     pg_hba:
       - host replication postgres all md5
       - host all all 139.229.134.0/23 md5
