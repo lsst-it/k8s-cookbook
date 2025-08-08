@@ -1,0 +1,17 @@
+---
+defaultNamespace: &name netbox
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+kustomize:
+  dir: base
+helm:
+  chart: &chart netbox
+  releaseName: *chart
+  repo: https://charts.netbox.oss.netboxlabs.com/
+  version: 6.1.5
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml

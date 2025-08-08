@@ -1,0 +1,12 @@
+---
+resources:
+  - externalsecret-netbox-secrets.yaml
+  - externalsecret-netbox-valkey.yaml
+  - externalsecret-netbox-postgresql.yaml
+  - externalsecret-netbox-keycloak.yaml
+
+patches:
+  - path: netbox-plugin-init-patch.yaml
+    target:
+      kind: Deployment
+      name: netbox
