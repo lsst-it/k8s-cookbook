@@ -5,8 +5,6 @@ labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
-kustomize:
-  dir: base
 helm:
   chart: &chart loki
   releaseName: *chart
@@ -16,7 +14,10 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: loki-pre
 targetCustomizations:
   - name: kueyen
     clusterSelector:
@@ -49,3 +50,4 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/kona/values.yaml
+        - overlays/rke2/values.yaml

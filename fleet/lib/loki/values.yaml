@@ -1,20 +1,43 @@
+deploymentMode: Distributed
+
+gateway:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+      nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    hosts:
+      - host: loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: tls-loki-ingress
+        hosts:
+          - loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
 global:
   extraEnv:
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-s3-loki
-          key: AccessKey
+          name: loki-s3
+          key: AWS_ACCESS_KEY_ID
     - name: AWS_SECRET_ACCESS_KEY
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-s3-loki
-          key: SecretKey
+          name: loki-s3
+          key: AWS_SECRET_ACCESS_KEY
 
 loki:
-  image:
-    repository: grafana/loki
   auth_enabled: false
+  commonConfig:
+    replication_factor: 3
 
   storage:
     type: s3
@@ -25,12 +48,9 @@ loki:
       region: o11y
       s3ForcePathStyle: true
     bucketNames:
-      chunks: logs-chunks
-      ruler: logs-ruler
-      admin: logs-admin
-
-  commonConfig:
-    replication_factor: 1
+      chunks: loki-chunks
+      ruler: loki-ruler
+      admin: loki-admin
 
   schemaConfig:
     configs:
@@ -48,31 +68,99 @@ loki:
     working_directory: /var/loki/compactor
     delete_request_store: s3
 
-deploymentMode: Distributed
+  query_range:
+    parallelise_shardable_queries: true
+    cache_results: true
+    results_cache:
+      cache:
+        enable_fifocache: false
+        memcached:
+          addresses: dns+loki-results-cache.loki.svc.cluster.local:11211
+          max_item_size: 1MiB
+          timeout: 500ms
 
-gateway:
-  enabled: true
-  ingress:
+  limits_config:
+    retention_period: 30d
+    ingestion_rate_mb: 20
+    ingestion_burst_size_mb: 40
+    max_global_streams_per_user: 500000
+    max_label_value_length: 2048
+    max_label_names_per_series: 30
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+    query_timeout: 3m
+    max_query_parallelism: 32
+    max_cache_freshness_per_query: 10m
+    max_entries_limit_per_query: 50000
+
+distributor:
+  replicas: 2
+  maxUnavailable: 1
+  resources:
+    requests: { cpu: 500m, memory: 512Mi }
+    limits: { cpu: 2, memory: 2Gi }
+
+ingester:
+  replicas: 3
+  maxUnavailable: 1
+  persistence:
     enabled: true
-    ingressClassName: nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
-    hosts:
-      - host: loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: tls-loki-ingress
-        hosts:
-          - loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+    size: 30Gi
+    storageClassName: rook-ceph-block
+  resources:
+    requests: { cpu: 1, memory: 2Gi }
+    limits: { cpu: 4, memory: 8Gi }
 
-ruler:
-  enabled: false
+querier:
+  replicas: 2
+  maxUnavailable: 1
+  resources:
+    requests: { cpu: 500m, memory: 1Gi }
+    limits: { cpu: 2, memory: 4Gi }
+
+queryFrontend:
+  replicas: 2
+  maxUnavailable: 1
+  resources:
+    requests: { cpu: 200m, memory: 512Mi }
+    limits: { cpu: 1, memory: 2Gi }
+
+queryScheduler:
+  replicas: 2
+  maxUnavailable: 1
+  resources:
+    requests: { cpu: 200m, memory: 512Mi }
+    limits: { cpu: 1, memory: 2Gi }
+
+compactor:
+  replicas: 2
+  persistence:
+    enabled: true
+    storageClassName: rook-ceph-block
+  resources:
+    requests: { cpu: 500m, memory: 1Gi }
+    limits: { cpu: 2, memory: 4Gi }
+
+indexGateway:
+  replicas: 2
+  maxUnavailable: 1
+  resources:
+    requests: { cpu: 200m, memory: 512Mi }
+    limits: { cpu: 1, memory: 2Gi }
+
+resultsCache:
+  enabled: true
+  replicas: 2
+  resources:
+    requests: { cpu: 200m, memory: 256Mi }
+    limits: { cpu: 1, memory: 1Gi }
+
+chunksCache:
+  enabled: true
+  replicas: 2
+  resources:
+    requests: { cpu: 200m, memory: 256Mi }
+    limits: { cpu: 1, memory: 1Gi }
 
 read:
   replicas: 0

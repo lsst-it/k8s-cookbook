@@ -1,0 +1,14 @@
+defaultNamespace: loki
+labels:
+  bundle: &name loki-pre
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: *name
+  takeOwnership: true
+  timeoutSeconds: 300
+  waitForJobs: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets
