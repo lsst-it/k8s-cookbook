@@ -4,12 +4,12 @@ global:
       valueFrom:
         secretKeyRef:
           name: &item loki-s3
-          key: username
+          key: AWS_ACCESS_KEY_ID
     - name: AWS_SECRET_ACCESS_KEY
       valueFrom:
         secretKeyRef:
           name: *item
-          key: password
+          key: AWS_SECRET_ACCESS_KEY
 
 loki:
   image:
