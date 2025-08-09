@@ -3,13 +3,13 @@ global:
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-s3-loki
-          key: AccessKey
+          name: rook-ceph-object-user-o11y-loki
+          key: username
     - name: AWS_SECRET_ACCESS_KEY
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-s3-loki
-          key: SecretKey
+          name: rook-ceph-object-user-o11y-loki
+          key: password
 
 loki:
   image:
@@ -25,9 +25,9 @@ loki:
       region: o11y
       s3ForcePathStyle: true
     bucketNames:
-      chunks: logs-chunks
-      ruler: logs-ruler
-      admin: logs-admin
+      chunks: loki-chunks
+      ruler: loki-ruler
+      admin: loki-admin
 
   commonConfig:
     replication_factor: 1
