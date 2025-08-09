@@ -3,12 +3,12 @@ global:
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-loki
+          name: &item loki-s3
           key: username
     - name: AWS_SECRET_ACCESS_KEY
       valueFrom:
         secretKeyRef:
-          name: rook-ceph-object-user-o11y-loki
+          name: *item
           key: password
 
 loki:
