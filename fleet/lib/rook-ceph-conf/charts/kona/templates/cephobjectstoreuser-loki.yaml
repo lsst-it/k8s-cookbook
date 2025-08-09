@@ -1,0 +1,11 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: loki
+  namespace: rook-ceph
+spec:
+  store: o11y
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 3
