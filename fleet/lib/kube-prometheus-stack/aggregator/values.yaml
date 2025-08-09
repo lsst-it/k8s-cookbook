@@ -149,7 +149,7 @@ grafana:
           access: proxy
           jsonData:
             httpMethod: POST
-            timeInterval: 30s
+            timeInterval: 100ms
         - name: Mimir
           type: prometheus
           uid: mimir
@@ -158,7 +158,7 @@ grafana:
           isDefault: true
           jsonData:
             httpMethod: POST
-            timeInterval: 30s
+            timeInterval: 100ms
         - name: Alertmanager
           type: alertmanager
           uid: alertmanager

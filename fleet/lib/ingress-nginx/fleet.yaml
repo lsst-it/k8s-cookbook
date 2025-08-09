@@ -11,6 +11,8 @@ helm:
   version: 4.13.0
   values:
     controller:
+      admissionWebhooks:
+        enabled: false
       kind: DaemonSet
       allowSnippetAnnotations: true
       ingressClass: nginx
