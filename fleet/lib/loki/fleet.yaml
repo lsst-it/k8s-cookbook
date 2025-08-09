@@ -49,3 +49,4 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/kona/values.yaml
+        - overlays/rke2/values.yaml
