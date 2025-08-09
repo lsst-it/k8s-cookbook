@@ -39,3 +39,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/antu/values.yaml
+  - name: kona
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kona
+    helm:
+      valuesFiles:
+        - overlays/kona/values.yaml
