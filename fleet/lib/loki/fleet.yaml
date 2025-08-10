@@ -5,6 +5,7 @@ labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
+  lsst.io/monitor: "true"
 helm:
   chart: &chart loki
   releaseName: *chart
@@ -19,35 +20,14 @@ dependsOn:
       matchLabels:
         bundle: loki-pre
 targetCustomizations:
-  - name: kueyen
+  - name: dev
     clusterSelector:
       matchExpressions:
-        - key: management.cattle.io/cluster-display-name
+        - key: site
           operator: In
           values:
-            - kueyen
+            - dev
     helm:
       valuesFiles:
-        - overlays/kueyen/values.yaml
-        - overlays/rke2/values.yaml
-  - name: antu
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - antu
-    helm:
-      valuesFiles:
-        - overlays/antu/values.yaml
-  - name: kona
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - kona
-    helm:
-      valuesFiles:
-        - overlays/kona/values.yaml
+        - overlays/dev/values.yaml
         - overlays/rke2/values.yaml
