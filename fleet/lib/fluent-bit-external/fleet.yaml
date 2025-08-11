@@ -4,6 +4,17 @@ labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
+kustomize:
+  dir: base
+  patches:
+    - patch: |
+        apiVersion: cert-manager.io/v1
+        kind: Certificate
+        metadata:
+          name: rsyslog-cert
+        spec:
+          dnsNames:
+            - rsyslog.fluent.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ get .ClusterLabels "site" }.lsst.org
 helm:
   chart: &chart fluent-bit
   releaseName: *name
@@ -13,7 +24,14 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: fluent-bit-external-pre
+targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    helm:
+      valuesFiles:
+        - overlays/kueyen/values.yaml
