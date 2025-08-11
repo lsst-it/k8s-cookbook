@@ -6,7 +6,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://vmware-tanzu.github.io/helm-charts
-  version: 10.0.9
+  version: 10.0.13
   valuesFiles:
     - values.yaml
   timeoutSeconds: 300
