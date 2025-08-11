@@ -12,7 +12,7 @@ jobs:
   fleet-bundles:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - run: |
           sudo curl -sL https://github.com/rancher/fleet/releases/download/v0.11.7/fleet-linux-amd64 -o /bin/fleet
