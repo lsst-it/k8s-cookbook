@@ -26,13 +26,13 @@ global:
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
         secretKeyRef:
-          name: loki-s3
-          key: AWS_ACCESS_KEY_ID
+          name: rook-ceph-object-user-o11y-loki
+          key: AccessKey
     - name: AWS_SECRET_ACCESS_KEY
       valueFrom:
         secretKeyRef:
-          name: loki-s3
-          key: AWS_SECRET_ACCESS_KEY
+          name: rook-ceph-object-user-o11y-loki
+          key: SecretKey
 
 loki:
   auth_enabled: false

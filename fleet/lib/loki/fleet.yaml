@@ -6,7 +6,7 @@ labels:
 namespaceLabels:
   lsst.io/discover: "true"
 kustomize:
-  dir: kustomize/base
+  dir: base
 helm:
   chart: &chart loki
   releaseName: *chart
@@ -16,10 +16,6 @@ helm:
   waitForJobs: true
   valuesFiles:
     - values.yaml
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: loki-pre
 targetCustomizations:
   - name: dev
     clusterSelector:

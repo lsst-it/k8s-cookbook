@@ -5,6 +5,8 @@ metadata:
   name: o11y
   namespace: rook-ceph
 spec:
+  allowUsersInNamespaces:
+    - loki
   metadataPool:
     failureDomain: host
     replicated:

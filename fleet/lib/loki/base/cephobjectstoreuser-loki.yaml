@@ -3,9 +3,9 @@ apiVersion: ceph.rook.io/v1
 kind: CephObjectStoreUser
 metadata:
   name: loki
-  namespace: loki
 spec:
   store: o11y
-  clusterNamespace: loki
+  clusterNamespace: rook-ceph
+  displayName: loki
   quotas:
     maxBuckets: 3

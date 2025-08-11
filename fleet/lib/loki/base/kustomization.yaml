@@ -1,0 +1,4 @@
+---
+resources:
+  - cephobjectstoreuser-loki.yaml
+  - obc-loki.yaml
