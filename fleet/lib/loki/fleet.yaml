@@ -5,7 +5,8 @@ labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
-  lsst.io/monitor: "true"
+kustomize:
+  dir: kustomize/base
 helm:
   chart: &chart loki
   releaseName: *chart
