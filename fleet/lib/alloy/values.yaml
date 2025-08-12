@@ -35,15 +35,3 @@ config:
         local.syslog_receiver.udp.output,
       ]
     }
-
-service:
-  enabled: true
-  ports:
-    - name: syslog-tcp
-      port: 1514
-      targetPort: 1514
-      protocol: TCP
-    - name: syslog-udp
-      port: 514
-      targetPort: 514
-      protocol: UDP

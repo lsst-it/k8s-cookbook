@@ -1,4 +1,14 @@
 service:
+  enabled: true
   type: LoadBalancer
   annotations:
     metallb.universe.tf/loadBalancerIPs: 139.229.134.222
+  ports:
+    - name: syslog-tcp
+      port: 1514
+      targetPort: 1514
+      protocol: TCP
+    - name: syslog-udp
+      port: 514
+      targetPort: 514
+      protocol: UDP
