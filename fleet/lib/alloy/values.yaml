@@ -1,37 +1,64 @@
 controller:
   type: deployment
   replicaCount: 1
-
-config:
-  alloy: |
-    local.syslog_receiver "tcp" {
-      listen_address = "0.0.0.0:1514"
-      protocol       = "tcp"
-    }
-
-    local.syslog_receiver "udp" {
-      listen_address = "0.0.0.0:514"
-      protocol       = "udp"
-    }
-
-    loki.relabel "relabel" {
-      rule {
-        source_labels = ["__syslog_message_hostname"]
-        target_label  = "host"
-      }
-    }
-
-    loki.write "send" {
-      endpoint {
-        url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
-      }
-
-      labels = {
-        job = "alloy"
+alloy:
+  extraPorts:
+    - name: syslog-tcp
+      port: 1514
+      targetPort: 1514
+      protocol: TCP
+    - name: syslog-udp
+      port: 5141
+      targetPort: 5141
+      protocol: UDP
+  configMap:
+    content: |
+      loki.source.syslog "tcp" {
+        listener {
+          address  = ":1514"
+          protocol = "tcp"
+          labels   = { 
+            component = "loki.source.syslog", 
+            protocol = "tcp", 
+          }
+        }
+        forward_to = [loki.relabel.relabel.receiver]
       }
 
-      forward_to = [
-        local.syslog_receiver.tcp.output,
-        local.syslog_receiver.udp.output,
-      ]
-    }
+      loki.source.syslog "udp" {
+        listener {
+          address  = ":5141"
+          protocol = "udp"
+          use_rfc5424_message = true
+          labels   = { 
+            component = "loki.source.syslog", 
+            protocol = "udp",
+            job = "alloy",
+          }
+        }
+        forward_to = [loki.write.send.receiver]
+      }
+      
+      loki.relabel "relabel" {
+        rule {
+          source_labels = ["__syslog_message_hostname"]
+          target_label  = "host"
+        }
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.write "send" {
+        endpoint {
+          url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+        }
+        external_labels = { job = "alloy" }
+      }
+
+      livedebugging {
+        enabled = true
+      }
+
+      logging {
+        level  = "debug"
+        format = "logfmt"
+      }
