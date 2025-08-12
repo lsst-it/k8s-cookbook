@@ -29,7 +29,6 @@ targetCustomizations:
           operator: In
           values:
             - ruka
-            - pukem
             - kueyen
             - pillan
             - kona

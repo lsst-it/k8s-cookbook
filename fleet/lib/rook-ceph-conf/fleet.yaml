@@ -182,18 +182,6 @@ targetCustomizations:
         subchart:
           elqui:
             enabled: true
-  - name: pukem
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - pukem
-    helm:
-      values:
-        subchart:
-          pukem:
-            enabled: true
   - name: kona
     clusterSelector:
       matchExpressions:
