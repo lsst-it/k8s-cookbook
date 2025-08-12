@@ -1,0 +1,4 @@
+service:
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.222
