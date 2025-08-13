@@ -21,6 +21,8 @@ alloy:
           "/var/log/pods/*/*/*.log",
         ]
         start_at            = "end"
+        include_file_path  = true
+        include_file_name  = true
         operators = [
           { 
             type                         = "container",
