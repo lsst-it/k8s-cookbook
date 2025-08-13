@@ -1,9 +1,0 @@
----
-defaultNamespace: fluent-bit-external
-labels:
-  bundle: fluent-bit-external-pre
-namespaceLabels:
-  lsst.io/discover: "true"
-helm:
-  timeoutSeconds: 600
-  waitForJobs: true
