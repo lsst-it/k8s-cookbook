@@ -136,8 +136,6 @@ grafana:
       mountPath: /etc/secrets/keycloak-credentials
       secretName: grafana-keycloak-credentials
       readOnly: true
-  plugins:
-    - grafana-opensearch-datasource
   datasources:
     datasource.yaml:
       apiVersion: 1
