@@ -56,6 +56,6 @@ alloy:
 
       otelcol.exporter.otlphttp "to_alloy" {
         client {
-          endpoint = "https://alloy.kona.dev.lsst.org:4318"
+          endpoint = "http://alloy.kona.dev.lsst.org:4318"
         }
       }
