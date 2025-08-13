@@ -1,0 +1,3 @@
+loki:
+  limits_config:
+    retention_period: 10d
