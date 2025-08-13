@@ -19,7 +19,8 @@ alloy:
         include             = ["/var/log/containers/*.log"]
         start_at            = "end"
         include_file_path   = true
-
+        include_file_path_resolved = true
+        include_file_name   = true
         operators = [
           { type = "container" },
         ]
