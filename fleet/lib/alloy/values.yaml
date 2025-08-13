@@ -16,10 +16,17 @@ alloy:
       }
 
       otelcol.receiver.filelog "k8s" {
-        include             = ["/var/log/containers/*.log"]
+        include             = [
+          "/var/log/containers/*.log,
+          "/var/log/pods/*/*/*.log",
+        ]
         start_at            = "end"
         operators = [
-          { type = "container" },
+          { 
+            type                         = "container"
+            add_metadata_from_filepath   = false
+            on_error                     = "send"
+          },
         ]
 
         output {
