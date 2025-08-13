@@ -25,7 +25,7 @@ alloy:
         ]
 
         output {
-          logs = [otelcol.processor.k8sattrs.k8sattrs.input]
+          logs = [otelcol.processor.k8sattributes.k8sattrs.input]
         }
       }
 
