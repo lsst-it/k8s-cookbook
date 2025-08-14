@@ -32,22 +32,8 @@ alloy:
         ]
 
         output {
-          logs = [otelcol.processor.k8sattributes.k8sattrs.input]
+          logs = [otelcol.processor.batch.main.input]
         }
-      }
-
-      otelcol.processor.k8sattributes "k8sattrs" {
-        wait_for_metadata = true
-        extract {
-          metadata = [
-            "k8s.namespace.name",
-            "k8s.pod.name",
-            "k8s.pod.uid",
-            "k8s.node.name",
-            "k8s.container.name",
-          ]
-        }
-        output { logs = [otelcol.processor.batch.main.input] }
       }
 
       otelcol.processor.batch "main" {
