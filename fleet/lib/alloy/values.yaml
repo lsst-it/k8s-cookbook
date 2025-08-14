@@ -24,7 +24,7 @@ alloy:
         include_file_path  = true
         include_file_name  = true
         operators = [
-          { 
+          {
             type                         = "container",
             add_metadata_from_filepath   = false,
             on_error                     = "send",
