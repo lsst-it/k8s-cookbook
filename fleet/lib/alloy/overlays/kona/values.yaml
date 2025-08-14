@@ -21,6 +21,10 @@ alloy:
       port: 5141
       targetPort: 5141
       protocol: UDP
+    - name: network-udp
+      port: 5142
+      targetPort: 5142
+      protocol: UDP
     - name: otelhttp
       port: 4318
       targetPort: 4318
@@ -62,6 +66,19 @@ alloy:
         forward_to = [loki.process.pfsense.receiver]
       }
 
+      loki.source.syslog "network" {
+        listener {
+          address  = ":5142"
+          protocol = "udp"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = true
+          rfc3164_default_to_current_year = true
+          labels   = { job = "network" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.write.send.receiver]
+      }
+
       loki.process "pfsense" {
         stage.regex {
           expression = "^(?P<rule>\\d+),(?P<subrule>[^,]*),(?P<anchor>[^,]*),(?P<tracker>[^,]*),(?P<iface>[^,]*),(?P<reason>[^,]*),(?P<action>[^,]*),(?P<direction>[^,]*),(?P<ipver>\\d),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>\\d+),(?P<id>\\d+),(?P<offset>\\d+),(?P<flags>[^,]*),(?P<proto_id>\\d+),(?P<proto>[^,]*),(?P<length>\\d+),(?P<src_ip>[^,]*),(?P<dst_ip>[^,]*)(?:,(?P<src_port>\\d+),(?P<dst_port>\\d+),(?P<data_len>\\d+)(?:,(?P<tcp_flags>[^,]*),(?P<seq>\\d*),(?P<ack>\\d*),(?P<window>\\d*)(?:,(?P<urg>[^,]*)(?:,(?P<options>[^,]*))?)?)?)?$"
@@ -94,72 +111,7 @@ alloy:
 
       otelcol.receiver.otlp "ingest" {
         http { endpoint = ":4318" }
-        output { logs = [otelcol.processor.k8sattributes.enrich.input] }
-      }
-
-      otelcol.processor.k8sattributes "enrich" {
-        extract {
-          label {
-            from = "pod"
-            key = "app.kubernetes.io/name"
-            tag_name = "app.name"
-          }
-          label {
-            from = "pod"
-              key = "app"
-              tag_name = "app.legacy"
-          }
-          label {
-            from = "pod"
-            key = "app.kubernetes.io/instance"
-            tag_name = "instance"
-          }
-          label {
-          from = "pod"
-          key = "app.kubernetes.io/component"
-          tag_name = "component"
-          }
-        }
-
-        output {
-          logs = [otelcol.processor.transform.derive_labels.input]
-        }
-      }
-
-      otelcol.processor.transform "derive_labels" {
-        error_mode = "ignore"
-
-        log_statements {
-          context = "resource"
-          statements = [
-            "set(resource.attributes[\"namespace\"], resource.attributes[\"k8s.namespace.name\"])",
-            "set(resource.attributes[\"pod\"], resource.attributes[\"k8s.pod.name\"])",
-            "set(resource.attributes[\"container\"], resource.attributes[\"k8s.container.name\"])",
-            "set(resource.attributes[\"node_name\"], resource.attributes[\"k8s.node.name\"])",
-            "set(resource.attributes[\"app\"], resource.attributes[\"app.name\"]) where resource.attributes[\"app.name\"] != nil",
-            "set(resource.attributes[\"app\"], resource.attributes[\"app.legacy\"]) where resource.attributes[\"app\"] == nil and resource.attributes[\"app.legacy\"] != nil",
-            "set(resource.attributes[\"app\"], resource.attributes[\"k8s.deployment.name\"]) where resource.attributes[\"app\"] == nil and resource.attributes[\"k8s.deployment.name\"] != nil",
-            "set(resource.attributes[\"app\"], resource.attributes[\"k8s.replicaset.name\"]) where resource.attributes[\"app\"] == nil and resource.attributes[\"k8s.replicaset.name\"] != nil",
-            "set(resource.attributes[\"app\"], resource.attributes[\"k8s.pod.name\"]) where resource.attributes[\"app\"] == nil",
-            `set(attributes["job"], Concat([attributes["namespace"], attributes["app"]], "/")) where attributes["namespace"] != nil and attributes["app"] != nil`,
-          ]
-        }
-
-        output {
-          logs = [otelcol.processor.attributes.loki_hints.input]
-        }
-      }
-
-      otelcol.processor.attributes "loki_hints" {
-        action {
-          key    = "loki.resource.labels"
-          action = "insert"
-          value  = "job,namespace,app,instance,component,pod,container,node_name"
-        }
-
-        output {
-          logs = [otelcol.exporter.loki.to_loki.input]
-        }
+        output { logs = [otelcol.exporter.loki.to_loki.input] }
       }
 
       otelcol.exporter.loki "to_loki" {
