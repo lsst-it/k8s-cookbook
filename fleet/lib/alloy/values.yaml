@@ -8,6 +8,10 @@ alloy:
   mounts:
     varlog: true
 
+    extra:
+      - name: runlogjournal
+        mountPath: /run/log/journal
+
   configMap:
     content: |
       logging {
