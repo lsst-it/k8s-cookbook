@@ -152,6 +152,10 @@ alloy:
           forward_to    = [loki.write.send.receiver]
       }
  
+      livedebugging {
+        enabled = true
+      }
+
       loki.write "send" {
         endpoint {
           url = "https://loki.kona.dev.lsst.org/loki/api/v1/push"
