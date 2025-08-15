@@ -105,53 +105,33 @@ alloy:
         forward_to = [loki.write.send.receiver]
       }
 
-      discovery.relabel "systemd_journal" {
-          targets = []
+      loki.relabel "journal" {
+        forward_to = []
 
-          rule {
-              source_labels = ["__journal__systemd_unit"]
-              target_label  = "unit"
-          }
-
-          rule {
-              source_labels = ["__journal__hostname"]
-              target_label  = "hostname"
-          }
-
-          rule {
-              source_labels = ["__journal__boot_id"]
-              target_label  = "boot_id"
-          }
-
-          rule {
-              source_labels = ["__journal__machine_id"]
-              target_label  = "machine_id"
-          }
-
-          rule {
-              source_labels = ["__journal__priority"]
-              target_label  = "priority"
-          }
-
-          rule {
-              source_labels = ["__journal__syslog_identifier"]
-              target_label  = "syslog_identifier"
-          }
-
-          rule {
-              source_labels = ["__journal__transport"]
-              target_label  = "transport"
-          }
-
-          rule {
-              source_labels = ["unit"]
-              target_label  = "_stream"
-              replacement   = "unit=\"$1\""
-          }
+        rule {
+          source_labels = ["__journal__systemd_unit"]
+          target_label  = "unit"
+        }
+        rule {
+          source_labels = ["__journal__boot_id"]
+          target_label  = "boot_id"
+        }
+        rule {
+          source_labels = ["__journal__transport"]
+          target_label  = "transport"
+        }
+        rule {
+          source_labels = ["__journal_priority_keyword"]
+          target_label  = "level"
+        }
+        rule {
+          source_labels = ["__journal__hostname"]
+          target_label  = "instance"
+        }
       }
 
       loki.source.journal "systemd_journal" {
-          relabel_rules = discovery.relabel.systemd_journal.rules
+          relabel_rules = loki.relabel.journal.rules
           labels        = { job = "node/journal" }
           forward_to    = [loki.write.send.receiver]
       }
