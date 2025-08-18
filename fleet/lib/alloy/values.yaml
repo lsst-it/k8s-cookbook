@@ -1,6 +1,3 @@
-rbac:
-  create: true
-
 alloy:
   controller:
     type: daemonset
