@@ -18,10 +18,10 @@ rbac:
 resources:
   limits:
     cpu: 500m
-    memory: 512Mi
+    memory: 768Mi
   requests:
     cpu: 100m
-    memory: 128Mi
+    memory: 512Mi
 
 persistence:
   type: pvc
@@ -29,6 +29,9 @@ persistence:
   accessModes:
     - ReadWriteOnce
   size: 10Gi
+
+deploymentStrategy:
+  type: Recreate #  grafana deploys 1 pod that wont release the PVC for the new pod, so recreate is a must here. (PVC RWO)
 
 admin:
   existingSecret: grafana-credentials
