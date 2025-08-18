@@ -1,6 +1,6 @@
 {{- define "alloy.commonLogs" -}}        
     logging {
-        level  = "{{ default "info" .ClusterLabels.log_level }}"
+        level  =  "{{ default "info" (get (default (dict) .ClusterLabels) "log_level") }}"
         format = "logfmt"
       }
 
