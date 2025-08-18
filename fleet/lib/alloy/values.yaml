@@ -101,41 +101,6 @@ alloy:
         forward_to = [loki.write.send.receiver]
       }
 
-      loki.relabel "journal" {
-        forward_to = []
-
-        rule {
-          source_labels = ["__journal__systemd_unit"]
-          target_label  = "unit"
-        }
-        rule {
-          source_labels = ["__journal__boot_id"]
-          target_label  = "boot_id"
-        }
-        rule {
-          source_labels = ["__journal__transport"]
-          target_label  = "transport"
-        }
-        rule {
-          source_labels = ["__journal_priority_keyword"]
-          target_label  = "level"
-        }
-        rule {
-          source_labels = ["__journal__hostname"]
-          target_label  = "instance"
-        }
-      }
-
-      loki.source.journal "systemd_journal" {
-          relabel_rules = loki.relabel.journal.rules
-          labels        = { job = "node/journal" }
-          forward_to    = [loki.write.send.receiver]
-      }
- 
-      livedebugging {
-        enabled = true
-      }
-
       loki.write "send" {
         endpoint {
           url = "https://loki.kona.dev.lsst.org/loki/api/v1/push"
