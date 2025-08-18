@@ -1,3 +1,8 @@
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    lsst.io/monitor: "true"
+
 alloy:
   controller:
     type: daemonset
