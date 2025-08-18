@@ -1,0 +1,36 @@
+---
+defaultNamespace: &name alloy
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  chart: &chart alloy
+  releaseName: *chart
+  repo: https://grafana.github.io/helm-charts
+  version: 1.2.0
+  timeoutSeconds: 600
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+targetCustomizations:
+  - name: kona
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kona
+    helm:
+      valuesFiles:
+        - overlays/kona/values.yaml
+  - name: pukem
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - pukem
+    helm:
+      valuesFiles:
+        - overlays/pukem/values.yaml
