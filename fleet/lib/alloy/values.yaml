@@ -8,7 +8,7 @@ alloy:
   configMap:
     content: |
       logging {
-        level  = "${ .ClusterLabels.log_level }"
+        level  = "{{ default info .ClusterLabels.log_level }}"
         format = "logfmt"
       }
 
