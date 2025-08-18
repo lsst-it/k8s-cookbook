@@ -1,9 +1,4 @@
 alloy:
-  controller:
-    type: daemonset
-
-  mounts:
-    varlog: true
 
   configMap:
     content: |
@@ -123,6 +118,6 @@ alloy:
 
       loki.write "send" {
         endpoint {
-          url = "https://loki.ls.lsst.org/loki/api/v1/push"
+          url = "https://loki.kona.dev.lsst.org/loki/api/v1/push"
         }
       }
