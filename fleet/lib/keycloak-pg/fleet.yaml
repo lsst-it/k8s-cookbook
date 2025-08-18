@@ -19,6 +19,17 @@ targetCustomizations:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
+            - ayekan
+    yaml:
+      overlays:
+        - generic
+        - ayekan
+  - name: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
             - luan
     yaml:
       overlays:
