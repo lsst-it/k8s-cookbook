@@ -105,7 +105,7 @@ ingester:
   maxUnavailable: 1
   persistence:
     enabled: true
-    size: 30Gi
+    size: 60Gi
     storageClassName: rook-ceph-block
   resources:
     requests: { cpu: 1, memory: 2Gi }
