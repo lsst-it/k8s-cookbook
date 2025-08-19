@@ -101,12 +101,13 @@ distributor:
     limits: { cpu: 2, memory: 2Gi }
 
 ingester:
-  replicas: 3
+  replicas: 4
   maxUnavailable: 1
   persistence:
     enabled: true
-    size: 60Gi
-    storageClassName: rook-ceph-block
+    claims:
+      - name: data
+        size: 30Gi
   resources:
     requests: { cpu: 1, memory: 2Gi }
     limits: { cpu: 4, memory: 8Gi }
