@@ -34,3 +34,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pukem/values.yaml
+  - name: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
+    helm:
+      valuesFiles:
+        - overlays/antu/values.yaml
