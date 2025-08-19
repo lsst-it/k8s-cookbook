@@ -12,14 +12,14 @@ gateway:
       nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
     hosts:
-      - host: loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+      - host: loki.${ .ClusterLabels.site }.lsst.org
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: tls-loki-ingress
         hosts:
-          - loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+          - loki.${ .ClusterLabels.site }.lsst.org
 
 global:
   extraEnv:
