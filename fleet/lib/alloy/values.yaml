@@ -128,6 +128,6 @@ alloy:
 
       loki.write "send" {
         endpoint {
-          url = "https://loki.ls.lsst.org/loki/api/v1/push"
+          url = "https://loki.antu.ls.lsst.org/loki/api/v1/push"
         }
       }
