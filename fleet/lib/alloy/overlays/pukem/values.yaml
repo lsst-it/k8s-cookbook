@@ -89,6 +89,22 @@ alloy:
             job = "k8s/logs",
           }
         }
+
+        stage.json {
+          expressions = { level = "level" }
+        }
+
+        stage.template {
+          source = "level"
+          template = "{{`{{ lower .Value }}`}}"
+        }
+
+        stage.labels {
+          values = {
+            severity = "level",
+          }
+        }
+
         forward_to = [loki.write.send.receiver]
       }
 
@@ -102,12 +118,16 @@ alloy:
 
       loki.process "cluster_events" {
         forward_to = [loki.write.send.receiver]
+        stage.static_labels {
+          values = {
+            cluster = "${ get .ClusterLabels "management.cattle.io/cluster-display-name" }",
+          }
+        }
         stage.regex {
           expression = ".*name=(?P<name>[^ ]+).*kind=(?P<kind>[^ ]+).*objectAPIversion=(?P<apiVersion>[^ ]+).*type=(?P<type>[^ ]+).*"
         }
         stage.labels {
           values = {
-            kubernetes_cluster_events = "job",
             name                      = "name",
             kind                      = "kind",
             apiVersion                = "apiVersion",
