@@ -2,18 +2,18 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: reserved
+  name: ingress-traefik
   namespace: metallb-system
 spec:
   addresses:
-    - 139.229.134.181-139.229.134.189
+    - 139.229.134.190/32
   autoAssign: false
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: reserved
+  name: ingress-traefik
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - reserved
+    - ingress-traefik

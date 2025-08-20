@@ -1,9 +1,9 @@
 ---
 defaultNamespace: &name traefik
-namespaceLabels:
-  lsst.io/discover: "true"
 labels:
   bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
 helm:
   chart: *name
   releaseName: *name
@@ -13,3 +13,16 @@ helm:
     - values.yaml
   timeoutSeconds: 60
   waitForJobs: true
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    helm:
+      values:
+        service:
+          annotations:
+            metallb.universe.tf/address-pool: ingress-traefik
