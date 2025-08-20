@@ -46,8 +46,11 @@ mimir:
       max_global_series_per_user: 0
       max_global_series_per_metric: 0
       compactor_blocks_retention_period: 2y
+      native_histograms_ingestion_enabled: true  # prom native histograms
     compactor:
       deletion_delay: 12h
+    frontend:
+      query_result_response_format: protobuf  # prom native histograms
 
 compactor:
   persistentVolume:
