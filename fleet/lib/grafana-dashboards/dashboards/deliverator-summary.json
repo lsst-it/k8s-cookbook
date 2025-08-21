@@ -1382,14 +1382,14 @@
             "$__all"
           ]
         },
-        "definition": "label_values(uploads,service)",
+        "definition": "label_values(uploads{site=~\"$site\"},service)",
         "includeAll": true,
         "multi": true,
         "name": "service",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(uploads,service)",
+          "query": "label_values(uploads{site=~\"$site\"},service)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
