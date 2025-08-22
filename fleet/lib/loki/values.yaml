@@ -95,7 +95,7 @@ distributor:
     limits: { cpu: 2, memory: 2Gi }
 
 ingester:
-  replicas: 4
+  replicas: 6
   maxUnavailable: 1
   persistence:
     enabled: true
