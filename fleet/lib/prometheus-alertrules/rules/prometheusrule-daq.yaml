@@ -1,0 +1,47 @@
+groups:
+  - name: daq-link
+    rules:
+
+      - alert: DAQLinkBelow10G
+        expr: |
+          avg_over_time(
+            node_network_speed_bytes{
+              instance="lsstcam-daq-mgt.cp.lsst.org",
+              device="lsst-daq"
+            }[5m]
+          ) < 1250000000
+        for: 5m
+        labels:
+          severity: warning
+          service: daq
+          role: daq-mgt
+          site: cp
+          prod: "true"
+        annotations:
+          summary: "DAQ link negotiated below 10G on {{ $labels.instance }} ({{ $labels.device }})"
+          description: >
+            The DAQ interface {{ $labels.device }} on {{ $labels.instance }}
+            has reported {{ $value | humanize1024 }} B/s (< 10 Gbps = 1.25e9 B/s) for ≥5m.
+            This usually indicates a fallback to 1 Gbps after renegotiation or a switch event.
+            Expected at 10 Gbps: ~1,250,000,000 B/s.
+
+      - alert: DAQLinkDown
+        expr: |
+          avg_over_time(
+            node_network_speed_bytes{
+              instance="lsstcam-daq-mgt.cp.lsst.org",
+              device="lsst-daq"
+            }[5m]
+          ) == 0
+        for: 5m
+        labels:
+          severity: critical
+          service: daq
+          role: daq-mgt
+          site: cp
+          prod: "true"
+        annotations:
+          summary: "DAQ link down on {{ $labels.instance }} ({{ $labels.device }})"
+          description: >
+            Negotiated link speed has been 0 B/s on {{ $labels.instance }} ({{ $labels.device }}) for ≥5m.
+            Check cable/SFP, port admin state, and the DAQ switch.
