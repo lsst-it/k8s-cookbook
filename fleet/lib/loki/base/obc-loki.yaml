@@ -8,7 +8,7 @@ spec:
   storageClassName: o11y
   additionalConfig:
     bucketOwner: loki
-    bucketMaxSize: 1Ti
+    bucketMaxSize: 5Ti
     bucketLifecycle: |
       {
         "Rules": [
@@ -32,7 +32,7 @@ spec:
   storageClassName: o11y
   additionalConfig:
     bucketOwner: loki
-    bucketMaxSize: 1Ti
+    bucketMaxSize: 5Ti
     bucketLifecycle: |
       {
         "Rules": [
@@ -56,7 +56,7 @@ spec:
   storageClassName: o11y
   additionalConfig:
     bucketOwner: loki
-    bucketMaxSize: 1Ti
+    bucketMaxSize: 5Ti
     bucketLifecycle: |
       {
         "Rules": [

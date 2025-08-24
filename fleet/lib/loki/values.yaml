@@ -64,12 +64,10 @@ loki:
 
   compactor:
     retention_enabled: true
-    retention_delete_delay: 2h
     working_directory: /var/loki/compactor
     delete_request_store: s3
 
   query_range:
-    parallelise_shardable_queries: true
     cache_results: true
     results_cache:
       cache:
@@ -80,28 +78,24 @@ loki:
           timeout: 500ms
 
   limits_config:
-    retention_period: 30d
-    ingestion_rate_mb: 20
-    ingestion_burst_size_mb: 40
+    retention_period: 20d
+    ingestion_rate_mb: 50
+    ingestion_burst_size_mb: 100
     max_global_streams_per_user: 500000
-    max_label_value_length: 2048
     max_label_names_per_series: 30
-    reject_old_samples: true
     reject_old_samples_max_age: 168h
-    query_timeout: 3m
-    max_query_parallelism: 32
-    max_cache_freshness_per_query: 10m
+    query_timeout: 4m
     max_entries_limit_per_query: 50000
 
 distributor:
-  replicas: 2
-  maxUnavailable: 1
+  replicas: 3
+  maxUnavailable: 2
   resources:
     requests: { cpu: 500m, memory: 512Mi }
     limits: { cpu: 2, memory: 2Gi }
 
 ingester:
-  replicas: 4
+  replicas: 6
   maxUnavailable: 1
   persistence:
     enabled: true
@@ -113,21 +107,21 @@ ingester:
     limits: { cpu: 4, memory: 8Gi }
 
 querier:
-  replicas: 2
-  maxUnavailable: 1
+  replicas: 4
+  maxUnavailable: 3
   resources:
     requests: { cpu: 500m, memory: 1Gi }
     limits: { cpu: 2, memory: 4Gi }
 
 queryFrontend:
-  replicas: 2
+  replicas: 3
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
     limits: { cpu: 1, memory: 2Gi }
 
 queryScheduler:
-  replicas: 2
+  replicas: 3
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
@@ -176,6 +170,3 @@ monitoring:
     enabled: true
     labels:
       lsst.io/monitor: "true"
-  dashboards:
-    enabled: true
-    namespace: kube-prometheus-stack
