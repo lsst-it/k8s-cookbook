@@ -1,0 +1,29 @@
+---
+defaultNamespace: &name nexus-pg
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  timeoutSeconds: 300
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+  - selector:
+      matchLabels:
+        bundle: nexus
+targetCustomizations:
+  - name: yepun
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yepun
+    yaml:
+      overlays:
+        - generic
+        - yepun
