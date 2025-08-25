@@ -111,8 +111,8 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum by(service) (irate(tcp_info_bytes_sent{site=~\"$site\", service=~\"$service\"}[$__interval])) * 8",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_sent{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_bytes_sent_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -215,8 +215,8 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum by(service) (uploads{site=~\"$site\", service=~\"$service\"})",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  uploads{site=~\"$site\", service=~\"$service\"}\n  or\n  s3nd_upload_active{site=~\"$site\", service=~\"$service\"}\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -318,8 +318,8 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum by(service) (irate(tcp_info_bytes_received{site=~\"$site\", service=~\"$service\"}[$__interval])) * 8",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_received{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or    \n  irate(s3nd_s3_tcp_info_bytes_received_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -421,8 +421,8 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum by(service) (irate(tcp_info_bytes_acked{site=~\"$site\", service=~\"$service\"}[$__interval])) * 8",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_acked{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_bytes_acked_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -524,8 +524,8 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "sum by(service) (irate(tcp_info_bytes_retrans{site=~\"$site\", service=~\"$service\"}[$__interval])) * 8",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_acked{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_bytes_acked_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -625,8 +625,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "editorMode": "builder",
-          "expr": "sum by(service) (rate(tcp_info_total_retrans{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_total_retrans{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_total_retrans_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -723,8 +723,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "editorMode": "builder",
-          "expr": "sum by(service) (rate(tcp_info_sacked{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_sacked{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_sacked_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -821,8 +821,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "editorMode": "builder",
-          "expr": "sum by(service) (rate(tcp_info_retrans{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_retrans{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_retrans_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -919,8 +919,8 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "editorMode": "builder",
-          "expr": "sum by(service) (rate(tcp_info_lost{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_lost{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_lost_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -1018,7 +1018,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (rate(tcp_info_reord_seen{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "expr": "sum by(service) (\n  irate(tcp_info_reord_seen{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_reord_seen_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -1116,9 +1116,9 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
+          "editorMode": "code",
           "exemplar": true,
-          "expr": "sum by(service) (rate(tcp_info_rcv_ooopack{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "expr": "sum by(service) (\n  irate(tcp_info_rcv_ooopack{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_rcv_ooopack_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1219,7 +1219,7 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (rate(tcp_info_fackets{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "expr": "sum by(service) (\n  irate(tcp_info_fackets{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_fackets_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
@@ -1318,7 +1318,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (rate(tcp_info_dsack_dups{site=~\"$site\", service=~\"$service\"}[$__interval]))",
+          "expr": "sum by(service) (\n  irate(tcp_info_dsack_dups{site=~\"$site\", service=~\"$service\"}[$__interval])\n  or\n  irate(s3nd_s3_tcp_info_dsack_dups_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1382,14 +1382,14 @@
             "$__all"
           ]
         },
-        "definition": "label_values(uploads,service)",
+        "definition": "label_values(uploads{site=~\"$site\"},service)",
         "includeAll": true,
         "multi": true,
         "name": "service",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(uploads,service)",
+          "query": "label_values(uploads{site=~\"$site\"},service)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
