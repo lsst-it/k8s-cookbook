@@ -125,7 +125,7 @@ ruler:
       memory: 3Gi
 store_gateway:
   persistentVolume:
-    size: 10Gi
+    size: 100Gi
   replicas: 3
   resources:
     limits:
