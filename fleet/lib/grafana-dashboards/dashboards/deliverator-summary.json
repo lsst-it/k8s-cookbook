@@ -1358,19 +1358,23 @@
             "$__all"
           ]
         },
-        "definition": "label_values(uploads,site)",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "query_result({__name__=~\"s3nd_upload_active|uploads\"})",
         "description": "",
         "includeAll": true,
         "multi": true,
         "name": "site",
         "options": [],
         "query": {
-          "qryType": 1,
-          "query": "label_values(uploads,site)",
+          "qryType": 3,
+          "query": "query_result({__name__=~\"s3nd_upload_active|uploads\"})",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
-        "regex": "",
+        "regex": "/site=\"(?<text>[^\"]+)/g",
         "sort": 1,
         "type": "query"
       },
