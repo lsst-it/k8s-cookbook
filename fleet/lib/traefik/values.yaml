@@ -22,6 +22,8 @@ metrics:
     disableAPICheck: false
     serviceMonitor:
       enabled: true
+      additionalLabels:
+        lsst.io/monitor: "true"
 service:
   annotations:
     metallb.universe.tf/address-pool: ingress

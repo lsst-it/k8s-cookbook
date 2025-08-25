@@ -33,6 +33,8 @@ prometheusOperator:
 
 prometheus:
   prometheusSpec:
+    enableFeatures:
+      - native-histograms
     resources:
       limits:
         cpu: 4
