@@ -291,66 +291,53 @@ alloy:
       loki.process "openvpn" {
 
         stage.regex {
-          expression = "^(?P<host>\\S+)\\s+(?P<app>\\S+)\\s+(?P<ts>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4})\\s+\\[(?P<stream>stdout|stderr)\\#(?P<level>[^\\]]+)\\]\\s+(?:\\[(?P<component>[A-Z]+)(?:\\s+(?P<ovpn_slot>\\d+))?\\]\\s+(?P<direction>[A-Z]+):\\s+(?P<payload>.+)|(?P<payload2>.+))$"
-        }
-
-        stage.timestamp {
-          source = "ts"
-          format = "2006-01-02T15:04:05-0700"
-        }
-
-        stage.labels {
-          values = { host="", app="", stream="", level="", component="", ovpn_slot="", direction="", }
-        }
-
-        stage.replace {
-          expression = "^(?P<msg>.*)$"
-          source = "payload"
-        }
-        stage.output {
-          source = "msg"
-        }
-        stage.replace {
-          expression = "^(?P<msg2>.*)$"
-          source = "payload2"
-        }
-        stage.output {
-          source = "msg2"
+          source     = "message"
+          expression = "AUTH (?P<auth_status>SUCCESS|FAILURE)"
         }
 
         stage.regex {
-          source = "message"
-          expression = "(?P<user>\\w+)/(?P<client_ip>\\d{1,3}(?:\\.\\d{1,3}){3}):(?P<client_port>\\d+)"
+          source     = "message"
+          expression = "\\[stdout#(?P<stdout_level>\\w+)\\]"
         }
+
         stage.regex {
-          source = "message"
-          expression = "\\[(?P<user>\\w+)\\]"
+          source     = "message"
+          expression = "'status':\\s*(?P<status>\\d+)"
         }
+
         stage.regex {
-          source = "message"
-          expression = "username\\s+'(?P<user>\\w+)'"
+          source     = "message"
+          expression = "'user':\\s*'(?P<user>[^']+)'"
         }
+
         stage.regex {
-          source = "message"
-          expression = "CN=(?P<user>[\\w\\.-]+)"
+          source     = "message"
+          expression = "'reason':\\s*'(?P<reason>[^']+)'"
         }
+
         stage.regex {
-          source = "message"
-          expression = "(?P<peer_ip>\\d{1,3}(?:\\.\\d{1,3}){3}):(?P<peer_port>\\d+)"
+          source     = "message"
+          expression = "'session_id':\\s*'(?P<session_id>[^']+)'"
         }
+
         stage.regex {
-          source = "message"
-          expression = "(?:Learn:\\s*|primary virtual IP.*?:\\s*)(?P<virt_ip>\\d{1,3}(?:\\.\\d{1,3}){3})"
+          source     = "message"
+          expression = "'common_name':\\s*'(?P<common_name>[^']+)'"
+        }
+
+        stage.regex {
+          source     = "message"
+          expression = "'auth method':\\s*'(?P<auth_method>[^']+)'"
         }
 
         stage.labels {
           values = {
-            user="",
-            client_ip="",
-            client_port="",
-            peer_ip="",
-            peer_port="",
-            virt_ip="",
+            auth_status  = "",
+            stdout_level = "",
+            status       = "",
+            user         = "",
+            common_name  = "",
+            auth_method  = "",
           }
         }
 
