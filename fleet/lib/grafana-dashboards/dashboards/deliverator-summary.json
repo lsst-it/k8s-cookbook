@@ -216,7 +216,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  uploads{site=~\"$site\", service=~\"$service\"}\n  or\n  s3nd_upload_active{site=~\"$site\", service=~\"$service\"}\n)",
+          "expr": "sum by(service) (\n  uploads{site=~\"$site\", service=~\"$service\"}\n  or\n  s3nd_upload_active{site=~\"$site\", service=~\"$service\"}\n  or\n  s3nd_upload_parts_active{site=~\"$site\", service=~\"$service\"}\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1354,27 +1354,25 @@
         "allowCustomValue": false,
         "current": {
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
         "datasource": {
           "type": "prometheus",
           "uid": "${datasource}"
         },
-        "definition": "query_result({__name__=~\"s3nd_upload_active|uploads\"})",
+        "definition": "label_values(s3nd_upload_parts_active,site)",
         "description": "",
         "includeAll": true,
         "multi": true,
         "name": "site",
         "options": [],
         "query": {
-          "qryType": 3,
-          "query": "query_result({__name__=~\"s3nd_upload_active|uploads\"})",
+          "qryType": 1,
+          "query": "label_values(s3nd_upload_parts_active,site)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
-        "regex": "/site=\"(?<text>[^\"]+)/g",
+        "regex": "",
         "sort": 1,
         "type": "query"
       },
@@ -1382,18 +1380,16 @@
         "allowCustomValue": false,
         "current": {
           "text": "All",
-          "value": [
-            "$__all"
-          ]
+          "value": "$__all"
         },
-        "definition": "label_values(uploads{site=~\"$site\"},service)",
+        "definition": "label_values(s3nd_upload_parts_active{site=~\"$site\"},service)",
         "includeAll": true,
         "multi": true,
         "name": "service",
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(uploads{site=~\"$site\"},service)",
+          "query": "label_values(s3nd_upload_parts_active{site=~\"$site\"},service)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -1403,7 +1399,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
