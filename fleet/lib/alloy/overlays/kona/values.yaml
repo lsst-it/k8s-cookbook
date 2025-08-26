@@ -372,6 +372,8 @@ alloy:
       loki.source.syslog "rsyslog" {
         listener {
           address  = ":5514"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "node/rsyslog" }
         }
