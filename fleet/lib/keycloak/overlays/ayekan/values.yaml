@@ -1,0 +1,57 @@
+---
+replicaCount: 3
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+extraEnvVars:
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+  - name: KEYCLOAK_LOGLEVEL
+    value: INFO
+  - name: KEYCLOAK_PRODUCTION
+    value: "true"
+  - name: KEYCLOAK_PROXY
+    value: edge
+  - name: KC_HOSTNAME
+    value: keycloak.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+  - name: KC_HOSTNAME_STRICT
+    value: "true"
+  - name: KC_HOSTNAME_STRICT_HTTPS
+    value: "true"
+  - name: KC_HTTP_ENABLED
+    value: "false"
+  - name: KEYCLOAK_REGISTRATION
+    value: "false"
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  servicePort: http
+  tls: true
+  hostname: keycloak.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+auth:
+  adminUser: rubinobs
+  existingSecret: keycloak-admin
+  passwordSecretKey: password
+
+postgresql:
+  enabled: false
+
+externalDatabase:
+  host: keycloak-pg.keycloak-pg.svc.cluster.local
+  port: 5432
+  user: keycloak
+  database: keycloak
+  existingSecret: keycloak-pg
+  existingSecretPasswordKey: password
