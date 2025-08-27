@@ -175,16 +175,19 @@ alloy:
       discovery.relabel "syslog" {
         targets = []
         rule {
-                source_labels = ["__syslog_message_hostname"]
-                target_label  = "host"
+          source_labels = ["__syslog_message_hostname"]
+          target_label  = "host"
         }
         rule {
-                source_labels = ["__syslog_message_app_name"]
-                target_label  = "app_name"
+          source_labels = ["__syslog_message_app_name"]
+          target_label  = "app_name"
         }
         rule {
-          source_labels = ["__syslog_connection_ip"]
-          action        = "replace"
+          source_labels = ["__syslog_message_severity"]
+          target_label  = "severity"
+        }
+        rule {
+          source_labels = ["__syslog_connection_ip_address"]
           target_label  = "host_ip"
         }
       }
