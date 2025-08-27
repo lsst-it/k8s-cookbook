@@ -186,10 +186,6 @@ alloy:
           source_labels = ["__syslog_message_severity"]
           target_label  = "severity"
         }
-        rule {
-          source_labels = ["__syslog_connection_ip_address"]
-          target_label  = "host_ip"
-        }
       }
 
       loki.source.syslog "tcp" {
@@ -274,62 +270,37 @@ alloy:
         forward_to = [loki.write.send.receiver]
       }
 
-      discovery.relabel "openvpn" {
-        targets = []
-        rule {
-                source_labels = ["__syslog_message_hostname"]
-                target_label  = "host"
-        }
-        rule {
-                source_labels = ["__syslog_message_app_name"]
-                target_label  = "app_name"
-        }
-        rule {
-          source_labels = ["__syslog_connection_ip"]
-          action        = "replace"
-          target_label  = "host_ip"
-        }
-      }
-
       loki.process "openvpn" {
 
         stage.regex {
-          source     = "message"
           expression = "AUTH (?P<auth_status>SUCCESS|FAILURE)"
         }
 
         stage.regex {
-          source     = "message"
           expression = "\\[stdout#(?P<stdout_level>\\w+)\\]"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'status':\\s*(?P<status>\\d+)"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'user':\\s*'(?P<user>[^']+)'"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'reason':\\s*'(?P<reason>[^']+)'"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'session_id':\\s*'(?P<session_id>[^']+)'"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'common_name':\\s*'(?P<common_name>[^']+)'"
         }
 
         stage.regex {
-          source     = "message"
           expression = "'auth method':\\s*'(?P<auth_method>[^']+)'"
         }
 
@@ -355,7 +326,7 @@ alloy:
           use_incoming_timestamp = false
           labels   = { job = "openvpn" }
         }
-        relabel_rules = discovery.relabel.openvpn.rules
+        relabel_rules = discovery.relabel.syslog.rules
         forward_to = [loki.process.openvpn.receiver]
       }
 
