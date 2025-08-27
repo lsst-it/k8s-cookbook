@@ -6,7 +6,7 @@ helm:
   chart: cloudnative-pg
   releaseName: cnpg
   repo: https://cloudnative-pg.github.io/charts
-  version: 0.25.0
+  version: 0.26.0
   takeOwnership: true
   timeoutSeconds: 60
   waitForJobs: true
