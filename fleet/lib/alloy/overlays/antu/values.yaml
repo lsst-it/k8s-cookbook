@@ -16,13 +16,21 @@ alloy:
       port: 1514
       targetPort: 1514
       protocol: TCP
-    - name: syslog-udp
+    - name: pfsense-udp
       port: 5141
       targetPort: 5141
       protocol: UDP
     - name: network-udp
       port: 5142
       targetPort: 5142
+      protocol: UDP
+    - name: openvpn-udp
+      port: 5143
+      targetPort: 5143
+      protocol: UDP
+    - name: rsyslog-udp
+      port: 5514
+      targetPort: 5514
       protocol: UDP
     - name: otelhttp
       port: 4318
@@ -121,10 +129,12 @@ alloy:
         stage.json {
           expressions = { level = "level" }
         }
+
         stage.template {
           source = "level"
           template = "{{`{{ lower .Value }}`}}"
         }
+
         stage.labels {
           values = {
             severity = "level",
@@ -165,17 +175,16 @@ alloy:
       discovery.relabel "syslog" {
         targets = []
         rule {
-                source_labels = ["__syslog_message_hostname"]
-                target_label  = "host"
+          source_labels = ["__syslog_message_hostname"]
+          target_label  = "host"
         }
         rule {
-                source_labels = ["__syslog_message_app_name"]
-                target_label  = "app_name"
+          source_labels = ["__syslog_message_app_name"]
+          target_label  = "app_name"
         }
         rule {
-          source_labels = ["__syslog_connection_ip"]
-          action        = "replace"
-          target_label  = "host_ip"
+          source_labels = ["__syslog_message_severity"]
+          target_label  = "severity"
         }
       }
 
@@ -261,9 +270,80 @@ alloy:
         forward_to = [loki.write.send.receiver]
       }
 
+      loki.process "openvpn" {
+
+        stage.regex {
+          expression = "AUTH (?P<auth_status>SUCCESS|FAILURE)"
+        }
+
+        stage.regex {
+          expression = "\\[stdout#(?P<stdout_level>\\w+)\\]"
+        }
+
+        stage.regex {
+          expression = "'status':\\s*(?P<status>\\d+)"
+        }
+
+        stage.regex {
+          expression = "'user':\\s*'(?P<user>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'reason':\\s*'(?P<reason>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'session_id':\\s*'(?P<session_id>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'common_name':\\s*'(?P<common_name>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'auth method':\\s*'(?P<auth_method>[^']+)'"
+        }
+
+        stage.labels {
+          values = {
+            auth_status  = "",
+            stdout_level = "",
+            status       = "",
+            user         = "",
+            common_name  = "",
+            auth_method  = "",
+          }
+        }
+
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.source.syslog "openvpn" {
+        listener {
+          address  = ":5143"
+          protocol = "udp"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = false
+          labels   = { job = "openvpn" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.process.openvpn.receiver]
+      }
+
+      loki.source.syslog "rsyslog" {
+        listener {
+          address  = ":5514"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = false
+          protocol = "udp"
+          labels   = { job = "node/rsyslog" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.write.send.receiver]
+      }
+
       loki.write "send" {
         endpoint {
           url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
         }
-        external_labels = { job = "alloy" }
       }
