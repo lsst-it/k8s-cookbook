@@ -4,6 +4,7 @@ prometheus:
     externalUrl: https://prometheus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+        sendNativeHistograms: true
   ingress:
     enabled: true
     ingressClassName: nginx
