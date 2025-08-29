@@ -1,0 +1,4 @@
+---
+resources:
+  - externalsecret-netbox-secrets.yaml
+  - externalsecret-netbox-valkey.yaml
