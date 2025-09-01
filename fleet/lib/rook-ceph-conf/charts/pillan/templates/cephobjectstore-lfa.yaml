@@ -126,7 +126,7 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - &host s3-butler.ls.lsst.org
+        - &host s3-butler.tu.lsst.org
       secretName: rook-ceph-rgw-lfa-s3-butler-ingress-tls
   rules:
     - host: *host
