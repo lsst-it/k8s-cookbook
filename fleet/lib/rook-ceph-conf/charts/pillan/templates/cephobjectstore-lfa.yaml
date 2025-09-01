@@ -114,6 +114,32 @@ spec:
                 port:
                   number: 80
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-ingress-s3-butler
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - &host s3-butler.ls.lsst.org
+      secretName: rook-ceph-rgw-lfa-s3-butler-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
+---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
