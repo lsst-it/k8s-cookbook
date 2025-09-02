@@ -9,9 +9,9 @@ spec:
   objectStoreNamespace: rook-ceph
   endpoint:
     kafka:
-      uri: kafka://sasquatch-tts-kafka-bootstrap.lsst.codes:9094
+      uri: kafka://sasquatch-kafka-bootstrap.sasquatch:9092
       ackLevel: broker
-      useSSL: true
+      useSSL: false
       mechanism: SCRAM-SHA-512
       userSecretRef:
         name: &item kafka-bucket-notifications
