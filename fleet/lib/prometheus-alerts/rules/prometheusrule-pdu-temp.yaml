@@ -1,0 +1,16 @@
+groups:
+  - name: pdu.rules
+    rules:
+      - alert: FrontSensorHighTemp
+        annotations:
+          summary: Front temperature high on {{ $labels.instance }}
+          description: >
+            The front sensor on instance {{ $labels.instance }} reports temperature above 25°C. Current value is {{ printf "%.1f" $value }}°C.
+        expr: (measurementsExternalSensorValue{sensorID="1"} / 10) > 25
+        for: 2m
+        labels:
+          prod: "true"
+          severity: warning
+          node_name: '{{ $labels.instance}}'
+          device: null
+          service_name: null
