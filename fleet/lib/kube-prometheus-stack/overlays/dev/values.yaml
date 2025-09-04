@@ -202,11 +202,18 @@ alertmanager:
           matchers:
             - prod = "true"
           continue: true
+        - receiver: squadcast-alertmanager-oncall
+          matchers:
+            - oncall = "true"
+          continue: true
     receivers:
       - name: blackhole
       - name: squadcast-alertmanager
         webhook_configs:
           - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager
+      - name: squadcast-alertmanager-oncall
+        webhook_configs:
+          - url_file: /etc/alertmanager/secrets/alertmanager-webhooks/squadcast-alertmanager-oncall
     inhibit_rules:
       - source_matchers:
           - alertname = "InfoInhibitor"

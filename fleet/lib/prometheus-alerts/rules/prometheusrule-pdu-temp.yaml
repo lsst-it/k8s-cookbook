@@ -1,16 +1,29 @@
 groups:
   - name: pdu.rules
     rules:
-      - alert: FrontSensorHighTemp
+      - alert: TemperatureHigh
         annotations:
           summary: Front temperature high on {{ $labels.instance }}
           description: >
-            The front sensor on instance {{ $labels.instance }} reports temperature above 25°C. Current value is {{ printf "%.1f" $value }}°C.
-        expr: (measurementsExternalSensorValue{sensorID="1"} / 10) > 25
+            The front sensor on instance {{ $labels.instance }} reports temperature above 22°C. Current value is {{ printf "%.1f" $value }}°C.
+        expr: (measurementsExternalSensorValue{sensorID="1"} / 10) > 22
         for: 2m
         labels:
           prod: "true"
           severity: warning
+          node_name: '{{ $labels.instance}}'
+          device: null
+          service_name: null
+      - alert: TemperatureCritical
+        annotations:
+          summary: OMG the computer room is on fire
+          description: >
+            The front sensor on instance {{ $labels.instance }} reports temperature above 26°C. Current value is {{ printf "%.1f" $value }}°C.
+        expr: (measurementsExternalSensorValue{sensorID="1"} / 10) > 26
+        for: 2m
+        labels:
+          oncall: "true"
+          severity: critical
           node_name: '{{ $labels.instance}}'
           device: null
           service_name: null
