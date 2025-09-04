@@ -48,3 +48,20 @@ license:
   enabled: true
   secret: nexus-license
   key: sonatype-license-2025-03-03T185609Z.lic
+
+env:
+  - name: NEXUS_DATASTORE_NEXUS_JDBCURL
+    valueFrom:
+      secretKeyRef:
+        name: nexus-pg-creds
+        key: url
+  - name: NEXUS_DATASTORE_NEXUS_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: nexus-pg-creds
+        key: username
+  - name: NEXUS_DATASTORE_NEXUS_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: nexus-pg-creds
+        key: password
