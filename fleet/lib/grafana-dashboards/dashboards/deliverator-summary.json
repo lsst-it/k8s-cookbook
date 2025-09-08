@@ -53,7 +53,7 @@
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
-              "log": 2,
+              "log": 10,
               "type": "symlog"
             },
             "showPoints": "auto",
@@ -79,7 +79,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "none"
         },
         "overrides": []
       },
@@ -113,7 +114,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "interval": "",
@@ -123,7 +124,7 @@
           "useBackend": false
         }
       ],
-      "title": "files submitted",
+      "title": "Files Submitted",
       "type": "timeseries"
     },
     {
@@ -236,7 +237,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "The total number of bytes sent (file size) as part of a successful upload to the S3 endpoint.",
+      "description": "The count of files successfully uploaded (or failed) to the S3 endpoint.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -290,7 +291,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -300,7 +301,7 @@
         "x": 0,
         "y": 8
       },
-      "id": 2,
+      "id": 34,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -324,30 +325,30 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by (service) (\n  increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
+          "interval": "",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
-        }
-      ],
-      "title": "bytes sent successfully",
-      "transformations": [
+        },
         {
-          "disabled": true,
-          "id": "reduce",
-          "options": {
-            "includeTimeField": false,
-            "mode": "reduceFields",
-            "reducers": [
-              "max"
-            ]
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "topic": "annotations"
+          "editorMode": "code",
+          "expr": "-1 * sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code!=\"200\"}[$__interval])\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
         }
       ],
+      "title": "Files Success/Failure",
       "type": "timeseries"
     },
     {
@@ -532,7 +533,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "The count of files successfully uploaded to the S3 endpoint.",
+      "description": "The total number of bytes sent (file size) as part of a successful upload to the S3 endpoint.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -559,7 +560,7 @@
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
-              "log": 2,
+              "log": 10,
               "type": "symlog"
             },
             "showPoints": "auto",
@@ -585,7 +586,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "decbytes"
         },
         "overrides": []
       },
@@ -595,7 +597,7 @@
         "x": 0,
         "y": 16
       },
-      "id": 19,
+      "id": 2,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -619,17 +621,30 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$resolution])\n)",
+          "expr": "sum by (service) (\n  increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "interval": "",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
         }
       ],
-      "title": "files sent successfully",
+      "title": "Bytes Sent Successfully",
+      "transformations": [
+        {
+          "disabled": true,
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "max"
+            ]
+          },
+          "topic": "annotations"
+        }
+      ],
       "type": "timeseries"
     },
     {
