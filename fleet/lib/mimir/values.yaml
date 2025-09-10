@@ -63,7 +63,7 @@ compactor:
       cpu: 1
       memory: 4Gi
 distributor:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
       cpu: 12
@@ -105,7 +105,7 @@ ingester:
   zoneAwareReplication:
     topologyKey: kubernetes.io/hostname
 querier:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
       cpu: 10
@@ -114,7 +114,7 @@ querier:
       cpu: 2
       memory: 10Gi
 query_frontend:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
       cpu: 2
@@ -123,7 +123,7 @@ query_frontend:
       cpu: 2
       memory: 3Gi
 query_scheduler:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
       cpu: 1
@@ -176,18 +176,19 @@ store_gateway:
 ## caching components
 admin-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 chunks-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 index-cache:
   enabled: true
   replicas: 3
 metadata-cache:
   enabled: true
+  replicas: 3
 results-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 
 ## exporter
 overrides_exporter:
@@ -204,7 +205,7 @@ nginx:
   enabled: false
 gateway:
   enabledNonEnterprise: true
-  replicas: 2
+  replicas: 3
   nginx:
     config:
       clientMaxBodySize: 10m
