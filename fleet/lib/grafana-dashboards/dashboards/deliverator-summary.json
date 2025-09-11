@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 193,
+  "id": 921,
   "links": [],
   "panels": [
     {
@@ -26,45 +26,10 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "Count of valid file upload requests.",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "log": 10,
-              "type": "symlog"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -73,37 +38,37 @@
               {
                 "color": "green",
                 "value": 0
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "none"
+          "unit": "sishort"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 6,
+        "w": 3,
         "x": 0,
         "y": 0
       },
-      "id": 20,
+      "id": 35,
       "interval": "$scrape_interval",
       "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
         },
-        "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
-        }
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
       "pluginVersion": "12.1.0",
       "targets": [
@@ -112,20 +77,217 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "interval": "",
+          "expr": "sum (increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$__range]))",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
       "title": "Files Submitted",
-      "type": "timeseries"
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 36,
+      "interval": "$scrape_interval",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum (increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\"}[$__range]))",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Bytes Submitted",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 0.999
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 6,
+        "y": 0
+      },
+      "id": 37,
+      "interval": "$scrape_interval",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$__range])\n) /\nsum (\n  increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$__range])\n)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Files Success",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 9,
+        "y": 0
+      },
+      "id": 38,
+      "interval": "$scrape_interval",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum (\n  increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$__range])\n)",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Bytes Transferred",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -237,7 +399,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "The count of files successfully uploaded (or failed) to the S3 endpoint.",
+      "description": "Count of valid file upload requests.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -299,9 +461,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 6
       },
-      "id": 34,
+      "id": 20,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -325,7 +487,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$__interval])\n)",
+          "expr": "sum by(service) (\n  increase(s3nd_upload_valid_requests_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "interval": "",
@@ -333,22 +495,9 @@
           "range": true,
           "refId": "A",
           "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${datasource}"
-          },
-          "editorMode": "code",
-          "expr": "-1 * sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code!=\"200\"}[$__interval])\n)",
-          "hide": false,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "B"
         }
       ],
-      "title": "Files Success/Failure",
+      "title": "Files Submitted",
       "type": "timeseries"
     },
     {
@@ -533,7 +682,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "The total number of bytes sent (file size) as part of a successful upload to the S3 endpoint.",
+      "description": "The count of files successfully uploaded (or failed) to the S3 endpoint.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -587,7 +736,7 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "none"
         },
         "overrides": []
       },
@@ -595,9 +744,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 14
       },
-      "id": 2,
+      "id": 34,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -621,30 +770,30 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by (service) (\n  increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
+          "expr": "sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code=\"200\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
+          "interval": "",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A",
           "useBackend": false
-        }
-      ],
-      "title": "Bytes Sent Successfully",
-      "transformations": [
+        },
         {
-          "disabled": true,
-          "id": "reduce",
-          "options": {
-            "includeTimeField": false,
-            "mode": "reduceFields",
-            "reducers": [
-              "max"
-            ]
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
           },
-          "topic": "annotations"
+          "editorMode": "code",
+          "expr": "-1 * sum by(service) (\n  increase(s3nd_upload_http_requests_total{site=~\"$site\", service=~\"$service\", code!=\"200\"}[$__interval])\n)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
         }
       ],
+      "title": "Files Success/Failure",
       "type": "timeseries"
     },
     {
@@ -771,6 +920,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
+      "description": "The total number of bytes sent (file size) as part of a successful upload to the S3 endpoint.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -824,7 +974,7 @@
               }
             ]
           },
-          "unit": "binbps"
+          "unit": "decbytes"
         },
         "overrides": []
       },
@@ -832,9 +982,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 24
+        "y": 22
       },
-      "id": 15,
+      "id": 2,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -858,7 +1008,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_bytes_sent{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_sent_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
+          "expr": "sum by (service) (\n  increase(s3nd_upload_bytes_total{site=~\"$site\", service=~\"$service\"}[$__interval])\n)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -867,7 +1017,21 @@
           "useBackend": false
         }
       ],
-      "title": "tcp_info_bytes_sent",
+      "title": "Bytes Sent Successfully",
+      "transformations": [
+        {
+          "disabled": true,
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "max"
+            ]
+          },
+          "topic": "annotations"
+        }
+      ],
       "type": "timeseries"
     },
     {
@@ -1042,9 +1206,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 30
       },
-      "id": 7,
+      "id": 15,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -1068,7 +1232,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_bytes_received{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or    \n  irate(s3nd_s3_tcp_info_bytes_received_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_sent{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_sent_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1077,7 +1241,7 @@
           "useBackend": false
         }
       ],
-      "title": "tcp_info_bytes_received",
+      "title": "tcp_info_bytes_sent",
       "type": "timeseries"
     },
     {
@@ -1252,9 +1416,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 38
       },
-      "id": 6,
+      "id": 7,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -1278,7 +1442,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_bytes_acked{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_acked_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_received{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or    \n  irate(s3nd_s3_tcp_info_bytes_received_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1287,7 +1451,7 @@
           "useBackend": false
         }
       ],
-      "title": "tcp_info_bytes_acked",
+      "title": "tcp_info_bytes_received",
       "type": "timeseries"
     },
     {
@@ -1476,9 +1640,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 48
+        "y": 46
       },
-      "id": 5,
+      "id": 6,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -1502,7 +1666,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_bytes_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_acked{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_acked_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",
@@ -1511,7 +1675,7 @@
           "useBackend": false
         }
       ],
-      "title": "tcp_info_bytes_retrans",
+      "title": "tcp_info_bytes_acked",
       "type": "timeseries"
     },
     {
@@ -1602,7 +1766,6 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "This might be a counter of retrans packets instead of bytes?",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1656,7 +1819,7 @@
               }
             ]
           },
-          "unit": "pps"
+          "unit": "binbps"
         },
         "overrides": []
       },
@@ -1664,9 +1827,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 56
+        "y": 54
       },
-      "id": 13,
+      "id": 5,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -1688,14 +1851,18 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_total_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_total_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  irate(tcp_info_bytes_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_bytes_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n) * 8",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "tcp_info_total_retrans",
+      "title": "tcp_info_bytes_retrans",
       "type": "timeseries"
     },
     {
@@ -1786,7 +1953,7 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
-      "description": "XXX What unit is this?",
+      "description": "This might be a counter of retrans packets instead of bytes?",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1839,7 +2006,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "pps"
         },
         "overrides": []
       },
@@ -1847,9 +2015,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 64
+        "y": 62
       },
-      "id": 12,
+      "id": 13,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -1872,13 +2040,13 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_sacked{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_sacked_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  irate(tcp_info_total_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_total_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "tcp_info_sacked",
+      "title": "tcp_info_total_retrans",
       "type": "timeseries"
     },
     {
@@ -2028,9 +2196,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 72
+        "y": 70
       },
-      "id": 11,
+      "id": 12,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2053,13 +2221,13 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  irate(tcp_info_sacked{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_sacked_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "tcp_info_retrans",
+      "title": "tcp_info_sacked",
       "type": "timeseries"
     },
     {
@@ -2209,9 +2377,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 80
+        "y": 78
       },
-      "id": 10,
+      "id": 11,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2234,13 +2402,13 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_lost{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_lost_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  irate(tcp_info_retrans{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_retrans_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "tcp_info_lost",
+      "title": "tcp_info_retrans",
       "type": "timeseries"
     },
     {
@@ -2390,9 +2558,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 88
+        "y": 86
       },
-      "id": 9,
+      "id": 10,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2415,13 +2583,13 @@
             "uid": "${datasource}"
           },
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_reord_seen{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_reord_seen_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "expr": "sum by(service) (\n  irate(tcp_info_lost{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_lost_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "tcp_info_reord_seen",
+      "title": "tcp_info_lost",
       "type": "timeseries"
     },
     {
@@ -2571,9 +2739,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 96
+        "y": 94
       },
-      "id": 8,
+      "id": 9,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2595,19 +2763,14 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "exemplar": true,
-          "expr": "sum by(service) (\n  irate(tcp_info_rcv_ooopack{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_rcv_ooopack_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
+          "expr": "sum by(service) (\n  irate(tcp_info_reord_seen{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_reord_seen_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
-      "title": "tcp_info_rcv_ooopack",
+      "title": "tcp_info_reord_seen",
       "type": "timeseries"
     },
     {
@@ -2758,9 +2921,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 104
+        "y": 102
       },
-      "id": 4,
+      "id": 8,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2782,14 +2945,19 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
+          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_fackets{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_fackets_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "exemplar": true,
+          "expr": "sum by(service) (\n  irate(tcp_info_rcv_ooopack{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_rcv_ooopack_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
-      "title": "tcp_info_fackets",
+      "title": "tcp_info_rcv_ooopack",
       "type": "timeseries"
     },
     {
@@ -2940,9 +3108,9 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 112
+        "y": 110
       },
-      "id": 3,
+      "id": 4,
       "interval": "$scrape_interval",
       "options": {
         "legend": {
@@ -2964,18 +3132,14 @@
             "type": "prometheus",
             "uid": "${datasource}"
           },
-          "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "sum by(service) (\n  irate(tcp_info_dsack_dups{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_dsack_dups_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
+          "expr": "sum by(service) (\n  irate(tcp_info_fackets{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_fackets_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
           "legendFormat": "__auto",
           "range": true,
-          "refId": "A",
-          "useBackend": false
+          "refId": "A"
         }
       ],
-      "title": "tcp_info_dsack_dups",
+      "title": "tcp_info_fackets",
       "type": "timeseries"
     },
     {
@@ -3067,6 +3231,110 @@
         "type": "prometheus",
         "uid": "${datasource}"
       },
+      "description": "XXX What unit is this?",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "log": 10,
+              "type": "symlog"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 118
+      },
+      "id": 3,
+      "interval": "$scrape_interval",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "sum by(service) (\n  irate(tcp_info_dsack_dups{site=~\"$site\", service=~\"$service\"}[$resolution])\n  or\n  irate(s3nd_s3_tcp_info_dsack_dups_total{site=~\"$site\", service=~\"$service\"}[$resolution])\n)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "tcp_info_dsack_dups",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
       "description": "tcpi_rtt from tcp_info in seconds",
       "fieldConfig": {
         "defaults": {
@@ -3128,7 +3396,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 120
+        "y": 126
       },
       "id": 33,
       "interval": "$scrape_interval",
