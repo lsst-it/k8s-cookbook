@@ -1,0 +1,11 @@
+---
+agent:
+  enabled: true
+proxy:
+  enabled: false
+redis:
+  enabled: false
+existingSecret: chorus-config
+commonConfig:
+  storage:
+    storages: ~

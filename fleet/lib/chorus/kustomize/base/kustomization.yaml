@@ -1,0 +1,4 @@
+---
+resources:
+  - cephobjectstoreuser-chorus-ruka.yaml
+  - externalsecret-chorus-config.yaml

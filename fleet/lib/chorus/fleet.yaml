@@ -1,0 +1,20 @@
+---
+defaultNamespace: &name chorus
+labels:
+  bundle: *name
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: *name
+  chart: oci://harbor.clyso.com/chorus/chorus
+  version: 0.1.2
+  timeoutSeconds: 60
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+kustomize:
+  dir: kustomize/base
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds

@@ -1,0 +1,33 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: chorus-ruka
+spec:
+  store: lfa
+  clusterNamespace: rook-ceph
+  keys:
+    - accessKeyRef:
+        name: cephobjectstoreuser-chorus-ruka
+        key: AWS_ACCESS_KEY_ID
+      secretKeyRef:
+        name: cephobjectstoreuser-chorus-ruka
+        key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cephobjectstoreuser-chorus-ruka
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: chorus-ruka
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: chorus-ruka
+        property: AWS_SECRET_ACCESS_KEY
