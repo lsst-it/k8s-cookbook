@@ -1,9 +1,19 @@
 ---
-# XXX to allow access to the s3 creds. Can this be more restrictively scoped?
 global:
-  extraEnvFrom:
-    - secretRef:
-        name: mimir-s3
+  # XXX this is silly... the mimir-distributed chart should not override the
+  # pod default ns by default... but it does.  This is a workaround.
+  dnsService: rke2-coredns-rke2-coredns
+  extraEnv:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-lfa-mimir
+          key: AccessKey
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-lfa-mimir
+          key: SecretKey
 
 metaMonitoring:
   dashboards:
