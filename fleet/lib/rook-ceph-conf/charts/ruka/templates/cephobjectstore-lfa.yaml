@@ -30,6 +30,7 @@ metadata:
   namespace: rook-ceph
 spec:
   allowUsersInNamespaces:
+    - chorus
     - mimir
   preservePoolsOnDelete: false
   gateway:
