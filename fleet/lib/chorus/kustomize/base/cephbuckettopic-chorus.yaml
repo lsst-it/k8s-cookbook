@@ -1,0 +1,12 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketTopic
+metadata:
+  name: chorus
+  namespace: rook-ceph
+spec:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+  endpoint:
+    http:
+      uri: http://chorus-agent-service.chorus.svc.cluster.local:9673

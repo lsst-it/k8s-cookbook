@@ -1,4 +1,6 @@
 ---
 resources:
+  - cephbuckettopic-chorus.yaml
   - cephobjectstoreuser-chorus-ruka.yaml
   - externalsecret-chorus-config.yaml
+  - obc-chorus-test.yaml

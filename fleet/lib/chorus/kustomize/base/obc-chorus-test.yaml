@@ -1,0 +1,44 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name chorus-test
+  namespace: rook-ceph
+  labels:
+    bucket-notification-chorus: chorus
+spec:
+  bucketName: *name
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: chorus-ruka
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          },
+          {
+            "ID": "ExpireAfter1Days",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+              "Days": 1
+            }
+          }
+        ]
+      }
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketNotification
+metadata:
+  name: chorus
+  namespace: rook-ceph
+spec:
+  topic: chorus
+  events:
+    - s3:ObjectCreated:*
