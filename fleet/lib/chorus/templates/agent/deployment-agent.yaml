@@ -33,9 +33,7 @@ spec:
       - env:
         - name: CFG_REDIS_PASSWORD
           valueFrom:
-            secretKeyRef:
-              key: password
-              name: redis-secret
+{{ toYaml .Values.redis.passwordFrom | nindent 12 }}
         - name: CFG_REDIS_ADDRESS
           value: {{ .Values.redis.service }}
         image: {{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag | default .Chart.AppVersion }}

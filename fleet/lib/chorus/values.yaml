@@ -204,6 +204,12 @@ redis:
   auth:
     existingSecret: redis-secret
     existingSecretPasswordKey: password
+  passwordFrom:
+    secretKeyRef:
+      # key: password
+      # name: redis-password
+      key: valkey-password
+      name: chorus-valkey
 imagePullSecrets:
 serviceAccount:
   # Specifies whether a service account should be created
