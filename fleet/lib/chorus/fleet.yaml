@@ -6,12 +6,13 @@ namespaceLabels:
   lsst.io/discover: "true"
 helm:
   releaseName: *name
-  chart: oci://harbor.clyso.com/chorus/chorus
-  version: 0.1.2
+  # chart: oci://harbor.clyso.com/chorus/chorus
+  # version: 0.1.2
+  takeOwnership: true
   timeoutSeconds: 60
   waitForJobs: true
-  valuesFiles:
-    - values.yaml
+  # valuesFiles:
+    # - values.yaml
 kustomize:
   dir: kustomize/base
 dependsOn:

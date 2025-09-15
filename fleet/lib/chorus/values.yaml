@@ -1,11 +1,213 @@
----
-agent:
-  enabled: true
 proxy:
   enabled: false
+  image:
+    repository: harbor.clyso.com/chorus/proxy
+    tag: "" # Chart appVersion will be used if empty
+    pullPolicy: Always
+  replicas: 2
+  resources:
+    limits:
+      cpu: 100m
+      memory: 300Mi
+    requests:
+      cpu: 50m
+      memory: 150Mi
+  proxyService:
+    portHttp:
+      port: 9669
+      targetPort: http
+    type: ClusterIP
+  config: # for full spec and default values see proxy config: https://github.com/clyso/chorus/blob/main/service/proxy/config.yaml and common config https://github.com/clyso/chorus/blob/main/pkg/config/config.yaml
+    metrics:
+      enabled: false
+    log:
+      json: true
+      level: info
+    trace:
+      enabled: false
+      endpoint: # url to Jaeger or other open trace provider
+    address: http://localhost:9669 # Chorus proxy s3 api address
+    port: 9669
+    cors:
+      enabled: false
+      allowAll: false
+      whitelist:
+    auth:
+      allowV2Signature: false
+      useStorage: # use credentials from one of configured storages <one|two>
+      custom: # or use custom credentials for proxy s3 endpoint
+    #    user1:
+    #      accessKeyID: <user1 v4 accessKey credential>
+    #      secretAccessKey: <user1 v4 secretKey credential>
+    #    user2:
+    #      accessKeyID: <user2 v4 accessKey credential>
+    #      secretAccessKey: <user2 v4 secretKey credential>
+worker:
+  replicas: 2
+  image:
+    repository: harbor.clyso.com/chorus/worker
+    tag: "" # Chart appVersion will be used if empty
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 100m
+      memory: 300Mi
+    requests:
+      cpu: 50m
+      memory: 150Mi
+  restApiService:
+    portRest:
+      port: 9671
+      targetPort: rest
+    type: ClusterIP
+  grpcApiService:
+    portGRPC:
+      port: 9670
+      targetPort: grpc
+    type: ClusterIP
+  config: # for full spec and default values see worker config: https://github.com/clyso/chorus/blob/main/service/worker/config.yaml and common config https://github.com/clyso/chorus/blob/main/pkg/config/config.yaml
+    metrics:
+      enabled: false
+    log:
+      json: true
+      level: info
+    trace:
+      enabled: false
+      endpoint: # url to Jaeger or other open trace provider
+    rclone:
+      memoryLimit:
+        enabled: true
+        limit: 300M # Max RAM memory for file copy. Possible values: 50M <= mem <= (total app RAM - 50M). More memory -> faster s3 replication. # For example: if worker container resources.memory.limit = 500M, then mem = 450M
+        retryMin: 2s
+        retryMax: 20s
+      memoryCalc:
+        mul: 1.5
+        const: 0M
+      localFileLimit:
+        enabled: false
+        limit: 3
+        retryMin: 2s
+        retryMax: 20s
+      globalFileLimit:
+        enabled: true
+        limit: 3
+        retryMin: 2s
+        retryMax: 20s
+    concurrency: 10
+    api:
+      enabled: true
+ui:
+  enabled: false
+  image:
+    repository: harbor.clyso.com/chorus/web-ui
+    tag: "" # Chart appVersion will be used if empty
+    pullPolicy: Always
+  replicas: 1
+  resources:
+    limits:
+      cpu: 50m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi
+  service:
+    portHttp:
+      port: 9672
+      targetPort: http
+    type: ClusterIP
+commonConfig:
+  features:
+    tagging: true
+    acl: true
+  storage:
+    createRouting: true # create roting rules to route proxy requests to main storage
+    createReplication: false # create replication rules to replicate data from main to other storages
+    defaultRegion: "us-east-1" # fallback region. Will be used if origin region is not supported by replication destination
+    storages:
+      # one:
+      #   address: s3.clyso.com
+      #   provider: Ceph
+      #   isMain: true
+      #   isSecure: true
+      #   defaultRegion: ""
+      # two:
+      #   address: office.clyso.cloud
+      #   provider: Ceph
+      #   isSecure: true
+      #   defaultRegion: ""
+agent:
+  enabled: true
+  image:
+    repository: harbor.clyso.com/chorus/agent
+    tag: "" # Chart appVersion will be used if empty
+    pullPolicy: Always
+  replicas: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+  agentService:
+    portHttp:
+      port: 9673
+      targetPort: http
+    type: ClusterIP
+  config: # for full spec and default values see agent config: https://github.com/clyso/chorus/blob/main/service/agent/config.yaml and common config https://github.com/clyso/chorus/blob/main/pkg/config/config.yaml
+    metrics:
+      enabled: false
+    log:
+      json: true
+      level: info
+    trace:
+      enabled: false
+      endpoint: # url to Jaeger or other open trace provider
+    port: 9673 # agent port to listen incoming notifications
+    url: http://localhost:9673 # REQUIRED: url to be used by s3 storage to send notifications. The URL should be reachable for s3 storage.
+    fromStorage: "" # REQUIRED: notifications source storage name from Chorus config. Normally name of the main storage from storage config.
+existingSecret: chorus-config
+secret: "" #  set storage credentials here to create secret:
+# Example
+# secret: |-
+#  storage:
+#    storages:
+#      one:
+#        address: s3.clyso.com
+#        provider: Ceph
+#        isMain: true
+#        isSecure: true
+#        credentials:
+#          user1:
+#            accessKeyID: abc
+#            secretAccessKey: abc
+#          user2:
+#            accessKeyID: def
+#            secretAccessKey: jhi
+#      two:
+#        address: office.clyso.cloud
+#        provider: Ceph
+#        isMain: false
+#        isSecure: true
+#        credentials:
+#          user1:
+#            accessKeyID: jkl
+#            secretAccessKey: mno
+#          user2:
+#            accessKeyID: pqr
+#            secretAccessKey: stw
 redis:
   enabled: false
-existingSecret: chorus-config
-commonConfig:
-  storage:
-    storages: ~
+  architecture: standalone
+  auth:
+    existingSecret: redis-secret
+    existingSecretPasswordKey: password
+imagePullSecrets:
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
