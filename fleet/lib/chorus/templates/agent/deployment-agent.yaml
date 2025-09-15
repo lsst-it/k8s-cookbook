@@ -37,7 +37,7 @@ spec:
               key: password
               name: redis-secret
         - name: CFG_REDIS_ADDRESS
-          value: {{ printf "%s-redis-master:6379" ( .Release.Name ) }}
+          value: {{ .Values.redis.service }}
         image: {{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
         name: agent

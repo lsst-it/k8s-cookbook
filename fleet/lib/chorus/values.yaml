@@ -198,6 +198,8 @@ secret: "" #  set storage credentials here to create secret:
 #            secretAccessKey: stw
 redis:
   enabled: false
+  # service: {{ printf "%s-redis-master:6379" ( .Release.Name ) }}
+  service: chorus-valkey-primary:6379
   architecture: standalone
   auth:
     existingSecret: redis-secret

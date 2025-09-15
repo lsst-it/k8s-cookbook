@@ -39,7 +39,7 @@ spec:
               key: password
               name: redis-secret
         - name: CFG_REDIS_ADDRESS
-          value: {{ printf "%s-redis-master:6379" ( .Release.Name ) }}
+          value: {{ .Values.redis.service }}
         image: {{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
         name: worker
