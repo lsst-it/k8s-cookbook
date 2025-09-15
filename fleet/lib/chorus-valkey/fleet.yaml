@@ -1,0 +1,18 @@
+---
+defaultNamespace: chorus
+labels:
+  bundle: &name chorus-valkey
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: *name
+  chart: oci://registry-1.docker.io/bitnamicharts/valkey
+  version: 3.0.31
+  timeoutSeconds: 60
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
