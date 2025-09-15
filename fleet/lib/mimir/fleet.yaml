@@ -60,6 +60,9 @@ targetCustomizations:
           operator: In
           values:
             - ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml
     kustomize:
       dir: kustomize/overlays/ruka
   - name: pillan

@@ -1,0 +1,13 @@
+---
+global:
+  extraEnv:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-lfa-mimir
+          key: AccessKey
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-lfa-mimir
+          key: SecretKey
