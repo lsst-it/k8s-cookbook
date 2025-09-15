@@ -165,7 +165,7 @@ agent:
       endpoint: # url to Jaeger or other open trace provider
     port: 9673 # agent port to listen incoming notifications
     url: http://localhost:9673 # REQUIRED: url to be used by s3 storage to send notifications. The URL should be reachable for s3 storage.
-    fromStorage: "" # REQUIRED: notifications source storage name from Chorus config. Normally name of the main storage from storage config.
+    fromStorage: "ruka" # REQUIRED: notifications source storage name from Chorus config. Normally name of the main storage from storage config.
 existingSecret: chorus-config
 secret: "" #  set storage credentials here to create secret:
 # Example
