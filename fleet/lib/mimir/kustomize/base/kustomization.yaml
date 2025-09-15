@@ -1,0 +1,7 @@
+---
+resources:
+  - cephobjectstoreuser-mimir.yaml
+  - obc-mimir-alertmanager.yaml
+  - obc-mimir-blocks.yaml
+  - obc-mimir-ruler.yaml
+  - obc-mimir.yaml
