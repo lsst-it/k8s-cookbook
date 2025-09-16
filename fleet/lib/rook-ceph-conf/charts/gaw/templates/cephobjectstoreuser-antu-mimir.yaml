@@ -1,0 +1,33 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: antu-mimir
+spec:
+  store: k8up-backups
+  clusterNamespace: rook-ceph
+  keys:
+    - accessKeyRef:
+        name: cephobjectstoreuser-antu-mimir
+        key: AWS_ACCESS_KEY_ID
+      secretKeyRef:
+        name: cephobjectstoreuser-antu-mimir
+        key: AWS_SECRET_ACCESS_KEY
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cephobjectstoreuser-antu-mimir
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: antu-mimir
+        property: AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: antu-mimir
+        property: AWS_SECRET_ACCESS_KEY
