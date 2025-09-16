@@ -4,6 +4,8 @@ kind: CephObjectRealm
 metadata:
   name: lfa
   namespace: rook-ceph
+spec:
+  defaultRealm: true
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
