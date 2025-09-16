@@ -42,6 +42,8 @@ spec:
       requests:
         cpu: "4"
         memory: 4Gi
+  zone:
+    name: lfa
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

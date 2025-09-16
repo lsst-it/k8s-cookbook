@@ -1,5 +1,29 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: k8up-backups
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: k8up-backups
+  namespace: rook-ceph
+spec:
+  realm: k8up-backups
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: k8up-backups
+  namespace: rook-ceph
+spec:
+  zoneGroup: k8up-backups
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: k8up-backups
@@ -24,6 +48,8 @@ spec:
     port: 80
     # securePort: 443
     instances: 3
+  zone:
+    name: k8up-backups
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
