@@ -1,3 +1,0 @@
----
-global:
-  dnsService: kube-dns # remove after antu is migrated to rke2
