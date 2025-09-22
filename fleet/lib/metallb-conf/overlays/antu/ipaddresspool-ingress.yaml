@@ -18,4 +18,4 @@ spec:
   ipAddressPools:
     - ingress
   interfaces:
-    - enp65s0f1  # this should be replaced with a bridge interface
+    - br2131
