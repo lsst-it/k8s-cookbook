@@ -42,12 +42,17 @@ spec:
       codingChunks: 2
     quotas:
       maxSize: 100Ti
-  preservePoolsOnDelete: false
+  preservePoolsOnDelete: true
   gateway:
-    sslCertificateRef:
     port: 80
-    # securePort: 443
-    instances: 3
+    instances: 5  # 1 per node
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "4"
+        memory: 4Gi
   zone:
     name: k8up-backups
 ---
