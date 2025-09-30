@@ -30,9 +30,6 @@ targetCustomizations:
           operator: In
           values:
             - antu
-    helm:
-      valuesFiles:
-        - overlays/antu/values.yaml
     kustomize:
       dir: kustomize/overlays/antu
   - name: kona
