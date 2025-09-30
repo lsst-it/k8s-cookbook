@@ -1,3 +1,4 @@
+---
 deploymentMode: Distributed
 
 gateway:
@@ -22,6 +23,7 @@ gateway:
           - loki.${ .ClusterLabels.site }.lsst.org
 
 global:
+  dnsService: rke2-coredns-rke2-coredns
   extraEnv:
     - name: AWS_ACCESS_KEY_ID
       valueFrom:
