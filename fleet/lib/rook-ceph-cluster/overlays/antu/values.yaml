@@ -18,6 +18,7 @@ cephClusterSpec:
     useAllDevices: false
     config:
       osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: antu01
         devices:
