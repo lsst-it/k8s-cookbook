@@ -27,4 +27,3 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/dev/values.yaml
-        - overlays/rke2/values.yaml
