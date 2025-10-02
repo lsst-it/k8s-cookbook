@@ -1,0 +1,21 @@
+name: openvpn-db
+defaultNamespace: &name openvpn-db
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+dependsOn:
+  - name: mariadb-operator
+    namespace: mariadb-system
+  - name: openvpn-db-pre
+    namespace: openvpn-db
+targetCustomizations:
+  - name: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
+    kustomize:
+      dir: overlays/ayekan
