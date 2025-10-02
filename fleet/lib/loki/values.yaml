@@ -99,6 +99,8 @@ ingester:
   maxUnavailable: 1
   persistence:
     enabled: true
+    accessModes:
+      - ReadWriteOnce
     claims:
       - name: data
         size: 30Gi
