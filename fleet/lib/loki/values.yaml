@@ -99,10 +99,10 @@ ingester:
   maxUnavailable: 1
   persistence:
     enabled: true
-    accessModes:
-      - ReadWriteOnce
     claims:
       - name: data
+        accessModes:
+          - ReadWriteOnce
         size: 30Gi
   resources:
     requests: { cpu: 1, memory: 2Gi }
