@@ -16,37 +16,6 @@ export KUBECONFIG=/home/rke/k8s-cookbook/yagan/rke/kube_config_cluster.yml
 (cd ingress; ./ingress-nginx-helm.sh)
 
 (cd multus; ./multus.sh)
-
-MUST BACKUP SECTION FIRST!
-(cd velero; ./velero.sh)
-```
-
-## Backups
-
-In order to run the velero script, the secret file must be created first:
-
-```bash
-cat >resources/secret.yaml <<END
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: aws-credentials
-  namespace: velero
-  labels:
-    app.kubernetes.io/name: velero
-    app.kubernetes.io/instance: release-name
-type: Opaque
-stringData:
-  cloud: |
-    [default]
-    aws_access_key_id=<ACCESS_KEY>
-    aws_secret_access_key=<SECRET_KEY>
-END
-```
-
-```bash
-velero schedule create daily --schedule="@every 24h" --ttl 720h0m0s
 ```
 
 Import yagan cluster into rancher via this url:
