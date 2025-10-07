@@ -1,68 +1,61 @@
 ---
 cephClusterSpec:
-  # XXX allow upgrade even if not healthy because lukay05 was removed
-  continueUpgradeAfterChecksEvenIfNotHealthy: true
   mon:
     count: 3
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "3"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: lukay01
         devices:
-          - name: sda
-          - name: sdb
-          - name: sdc
-          - name: sdd
-          - name: sde
-          - name: sdf
-          - name: sdg
-          - name: sdh
-          - name: sdi
-          - name: sdj
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702912N
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702901H
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702902M
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702906Y
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702936A
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R704221R
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702953P
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804983Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702951K
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R702385N
       - name: lukay02
         devices:
-          - name: sda
-          - name: sdb
-          - name: sdc
-          - name: sdd
-          - name: sde
-          - name: sdf
-          - name: sdg
-          - name: sdh
-          - name: sdi
-          - name: sdj
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705147R
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705139Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705153V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705479L
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705487X
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705492F
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705485Y
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705109K
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705141T
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R805000T
       - name: lukay03
         devices:
-          - name: sda
-          - name: sdb
-          - name: sdc
-          - name: sdd
-          - name: sde
-          - name: sdf
-          - name: sdg
-          - name: sdh
-          - name: sdi
-          - name: sdj
-      - name: lukay04
-        devices:
-          - name: sda
-          - name: sdb
-          - name: sdc
-          - name: sdd
-          - name: sde
-          - name: sdf
-          - name: sdg
-          - name: sdh
-          - name: sdi
-          - name: sdj
-  resources:
-    osd:
-      requests:
-        cpu: 100m
-        memory: 4Gi
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R704207V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804245D
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R802783P
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R802782B
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804846V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R802794M
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0RA02831V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0RA02160A
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R801805Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804287J
 
 cephBlockPools:
   - name: replicapool
@@ -74,12 +67,19 @@ cephBlockPools:
       quotas:
         maxSize: 2Ti
       enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
     storageClass:
       name: rook-ceph-block
       enabled: true
       isDefault: true
       reclaimPolicy: Delete
       allowVolumeExpansion: true
+      mountOptions:
+        - discard
       parameters:
         clusterID: rook-ceph
         pool: replicapool
