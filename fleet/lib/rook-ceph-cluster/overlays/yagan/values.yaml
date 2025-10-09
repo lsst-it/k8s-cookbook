@@ -122,7 +122,7 @@ cephBlockPools:
         size: 3
         requireSafeReplicaSize: true
       quotas:
-        maxSize: 10Ti
+        maxSize: 30Ti
       enableRBDStats: true
       parameters:
         nodelete: "true"
