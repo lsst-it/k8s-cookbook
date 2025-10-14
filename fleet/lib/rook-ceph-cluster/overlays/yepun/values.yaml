@@ -2,32 +2,44 @@
 cephClusterSpec:
   mon:
     count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
-      osdsPerDevice: "4"
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
     nodes:
       - name: yepun01
         devices:
-          - name: sda
-          - name: sdb
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800508
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800502
       - name: yepun02
         devices:
-          - name: sda
-          - name: sdb
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800370
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800261
       - name: yepun03
         devices:
-          - name: sda
-          - name: sdb
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800260
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800023
       - name: yepun04
         devices:
-          - name: sda
-          - name: sdb
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800505
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800257
       - name: yepun05
         devices:
-          - name: sda
-          - name: sdb
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800468
+          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800515
 
 cephBlockPools:
   - name: replicapool
@@ -36,6 +48,11 @@ cephBlockPools:
       replicated:
         size: 3
         requireSafeReplicaSize: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
       quotas:
         maxSize: 5Ti
       enableRBDStats: true
