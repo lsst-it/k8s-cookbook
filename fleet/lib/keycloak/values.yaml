@@ -1,4 +1,6 @@
 ---
+image:
+  repository: bitnamilegacy/keycloak
 replicaCount: 3
 resources:
   limits:
