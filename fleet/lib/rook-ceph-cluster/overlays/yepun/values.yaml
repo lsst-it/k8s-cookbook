@@ -26,20 +26,20 @@ cephClusterSpec:
           - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800502
       - name: yepun02
         devices:
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800370
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800261
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800370
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800261
       - name: yepun03
         devices:
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800260
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800023
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800260
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800023
       - name: yepun04
         devices:
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800505
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800257
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800505
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800257
       - name: yepun05
         devices:
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800468
-          - name: dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800515
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800468
+          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800515
 
 cephBlockPools:
   - name: replicapool
