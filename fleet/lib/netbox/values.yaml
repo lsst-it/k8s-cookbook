@@ -1,0 +1,198 @@
+nameOverride: netbox
+clusterDomain: cluster.local
+
+superuser:
+  name: admin
+  email: admin@lsst.org
+  existingSecret: netbox-secrets
+
+
+allowedHosts:
+  - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
+allowedHostsIncludesPodIP: false
+
+admins:
+  - [Admin User, admin@tudominio.com]
+
+internalIPs: [127.0.0.1]
+
+timeZone: America/Santiago
+
+# Disable persistent volumes to avoid multi-attach issues with ReadWriteOnce storage
+# Media files will be stored in ephemeral storage
+persistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 10Gi
+  # annotations: {}
+
+reportsPersistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+  # annotations: {}
+
+scriptsPersistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+  # annotations: {}
+
+resourcesPreset: medium
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+## @section Traffic Exposure Parameters
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+  hosts:
+    - host: netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+      paths:
+        - /
+  tls:
+    - secretName: netbox-tls
+      hosts:
+        - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
+postgresql:
+  enabled: true
+  auth:
+    username: netbox
+    database: netbox
+    # Dummy passwords - these are overridden by existingSecret
+    # Required by Bitnami chart to prevent upgrade errors
+    password: "unused"
+    postgresPassword: "unused"
+    existingSecret: netbox-postgresql
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: password
+    # Use external secret passwords for consistency
+    usePasswordFiles: false
+  # Ensure PostgreSQL is ready before Netbox starts
+  primary:
+    persistence:
+      enabled: true
+      storageClass: rook-ceph-block
+      size: 20Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+  # Global PostgreSQL configuration to prevent credential mismatch
+  global:
+    postgresql:
+      auth:
+        # Dummy passwords - overridden by existingSecret
+        password: "unused"
+        postgresPassword: "unused"
+        existingSecret: netbox-postgresql
+        secretKeys:
+          adminPasswordKey: postgres-password
+          userPasswordKey: password
+
+valkey:
+  enabled: true
+  auth:
+    existingSecret: netbox-valkey
+    existingSecretPasswordKey: valkey-password
+
+## @section Worker for Netbox parameters
+
+worker:
+  enabled: true
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+## @section Cron housekeeping job parameters
+
+housekeeping:
+  enabled: true
+  schedule: 0 0 * * *
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  resourcesPreset: medium
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+# Database configuration using external secrets
+extraEnvs:
+  - name: DB_WAIT_DEBUG
+    value: "1"
+  - name: SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: netbox-secrets
+        key: secret-key
+
+
+# Plugin configuration
+plugins:
+  - slurpit_netbox
+
+pluginsConfig:
+  slurpit_netbox:
+    # Basic configuration for slurpit_netbox plugin
+    # Add specific configuration options as needed
+
+## @section Remote Authentication (SSO) Parameters
+
+remoteAuth:
+  enabled: true
+  backends:
+    - social_core.backends.keycloak.KeycloakOAuth2
+
+extraConfig:
+  - secret:
+      secretName: netbox-keycloak
+  - values:
+      SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/auth"
+      SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token"
+      SOCIAL_AUTH_KEYCLOAK_ID_KEY: "preferred_username"
+      SOCIAL_AUTH_BACKEND_ATTRS:
+        keycloak:
+          - "Keycloak"
+          - "keycloak"
+      SOCIAL_AUTH_PIPELINE:
+        - "social_core.pipeline.social_auth.social_details"
+        - "social_core.pipeline.social_auth.social_uid"
+        - "social_core.pipeline.social_auth.social_user"
+        - "social_core.pipeline.user.get_username"
+        - "social_core.pipeline.social_auth.associate_by_email"
+        - "social_core.pipeline.user.create_user"
+        - "social_core.pipeline.social_auth.associate_user"
+        - "netbox.authentication.user_default_groups_handler"
+        - "social_core.pipeline.social_auth.load_extra_data"
+        - "social_core.pipeline.user.user_details"
+
