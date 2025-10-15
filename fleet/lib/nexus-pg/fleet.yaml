@@ -14,7 +14,7 @@ dependsOn:
         bundle: cnpg-system
   - selector:
       matchLabels:
-        bundle: nexus
+        bundle: nexus-pre
 targetCustomizations:
   - name: yepun
     clusterSelector:
