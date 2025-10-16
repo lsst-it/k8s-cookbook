@@ -6,7 +6,7 @@ metadata:
   namespace: fleet-default
 spec:
   repo: https://github.com/lsst-it/k8s-cookbook
-  branch: master
+  branch: dev
   keepResources: true
   paths:
     - fleet/s/dev/c/kueyen/*
