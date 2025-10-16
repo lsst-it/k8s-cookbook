@@ -1,0 +1,15 @@
+---
+pull_request_rules:
+  - name: promote dev to master branch
+    conditions:
+      - base=dev
+    actions:
+      backport:
+        branches:
+          - master
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        bot_account: "{{ author }}"
+        labels:
+          - from-dev
+        assignees:
+          - "{{ author }}"
