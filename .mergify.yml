@@ -1,16 +1,16 @@
 pull_request_rules:
-  - name: backport to production branches
+  - name: promote dev to master branch
     conditions:
-      - label=backport-production
+      - and:
+        - base=dev
+        - merged
     actions:
       backport:
-        title: "{{ title }} (backport #{{ number }} to {{ destination_branch }})"
-        bot_account: "{{ author }}"
-        labels:
-            - "base-{{ base }}"
-            - "head-{{ head }}"
-            - "dest-{{ destination_branch }}"
         branches:
-          - cp_production
-          - ls_production
-          - tu_production
+          - master
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        merge_bot_account: "{{ author }}"
+        labels:
+          - from-dev
+        assignees:
+          - "{{ author }}"
