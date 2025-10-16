@@ -3,6 +3,7 @@ pull_request_rules:
   - name: promote dev to master branch
     conditions:
       - base=dev
+      - author!=renovate[bot]
     actions:
       backport:
         branches:
@@ -13,3 +14,15 @@ pull_request_rules:
           - from-dev
         assignees:
           - "{{ author }}"
+  # mergify can't impersonate renovate[bot] as a PR author
+  - name: promote renovate[bot] dev to master branch
+    conditions:
+      - base=dev
+      - author=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - master
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        labels:
+          - from-dev
