@@ -8,7 +8,7 @@ helm:
   chart: &chart prometheus-snmp-exporter
   releaseName: *chart
   repo: https://prometheus-community.github.io/helm-charts
-  version: 9.6.2
+  version: 9.8.1
   timeoutSeconds: 300
   waitForJobs: true
   valuesFiles:
