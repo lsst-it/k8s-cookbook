@@ -38,7 +38,7 @@ spec:
     name: cnpg-cluster-superuser
 
   storage:
-    size: 300Gi
+    size: 510Gi
 
   monitoring:
     enablePodMonitor: true
