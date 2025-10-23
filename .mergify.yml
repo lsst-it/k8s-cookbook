@@ -26,3 +26,11 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
           - from-dev
+  - name: request review on backports to master branch
+    conditions:
+      - base=master
+      - label=from-dev
+    actions:
+      request_reviews:
+        teams:
+          - "@lsst-it/cl-infra"
