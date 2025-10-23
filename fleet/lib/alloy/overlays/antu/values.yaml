@@ -2,7 +2,7 @@ service:
   enabled: true
   type: LoadBalancer
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.154.66
+    metallb.universe.tf/address-pool: alloy
 
 controller:
   type: deployment
