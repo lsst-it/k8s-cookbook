@@ -1,0 +1,205 @@
+nameOverride: netbox
+clusterDomain: cluster.local
+
+superuser:
+  name: admin
+  email: admin@lsst.org
+  existingSecret: netbox-secrets
+
+
+allowedHosts:
+  - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+  - netbox.kueyen.dev.lsst.org
+
+allowedHostsIncludesPodIP: false
+
+admins:
+  - [Admin User, admin@tudominio.com]
+
+internalIPs: [127.0.0.1]
+
+timeZone: America/Santiago
+
+# Disable persistent volumes to avoid multi-attach issues with ReadWriteOnce storage
+# Media files will be stored in ephemeral storage
+persistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 10Gi
+  # annotations: {}
+
+reportsPersistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+  # annotations: {}
+
+scriptsPersistence:
+  enabled: false
+  # storageClass: rook-ceph-block
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+  # annotations: {}
+
+resourcesPreset: medium
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+## @section Traffic Exposure Parameters
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+  hosts:
+    - host: netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+      paths:
+        - /
+  tls:
+    - secretName: netbox-tls
+      hosts:
+        - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
+postgresql:
+  enabled: true
+  # Use default PostgreSQL version from chart (bitnami image tags are inconsistent)
+  auth:
+    username: netbox
+    database: netbox
+    # Dummy passwords - these are overridden by existingSecret
+    # Required by Bitnami chart to prevent upgrade errors
+    password: "unused"
+    postgresPassword: "unused"
+    existingSecret: netbox-postgresql
+    secretKeys:
+      adminPasswordKey: postgres-password
+      userPasswordKey: password
+    # Use external secret passwords for consistency
+    usePasswordFiles: false
+  # Ensure PostgreSQL is ready before Netbox starts
+  primary:
+    persistence:
+      enabled: true
+      storageClass: rook-ceph-block
+      size: 20Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    # Prevent automatic restarts during upgrades
+    podDisruptionBudget:
+      create: true
+      minAvailable: 1
+    # Use RollingUpdate strategy (Recreate is not valid for StatefulSets)
+    updateStrategy:
+      type: RollingUpdate
+  # Global PostgreSQL configuration to prevent credential mismatch
+  global:
+    postgresql:
+      auth:
+        # Dummy passwords - overridden by existingSecret
+        password: "unused"
+        postgresPassword: "unused"
+        existingSecret: netbox-postgresql
+        secretKeys:
+          adminPasswordKey: postgres-password
+          userPasswordKey: password
+      # Disable automatic version upgrades
+      upgradeRepmgrExtension: false
+
+valkey:
+  enabled: true
+  auth:
+    existingSecret: netbox-valkey
+    existingSecretPasswordKey: valkey-password
+
+## @section Worker for Netbox parameters
+
+worker:
+  enabled: true
+  replicaCount: 1
+  # Fix kubectl image version - 1.33.3 doesn't exist
+  initContainer:
+    image:
+      registry: docker.io
+      repository: bitnami/kubectl
+      tag: 1.31-debian-12
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+## @section Cron housekeeping job parameters
+
+housekeeping:
+  enabled: true
+  schedule: 0 0 * * *
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  resourcesPreset: medium
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+
+# Database configuration using external secrets
+extraEnvs:
+  - name: DB_WAIT_DEBUG
+    value: "1"
+  - name: SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: netbox-secrets
+        key: secret-key
+  - name: SOCIAL_AUTH_KEYCLOAK_KEY
+    valueFrom:
+      secretKeyRef:
+        name: netbox-keycloak
+        key: SOCIAL_AUTH_KEYCLOAK_KEY
+  - name: SOCIAL_AUTH_KEYCLOAK_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: netbox-keycloak
+        key: SOCIAL_AUTH_KEYCLOAK_SECRET
+  - name: SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL
+    value: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/auth"
+  - name: SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL
+    value: "https://keycloak.ls.lsst.org/realms/master/protocol/openid-connect/token"
+  - name: SOCIAL_AUTH_KEYCLOAK_ID_KEY
+    value: "preferred_username"
+
+
+# Plugin configuration
+plugins: []
+
+## @section Remote Authentication (SSO) Parameters
+
+remoteAuth:
+  enabled: true
+  backends:
+    - social_core.backends.keycloak.KeycloakOAuth2
+
+# All Keycloak configuration is now done via environment variables in extraEnvs
+# NetBox will automatically read SOCIAL_AUTH_* environment variables
+
