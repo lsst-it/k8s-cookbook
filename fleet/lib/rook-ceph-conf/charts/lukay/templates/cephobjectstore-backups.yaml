@@ -2,32 +2,28 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectRealm
 metadata:
-  name: it
-  namespace: rook-ceph
+  name: backups
 spec:
   defaultRealm: true
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
 metadata:
-  name: it
-  namespace: rook-ceph
+  name: backups
 spec:
-  realm: it
+  realm: backups
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZone
 metadata:
-  name: it
-  namespace: rook-ceph
+  name: backups
 spec:
-  zoneGroup: it
+  zoneGroup: backups
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: it
-  namespace: rook-ceph
+  name: backups
 spec:
   metadataPool:
     failureDomain: host
@@ -49,13 +45,12 @@ spec:
     # securePort: 443
     instances: 3
   zone:
-    name: it
+    name: backups
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-it
-  namespace: rook-ceph
+  name: rook-ceph-rgw-backups
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
@@ -63,16 +58,16 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - it-s3.ls.lsst.org
-    secretName: rook-ceph-rgw-it-ingress-tls
+    - s3-backups.ls.lsst.org
+    secretName: rook-ceph-rgw-backups-ingress-tls
   rules:
-  - host: it-s3.ls.lsst.org
+  - host: s3-backups.ls.lsst.org
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: rook-ceph-rgw-it
+            name: rook-ceph-rgw-backups
             port:
               number: 80
