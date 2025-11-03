@@ -1,0 +1,218 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  realm: o11y
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  zoneGroup: o11y
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  allowUsersInNamespaces:
+    - loki
+    - mimir
+  preservePoolsOnDelete: false
+  gateway:
+    sslCertificateRef:
+    port: 80
+    # securePort: 443
+    instances: 3
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "4"
+        memory: 4Gi
+  zone:
+    name: o11y
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-ingress-o11y
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.o11y.merken.cp.lsst.org
+      secretName: rook-ceph-rgw-ingress-tls-o11y
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-o11y
+                port:
+                  number: 80
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: rgw.root
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  name: .rgw.root
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.control
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.meta
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.log
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "1"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: o11y.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  erasureCoded:
+    dataChunks: 2
+    codingChunks: 1
+  failureDomain: host
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    bulk: "true"
+    pg_num: "64"
+  quotas:
+    maxSize: 40Ti
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: o11y
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: o11y
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain

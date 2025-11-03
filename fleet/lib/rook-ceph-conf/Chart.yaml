@@ -34,3 +34,5 @@ dependencies:
     condition: subchart.elqui.enabled
   - name: kona
     condition: subchart.kona.enabled
+  - name: merken
+    condition: subchart.merken.enabled
