@@ -10,10 +10,6 @@ data:
     ceph orch set backend ""
     ceph mgr module disable rook
 
-    waitfornfs backup
-    ceph nfs export rm backup /backup
-    ceph nfs export create cephfs backup /backup backup
-
     ceph mgr module enable rook
     ceph orch set backend rook
     ceph device monitoring on
