@@ -1,0 +1,70 @@
+---
+cephClusterSpec:
+  mon:
+    count: 3
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    config:
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
+    nodes:
+      - name: merken01
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E4278
+      - name: merken02
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E41FC
+      - name: merken03
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E4237
+      - name: merken04
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2409477E42F4
+
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      quotas:
+        maxSize: 2Ti
+      enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "32"
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      mountOptions:
+        - discard
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4

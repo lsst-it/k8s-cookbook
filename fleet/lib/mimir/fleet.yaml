@@ -74,3 +74,12 @@ targetCustomizations:
         - overlays/pillan/values.yaml
     kustomize:
       dir: kustomize/overlays/pillan
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    kustomize:
+      dir: kustomize/overlays/merken
