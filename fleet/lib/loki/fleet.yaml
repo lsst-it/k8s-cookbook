@@ -27,3 +27,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/dev/values.yaml
+  - name: cp
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - cp
+    helm:
+      valuesFiles:
+        - overlays/cp/values.yaml

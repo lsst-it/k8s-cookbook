@@ -1,0 +1,349 @@
+service:
+  enabled: true
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.161.80
+
+controller:
+  type: deployment
+  replicaCount: 2
+
+alloy:
+  mounts:
+    varlog: false
+  extraPorts:
+    - name: syslog-tcp
+      port: 1514
+      targetPort: 1514
+      protocol: TCP
+    - name: pfsense-udp
+      port: 5141
+      targetPort: 5141
+      protocol: UDP
+    - name: network-udp
+      port: 5142
+      targetPort: 5142
+      protocol: UDP
+    - name: openvpn-udp
+      port: 5143
+      targetPort: 5143
+      protocol: UDP
+    - name: rsyslog-udp
+      port: 5514
+      targetPort: 5514
+      protocol: UDP
+    - name: otelhttp
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
+  configMap:
+    content: |
+      logging {
+        level  =  "{{ default "info" (get (default (dict) .ClusterLabels) "log_level") }}"
+        format = "logfmt"
+      }
+
+      local.file_match "node_logs" {
+        path_targets = [{
+            __path__  = "/var/log/*.log",
+            job       = "node/syslog",
+            node_name = sys.env("HOSTNAME"),
+            cluster   = "${ get .ClusterLabels "management.cattle.io/cluster-display-name" }",
+        }]
+      }
+
+      loki.source.file "node_logs" {
+        targets    = local.file_match.node_logs.targets
+        forward_to = [loki.write.send.receiver]
+      }
+
+      discovery.kubernetes "pod" {
+        role = "pod"
+      }
+
+      discovery.relabel "pod_logs" {
+        targets = discovery.kubernetes.pod.targets
+
+        rule {
+          source_labels = ["__meta_kubernetes_namespace"]
+          action = "replace"
+          target_label = "namespace"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_name"]
+          action = "replace"
+          target_label = "pod"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_name"]
+          action = "replace"
+          target_label = "container"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+          action = "replace"
+          target_label = "app"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_container_name"]
+          action = "replace"
+          target_label = "job"
+          separator = "/"
+          replacement = "$1"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+          action = "replace"
+          target_label = "__path__"
+          separator = "/"
+          replacement = "/var/log/pods/*$1/*.log"
+        }
+
+        rule {
+          source_labels = ["__meta_kubernetes_pod_container_id"]
+          action = "replace"
+          target_label = "container_runtime"
+          regex = "^(\\S+):\\/\\/.+$"
+          replacement = "$1"
+        }
+      }
+
+      loki.source.kubernetes "pod_logs" {
+        targets    = discovery.relabel.pod_logs.output
+        forward_to = [loki.process.pod_logs.receiver]
+      }
+
+      loki.process "pod_logs" {
+        stage.static_labels {
+          values = {
+            cluster = "${ get .ClusterLabels "management.cattle.io/cluster-display-name" }",
+            job = "k8s/logs",
+          }
+        }
+
+        stage.json {
+          expressions = { level = "level" }
+        }
+
+        stage.template {
+          source = "level"
+          template = "{{`{{ lower .Value }}`}}"
+        }
+
+        stage.labels {
+          values = {
+            severity = "level",
+          }
+        }
+
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.source.kubernetes_events "cluster_events" {
+        job_name   = "k8s/events"
+        log_format = "logfmt"
+        forward_to = [
+          loki.process.cluster_events.receiver,
+        ]
+      }
+
+      loki.process "cluster_events" {
+        forward_to = [loki.write.send.receiver]
+        stage.static_labels {
+          values = {
+            cluster = "${ get .ClusterLabels "management.cattle.io/cluster-display-name" }",
+          }
+        }
+        stage.regex {
+          expression = ".*name=(?P<name>[^ ]+).*kind=(?P<kind>[^ ]+).*objectAPIversion=(?P<apiVersion>[^ ]+).*type=(?P<type>[^ ]+).*"
+        }
+        stage.labels {
+          values = {
+            name                      = "name",
+            kind                      = "kind",
+            apiVersion                = "apiVersion",
+            type                      = "type",
+          }
+        }
+      }
+
+      discovery.relabel "syslog" {
+        targets = []
+        rule {
+          source_labels = ["__syslog_message_hostname"]
+          target_label  = "host"
+        }
+        rule {
+          source_labels = ["__syslog_message_app_name"]
+          target_label  = "app_name"
+        }
+        rule {
+          source_labels = ["__syslog_message_severity"]
+          target_label  = "severity"
+        }
+      }
+
+      loki.source.syslog "tcp" {
+        listener {
+          address  = ":1514"
+          protocol = "tcp"
+          labels   = {
+            component = "loki.source.syslog",
+            protocol = "tcp",
+          }
+        }
+        forward_to = [loki.relabel.relabel.receiver]
+      }
+
+      loki.source.syslog "pfsense" {
+        listener {
+          address  = ":5141"
+          protocol = "udp"
+          labels   = { job = "pfsense" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.process.pfsense.receiver]
+      }
+
+      loki.source.syslog "network" {
+        listener {
+          address  = ":5142"
+          protocol = "udp"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = true
+          rfc3164_default_to_current_year = true
+          labels   = { job = "network" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.process "pfsense" {
+        stage.regex {
+          expression = "^(?P<rule>\\d+),(?P<subrule>[^,]*),(?P<anchor>[^,]*),(?P<tracker>[^,]*),(?P<iface>[^,]*),(?P<reason>[^,]*),(?P<action>[^,]*),(?P<direction>[^,]*),(?P<ipver>\\d),(?P<tos>[^,]*),(?P<ecn>[^,]*),(?P<ttl>\\d+),(?P<id>\\d+),(?P<offset>\\d+),(?P<flags>[^,]*),(?P<proto_id>\\d+),(?P<proto>[^,]*),(?P<length>\\d+),(?P<src_ip>[^,]*),(?P<dst_ip>[^,]*)(?:,(?P<src_port>\\d+),(?P<dst_port>\\d+),(?P<data_len>\\d+)(?:,(?P<tcp_flags>[^,]*),(?P<seq>\\d*),(?P<ack>\\d*),(?P<window>\\d*)(?:,(?P<urg>[^,]*)(?:,(?P<options>[^,]*))?)?)?)?$"
+        }
+
+        stage.labels {
+            values = {
+              action    = "",
+              direction = "",
+              proto     = "",
+              iface     = "iface",
+              rule      = "",
+              dst_port  = "dst_port",
+              dst_ip    = "",
+            }
+          }
+
+        stage.structured_metadata {
+          values = {
+            src_ip    = "",
+            dst_ip    = "",
+            src_port  = "",
+            tcp_flags = "",
+            tracker   = "",
+          }
+        }
+
+        forward_to = [loki.write.send.receiver]
+      }
+
+      otelcol.receiver.otlp "ingest" {
+        http { endpoint = ":4318" }
+        output { logs = [otelcol.exporter.loki.to_loki.input] }
+      }
+
+      otelcol.exporter.loki "to_loki" {
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.relabel "relabel" {
+        rule {
+          source_labels = ["__syslog_message_hostname"]
+          target_label  = "host"
+        }
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.process "openvpn" {
+
+        stage.regex {
+          expression = "AUTH (?P<auth_status>SUCCESS|FAILURE)"
+        }
+
+        stage.regex {
+          expression = "\\[stdout#(?P<stdout_level>\\w+)\\]"
+        }
+
+        stage.regex {
+          expression = "'status':\\s*(?P<status>\\d+)"
+        }
+
+        stage.regex {
+          expression = "'user':\\s*'(?P<user>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'reason':\\s*'(?P<reason>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'session_id':\\s*'(?P<session_id>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'common_name':\\s*'(?P<common_name>[^']+)'"
+        }
+
+        stage.regex {
+          expression = "'auth method':\\s*'(?P<auth_method>[^']+)'"
+        }
+
+        stage.labels {
+          values = {
+            auth_status  = "",
+            stdout_level = "",
+            status       = "",
+            user         = "",
+            common_name  = "",
+            auth_method  = "",
+          }
+        }
+
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.source.syslog "openvpn" {
+        listener {
+          address  = ":5143"
+          protocol = "udp"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = false
+          labels   = { job = "openvpn" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.process.openvpn.receiver]
+      }
+
+      loki.source.syslog "rsyslog" {
+        listener {
+          address  = ":5514"
+          syslog_format = "rfc3164"
+          use_incoming_timestamp = false
+          protocol = "udp"
+          labels   = { job = "node/rsyslog" }
+        }
+        relabel_rules = discovery.relabel.syslog.rules
+        forward_to = [loki.write.send.receiver]
+      }
+
+      loki.write "send" {
+        endpoint {
+          url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+        }
+      }
