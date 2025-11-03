@@ -56,6 +56,18 @@ cephClusterSpec:
           - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0RA02160A
           - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R801805Z
           - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804287J
+      - name: lukay05
+        devices:
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R703848Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R704195Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R704225B
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R705482V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804292R
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804293V
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804996Z
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R804998H
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R805002E
+          - name: /dev/disk/by-id/scsi-SATA_Samsung_SSD_870_S5VUNJ0R805003M
 
 cephBlockPools:
   - name: replicapool
