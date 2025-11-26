@@ -4,3 +4,4 @@ resources:
   - externalsecret-netbox-valkey.yaml
   - externalsecret-netbox-postgresql.yaml
   - externalsecret-netbox-keycloak.yaml
+  - configmap-keycloak-backend.yaml

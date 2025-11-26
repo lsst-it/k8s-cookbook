@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: netbox-keycloak-backend
+  namespace: netbox
+data:
+  keycloak_backend.py: |
+    from social_core.backends.keycloak import KeycloakOAuth2
+    
+    class KeycloakOAuth2NoJWT(KeycloakOAuth2):
+        """Custom Keycloak backend that skips JWT validation"""
+        
+        def public_key(self):
+            """Override to skip public key validation"""
+            return None
+        
+        def user_data(self, access_token, *args, **kwargs):
+            """Get user data from userinfo endpoint without JWT validation"""
+            # Get USERINFO URL from settings
+            url = self.setting('USERINFO_URL') or self.USERINFO_URL
+            return self.get_json(
+                url,
+                headers={'Authorization': f'Bearer {access_token}'}
+            )
