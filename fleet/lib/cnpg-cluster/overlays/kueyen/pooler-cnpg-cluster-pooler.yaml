@@ -1,0 +1,71 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: cnpg-cluster-pooler
+  namespace: cloudnativepg
+spec:
+  cluster:
+    name: cnpg-cluster
+  instances: 3
+  type: rw
+
+  pgbouncer:
+    poolMode: session
+    parameters:
+      max_client_conn: "2000"
+      default_pool_size: "280"
+      reserve_pool_size: "20"
+      server_lifetime: "3600"
+      log_connections: "1"
+      log_disconnections: "1"
+      idle_transaction_timeout: "0"
+      ignore_startup_parameters: extra_float_digits
+
+  template:
+    metadata:
+      labels:
+        app: pooler
+        lsst.io/monitor: "true"
+    spec:
+      containers:
+        - name: pgbouncer
+          resources:
+            requests:
+              cpu: "0.1"
+              memory: 100Mi
+            limits:
+              cpu: "0.5"
+              memory: 500Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cnpg-cluster-pooler-rw
+  namespace: cloudnativepg
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.90
+spec:
+  type: LoadBalancer
+  internalTrafficPolicy: Cluster
+  ports:
+    - name: pgbouncer
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/poolerName: cnpg-cluster-pooler
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: cnpg-cluster-pooler
+  namespace: cloudnativepg
+  labels:
+    lsst.io/monitor: "true"
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/poolerName: cnpg-cluster-pooler
+  podMetricsEndpoints:
+    - port: metrics

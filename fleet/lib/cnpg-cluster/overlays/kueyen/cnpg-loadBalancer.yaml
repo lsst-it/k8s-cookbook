@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cnpg-loadbalancer
+  labels:
+    cnpg.io/cluster: cnpg-cluster
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 139.229.134.89
+spec:
+  ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+  selector:
+    cnpg.io/cluster: cnpg-cluster
+    role: primary
+  type: LoadBalancer
