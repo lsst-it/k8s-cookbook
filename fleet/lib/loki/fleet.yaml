@@ -11,7 +11,7 @@ helm:
   chart: &chart loki
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 6.43.0
+  version: 6.46.0
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
