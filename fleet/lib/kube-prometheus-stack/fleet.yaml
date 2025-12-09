@@ -75,6 +75,18 @@ targetCustomizations:
         - pvc/values.yaml
         - aggregator/values.yaml
         - overlays/antu/values.yaml
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - aggregator/values.yaml
+        - overlays/merken/values.yaml
   - name: cl-nopvc
     clusterSelector:
       matchExpressions:
