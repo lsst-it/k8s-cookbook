@@ -81,3 +81,7 @@ spec:
   topic: lsst.s3.raw.lsstcam
   events:
     - s3:ObjectCreated:*
+  filter:
+    keyFilters:
+      - name: suffix
+        value: .fits
