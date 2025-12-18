@@ -6,14 +6,14 @@ metadata:
 data:
   keycloak_backend.py: |
     from social_core.backends.keycloak import KeycloakOAuth2
-    
+
     class KeycloakOAuth2NoJWT(KeycloakOAuth2):
         """Custom Keycloak backend that skips JWT validation"""
-        
+
         def public_key(self):
             """Override to skip public key validation"""
             return None
-        
+
         def user_data(self, access_token, *args, **kwargs):
             """Get user data from userinfo endpoint without JWT validation"""
             # Get USERINFO URL from settings

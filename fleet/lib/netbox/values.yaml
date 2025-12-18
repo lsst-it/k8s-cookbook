@@ -107,10 +107,10 @@ extraConfig:
     data: |
       import os
       import sys
-      
+
       # Add custom backend path
       sys.path.insert(0, '/opt/netbox/custom_backends')
-      
+
       # Keycloak OAuth2 Configuration
       SOCIAL_AUTH_KEYCLOAK_KEY = os.environ.get('SOCIAL_AUTH_KEYCLOAK_KEY')
       SOCIAL_AUTH_KEYCLOAK_SECRET = os.environ.get('SOCIAL_AUTH_KEYCLOAK_SECRET')
@@ -119,21 +119,21 @@ extraConfig:
       SOCIAL_AUTH_KEYCLOAK_USERINFO_URL = '$__file{/etc/secrets/keycloak-credentials/url}/realms/master/protocol/openid-connect/userinfo'
       SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'preferred_username'
       SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
-      
+
       # Social Auth user pipeline
       SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = False
       SOCIAL_AUTH_USER_FIELDS = ['username', 'email', 'first_name', 'last_name']
-      
+
       # Request proper scopes
       SOCIAL_AUTH_KEYCLOAK_SCOPE = ['openid', 'profile', 'email']
-      
+
       # Redirect URI handling
       SOCIAL_AUTH_KEYCLOAK_IGNORE_DEFAULT_SCOPE = True
       SOCIAL_AUTH_TRAILING_SLASH = False
-      
+
       # Extra data to fetch from Keycloak
       SOCIAL_AUTH_KEYCLOAK_EXTRA_DATA = ['email', 'preferred_username', 'given_name', 'family_name']
-      
+
       # Authentication method for token endpoint
       SOCIAL_AUTH_KEYCLOAK_AUTH_EXTRA_ARGUMENTS = {'client_id': os.environ.get('SOCIAL_AUTH_KEYCLOAK_KEY')}
 
@@ -154,4 +154,3 @@ extraVolumeMounts:
   - name: keycloak-backend
     mountPath: /opt/netbox/custom_backends
     readOnly: true
-

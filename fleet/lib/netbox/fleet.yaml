@@ -13,12 +13,12 @@ helm:
   version: 6.1.5
   timeoutSeconds: 600
   waitForJobs: true
-dependsOn:
-  - selector:
-      matchLabels:
-        bundle: external-secrets
-  - selector:
-      matchLabels:
-        bundle: cnpg-cluster
   valuesFiles:
-    - values.yaml
+  - values.yaml
+dependsOn:
+- selector:
+    matchLabels:
+      bundle: external-secrets
+- selector:
+    matchLabels:
+      bundle: cnpg-cluster
