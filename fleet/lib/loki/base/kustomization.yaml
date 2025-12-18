@@ -1,3 +1,4 @@
 ---
 resources:
-  - cephobjectstoreuser-s3-loki.yaml
+  - cephobjectstoreuser-loki.yaml
+  - obc-loki.yaml

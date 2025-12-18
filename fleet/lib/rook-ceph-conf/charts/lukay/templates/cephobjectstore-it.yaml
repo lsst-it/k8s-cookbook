@@ -1,5 +1,29 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: it
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: it
+  namespace: rook-ceph
+spec:
+  realm: it
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: it
+  namespace: rook-ceph
+spec:
+  zoneGroup: it
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: it
@@ -24,6 +48,8 @@ spec:
     port: 80
     # securePort: 443
     instances: 3
+  zone:
+    name: it
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

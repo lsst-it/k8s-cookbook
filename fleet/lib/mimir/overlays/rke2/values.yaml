@@ -1,5 +1,0 @@
----
-global:
-  # XXX this is silly... the mimir-distributed chart should not override the
-  # pod default ns by default... but it does.  This is a workaround.
-  dnsService: rke2-coredns-rke2-coredns

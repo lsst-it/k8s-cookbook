@@ -1,10 +1,37 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  realm: o11y
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  zoneGroup: o11y
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: o11y
   namespace: rook-ceph
 spec:
+  allowUsersInNamespaces:
+    - loki
+    - mimir
   metadataPool:
     failureDomain: host
     replicated:
@@ -17,7 +44,7 @@ spec:
       dataChunks: 2
       codingChunks: 1
     quotas:
-      maxSize: 1Ti
+      maxSize: 2Ti
   preservePoolsOnDelete: false
   gateway:
     sslCertificateRef:
@@ -31,6 +58,8 @@ spec:
       requests:
         cpu: "4"
         memory: 4Gi
+  zone:
+    name: o11y
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

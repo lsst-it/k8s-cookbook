@@ -11,31 +11,29 @@ helm:
   chart: &chart loki
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 6.30.1
+  version: 6.46.0
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
     - values.yaml
-
 targetCustomizations:
-  - name: kueyen
+  - name: dev
     clusterSelector:
       matchExpressions:
-        - key: management.cattle.io/cluster-display-name
+        - key: site
           operator: In
           values:
-            - kueyen
+            - dev
     helm:
       valuesFiles:
-        - overlays/kueyen/values.yaml
-        - overlays/rke2/values.yaml
-  - name: antu
+        - overlays/dev/values.yaml
+  - name: cp
     clusterSelector:
       matchExpressions:
-        - key: management.cattle.io/cluster-display-name
+        - key: site
           operator: In
           values:
-            - antu
+            - cp
     helm:
       valuesFiles:
-        - overlays/antu/values.yaml
+        - overlays/cp/values.yaml

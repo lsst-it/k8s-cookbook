@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
-  version: 75.11.0
+  version: 79.4.1
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
@@ -75,6 +75,18 @@ targetCustomizations:
         - pvc/values.yaml
         - aggregator/values.yaml
         - overlays/antu/values.yaml
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - aggregator/values.yaml
+        - overlays/merken/values.yaml
   - name: cl-nopvc
     clusterSelector:
       matchExpressions:
@@ -96,9 +108,13 @@ targetCustomizations:
           prometheusSpec:
             remoteWrite: &cl-remotewrite
               - url: https://mimir.ruka.dev.lsst.org/api/v1/push
+                sendNativeHistograms: true
               - url: https://mimir.antu.ls.lsst.org/api/v1/push
+                sendNativeHistograms: true
               - url: https://mimir.kueyen.dev.lsst.org/api/v1/push
+                sendNativeHistograms: true
               - url: https://mimir.kona.dev.lsst.org/api/v1/push
+                sendNativeHistograms: true
   - name: cl-default
     clusterSelector:
       matchExpressions:
@@ -134,6 +150,7 @@ targetCustomizations:
           prometheusSpec:
             remoteWrite: &tu-remotewrite
               - url: https://mimir.pillan.tu.lsst.org/api/v1/push
+                sendNativeHistograms: true
   - name: tu-default
     clusterSelector:
       matchExpressions:

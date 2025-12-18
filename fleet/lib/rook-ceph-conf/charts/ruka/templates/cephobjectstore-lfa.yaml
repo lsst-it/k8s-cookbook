@@ -4,6 +4,8 @@ kind: CephObjectRealm
 metadata:
   name: lfa
   namespace: rook-ceph
+spec:
+  defaultRealm: true
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
@@ -27,6 +29,8 @@ metadata:
   name: lfa
   namespace: rook-ceph
 spec:
+  allowUsersInNamespaces:
+    - mimir
   preservePoolsOnDelete: false
   gateway:
     port: 80
@@ -72,20 +76,20 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - &host s3.ruka.dev.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls
+    - hosts:
+        - &host s3.ruka.dev.lsst.org
+      secretName: rook-ceph-rgw-ingress-tls
   rules:
-  - host: *host
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-rgw-lfa
-            port:
-              number: 80
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -98,20 +102,20 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - s3.o11y.ruka.dev.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls-o11y
+    - hosts:
+        - s3.o11y.ruka.dev.lsst.org
+      secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
-  - host: s3.o11y.ruka.dev.lsst.org
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-rgw-lfa
-            port:
-              number: 80
+    - host: s3.o11y.ruka.dev.lsst.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-lfa
+                port:
+                  number: 80
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool

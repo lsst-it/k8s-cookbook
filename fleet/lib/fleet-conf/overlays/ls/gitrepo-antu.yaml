@@ -13,10 +13,10 @@ spec:
   targets:
     - name: antu
       clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - antu
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - antu
   correctDrift:
     enabled: true

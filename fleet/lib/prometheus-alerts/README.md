@@ -11,12 +11,13 @@ file with the `rules.namespace` key.
 1. Add the YAML file to the `/rules` directory
 1. Commit
 
-## Prometheus rule AURA standards
+## Prometheus rule DevOps Rubin standards
 
 * `summary` annotation: This annotation MAY contain a templated variable to differentiate between hosts, pods, clusters, etc. and provides a simple single sentence summary of what the alert is about. For example, "Disk space full in acme.lsst.org". When a cluster triggers several alerts, it can be helpful to group these alerts into a single notification. A distinctive summary, it is also useful as a title for Jira tickets.
 * `description` annotation: This provides a detailed overview of the alert specifically to this instance of the alert. It MAY contain templated variables to enrich the message.
 * routing label: Rubin uses labels to route alerts. The label is used by alertmanager to determine the routing of the notification for the alert. By default, all alerts should be routed to Squadcast. The escalation and notification will be handled by Squadcast API.
 
-  Currently (20250616) the following receivers are configured:
+  Currently (20250904) the following receivers are configured:
 * `gnocpush`: Requires label `gnoc: "true"`
 * `squadcast-alertmanager`: Requires label `prod: "true"`. In most cases this should be the label of the alert.
+* `squadcast-alertmanager-oncall`: Requires label `oncall: "true"`. It will trigger the Run Support escalation. Use with caution.

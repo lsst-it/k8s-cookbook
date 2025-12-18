@@ -4,6 +4,7 @@ prometheus:
     externalUrl: https://prometheus.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
     remoteWrite:
       - url: http://mimir-distributed-gateway.mimir:80/api/v1/push
+        sendNativeHistograms: true
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -136,8 +137,6 @@ grafana:
       mountPath: /etc/secrets/keycloak-credentials
       secretName: grafana-keycloak-credentials
       readOnly: true
-  plugins:
-    - grafana-opensearch-datasource
   datasources:
     datasource.yaml:
       apiVersion: 1
@@ -167,3 +166,13 @@ grafana:
           jsonData:
             handleGrafanaManagedAlerts: false
             implementation: prometheus
+        - name: loki
+          type: loki
+          uid: loki
+          url: http://loki-gateway.loki
+          access: proxy
+          jsonData:
+            maxLines: 1000
+            httpMethod: POST
+            timeout: 60
+            timeInterval: 60s

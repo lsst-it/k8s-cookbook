@@ -1,5 +1,5 @@
 ---
-apiVersion: external-secrets.io/v1beta1
+apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: cnpg-backup-secrets
@@ -37,7 +37,7 @@ spec:
       ttlSecondsAfterFinished: 172800
       template:
         spec:
-          activeDeadlineSeconds: 3600
+          activeDeadlineSeconds: 14400
           containers:
             - name: cnpg-backup
               image: docker.io/lsstit/cnpg-backup:0.6

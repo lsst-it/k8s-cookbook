@@ -219,3 +219,13 @@ targetCustomizations:
     yaml:
       overlays:
         - rancher.cp
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    yaml:
+      overlays:
+        - merken

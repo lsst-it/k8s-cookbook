@@ -1,12 +1,37 @@
 ---
 apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  realm: o11y
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: o11y
+  namespace: rook-ceph
+spec:
+  zoneGroup: o11y
+---
+apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
   name: o11y
   namespace: rook-ceph
 spec:
   allowUsersInNamespaces:
-  - loki
+    - loki
+    - mimir
   metadataPool:
     failureDomain: host
     replicated:
@@ -33,6 +58,8 @@ spec:
       requests:
         cpu: "4"
         memory: 4Gi
+  zone:
+    name: o11y
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -45,20 +72,20 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - &host s3.o11y.kueyen.dev.lsst.org
-    secretName: rook-ceph-rgw-ingress-tls-o11y
+    - hosts:
+        - &host s3.o11y.kueyen.dev.lsst.org
+      secretName: rook-ceph-rgw-ingress-tls-o11y
   rules:
-  - host: *host
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: rook-ceph-rgw-o11y
-            port:
-              number: 80
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-o11y
+                port:
+                  number: 80
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass

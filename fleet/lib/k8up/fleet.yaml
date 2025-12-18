@@ -16,7 +16,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://k8up-io.github.io/k8up
-  version: 4.8.4
+  version: 4.8.6
   timeoutSeconds: 60
   waitForJobs: true
 targetCustomizations:
@@ -50,3 +50,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/yagan/values.yaml
+  - name: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
+    helm:
+      valuesFiles:
+        - overlays/elqui/values.yaml

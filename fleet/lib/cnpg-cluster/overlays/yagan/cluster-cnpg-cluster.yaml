@@ -20,6 +20,10 @@ spec:
       effective_cache_size: 12GB
       idle_session_timeout: 1h
       max_slot_wal_keep_size: 10GB
+      "pgaudit.log": all, -misc
+      "pgaudit.log_catalog": "off"
+      "pgaudit.log_parameter": "on"
+      "pgaudit.log_relation": "on"
     pg_hba:
       - host replication replicauser all md5
       - host all all 139.229.134.0/23 md5
@@ -34,7 +38,7 @@ spec:
     name: cnpg-cluster-superuser
 
   storage:
-    size: 300Gi
+    size: 510Gi
 
   monitoring:
     enablePodMonitor: true

@@ -13,10 +13,10 @@ spec:
   targets:
     - name: gaw
       clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - gaw
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - gaw
   correctDrift:
     enabled: true

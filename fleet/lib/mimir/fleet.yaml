@@ -1,15 +1,16 @@
 ---
-# XXX automate provisioning of buckets and rgw user
 defaultNamespace: &name mimir
 labels:
   bundle: *name
 namespaceLabels:
   lsst.io/discover: "true"
+kustomize:
+  dir: kustomize/base
 helm:
   chart: &chart mimir-distributed
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 5.7.0
+  version: 5.8.0
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
@@ -17,25 +18,50 @@ helm:
 dependsOn:
   - selector:
       matchLabels:
-        bundle: mimir-pre
+        bundle: rook-ceph
   - selector:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
-  - name: rke2
+  - name: antu
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - antu
+    kustomize:
+      dir: kustomize/overlays/antu
+  - name: kona
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kona
+    kustomize:
+      dir: kustomize/overlays/kona
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    kustomize:
+      dir: kustomize/overlays/kueyen
+  - name: ruka
     clusterSelector:
       matchExpressions:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
             - ruka
-            - pukem
-            - kueyen
-            - pillan
-            - kona
     helm:
       valuesFiles:
-        - overlays/rke2/values.yaml
+        - overlays/ruka/values.yaml
+    kustomize:
+      dir: kustomize/overlays/ruka
   - name: pillan
     clusterSelector:
       matchExpressions:
@@ -46,3 +72,14 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/pillan/values.yaml
+    kustomize:
+      dir: kustomize/overlays/pillan
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    kustomize:
+      dir: kustomize/overlays/merken

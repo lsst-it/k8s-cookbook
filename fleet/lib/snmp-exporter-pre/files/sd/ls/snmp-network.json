@@ -457,6 +457,14 @@
   },
   {
     "labels": {
+      "__meta_hostname": "main8-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.88"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "maincbp-as02.cp.lsst.org"
     },
     "targets": [

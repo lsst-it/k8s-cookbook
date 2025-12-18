@@ -1,9 +1,19 @@
 ---
-# XXX to allow access to the s3 creds. Can this be more restrictively scoped?
 global:
-  extraEnvFrom:
-    - secretRef:
-        name: mimir-s3
+  # XXX this is silly... the mimir-distributed chart should not override the
+  # pod default ns by default... but it does.  This is a workaround.
+  dnsService: rke2-coredns-rke2-coredns
+  extraEnv:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-o11y-mimir
+          key: AccessKey
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: rook-ceph-object-user-o11y-mimir
+          key: SecretKey
 
 metaMonitoring:
   dashboards:
@@ -46,22 +56,27 @@ mimir:
       max_global_series_per_user: 0
       max_global_series_per_metric: 0
       compactor_blocks_retention_period: 2y
+      native_histograms_ingestion_enabled: true  # prom native histograms
     compactor:
       deletion_delay: 12h
+    frontend:
+      query_result_response_format: protobuf  # prom native histograms
 
 compactor:
   persistentVolume:
     size: 100Gi
   resources:
     limits:
-      memory: 3Gi
+      cpu: 1
+      memory: 4Gi
     requests:
       cpu: 1
-      memory: 3Gi
+      memory: 4Gi
 distributor:
-  replicas: 2
+  replicas: 3
   resources:
     limits:
+      cpu: 12
       memory: 12Gi
     requests:
       cpu: 1
@@ -72,11 +87,11 @@ ingester:
   replicas: 3
   resources:
     limits:
-      cpu: 16
-      memory: 32Gi
+      cpu: 18
+      memory: 48Gi
     requests:
       cpu: 5
-      memory: 32Gi
+      memory: 48Gi
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
@@ -100,39 +115,52 @@ ingester:
   zoneAwareReplication:
     topologyKey: kubernetes.io/hostname
 querier:
-  replicas: 1
+  replicas: 3
   resources:
     limits:
-      memory: 5Gi
+      cpu: 10
+      memory: 10Gi
     requests:
       cpu: 2
-      memory: 5Gi
+      memory: 10Gi
 query_frontend:
-  replicas: 1
+  replicas: 3
   resources:
     limits:
+      cpu: 2
       memory: 3Gi
     requests:
       cpu: 2
       memory: 3Gi
-ruler:
-  replicas: 1
+query_scheduler:
+  replicas: 3
   resources:
     limits:
+      cpu: 1
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+ruler:
+  replicas: 2
+  resources:
+    limits:
+      cpu: 1
       memory: 3Gi
     requests:
       cpu: 1
       memory: 3Gi
 store_gateway:
   persistentVolume:
-    size: 10Gi
+    size: 100Gi
   replicas: 3
   resources:
     limits:
-      memory: 2.5Gi
+      cpu: 10
+      memory: 10Gi
     requests:
       cpu: 1
-      memory: 2.5Gi
+      memory: 10Gi
   topologySpreadConstraints: {}
   affinity:
     podAntiAffinity:
@@ -158,18 +186,19 @@ store_gateway:
 ## caching components
 admin-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 chunks-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 index-cache:
   enabled: true
   replicas: 3
 metadata-cache:
   enabled: true
+  replicas: 3
 results-cache:
   enabled: true
-  replicas: 2
+  replicas: 3
 
 ## exporter
 overrides_exporter:
@@ -186,7 +215,7 @@ nginx:
   enabled: false
 gateway:
   enabledNonEnterprise: true
-  replicas: 2
+  replicas: 3
   nginx:
     config:
       clientMaxBodySize: 10m

@@ -8,7 +8,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.rook.io/release
-  version: v1.17.6
+  version: v1.18.6
   valuesFiles:
     - values.yaml
   timeoutSeconds: 3600
@@ -194,3 +194,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/kona/values.yaml
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    helm:
+      valuesFiles:
+        - overlays/merken/values.yaml

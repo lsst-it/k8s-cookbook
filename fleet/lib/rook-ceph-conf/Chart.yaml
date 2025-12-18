@@ -32,7 +32,7 @@ dependencies:
     condition: subchart.antu.enabled
   - name: elqui
     condition: subchart.elqui.enabled
-  - name: pukem
-    condition: subchart.pukem.enabled
   - name: kona
     condition: subchart.kona.enabled
+  - name: merken
+    condition: subchart.merken.enabled

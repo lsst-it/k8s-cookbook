@@ -2,40 +2,61 @@
 cephClusterSpec:
   mon:
     count: 3
+
   cephConfig:
     global:
-      osd_pool_default_pg_autoscale_mode: warn
+      # Manual PG control (no autoscaler suggestions)
+      osd_pool_default_pg_autoscale_mode: "off"
+
+      # Schedule scrubs during off-peak hours with softer load
+      osd_scrub_begin_hour: "1"
+      osd_scrub_end_hour: "6"
+      osd_scrub_load_threshold: "0.5"
+      osd_scrub_sleep: "0.1"
+      osd_deep_scrub_interval: "1209600"  # 14 days
+      osd_scrub_auto_repair: "true"
+
+      # Larger min alloc size for HDD to reduce fragmentation
+      bluestore_min_alloc_size_hdd: "65536"
+
+      # Generic RGW tweaks
       rgw_override_bucket_index_max_shards: "401"
       rgw_enable_usage_log: "false"
+
     mgr:
-      mgr/balancer/upmap_max_deviation: "1"
+      # Reduce automatic rebalance frequency
+      mgr/balancer/upmap_max_deviation: "5"
+
     osd:
-      osd_max_pg_per_osd_hard_ratio: "10"
-      osd_op_queue: wpq
-      osd_scrub_auto_repair: "true"
-    client.rgw.lfa.a:
-      rgw_enable_usage_log: "false"
-      rgw_enable_lc_threads: "false"  # disable object gc
-    client.rgw.lfagc.a:
-      rgw_enable_usage_log: "false"
-      rgw_enable_lc_threads: "true"  # enable object gc
+      # mClock profile: prioritize client I/O over background work
+      osd_mclock_profile: high_client_ops
+      # Average sequential bandwidth per HDD (MiB/s)
+      osd_mclock_max_sequential_bandwidth_hdd: "100"
+      # Allow manual recovery/backfill limits to apply
+      osd_mclock_override_recovery_settings: "true"
+
+      # Gentle recovery/backfill settings for slow HDDs
+      osd_max_backfills: "1"
+      osd_recovery_max_active: "1"
+      osd_recovery_op_priority: "1"
+      osd_recovery_sleep: "0.1"
 
   storage:
     useAllNodes: false
     useAllDevices: false
     config:
       osdsPerDevice: "1"
-      encryptedDevice: "true"
+      encryptedDevice: "false"   # encryption disabled for performance
     nodes:
       - name: pukem01
         devices:
-          - name: /dev/disk/by-id/scsi-361866da0b9c0b600301e99a35222cd21
+          - name: /dev/disk/by-id/scsi-SATA_ST4000LM024-2AN1_WCK4447N
       - name: pukem02
         devices:
-          - name: /dev/disk/by-id/scsi-361866da0b9c0db00301e992c6d7cc6aa
+          - name: /dev/disk/by-id/scsi-SATA_ST4000LM024-2AN1_WFG0Z5BJ
       - name: pukem03
         devices:
-          - name: /dev/disk/by-id/scsi-361866da0b9c0c700301e9bdafbae9355
+          - name: /dev/disk/by-id/scsi-SATA_ST4000LM024-2AN1_WCK3L4X2
 
 cephBlockPools:
   - name: replicapool
@@ -58,13 +79,14 @@ cephBlockPools:
       isDefault: true
       reclaimPolicy: Delete
       allowVolumeExpansion: true
-      mountOptions:
-        - discard
+      # mountOptions:           # removed "discard" to avoid extra HDD overhead
+      #   - discard
       parameters:
         clusterID: rook-ceph
         pool: replicapool
         imageFormat: "2"
-        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        # Reduced feature set for less write amplification on HDD
+        imageFeatures: layering,deep-flatten,exclusive-lock
         csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
         csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
