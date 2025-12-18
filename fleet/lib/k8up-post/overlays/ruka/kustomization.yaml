@@ -1,2 +1,4 @@
 resources:
   - backup-daily.yaml
+  - nfs-scratch-pv-pvc.yaml
+  - backup-daily-nfs-scratch.yaml
