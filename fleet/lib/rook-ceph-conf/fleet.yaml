@@ -26,18 +26,6 @@ diff:
         - /spec/preservePoolsOnDelete
         - /spec/healthCheck
 targetCustomizations:
-  - name: kueyen
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - kueyen
-    helm:
-      values:
-        subchart:
-          kueyen:
-            enabled: true
   - name: ayekan
     clusterSelector:
       matchExpressions:
