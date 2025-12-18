@@ -63,13 +63,6 @@ externalDatabase:
 
 postgresql:
   enabled: false
-  # Explicitly disable all PostgreSQL sub-components
-  auth:
-    enabled: false
-  primary:
-    enabled: false
-  metrics:
-    enabled: false
 
 valkey:
   enabled: true
