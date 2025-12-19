@@ -1,0 +1,171 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-backups
+  labels:
+    k8up-enabled: "true"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-auxtel-repo
+spec:
+  capacity:
+    storage: 11Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-auxtel.cp.lsst.org
+    path: /auxtel/repo
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-auxtel-repo
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 11Ti
+  storageClassName: ""
+  volumeName: pv-nfs-auxtel-repo
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-auxtel-lsstdata
+spec:
+  capacity:
+    storage: 11Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-auxtel.cp.lsst.org
+    path: /auxtel/lsstdata
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-auxtel-lsstdata
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 11Ti
+  storageClassName: ""
+  volumeName: pv-nfs-auxtel-lsstdata
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-obs-env
+spec:
+  capacity:
+    storage: 54Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-obs-env.cp.lsst.org
+    path: /obs-env
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-obs-env
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 54Gi
+  storageClassName: ""
+  volumeName: pv-nfs-obs-env
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-project
+spec:
+  capacity:
+    storage: 3.5Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-project.cp.lsst.org
+    path: /project
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-project
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3.5Ti
+  storageClassName: ""
+  volumeName: pv-nfs-project
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-rsphome
+spec:
+  capacity:
+    storage: 859Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-rsphome.cp.lsst.org
+    path: /rsphome
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-rsphome
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 859Gi
+  storageClassName: ""
+  volumeName: pv-nfs-rsphome
