@@ -32,3 +32,12 @@ targetCustomizations:
             - yagan
     kustomize:
       dir: overlays/yagan
+  - name: elqui
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - elqui
+    kustomize:
+      dir: overlays/elqui
