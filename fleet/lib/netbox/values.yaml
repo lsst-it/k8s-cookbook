@@ -1,0 +1,156 @@
+nameOverride: netbox
+clusterDomain: cluster.local
+
+superuser:
+  name: admin
+  email: rubbinobs-it@lsst.org
+  existingSecret: netbox-secrets
+
+
+allowedHosts:
+  - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
+allowedHostsIncludesPodIP: false
+
+admins:
+  - [Admin User, rubbinobs-it@lsst.org]
+
+internalIPs: [127.0.0.1]
+
+timeZone: America/Santiago
+
+# Disable persistent volumes to avoid multi-attach issues with ReadWriteOnce storage
+# Media files will be stored in ephemeral storage
+persistence:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+
+## @section Traffic Exposure Parameters
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+  hosts:
+    - host: netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+      paths:
+        - /
+  tls:
+    - secretName: netbox-tls
+      hosts:
+        - netbox.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
+
+externalDatabase:
+  enabled: true
+  host: cnpg-loadbalancer.cloudnativepg.svc.cluster.local
+  port: 5432
+  user: postgres
+  database: netbox
+  existingSecret: netbox-postgresql
+  existingSecretPasswordKey: postgres-password
+
+postgresql:
+  enabled: false
+
+valkey:
+  enabled: true
+  auth:
+    existingSecret: netbox-valkey
+    existingSecretPasswordKey: valkey-password
+
+## @section Worker for Netbox parameters
+
+worker:
+  enabled: false
+## @section Cron housekeeping job parameters
+
+housekeeping:
+  enabled: false
+# Database configuration using external secrets
+extraEnvs:
+  - name: DB_WAIT_DEBUG
+    value: "1"
+  - name: SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: netbox-secrets
+        key: secret-key
+  - name: SOCIAL_AUTH_KEYCLOAK_KEY
+    valueFrom:
+      secretKeyRef:
+        name: netbox-keycloak
+        key: SOCIAL_AUTH_KEYCLOAK_KEY
+  - name: SOCIAL_AUTH_KEYCLOAK_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: netbox-keycloak
+        key: SOCIAL_AUTH_KEYCLOAK_SECRET
+
+# Plugin configuration
+plugins: []
+
+# Keycloak OAuth2 configuration - using custom backend to avoid JWT validation issues
+extraConfig:
+  - secretName: ""
+    data: |
+      import os
+      import sys
+
+      # Add custom backend path
+      sys.path.insert(0, '/opt/netbox/custom_backends')
+
+      # Keycloak OAuth2 Configuration
+      SOCIAL_AUTH_KEYCLOAK_KEY = os.environ.get('SOCIAL_AUTH_KEYCLOAK_KEY')
+      SOCIAL_AUTH_KEYCLOAK_SECRET = os.environ.get('SOCIAL_AUTH_KEYCLOAK_SECRET')
+      SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL = '$__file{/etc/secrets/keycloak-credentials/url}/realms/master/protocol/openid-connect/auth'
+      SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL = '$__file{/etc/secrets/keycloak-credentials/url}/realms/master/protocol/openid-connect/token'
+      SOCIAL_AUTH_KEYCLOAK_USERINFO_URL = '$__file{/etc/secrets/keycloak-credentials/url}/realms/master/protocol/openid-connect/userinfo'
+      SOCIAL_AUTH_KEYCLOAK_ID_KEY = 'preferred_username'
+      SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+      # Social Auth user pipeline
+      SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = False
+      SOCIAL_AUTH_USER_FIELDS = ['username', 'email', 'first_name', 'last_name']
+
+      # Request proper scopes
+      SOCIAL_AUTH_KEYCLOAK_SCOPE = ['openid', 'profile', 'email']
+
+      # Redirect URI handling
+      SOCIAL_AUTH_KEYCLOAK_IGNORE_DEFAULT_SCOPE = True
+      SOCIAL_AUTH_TRAILING_SLASH = False
+
+      # Extra data to fetch from Keycloak
+      SOCIAL_AUTH_KEYCLOAK_EXTRA_DATA = ['email', 'preferred_username', 'given_name', 'family_name']
+
+      # Authentication method for token endpoint
+      SOCIAL_AUTH_KEYCLOAK_AUTH_EXTRA_ARGUMENTS = {'client_id': os.environ.get('SOCIAL_AUTH_KEYCLOAK_KEY')}
+
+## @section Remote Authentication (SSO) Parameters
+
+remoteAuth:
+  enabled: true
+  backends:
+    - keycloak_backend.KeycloakOAuth2NoJWT
+
+# Mount custom Keycloak backend to avoid JWT validation issues
+extraVolumes:
+  - name: keycloak-backend
+    configMap:
+      name: netbox-keycloak-backend
+
+extraVolumeMounts:
+  - name: keycloak-backend
+    mountPath: /opt/netbox/custom_backends
+    readOnly: true
