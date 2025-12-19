@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-backups
+  labels:
+    k8up-enabled: "true"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-scratch
+spec:
+  capacity:
+    storage: 54Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  mountOptions:
+    - nfsvers=4.1
+  nfs:
+    server: nfs-scratch.ls.lsst.org
+    path: /scratch
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs-scratch
+  namespace: nfs-backups
+  labels:
+    k8up.io/backup-target: "true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 54Ti
+  storageClassName: ""
+  volumeName: pv-nfs-scratch
