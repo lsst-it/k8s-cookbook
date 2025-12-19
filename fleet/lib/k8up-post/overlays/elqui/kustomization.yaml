@@ -1,0 +1,3 @@
+resources:
+  - nfs-summit-pv-pvc.yaml
+  - backup-daily-nfs-summit.yaml
