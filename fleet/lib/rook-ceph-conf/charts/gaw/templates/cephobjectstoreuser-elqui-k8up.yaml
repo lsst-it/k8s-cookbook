@@ -1,0 +1,11 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: elqui-k8up
+  namespace: rook-ceph
+spec:
+  store: k8up-backups
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 1
