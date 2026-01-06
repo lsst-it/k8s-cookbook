@@ -1,0 +1,10 @@
+---
+defaultNamespace: netbox
+labels:
+  bundle: netbox-pre
+kustomize:
+  dir: base
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets

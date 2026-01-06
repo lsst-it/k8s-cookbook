@@ -18,7 +18,7 @@ helm:
 dependsOn:
 - selector:
     matchLabels:
-      bundle: external-secrets
+      bundle: netbox-pg
 - selector:
     matchLabels:
-      bundle: cnpg-cluster
+      bundle: netbox-pre

@@ -1,0 +1,29 @@
+---
+defaultNamespace: &name netbox-pg
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  timeoutSeconds: 300
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+  - selector:
+      matchLabels:
+        bundle: netbox-pre
+targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    yaml:
+      overlays:
+        - generic
+        - kueyen
