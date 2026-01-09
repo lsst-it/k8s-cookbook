@@ -1,0 +1,87 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name rubinobs-wf-lsstcam
+  namespace: rook-ceph
+  labels:
+    bucket-notification-lsst.s3.wf.lsstcam: lsst.s3.wf.lsstcam
+spec:
+  bucketName: *name
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: lsstcam
+    bucketMaxSize: 10Ti
+    bucketPolicy: |
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/butler"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-raw-wf",
+                      "arn:aws:s3:::rubinobs-raw-wf/*"
+                  ]
+              },
+              {
+                  "Effect": "Allow",
+                  "Principal": {
+                      "AWS": "arn:aws:iam:::user/oods-lsstcam"
+                  },
+                  "Action": [
+                      "s3:GetObject",
+                      "s3:PutObject",
+                      "s3:DeleteObject",
+                      "s3:ListBucket",
+                      "s3:GetBucketLocation"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::rubinobs-raw-wf",
+                      "arn:aws:s3:::rubinobs-raw-wf/*"
+                  ]
+              }
+          ]
+      }
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          },
+          {
+            "ID": "ExpireAfter90Days",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+              "Days": 90
+            }
+          }
+        ]
+      }
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketNotification
+metadata:
+  name: lsst.s3.wf.lsstcam
+  namespace: rook-ceph
+spec:
+  topic: lsst.s3.wf.lsstcam
+  events:
+    - s3:ObjectCreated:*
+  filter:
+    keyFilters:
+      - name: suffix
+        value: .fits
