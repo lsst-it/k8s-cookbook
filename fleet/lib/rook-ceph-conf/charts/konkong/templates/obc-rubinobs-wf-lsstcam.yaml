@@ -27,8 +27,8 @@ spec:
                       "s3:GetBucketLocation"
                   ],
                   "Resource": [
-                      "arn:aws:s3:::rubinobs-raw-wf",
-                      "arn:aws:s3:::rubinobs-raw-wf/*"
+                      "arn:aws:s3:::rubinobs-wf-lsstcam",
+                      "arn:aws:s3:::rubinobs-wf-lsstcam/*"
                   ]
               },
               {
