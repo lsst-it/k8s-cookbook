@@ -59,4 +59,4 @@ users_rotate_keys:
     spec:
       store: lfa
       quotas:
-        maxBuckets: 2
+        maxBuckets: 3
