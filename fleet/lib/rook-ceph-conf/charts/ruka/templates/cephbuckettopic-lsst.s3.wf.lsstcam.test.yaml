@@ -1,0 +1,21 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketTopic
+metadata:
+  name: lsst.s3.wf.lsstcam.test
+  namespace: rook-ceph
+spec:
+  objectStoreName: lfa
+  objectStoreNamespace: rook-ceph
+  endpoint:
+    kafka:
+      uri: kafka://sasquatch-base-kafka-bootstrap.lsst.codes:9094
+      ackLevel: broker
+      useSSL: true
+      mechanism: SCRAM-SHA-512
+      userSecretRef:
+        name: &item kafka-bucket-notifications
+        key: username
+      passwordSecretRef:
+        name: *item
+        key: password
