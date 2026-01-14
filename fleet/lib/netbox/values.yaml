@@ -138,7 +138,6 @@ extraConfig:
       SOCIAL_AUTH_KEYCLOAK_AUTH_EXTRA_ARGUMENTS = {'client_id': os.environ.get('SOCIAL_AUTH_KEYCLOAK_KEY')}
 
 ## @section Remote Authentication (SSO) Parameters
-
 remoteAuth:
   enabled: true
   backends:
