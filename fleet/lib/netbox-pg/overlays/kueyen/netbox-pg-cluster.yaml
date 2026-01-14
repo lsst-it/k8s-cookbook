@@ -1,0 +1,53 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: netbox-pg-cluster
+  namespace: netbox-pg
+spec:
+  instances: 1
+
+  imageName: docker.io/lsstit/cnpgsphere:16.8
+  bootstrap:
+    initdb:
+      database: netbox
+      owner: netbox
+      postInitApplicationSQL:
+        - CREATE EXTENSION IF NOT EXISTS citext;
+  managed:
+    roles:
+      - name: netbox
+        ensure: present
+        login: true
+        passwordSecret:
+          name: netbox-pg
+
+  postgresql:
+    parameters:
+      max_connections: "50"
+      shared_buffers: 256MB
+      idle_session_timeout: 4h
+    pg_hba:
+      - host all all 139.229.134.0/23 md5
+      - host all all 139.229.136.0/21 md5
+      - host all all 139.229.144.0/20 md5
+      - host all all 139.229.160.0/19 md5
+      - host all all 139.229.192.0/18 md5
+      - host all all 140.252.146.0/23 md5
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: nexus-pg-superuser
+
+  storage:
+    size: 5Gi
+
+  monitoring:
+    enablePodMonitor: true
+
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
