@@ -78,7 +78,7 @@ loki:
           timeout: 500ms
 
   limits_config:
-    retention_period: 20d
+    retention_period: 90d
     ingestion_rate_mb: 50
     ingestion_burst_size_mb: 100
     max_global_streams_per_user: 500000
