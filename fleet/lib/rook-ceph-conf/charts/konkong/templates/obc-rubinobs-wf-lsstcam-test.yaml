@@ -1,0 +1,33 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name rubinobs-wf-lsstcam-test
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: lfa
+  additionalConfig:
+    bucketOwner: lsstcam
+    bucketMaxSize: 10Ti
+    bucketLifecycle: |
+      {
+        "Rules": [
+          {
+            "ID": "AbortIncompleteMultipartUploads",
+            "Status": "Enabled",
+            "Prefix": "",
+            "AbortIncompleteMultipartUpload": {
+              "DaysAfterInitiation": 1
+            }
+          },
+          {
+            "ID": "ExpireAfter90Days",
+            "Status": "Enabled",
+            "Prefix": "",
+            "Expiration": {
+              "Days": 1
+            }
+          }
+        ]
+      }
