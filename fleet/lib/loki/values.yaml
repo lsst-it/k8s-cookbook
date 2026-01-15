@@ -3,6 +3,7 @@ deploymentMode: Distributed
 
 gateway:
   enabled: true
+  replicas: 3
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -139,7 +140,7 @@ compactor:
     limits: { cpu: 2, memory: 4Gi }
 
 indexGateway:
-  replicas: 2
+  replicas: 3
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
@@ -147,14 +148,14 @@ indexGateway:
 
 resultsCache:
   enabled: true
-  replicas: 2
+  replicas: 3
   resources:
     requests: { cpu: 200m, memory: 256Mi }
     limits: { cpu: 1, memory: 1Gi }
 
 chunksCache:
   enabled: true
-  replicas: 2
+  replicas: 3
   resources:
     requests: { cpu: 200m, memory: 256Mi }
     limits: { cpu: 1, memory: 1Gi }
