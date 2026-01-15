@@ -24,7 +24,7 @@ users:
     spec:
       store: lfa
       quotas:
-        maxBuckets: 2
+        maxBuckets: 3
   - name: oods-comcam
     spec:
       store: lfa
