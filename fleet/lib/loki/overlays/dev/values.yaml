@@ -1,5 +1,6 @@
 gateway:
   enabled: true
+  replicas: 1
   ingress:
     enabled: true
     ingressClassName: nginx
