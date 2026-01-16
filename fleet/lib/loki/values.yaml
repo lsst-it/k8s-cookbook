@@ -93,7 +93,7 @@ distributor:
   maxUnavailable: 2
   resources:
     requests: { cpu: 500m, memory: 512Mi }
-    limits: { cpu: 2, memory: 2Gi }
+    limits: { cpu: 3, memory: 2Gi }
 
 ingester:
   replicas: 6
@@ -107,31 +107,31 @@ ingester:
         size: 30Gi
   resources:
     requests: { cpu: 1, memory: 2Gi }
-    limits: { cpu: 4, memory: 8Gi }
+    limits: { cpu: 5, memory: 8Gi }
 
 querier:
   replicas: 4
   maxUnavailable: 3
   resources:
     requests: { cpu: 500m, memory: 1Gi }
-    limits: { cpu: 2, memory: 4Gi }
+    limits: { cpu: 4, memory: 4Gi }
 
 queryFrontend:
   replicas: 3
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
-    limits: { cpu: 1, memory: 2Gi }
+    limits: { cpu: 2, memory: 2Gi }
 
 queryScheduler:
   replicas: 3
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
-    limits: { cpu: 1, memory: 2Gi }
+    limits: { cpu: 2, memory: 2Gi }
 
 compactor:
-  replicas: 2
+  replicas: 1
   persistence:
     enabled: true
     storageClassName: rook-ceph-block
@@ -144,7 +144,7 @@ indexGateway:
   maxUnavailable: 1
   resources:
     requests: { cpu: 200m, memory: 512Mi }
-    limits: { cpu: 1, memory: 2Gi }
+    limits: { cpu: 2, memory: 2Gi }
 
 resultsCache:
   enabled: true
