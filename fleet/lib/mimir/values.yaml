@@ -119,7 +119,7 @@ querier:
   resources:
     limits:
       cpu: 10
-      memory: 10Gi
+      memory: 16Gi
     requests:
       cpu: 2
       memory: 10Gi
@@ -157,7 +157,7 @@ store_gateway:
   resources:
     limits:
       cpu: 10
-      memory: 10Gi
+      memory: 16Gi
     requests:
       cpu: 1
       memory: 10Gi
