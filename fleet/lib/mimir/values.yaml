@@ -67,7 +67,7 @@ compactor:
     size: 100Gi
   resources:
     limits:
-      cpu: 1
+      cpu: 2
       memory: 4Gi
     requests:
       cpu: 1
@@ -127,7 +127,7 @@ query_frontend:
   replicas: 3
   resources:
     limits:
-      cpu: 2
+      cpu: 3
       memory: 3Gi
     requests:
       cpu: 2
