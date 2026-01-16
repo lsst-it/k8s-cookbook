@@ -6,7 +6,10 @@ service:
 
 controller:
   type: deployment
-  replicaCount: 2
+  replicas: 3
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 2
 
 alloy:
   mounts:
