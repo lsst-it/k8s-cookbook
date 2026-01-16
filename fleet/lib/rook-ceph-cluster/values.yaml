@@ -124,7 +124,7 @@ cephClusterSpec:
   resources:
     mgr:
       limits:
-        cpu: "1"
+        cpu: "2"
         memory: 1Gi
       requests:
         cpu: 500m
@@ -138,7 +138,7 @@ cephClusterSpec:
         memory: 1Gi
     osd:
       limits:
-        cpu: "2"
+        cpu: "3"
         memory: 12Gi
       requests:
         cpu: 500m
