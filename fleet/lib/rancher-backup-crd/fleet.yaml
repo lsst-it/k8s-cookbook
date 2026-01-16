@@ -6,7 +6,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.rancher.io
-  version: 107.1.0+up8.1.0
+  version: 108.0.0+up9.0.0
   takeOwnership: true
   timeoutSeconds: 60
   waitForJobs: true
