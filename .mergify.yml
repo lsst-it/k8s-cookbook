@@ -14,6 +14,24 @@ pull_request_rules:
           - from-dev
         assignees:
           - "{{ author }}"
+
+  - name: promote dev(shipit) to master branch
+    conditions:
+      - base=dev
+      - label=shipit
+      - author!=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - master
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        bot_account: "{{ author }}"
+        labels:
+          - from-dev
+          - shipit
+        assignees:
+          - "{{ author }}"
+
   # mergify can't impersonate renovate[bot] as a PR author
   - name: promote renovate[bot] dev to master branch
     conditions:
@@ -26,6 +44,21 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
           - from-dev
+
+  - name: promote renovate[bot] dev(shipit) to master branch
+    conditions:
+      - base=dev
+      - label=shipit
+      - author=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - master
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        labels:
+          - from-dev
+          - shipit
+
   - name: request review on backports to master branch
     conditions:
       - base=master
@@ -34,3 +67,12 @@ pull_request_rules:
       request_reviews:
         teams:
           - "@lsst-it/cl-infra"
+
+  - name: auto-merge shipit backports to master
+    conditions:
+      - base=master
+      - label=from-dev
+      - label=shipit
+    actions:
+      merge:
+        method: merge
