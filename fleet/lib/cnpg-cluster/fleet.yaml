@@ -30,6 +30,7 @@ targetCustomizations:
             - manke
     yaml:
       overlays:
+        - generic
         - manke
   - name: pillan
     clusterSelector:
@@ -40,6 +41,7 @@ targetCustomizations:
             - pillan
     yaml:
       overlays:
+        - generic
         - pillan
   - name: ruka
     clusterSelector:
@@ -50,6 +52,7 @@ targetCustomizations:
             - ruka
     yaml:
       overlays:
+        - generic
         - ruka
   - name: yagan
     clusterSelector:
@@ -60,4 +63,5 @@ targetCustomizations:
             - yagan
     yaml:
       overlays:
+        - generic
         - yagan
