@@ -1,34 +1,8 @@
 ---
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: cnpg-backup-secrets
-spec:
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: onepassword
-  data:
-    - secretKey: AWS_ACCESS_KEY_ID
-      remoteRef:
-        key: cnpg-aws-creds-yagan
-        property: username
-    - secretKey: AWS_SECRET_ACCESS_KEY
-      remoteRef:
-        key: cnpg-aws-creds-yagan
-        property: password
-    - secretKey: AWS_ACCESS_BUCKET
-      remoteRef:
-        key: cnpg-aws-creds-yagan
-        property: website
-    - secretKey: PGPASSWORD
-      remoteRef:
-        key: cnpg-cluster-superuser-yagan
-        property: password
----
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: cnpg-backups
+  name: cnpg-cluster-backup
 spec:
   concurrencyPolicy: Forbid
   schedule: 0 12,21 * * *  # 9AM CLT - 6PM CLT
@@ -47,7 +21,7 @@ spec:
               imagePullPolicy: IfNotPresent
               envFrom:
                 - secretRef:
-                    name: cnpg-backup-secrets
+                    name: cnpg-cluster-backup
               env:
                 - name: HOST
                   value: cnpg-loadbalancer.cloudnativepg.svc.cluster.local
