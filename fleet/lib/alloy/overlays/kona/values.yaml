@@ -36,10 +36,10 @@ alloy:
       port: 4318
       targetPort: 4318
       protocol: TCP
-    - name: dynalene-tcp
+    - name: dynalene-udp
       port: 5145
       targetPort: 5145
-      protocol: TCP
+      protocol: UDP
   configMap:
     content: |
       logging {
@@ -349,11 +349,12 @@ alloy:
       loki.source.syslog "dynalene" {
         listener {
           address  = ":5145"
-          syslog_format = "rfc3164"
+          syslog_format = "rfc5424"
           use_incoming_timestamp = false
-          protocol = "tcp"
+          protocol = "udp"
           labels   = { job = "dynalene" }
         }
+        relabel_rules = discovery.relabel.syslog.rules
         forward_to = [loki.write.send.receiver]
       }
 
