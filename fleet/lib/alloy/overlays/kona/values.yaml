@@ -354,7 +354,6 @@ alloy:
           protocol = "tcp"
           labels   = { job = "dynalene" }
         }
-        relabel_rules = discovery.relabel.syslog.rules
         forward_to = [loki.write.send.receiver]
       }
 
