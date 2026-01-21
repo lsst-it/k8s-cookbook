@@ -25,4 +25,4 @@ targetCustomizations:
       values:
         service:
           annotations:
-            metallb.universe.tf/address-pool: ingress-traefik
+            metallb.io/address-pool: ingress-traefik
