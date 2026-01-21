@@ -5,7 +5,7 @@ metadata:
   labels:
     cnpg.io/cluster: cnpg-cluster
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.134.193
+    metallb.io/loadBalancerIPs: 139.229.134.193
 spec:
   ports:
     - name: postgresql

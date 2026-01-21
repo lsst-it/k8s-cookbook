@@ -49,4 +49,4 @@ targetCustomizations:
         controller:
           service:
             annotations:
-              metallb.universe.tf/address-pool: ingress-lhn
+              metallb.io/address-pool: ingress-lhn

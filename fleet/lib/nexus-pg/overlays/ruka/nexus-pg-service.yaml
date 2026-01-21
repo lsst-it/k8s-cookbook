@@ -6,7 +6,7 @@ metadata:
   labels:
     cnpg.io/cluster: nexus-pg
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.134.192
+    metallb.io/loadBalancerIPs: 139.229.134.192
 spec:
   ports:
     - name: postgres

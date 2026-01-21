@@ -55,7 +55,7 @@ metadata:
   name: rook-ceph-nfs-backup
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.160.212
+    metallb.io/loadBalancerIPs: 139.229.160.212
 spec:
   ports:
     - name: nfs

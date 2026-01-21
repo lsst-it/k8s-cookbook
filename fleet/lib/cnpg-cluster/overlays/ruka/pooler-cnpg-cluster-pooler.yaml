@@ -44,7 +44,7 @@ metadata:
   name: cnpg-cluster-pooler-rw
   namespace: cloudnativepg
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.134.199
+    metallb.io/loadBalancerIPs: 139.229.134.199
 spec:
   type: LoadBalancer
   internalTrafficPolicy: Cluster

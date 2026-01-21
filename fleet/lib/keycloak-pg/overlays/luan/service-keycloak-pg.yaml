@@ -6,7 +6,7 @@ metadata:
   labels:
     cnpg.io/cluster: keycloak-pg
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 139.229.135.151
+    metallb.io/loadBalancerIPs: 139.229.135.151
 spec:
   ports:
     - name: postgres
