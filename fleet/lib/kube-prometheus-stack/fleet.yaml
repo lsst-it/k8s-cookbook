@@ -40,17 +40,6 @@ diff:
       jsonPointers:
         - /spec/automountServiceAccountToken
 targetCustomizations:
-  - name: dev
-    clusterSelector:
-      matchExpressions:
-        - key: site
-          operator: In
-          values:
-            - dev
-    helm:
-      valuesFiles:
-        - aggregator/values.yaml
-        - overlays/dev/values.yaml
   - name: pillan
     clusterSelector:
       matchExpressions:
@@ -115,6 +104,22 @@ targetCustomizations:
                 sendNativeHistograms: true
               - url: https://mimir.kona.dev.lsst.org/api/v1/push
                 sendNativeHistograms: true
+  - name: dev
+    clusterSelector:
+      matchExpressions:
+        - key: site
+          operator: In
+          values:
+            - dev
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - aggregator/values.yaml
+        - overlays/dev/values.yaml
+      values:
+        prometheus:
+          prometheusSpec:
+            remoteWrite: *cl-remotewrite
   - name: cl-default
     clusterSelector:
       matchExpressions:
@@ -122,7 +127,6 @@ targetCustomizations:
           operator: In
           values:
             - cp
-            - dev
             - ls
     helm:
       valuesFiles:
