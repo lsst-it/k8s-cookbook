@@ -85,4 +85,4 @@ targetCustomizations:
         controller:
           service:
             annotations:
-              metallb.universe.tf/address-pool: ingress
+              metallb.io/address-pool: ingress
