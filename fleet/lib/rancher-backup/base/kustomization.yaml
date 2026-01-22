@@ -1,4 +1,4 @@
 ---
 resources:
-- externalsecret-rancher-bkp.yaml
+- externalsecret-rancher-backup.yaml
 - backup-s3-recurring.yaml
