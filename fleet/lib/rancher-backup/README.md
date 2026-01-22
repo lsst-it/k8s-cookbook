@@ -36,8 +36,8 @@ For this bundle to work properly, complete the following steps:
           },
           "Action": "s3:*",
           "Resource": [
-              "arn:aws:s3:::rancher-bkp-(site)",
-              "arn:aws:s3:::rancher-bkp-(site)/*"
+              "arn:aws:s3:::rancher-backup-(site)",
+              "arn:aws:s3:::rancher-backup-(site)/*"
           ]
       }
   ]
