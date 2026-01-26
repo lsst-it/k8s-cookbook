@@ -6,7 +6,11 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://charts.rancher.io
+<<<<<<< HEAD
   version: 107.1.0+up8.1.0
+=======
+  version: 108.0.0+up9.0.0
+>>>>>>> 275dfd44 (Update Helm release rancher-backup to v108)
   takeOwnership: true
   timeoutSeconds: 60
   waitForJobs: true
