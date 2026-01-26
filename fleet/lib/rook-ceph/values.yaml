@@ -25,7 +25,7 @@ csi:
     labels:
       lsst.io/monitor: "true"
   cephcsi:
-    image: quay.io/cephcsi/cephcsi:v3.15.0
+    image: quay.io/cephcsi/cephcsi:v3.16.0
   enableLiveness: true
   provisionerTolerations:
     - <<: *storage_node_tol
