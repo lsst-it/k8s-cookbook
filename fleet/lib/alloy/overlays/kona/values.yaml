@@ -365,6 +365,7 @@ alloy:
       loki.source.syslog "ubiquiti" {
         listener {
           address  = ":5146"
+          syslog_format = "rfc3164"
           use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "ubiquiti" }
