@@ -370,7 +370,7 @@ alloy:
           labels   = { job = "ubiquiti" }
         }
         forward_to = [loki.write.send.receiver]
-      }      
+      }
 
       loki.write "send" {
         endpoint {
