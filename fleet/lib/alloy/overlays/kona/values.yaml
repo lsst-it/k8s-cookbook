@@ -379,10 +379,14 @@ alloy:
         }
         forward_to = [loki.write.send.receiver]
 <<<<<<< HEAD
+<<<<<<< HEAD
       }
 =======
       }      
 >>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
+=======
+      }
+>>>>>>> 366bd152 ((fleet/alloy) delete trailing)
 
       loki.write "send" {
         endpoint {
