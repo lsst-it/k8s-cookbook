@@ -370,9 +370,13 @@ alloy:
         listener {
           address  = ":5146"
 <<<<<<< HEAD
+<<<<<<< HEAD
           syslog_format = "raw"
 =======
 >>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
+=======
+          syslog_format = "rfc3164"
+>>>>>>> fed2962e ((fleet/alloy) add format rfc3164)
           use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "ubiquiti" }
