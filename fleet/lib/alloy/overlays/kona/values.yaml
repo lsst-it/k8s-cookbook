@@ -44,7 +44,10 @@ alloy:
       port: 5146
       targetPort: 5146
       protocol: UDP
+<<<<<<< HEAD
   stabilityLevel: experimental
+=======
+>>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
   configMap:
     content: |
       logging {
@@ -366,13 +369,20 @@ alloy:
       loki.source.syslog "ubiquiti" {
         listener {
           address  = ":5146"
+<<<<<<< HEAD
           syslog_format = "raw"
+=======
+>>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
           use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "ubiquiti" }
         }
         forward_to = [loki.write.send.receiver]
+<<<<<<< HEAD
       }
+=======
+      }      
+>>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
 
       loki.write "send" {
         endpoint {
