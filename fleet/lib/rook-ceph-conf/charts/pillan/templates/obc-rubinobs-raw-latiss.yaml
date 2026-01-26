@@ -5,7 +5,7 @@ metadata:
   name: &name rubinobs-raw-latiss
   namespace: rook-ceph
   labels:
-    bucket-notification-lsst.s3.raw.latiss: lsst.s3.raw.latiss
+    bucket-notification-lsst.s3.raw.latiss0: lsst.s3.raw.latiss0
 spec:
   bucketName: *name
   storageClassName: lfa
@@ -75,9 +75,9 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephBucketNotification
 metadata:
-  name: lsst.s3.raw.latiss
+  name: lsst.s3.raw.latiss0
   namespace: rook-ceph
 spec:
-  topic: lsst.s3.raw.latiss
+  topic: lsst.s3.raw.latiss0
   events:
     - s3:ObjectCreated:*
