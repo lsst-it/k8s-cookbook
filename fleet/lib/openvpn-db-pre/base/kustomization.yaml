@@ -1,0 +1,4 @@
+resources:
+  - external-secret-dockerhub.yaml
+  - external-secret-openvpndb.yaml
+  - service-mariadb-headless.yaml

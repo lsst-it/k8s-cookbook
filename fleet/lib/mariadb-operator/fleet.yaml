@@ -1,0 +1,18 @@
+---
+name: mariadb-operator
+defaultNamespace: &name mariadb-system
+labels:
+  bundle: *name
+helm:
+  chart: mariadb-operator
+  releaseName: mariadb-operator
+  repo: https://helm.mariadb.com/mariadb-operator
+  version: 0.38.1
+  waitForJobs: true
+  timeoutSeconds: 900
+  values:
+    crds:
+      enabled: true
+    ha:
+      enabled: true
+      replicas: 2
