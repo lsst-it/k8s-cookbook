@@ -1,0 +1,15 @@
+groups:
+  - name: gnoc.rules
+    rules:
+      - alert: GnocHeartbeatBogus
+        annotations:
+          summary: GNOC Heartbeat Bogus
+          description: This is a bogus alert which should always be firing
+        expr: vector(1)
+        for: 0m
+        labels:
+          gnoc: "true"
+          node_name: gnoc.heartbeat.bogus.example.com
+          severity: critical
+          device: null
+          service_name: null
