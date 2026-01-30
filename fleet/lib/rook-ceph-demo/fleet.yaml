@@ -12,6 +12,29 @@ dependsOn:
       matchLabels:
         bundle: rook-ceph
 targetCustomizations:
+  - name: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
+    helm:
+      values:
+        pvc:
+          enabled: true
+        nfs:
+          enabled: true
+          mounts:
+            - name: auxtel
+              path: /auxtel
+              server: 139.229.144.40
+            - name: comcam
+              path: /comcam
+              server: 139.229.144.40
+            - name: lsstcam
+              path: /lsstcam
+              server: 139.229.144.40
   - name: kueyen
     clusterSelector:
       matchExpressions:
@@ -184,7 +207,6 @@ targetCustomizations:
           operator: In
           values:
             - antu
-            - ayekan
             - luan
             - yepun
     helm:
