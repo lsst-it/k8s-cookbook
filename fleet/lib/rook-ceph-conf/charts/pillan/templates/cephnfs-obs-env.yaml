@@ -48,6 +48,7 @@ spec:
   rados:
     pool: obs-env-data0
   server:
+    image: ghcr.io/lsst-it/nfs-ganesha-image:9.4-19.2.3
     active: 1
     resources:
       limits:
