@@ -1,5 +1,4 @@
 ---
-paused: true
 defaultNamespace: fleet-default
 labels:
   bundle: &name fleet-conf
