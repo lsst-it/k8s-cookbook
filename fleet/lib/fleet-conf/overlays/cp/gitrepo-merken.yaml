@@ -1,0 +1,22 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: merken
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: cp_production
+  keepResources: true
+  paths:
+    - fleet/s/cp/c/merken/*
+  targets:
+    - name: merken
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - merken
+  correctDrift:
+    enabled: true
