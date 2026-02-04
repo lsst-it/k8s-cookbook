@@ -10,7 +10,6 @@ ignore:
   conditions:
     - type: Ready
       status: "False"
-      reason: Error
 targetCustomizations:
   - name: dev
     clusterSelector:
