@@ -6,6 +6,7 @@ helm:
   releaseName: *name
   timeoutSeconds: 60
   waitForJobs: true
+  takeOwnership: true
 ignore:
   conditions:
     - type: Ready
