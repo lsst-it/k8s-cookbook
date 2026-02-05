@@ -1,6 +1,6 @@
 ---
 pull_request_rules:
-  - name: promote dev to master branch
+  - name: promote dev to production branch
     conditions:
       - base=dev
       - label!=shipit
@@ -8,7 +8,7 @@ pull_request_rules:
     actions:
       backport:
         branches:
-          - master
+          - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
@@ -16,7 +16,7 @@ pull_request_rules:
         assignees:
           - "{{ author }}"
 
-  - name: promote dev(shipit) to master branch
+  - name: promote dev(shipit) to production branch
     conditions:
       - base=dev
       - label=shipit
@@ -24,7 +24,7 @@ pull_request_rules:
     actions:
       backport:
         branches:
-          - master
+          - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
@@ -34,7 +34,7 @@ pull_request_rules:
           - "{{ author }}"
 
   # mergify can't impersonate renovate[bot] as a PR author
-  - name: promote renovate[bot] dev to master branch
+  - name: promote renovate[bot] dev to production branch
     conditions:
       - base=dev
       - label!=shipit
@@ -42,12 +42,12 @@ pull_request_rules:
     actions:
       backport:
         branches:
-          - master
+          - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
           - from-dev
 
-  - name: promote renovate[bot] dev(shipit) to master branch
+  - name: promote renovate[bot] dev(shipit) to production branch
     conditions:
       - base=dev
       - label=shipit
@@ -55,15 +55,15 @@ pull_request_rules:
     actions:
       backport:
         branches:
-          - master
+          - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
           - from-dev
           - shipit
 
-  - name: request review on backports to master branch
+  - name: request review on backports to production branch
     conditions:
-      - base=master
+      - base=production
       - label!=shipit
       - label=from-dev
     actions:
@@ -71,9 +71,9 @@ pull_request_rules:
         teams:
           - "@lsst-it/cl-infra"
 
-  - name: auto-merge shipit backports to master
+  - name: auto-merge shipit backports to production
     conditions:
-      - base=master
+      - base=production
       - label=from-dev
       - label=shipit
     actions:
