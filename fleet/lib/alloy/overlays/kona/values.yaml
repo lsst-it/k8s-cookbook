@@ -44,7 +44,7 @@ alloy:
       port: 5146
       targetPort: 5146
       protocol: UDP
-  stabilityLevel: "experimental"
+  stabilityLevel: experimental
   configMap:
     content: |
       logging {
