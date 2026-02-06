@@ -15,7 +15,8 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
-          - from-dev
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
         assignees:
           - "{{ author }}"
 
@@ -31,8 +32,8 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
-          - from-dev
-          - "{{ pull_request.labels | select('match', '^shipit($|-)') | join(',') }}"
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
         assignees:
           - "{{ author }}"
 
@@ -48,7 +49,8 @@ pull_request_rules:
           - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
-          - from-dev
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
 
   - name: promote renovate[bot] dev(shipit) -> production branch
     conditions:
@@ -61,8 +63,8 @@ pull_request_rules:
           - production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
-          - from-dev
-          - "{{ pull_request.labels | select('match', '^shipit($|-)') | join(',') }}"
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
 
   - name: request review on backports to production branch
     conditions:
@@ -99,7 +101,8 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
-          - from-production
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
         assignees:
           - "{{ author }}"
 
@@ -115,8 +118,8 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         bot_account: "{{ author }}"
         labels:
-          - from-production
-          - shipit-yes-i-really-really-mean-it
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
         assignees:
           - "{{ author }}"
 
@@ -132,7 +135,8 @@ pull_request_rules:
           - cp_production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
-          - from-production
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
 
   - name: promote renovate[bot] production(shipit-yes-i-really-really-mean-it) -> cp_production branch
     conditions:
@@ -145,8 +149,8 @@ pull_request_rules:
           - cp_production
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
-          - from-production
-          - shipit-yes-i-really-really-mean-it
+          - from-{{ base }}
+          - "{{ label | join(',') }}"
 
   - name: request review on backports to cp_production branch
     conditions:
