@@ -12,10 +12,10 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         bot_account: "{{ author }}"
         labels:
-          - from-{{ base }}
+          - from-dev
         assignees:
           - "{{ author }}"
 
@@ -28,10 +28,10 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         bot_account: "{{ author }}"
         labels:
-          - from-{{ base }}
+          - from-dev
           - shipit
         assignees:
           - "{{ author }}"
@@ -45,10 +45,10 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         bot_account: "{{ author }}"
         labels:
-          - from-{{ base }}
+          - from-dev
           - shipit-yes-i-really-really-mean-it
         assignees:
           - "{{ author }}"
@@ -63,9 +63,9 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         labels:
-          - from-{{ base }}
+          - from-dev
 
   - name: promote renovate[bot] dev(shipit) -> production branch
     conditions:
@@ -76,9 +76,9 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         labels:
-          - from-{{ base }}
+          - from-dev
           - shipit
 
   - name: promote renovate[bot] dev(shipit-yes-i-really-really-mean-it) -> production branch
@@ -90,9 +90,9 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         labels:
-          - from-{{ base }}
+          - from-dev
           - shipit-yes-i-really-really-mean-it
 
   - name: request review on backports to production branch
@@ -127,10 +127,10 @@ pull_request_rules:
       backport:
         branches:
           - production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         bot_account: "{{ author }}"
         labels:
-          - from-{{ base }}
+          - from-production
         assignees:
           - "{{ author }}"
 
@@ -143,10 +143,10 @@ pull_request_rules:
       backport:
         branches:
           - cp_production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         bot_account: "{{ author }}"
         labels:
-          - from-{{ base }}
+          - from-production
           - shipit-yes-i-really-really-mean-it
         assignees:
           - "{{ author }}"
@@ -161,9 +161,9 @@ pull_request_rules:
       backport:
         branches:
           - cp_production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         labels:
-          - from-{{ base }}
+          - from-production
 
   - name: promote renovate[bot] production(shipit-yes-i-really-really-mean-it) -> cp_production branch
     conditions:
@@ -174,9 +174,9 @@ pull_request_rules:
       backport:
         branches:
           - cp_production
-        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        title: "{{ title }}"
         labels:
-          - from-{{ base }}
+          - from-production
           - shipit-yes-i-really-really-mean-it
 
   - name: request review on backports to cp_production branch
