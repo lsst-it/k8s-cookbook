@@ -1,9 +1,12 @@
 ---
 pull_request_rules:
-  - name: promote dev to production branch
+  #
+  # dev -> production rules
+  #
+  - name: promote dev -> production branch
     conditions:
       - base=dev
-      - label!=shipit
+      - -label~=^shipit($|-)
       - author!=renovate[bot]
     actions:
       backport:
@@ -16,10 +19,10 @@ pull_request_rules:
         assignees:
           - "{{ author }}"
 
-  - name: promote dev(shipit) to production branch
+  - name: promote dev(shipit) -> production branch
     conditions:
       - base=dev
-      - label=shipit
+      - label~=^shipit($|-)
       - author!=renovate[bot]
     actions:
       backport:
@@ -29,15 +32,15 @@ pull_request_rules:
         bot_account: "{{ author }}"
         labels:
           - from-dev
-          - shipit
+          - "{{ pull_request.labels | select('match', '^shipit($|-)') | join(',') }}"
         assignees:
           - "{{ author }}"
 
   # mergify can't impersonate renovate[bot] as a PR author
-  - name: promote renovate[bot] dev to production branch
+  - name: promote renovate[bot] dev -> production branch
     conditions:
       - base=dev
-      - label!=shipit
+      - -label~=^shipit($|-)
       - author=renovate[bot]
     actions:
       backport:
@@ -47,10 +50,10 @@ pull_request_rules:
         labels:
           - from-dev
 
-  - name: promote renovate[bot] dev(shipit) to production branch
+  - name: promote renovate[bot] dev(shipit) -> production branch
     conditions:
       - base=dev
-      - label=shipit
+      - label~=^shipit($|-)
       - author=renovate[bot]
     actions:
       backport:
@@ -59,13 +62,13 @@ pull_request_rules:
         title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
         labels:
           - from-dev
-          - shipit
+          - "{{ pull_request.labels | select('match', '^shipit($|-)') | join(',') }}"
 
   - name: request review on backports to production branch
     conditions:
       - base=production
-      - label!=shipit
       - label=from-dev
+      - -label~=^shipit($|-)
     actions:
       request_reviews:
         teams:
@@ -75,7 +78,91 @@ pull_request_rules:
     conditions:
       - base=production
       - label=from-dev
-      - label=shipit
+      - label~=^shipit($|-)
+    actions:
+      review:
+        type: APPROVE
+      merge:
+        method: merge
+  #
+  # production -> cp_production rules
+  #
+  - name: promote production -> cp_production branch
+    conditions:
+      - base=production
+      - -label~=^shipit($|-)
+      - author!=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - production
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        bot_account: "{{ author }}"
+        labels:
+          - from-production
+        assignees:
+          - "{{ author }}"
+
+  - name: promote production(shipit-yes-i-really-really-mean-it) -> cp_production branch
+    conditions:
+      - base=production
+      - label=shipit-yes-i-really-really-mean-it
+      - author!=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - cp_production
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        bot_account: "{{ author }}"
+        labels:
+          - from-production
+          - shipit-yes-i-really-really-mean-it
+        assignees:
+          - "{{ author }}"
+
+  # mergify can't impersonate renovate[bot] as a PR author
+  - name: promote renovate[bot] production -> cp_production branch
+    conditions:
+      - base=production
+      - -label~=^shipit($|-)
+      - author=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - cp_production
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        labels:
+          - from-production
+
+  - name: promote renovate[bot] production(shipit-yes-i-really-really-mean-it) -> cp_production branch
+    conditions:
+      - base=production
+      - label=shipit-yes-i-really-really-mean-it
+      - author=renovate[bot]
+    actions:
+      backport:
+        branches:
+          - cp_production
+        title: "{{ title }} (promote #{{ number }} to {{ destination_branch }})"
+        labels:
+          - from-production
+          - shipit-yes-i-really-really-mean-it
+
+  - name: request review on backports to cp_production branch
+    conditions:
+      - base=cp_production
+      - label=from-production
+      - -label~=^shipit($|-)
+    actions:
+      request_reviews:
+        teams:
+          - "@lsst-it/cl-infra"
+
+  - name: auto-merge shipit-yes-i-really-really-mean-it backports to production
+    conditions:
+      - base=cp_production
+      - label=from-production
+      - label=shipit-yes-i-really-really-mean-it
     actions:
       review:
         type: APPROVE
