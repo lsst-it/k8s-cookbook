@@ -44,6 +44,7 @@ alloy:
       port: 5146
       targetPort: 5146
       protocol: UDP
+  stabilityLevel: experimental
   configMap:
     content: |
       logging {
@@ -365,7 +366,7 @@ alloy:
       loki.source.syslog "ubiquiti" {
         listener {
           address  = ":5146"
-          syslog_format = "rfc3164"
+          syslog_format = "raw"
           use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "ubiquiti" }
