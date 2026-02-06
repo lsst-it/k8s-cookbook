@@ -45,9 +45,13 @@ alloy:
       targetPort: 5146
       protocol: UDP
 <<<<<<< HEAD
+<<<<<<< HEAD
   stabilityLevel: experimental
 =======
 >>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
+=======
+  stabilityLevel: experimental
+>>>>>>> a686a9f0 ((fleet/alloy) add raw format)
   configMap:
     content: |
       logging {
@@ -371,12 +375,16 @@ alloy:
           address  = ":5146"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           syslog_format = "raw"
 =======
 >>>>>>> 404b4b2a ((fleet/alloy) add ubiquiti listener)
 =======
           syslog_format = "rfc3164"
 >>>>>>> fed2962e ((fleet/alloy) add format rfc3164)
+=======
+          syslog_format = "raw"
+>>>>>>> a686a9f0 ((fleet/alloy) add raw format)
           use_incoming_timestamp = false
           protocol = "udp"
           labels   = { job = "ubiquiti" }
