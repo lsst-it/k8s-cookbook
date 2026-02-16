@@ -21,4 +21,5 @@ gateway:
           - loki.${ get .ClusterLabels "management.cattle.io/cluster-display-name" }.${ .ClusterLabels.site }.lsst.org
 loki:
   limits_config:
-    retention_period: 10d
+    retention_period: 3d
+    max_query_lookback: 3d
