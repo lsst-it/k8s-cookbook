@@ -22,6 +22,7 @@ spec:
       "pgaudit.log_parameter": "on"
       "pgaudit.log_relation": "on"
       log_duration: "on"
+      log_statement: all
     pg_hba:
       - host replication postgres all md5
       - host all all 139.229.134.0/23 md5
