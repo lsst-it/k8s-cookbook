@@ -121,7 +121,7 @@ pull_request_rules:
   - name: promote production -> cp_production branch
     conditions:
       - base=production
-      - -label~=^shipit($|-)
+      - label!=shipit-yes-i-really-really-mean-it
       - author!=renovate[bot]
     actions:
       backport:
