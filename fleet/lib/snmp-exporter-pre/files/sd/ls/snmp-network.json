@@ -537,6 +537,33 @@
   },
   {
     "labels": {
+      "__meta_hostname": "mikrotik-fl6.cp.lsst.org",
+      "__meta_module": "mikrotik"
+    },
+    "targets": [
+      "10.17.0.64"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "mikrotik-fl8.cp.lsst.org",
+      "__meta_module": "mikrotik"
+    },
+    "targets": [
+      "10.17.0.88"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "mikrotik-calib-fl8.cp.lsst.org",
+      "__meta_module": "mikrotik"
+    },
+    "targets": [
+      "10.17.0.89"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "rubinobs-br01.ls.lsst.org",
       "gnoc": "true"
     },
