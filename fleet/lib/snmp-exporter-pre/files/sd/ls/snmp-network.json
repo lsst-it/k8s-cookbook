@@ -25,6 +25,14 @@
   },
   {
     "labels": {
+      "__meta_hostname": "bdc-a04-lf01.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.7"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "bdc-b01-bmc.ls.lsst.org"
     },
     "targets": [
@@ -97,6 +105,22 @@
   },
   {
     "labels": {
+      "__meta_hostname": "bdc-b03-lf01.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.105"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b03-lf02.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.106"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "bdc-b04-bmc.ls.lsst.org"
     },
     "targets": [
@@ -157,6 +181,14 @@
     },
     "targets": [
       "10.49.0.111"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b06-lf02.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.112"
     ]
   },
   {
@@ -253,6 +285,30 @@
     },
     "targets": [
       "10.49.0.122"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b12-bmc.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.212"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b12-lf01.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.123"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "bdc-b12-lf02.ls.lsst.org"
+    },
+    "targets": [
+      "10.49.0.124"
     ]
   },
   {
@@ -457,22 +513,6 @@
   },
   {
     "labels": {
-      "__meta_hostname": "main8-as02.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.88"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "maincbp-as02.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.97"
-    ]
-  },
-  {
-    "labels": {
       "__meta_hostname": "mainflat-as01.cp.lsst.org"
     },
     "targets": [
@@ -587,7 +627,7 @@
   },
   {
     "labels": {
-      "__meta_hostname": "preproom-as01.cp.lsst.org"
+      "__meta_hostname": "preproom-as01.ls.lsst.org"
     },
     "targets": [
       "10.49.0.93"
@@ -645,6 +685,54 @@
   },
   {
     "labels": {
+      "__meta_hostname": "sdc-a02-lf01.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.103"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a03-as01.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.21"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a03-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.22"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a04-bmc.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.204"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a04-lf01.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.107"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-a04-lf02.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.108"
+    ]
+  },
+  {
+    "labels": {
       "__meta_hostname": "sdc-a05-bmc.cp.lsst.org"
     },
     "targets": [
@@ -685,10 +773,10 @@
   },
   {
     "labels": {
-      "__meta_hostname": "sdc-a07-lf01-nx.cp.lsst.org"
+      "__meta_hostname": "sdc-a07-bmc.cp.lsst.org"
     },
     "targets": [
-      "10.17.0.113"
+      "10.17.0.207"
     ]
   },
   {
@@ -697,14 +785,6 @@
     },
     "targets": [
       "10.17.0.131"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "sdc-a07-lf02-nx.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.114"
     ]
   },
   {
@@ -729,22 +809,6 @@
     },
     "targets": [
       "10.17.0.134"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "sdc-as01.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.21"
-    ]
-  },
-  {
-    "labels": {
-      "__meta_hostname": "sdc-as02.cp.lsst.org"
-    },
-    "targets": [
-      "10.17.0.22"
     ]
   },
   {
@@ -811,6 +875,30 @@
     },
     "targets": [
       "10.17.0.120"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b04-bmc.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.211"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b04-lf01.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.121"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "sdc-b04-lf02.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.122"
     ]
   },
   {
@@ -885,6 +973,14 @@
     },
     "targets": [
       "10.17.0.82"
+    ]
+  },
+  {
+    "labels": {
+      "__meta_hostname": "tma-as02.cp.lsst.org"
+    },
+    "targets": [
+      "10.17.0.83"
     ]
   },
   {
