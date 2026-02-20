@@ -1,0 +1,39 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pg-stat-init
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init
+          image: docker.io/lsstit/cnpgsphere:16.8
+          env:
+            - name: PGHOST
+              value: cnpg-cluster-rw
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: cnpg-cluster-app
+                  key: username
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cnpg-cluster-app
+                  key: password
+            - name: PGDATABASE
+              value: butler
+          command:
+            - sh
+            - -c
+            - |
+              psql -v ON_ERROR_STOP=1 <<'SQL'
+              CREATE TABLE IF NOT EXISTS pg_stat_statements_snapshots (
+                snapshot_ts timestamptz NOT NULL DEFAULT now()
+              ) INHERITS (pg_stat_statements);
+
+              CREATE INDEX IF NOT EXISTS pg_stat_statements_snapshots_ts
+              ON pg_stat_statements_snapshots(snapshot_ts);
+              SQL
