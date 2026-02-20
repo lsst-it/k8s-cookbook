@@ -21,6 +21,17 @@ dependsOn:
       matchLabels:
         bundle: prometheus-operator-crds
 targetCustomizations:
+  - name: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
+    yaml:
+      overlays:
+        - generic
+        - ayekan
   - name: manke
     clusterSelector:
       matchExpressions:
