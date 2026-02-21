@@ -1,0 +1,43 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pg-stat-snapshot
+spec:
+  schedule: "*/10 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: snapshot
+              image: docker.io/lsstit/cnpgsphere:16.8
+              env:
+                - name: PGHOST
+                  value: cnpg-cluster-rw
+                - name: PGUSER
+                  valueFrom:
+                    secretKeyRef:
+                      name: cnpg-cluster-app
+                      key: username
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: cnpg-cluster-app
+                      key: password
+                - name: PGDATABASE
+                  value: butler
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  psql -v ON_ERROR_STOP=1 <<'SQL'
+                  INSERT INTO pg_stat_statements_snap
+                  SELECT now(), *
+                  FROM pg_stat_statements
+                  WHERE calls > 0;
+                  SELECT pg_stat_statements_reset();
+                  SQL
