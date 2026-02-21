@@ -31,9 +31,10 @@ spec:
             - |
               psql -v ON_ERROR_STOP=1 <<'SQL'
               CREATE TABLE IF NOT EXISTS pg_stat_statements_snap
-              AS SELECT now() ts, *
-              FROM pg_stat_statements
-              WHERE calls > 0;
+              (LIKE pg_stat_statements INCLUDING ALL);
+
+              ALTER TABLE pg_stat_statements_snap
+              ADD COLUMN IF NOT EXISTS ts timestamptz NOT NULL DEFAULT now();
 
               CREATE INDEX IF NOT EXISTS pg_stat_statements_snap_ts
               ON pg_stat_statements_snap(ts);
