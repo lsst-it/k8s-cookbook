@@ -3,8 +3,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: pg-stat-init
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded,before-hook-creation
 spec:
+  completions: 1
+  parallelism: 1
   template:
+    metadata:
+      name: pg-stat-init
     spec:
       restartPolicy: OnFailure
       containers:
@@ -16,12 +23,12 @@ spec:
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-cluster-app
+                  name: cnpg-cluster-superuser
                   key: username
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: cnpg-cluster-app
+                  name: cnpg-cluster-superuser
                   key: password
             - name: PGDATABASE
               value: butler

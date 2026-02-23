@@ -21,12 +21,12 @@ spec:
                 - name: PGUSER
                   valueFrom:
                     secretKeyRef:
-                      name: cnpg-cluster-app
+                      name: cnpg-cluster-superuser
                       key: username
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:
-                      name: cnpg-cluster-app
+                      name: cnpg-cluster-superuser
                       key: password
                 - name: PGDATABASE
                   value: butler
