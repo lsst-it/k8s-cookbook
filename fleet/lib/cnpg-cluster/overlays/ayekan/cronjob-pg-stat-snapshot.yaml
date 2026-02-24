@@ -39,5 +39,6 @@ spec:
                   SELECT now(), *
                   FROM pg_stat_statements
                   WHERE calls > 0;
+
                   SELECT pg_stat_statements_reset();
                   SQL
