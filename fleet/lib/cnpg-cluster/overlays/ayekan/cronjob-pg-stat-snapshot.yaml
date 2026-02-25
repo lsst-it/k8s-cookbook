@@ -6,6 +6,8 @@ metadata:
 spec:
   schedule: "*/10 * * * *"
   concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       activeDeadlineSeconds: 600
@@ -35,6 +37,13 @@ spec:
                 - -c
                 - |
                   psql -v ON_ERROR_STOP=1 <<'SQL'
+                  CREATE TABLE IF NOT EXISTS pg_stat_statements_snap (
+                    ts timestamptz NOT NULL DEFAULT now()
+                  ) INHERITS (pg_stat_statements);
+
+                  CREATE INDEX IF NOT EXISTS pg_stat_statements_snap_ts
+                  ON pg_stat_statements_snap(ts);
+
                   INSERT INTO pg_stat_statements_snap
                   SELECT now(), *
                   FROM pg_stat_statements
