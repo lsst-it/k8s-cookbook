@@ -6,7 +6,7 @@ helm:
   chart: *name
   releaseName: *name
   repo: https://prometheus-community.github.io/helm-charts
-  version: 24.0.2
+  version: 26.0.0
   timeoutSeconds: 60
   takeOwnership: true
   force: true  # overwrite old crds
