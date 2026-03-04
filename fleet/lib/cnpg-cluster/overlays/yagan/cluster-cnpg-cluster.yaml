@@ -26,6 +26,10 @@ spec:
       "pgaudit.log_relation": "on"
       log_duration: "on"
       log_statement: all
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track: all
+      pg_stat_statements.track_utility: "on"
+      pg_stat_statements.save: "on"
     pg_hba:
       - host replication replicauser all md5
       - host all all 139.229.134.0/23 md5
