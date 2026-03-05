@@ -20,7 +20,8 @@ spec:
     spec:
       containers:
         - command:
-            - /sbin/init
+            - sleep
+            - infinity
           image: docker.io/almalinux/10-toolbox:latest
           imagePullPolicy: IfNotPresent
           name: main
