@@ -21,8 +21,8 @@ spec:
       containers:
         - command:
             - /sbin/init
-          image: docker.io/centos/tools:latest
-          imagePullPolicy: Always
+          image: docker.io/almalinux/10-toolbox:latest
+          imagePullPolicy: IfNotPresent
           name: main
           volumeMounts:
             - name: {{ .name }}
