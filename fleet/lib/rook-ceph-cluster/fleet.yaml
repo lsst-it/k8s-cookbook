@@ -204,3 +204,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/merken/values.yaml
+  - name: machi
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - machi
+    helm:
+      valuesFiles:
+        - overlays/machi/values.yaml

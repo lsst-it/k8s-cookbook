@@ -17,3 +17,14 @@ dependsOn:
   - selector:
     matchLabels:
       bundle: prometheus-operator-crds
+targetCustomizations:
+  - name: machi
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - machi
+    helm:
+      valuesFiles:
+        - overlays/machi/values.yaml

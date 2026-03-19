@@ -208,6 +208,7 @@ targetCustomizations:
           values:
             - antu
             - luan
+            - machi
             - yepun
     helm:
       values:
