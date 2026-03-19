@@ -36,3 +36,5 @@ dependencies:
     condition: subchart.kona.enabled
   - name: merken
     condition: subchart.merken.enabled
+  - name: machi
+    condition: subchart.machi.enabled

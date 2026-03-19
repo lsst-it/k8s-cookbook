@@ -1,0 +1,9 @@
+---
+kube-state-metrics:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 1Gi
+    requests:
+      cpu: 10m
+      memory: 512Mi
