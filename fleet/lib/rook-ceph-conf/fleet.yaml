@@ -206,3 +206,15 @@ targetCustomizations:
         subchart:
           merken:
             enabled: true
+  - name: machi
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - machi
+    helm:
+      values:
+        subchart:
+          machi:
+            enabled: true
