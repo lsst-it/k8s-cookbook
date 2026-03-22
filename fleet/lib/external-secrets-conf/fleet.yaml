@@ -47,6 +47,7 @@ targetCustomizations:
             - ayekan
             - elqui
             - konkong
+            - machi
             - ruka
     helm:
       values:

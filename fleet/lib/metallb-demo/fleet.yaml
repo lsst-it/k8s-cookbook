@@ -77,3 +77,15 @@ targetCustomizations:
         pools:
           - reserved
           - reserved-lhn-embargo
+  - name: machi
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - machi
+    helm:
+      values:
+        pools:
+          - reserved
+          - reserved-lhn
