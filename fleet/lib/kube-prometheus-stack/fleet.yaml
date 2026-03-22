@@ -104,6 +104,21 @@ targetCustomizations:
                 sendNativeHistograms: true
               - url: https://mimir.kona.dev.lsst.org/api/v1/push
                 sendNativeHistograms: true
+  - name: machi
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - machi
+    helm:
+      valuesFiles:
+        - pvc/values.yaml
+        - overlays/machi/values.yaml
+      values:
+        prometheus:
+          prometheusSpec:
+            remoteWrite: *cl-remotewrite
   - name: dev
     clusterSelector:
       matchExpressions:

@@ -1,0 +1,2770 @@
+---
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      quotas:
+        maxSize: 2Ti
+      enableRBDStats: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_autoscale_mode: "off"
+        pg_num: "128"
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      mountOptions:
+        - discard
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4
+
+cephClusterSpec:
+  mon:
+    count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
+    client.rgw.lfa.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "false"  # disable object gc
+      rgw_gc_max_objs: "0"
+    client.rgw.lfagc.a:
+      rgw_enable_usage_log: "false"
+      rgw_enable_lc_threads: "true"  # enable object gc
+      rgw_gc_max_objs: "32"
+  resources:
+    mgr:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    osd:
+      limits:
+        cpu: "3"
+        memory: 12Gi
+      requests:
+        cpu: 500m
+        memory: 4Gi
+
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    config:
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
+    nodes:
+      - name: machi01
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D8B6
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D7A4
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D7B4
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi02
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E7D1
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6CE68
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D34C
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi03
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8C8
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63274
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA632D2
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi04
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6298F
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_2306455325BC
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA638B7
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi05
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D654
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA625C0
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63804
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi06
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA625CA
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62619
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA625E9
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi07
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63875
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A1C
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62947
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi08
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA629EE
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A1F
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA632A1
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi09
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA637CB
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA637D4
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA637D5
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi10
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA635BD
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA638A6
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6387D
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi11
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A4C
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62CF7
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA629BE
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi12
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_242048FA0BD3
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_242048FA2603
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_242048FAAF0F
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi13
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6263F
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6259B
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62664
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi14
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63315
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62946
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62933
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi15
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E6D3
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8C3
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E885
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi16
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F2E9
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F2C2
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F22C
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi17
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63C5D
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63740
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63780
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi18
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62BF6
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62CCA
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62CA2
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi19
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62B9A
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6297A
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62AB6
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi20
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63B97
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63B79
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63B93
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi21
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6372B
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F229
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F2BF
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi22
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D269
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D256
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D356
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi23
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62B99
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62B54
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A5F
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi24
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D32D
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D384
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D06A
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi25
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6268D
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_242048F8B7C2
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E516
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi26
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62C6D
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62C6F
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62CE3
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi27
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8BF
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E998
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E530
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi28
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63C36
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63CAA
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63CA6
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi29
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D627
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63719
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D647
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi30
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A0D
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A04
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62A42
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi31
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D592
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D64B
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D48B
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi32
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F2BE
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F2CB
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6DC93
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi33
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8B5
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8BB
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E8BD
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi34
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62BF7
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62BDC
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63B95
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi35
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D34E
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D625
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D25F
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi36
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D371
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D881
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D682
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi37
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D6BE
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D894
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D851
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi38
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63C85
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63C8C
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62CE2
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi39
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D7A3
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6262E
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62625
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi40
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E61E
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E5C7
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E61D
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi41
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D877
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E51E
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E51F
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi42
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA632C8
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA632AF
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63272
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi43
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA62915
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA637F4
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA637D6
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi44
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D617
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E556
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6E54D
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi45
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA632ED
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63314
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63359
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi46
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6378B
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA63795
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6371A
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi47
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F192
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F1BE
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6F1AF
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
+      - name: machi48
+        devices:
+          # nvme 1
+          - name: /dev/sda
+            config: &nvme1
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6D7FE
+          - name: /dev/sdb
+            config: *nvme1
+          - name: /dev/sdc
+            config: *nvme1
+          - name: /dev/sdd
+            config: *nvme1
+          - name: /dev/sde
+            config: *nvme1
+          - name: /dev/sdf
+            config: *nvme1
+          - name: /dev/sdg
+            config: *nvme1
+          - name: /dev/sdh
+            config: *nvme1
+          # nvme 2
+          - name: /dev/sdi
+            config: &nvme2
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA636C9
+          - name: /dev/sdj
+            config: *nvme2
+          - name: /dev/sdk
+            config: *nvme2
+          - name: /dev/sdl
+            config: *nvme2
+          - name: /dev/sdm
+            config: *nvme2
+          - name: /dev/sdn
+            config: *nvme2
+          - name: /dev/sdo
+            config: *nvme2
+          - name: /dev/sdp
+            config: *nvme2
+          # nvme 3
+          - name: /dev/sdq
+            config: &nvme3
+              metadataDevice: /dev/disk/by-id/nvme-Micron_7450_MTFDKCC7T6TFR_24314AA6372A
+          - name: /dev/sdr
+            config: *nvme3
+          - name: /dev/sds
+            config: *nvme3
+          - name: /dev/sdt
+            config: *nvme3
+          - name: /dev/sdu
+            config: *nvme3
+          - name: /dev/sdv
+            config: *nvme3
+          - name: /dev/sdw
+            config: *nvme3
+          - name: /dev/sdx
+            config: *nvme3
