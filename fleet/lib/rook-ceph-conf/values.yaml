@@ -30,3 +30,5 @@ subchart:
     enabled: false
   merken:
     enabled: false
+  machi:
+    enabled: false
