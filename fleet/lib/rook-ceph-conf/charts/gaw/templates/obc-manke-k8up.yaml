@@ -9,7 +9,7 @@ spec:
   storageClassName: k8up-backups
   additionalConfig:
     bucketOwner: manke-k8up
-    bucketMaxSize: 10Ti
+    bucketMaxSize: 15Ti
     bucketLifecycle: |
       {
         "Rules": [
