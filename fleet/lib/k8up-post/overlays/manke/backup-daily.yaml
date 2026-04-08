@@ -15,9 +15,12 @@ spec:
     failedJobsHistoryLimit: 2
     successfulJobsHistoryLimit: 2
   prune:
-    schedule: 0 1 * * 0
+    schedule: 0 1 * * * # every day at 1am
     retention:
-      keepLast: 10
+      keepDaily: 7   # 1 snapshot per day for last 7 days
+      keepWeekly: 4  # 1 snapshot per week for last 4 weeks
+      keepMonthly: 3 # 1 snapshot per month for last 3 months
+
   backend:
     repoPasswordSecretRef:
       name: k8up-s3-credentials
