@@ -10,23 +10,16 @@ cephClusterSpec:
     nodes:
       - name: kueyen01
         devices:
-          - name: /dev/disk/by-id/scsi-35000c500a15cf937
+          - name: /dev/disk/by-id/scsi-35000cca0807a5cb8
       - name: kueyen02
         devices:
-          - name: /dev/disk/by-id/scsi-35000c500a15847b7
+          - name: /dev/disk/by-id/scsi-35000c500a0ada2eb
       - name: kueyen03
         devices:
-          - name: /dev/disk/by-id/scsi-35000c500a15ca7af
+          - name: /dev/disk/by-id/scsi-35000c500a0beec4f
       - name: kueyen04
         devices:
-          - name: /dev/disk/by-id/scsi-35000c500a15ce4d3
-          - name: /dev/disk/by-id/scsi-35000c500a1588b9b
-      - name: kueyen05
-        devices:
-          - name: /dev/disk/by-id/scsi-35000c500a157854b
-      - name: kueyen06
-        devices:
-          - name: /dev/disk/by-id/scsi-35000c500a1584f37
+          - name: /dev/disk/by-id/scsi-35000c500a0acc8a3
 
 cephBlockPools:
   - name: replicapool
