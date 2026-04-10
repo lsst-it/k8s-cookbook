@@ -94,8 +94,8 @@ distributor:
   replicas: 3
   maxUnavailable: 1
   resources:
-    requests: { cpu: 500m, memory: 512Mi }
-    limits: { cpu: 3, memory: 2Gi }
+    requests: { cpu: 2, memory: 1Gi }
+    limits: { cpu: 4, memory: 2Gi }
 
 ingester:
   replicas: 6
@@ -108,8 +108,8 @@ ingester:
           - ReadWriteOnce
         size: 50Gi
   resources:
-    requests: { cpu: 1, memory: 2Gi }
-    limits: { cpu: 5, memory: 8Gi }
+    requests: { cpu: 4, memory: 8Gi }
+    limits: { cpu: 8, memory: 16Gi }
 
 querier:
   replicas: 4
