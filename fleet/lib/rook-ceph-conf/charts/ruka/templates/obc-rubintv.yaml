@@ -4,6 +4,8 @@ kind: ObjectBucketClaim
 metadata:
   name: &name rubintv
   namespace: rook-ceph
+  labels:
+    bucket-notification-lsst.s3.rubin.tv.test: lsst.s3.rubin.tv.test
 spec:
   bucketName: *name
   storageClassName: lfa
@@ -23,3 +25,14 @@ spec:
           }
         ]
       }
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBucketNotification
+metadata:
+  name: lsst.s3.rubin.tv.test
+  namespace: rook-ceph
+spec:
+  topic: lsst.s3.rubin.tv.test
+  events:
+    - s3:ObjectCreated:*
+    - s3:ObjectRemoved:*
