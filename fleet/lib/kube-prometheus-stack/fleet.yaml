@@ -96,11 +96,7 @@ targetCustomizations:
         prometheus:
           prometheusSpec:
             remoteWrite: &cl-remotewrite
-              - url: https://mimir.ruka.dev.lsst.org/api/v1/push
-                sendNativeHistograms: true
               - url: https://mimir.antu.ls.lsst.org/api/v1/push
-                sendNativeHistograms: true
-              - url: https://mimir.kueyen.dev.lsst.org/api/v1/push
                 sendNativeHistograms: true
               - url: https://mimir.kona.dev.lsst.org/api/v1/push
                 sendNativeHistograms: true
