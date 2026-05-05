@@ -39,6 +39,9 @@ targetCustomizations:
           operator: In
           values:
             - kona
+    helm:
+      valuesFiles:
+        - overlays/kona/values.yaml
     kustomize:
       dir: kustomize/overlays/kona
   - name: kueyen
