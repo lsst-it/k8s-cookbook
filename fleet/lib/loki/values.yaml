@@ -39,6 +39,13 @@ global:
 
 loki:
   auth_enabled: false
+  structuredConfig:
+    ingester:
+      flush_on_shutdown: true
+      wal:
+        flush_on_shutdown: true
+      chunk_idle_period: 10m
+      max_chunk_age: 1h
   commonConfig:
     replication_factor: 3
 
@@ -106,7 +113,7 @@ ingester:
       - name: data
         accessModes:
           - ReadWriteOnce
-        size: 50Gi
+        size: 60Gi
   resources:
     requests: { cpu: 4, memory: 8Gi }
     limits: { cpu: 8, memory: 16Gi }
