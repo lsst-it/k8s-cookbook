@@ -39,13 +39,9 @@ global:
 
 loki:
   auth_enabled: false
-  structuredConfig:
-    ingester:
-      flush_on_shutdown: true
-      wal:
-        flush_on_shutdown: true
-      chunk_idle_period: 10m
-      max_chunk_age: 1h
+  ingester:
+    chunk_idle_period: 10m
+    max_chunk_age: 1h
   commonConfig:
     replication_factor: 3
 
