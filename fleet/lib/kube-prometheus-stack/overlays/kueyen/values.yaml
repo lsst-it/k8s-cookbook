@@ -1,0 +1,5 @@
+alertmanager:
+  enabled: false
+
+prometheus:
+  enabled: false
