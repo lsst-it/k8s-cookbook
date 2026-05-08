@@ -103,6 +103,8 @@ prometheus:
             replacement: prometheus-snmp-exporter.snmp-exporter:9116
       - job_name: blackbox-snmp-power
         metrics_path: /snmp
+        scrape_interval: 1m
+        scrape_timeout: 55s
         file_sd_configs:
           - files:
               - /etc/prometheus/configmaps/sd-snmp-power/snmp-power.json
