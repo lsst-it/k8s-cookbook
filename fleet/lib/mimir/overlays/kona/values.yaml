@@ -1,0 +1,4 @@
+mimir:
+  structuredConfig:
+    limits:
+      compactor_blocks_retention_period: 15d
