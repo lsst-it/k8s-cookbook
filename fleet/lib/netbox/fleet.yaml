@@ -1,0 +1,40 @@
+---
+defaultNamespace: &name netbox
+
+labels:
+  bundle: *name
+
+namespaceLabels:
+  lsst.io/discover: "true"
+
+helm:
+  chart: *name
+  releaseName: *name
+  repo: https://charts.netbox.oss.netboxlabs.com
+  version: 8.2.10
+  valuesFiles:
+    - values.yaml
+
+waitForJobs: true
+
+targetCustomizations:
+  - name: kueyen
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - kueyen
+    helm:
+      values:
+        ingress:
+          enabled: true
+          hosts:
+            - host: netbox.kueyen.dev.lsst.org
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: netbox-tls
+              hosts:
+                - netbox.kueyen.dev.lsst.org
