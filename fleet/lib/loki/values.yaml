@@ -15,7 +15,7 @@ gateway:
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
       nginx.ingress.kubernetes.io/auth-type: basic
       nginx.ingress.kubernetes.io/auth-secret: loki-infra-auth
-      nginx.ingress.kubernetes.io/auth-realm: "Loki"
+      nginx.ingress.kubernetes.io/auth-realm: Loki
 
     hosts:
       - host: loki.${ .ClusterLabels.site }.lsst.org
@@ -196,7 +196,7 @@ extraObjects:
         nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
         nginx.ingress.kubernetes.io/auth-type: basic
         nginx.ingress.kubernetes.io/auth-secret: loki-query-auth
-        nginx.ingress.kubernetes.io/auth-realm: "Loki Query"
+        nginx.ingress.kubernetes.io/auth-realm: loki-query
         nginx.ingress.kubernetes.io/server-snippet: |
           location ~ ^/loki/api/v1/(push|flush|reload) {
             return 403;
