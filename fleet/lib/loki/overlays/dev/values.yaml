@@ -23,3 +23,6 @@ loki:
   limits_config:
     retention_period: 3d
     max_query_lookback: 3d
+
+ingester:
+  replicas: 4
