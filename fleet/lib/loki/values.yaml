@@ -217,6 +217,20 @@ extraObjects:
                     name: loki-gateway
                     port:
                       number: 80
+              - path: /loki/api/v1/query_range
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/labels
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
               - path: /loki/api/v1/series
                 pathType: Prefix
                 backend:
