@@ -197,18 +197,35 @@ extraObjects:
         nginx.ingress.kubernetes.io/auth-type: basic
         nginx.ingress.kubernetes.io/auth-secret: loki-query-auth
         nginx.ingress.kubernetes.io/auth-realm: loki-query
-        nginx.ingress.kubernetes.io/server-snippet: |
-          location ~ ^/loki/api/v1/(push|flush|reload) {
-            return 403;
-          }
     spec:
       ingressClassName: nginx
       rules:
         - host: loki-query.${ .ClusterLabels.site }.lsst.org
           http:
             paths:
-              - path: /
+              - path: /loki/api/v1/query
                 pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/label
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/series
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /ready
+                pathType: Exact
                 backend:
                   service:
                     name: loki-gateway
