@@ -2,3 +2,5 @@
 resources:
   - cephobjectstoreuser-loki.yaml
   - obc-loki.yaml
+  - es-loki-infra-auth.yaml
+  - es-loki-query-auth.yaml

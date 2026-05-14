@@ -13,6 +13,10 @@ gateway:
       nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
       nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
       nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: loki-infra-auth
+      nginx.ingress.kubernetes.io/auth-realm: Loki
+
     hosts:
       - host: loki.${ .ClusterLabels.site }.lsst.org
         paths:
@@ -178,3 +182,70 @@ monitoring:
     enabled: true
     labels:
       lsst.io/monitor: "true"
+
+extraObjects:
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: loki-query
+      namespace: loki
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+        nginx.ingress.kubernetes.io/backend-protocol: HTTP
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+        nginx.ingress.kubernetes.io/auth-type: basic
+        nginx.ingress.kubernetes.io/auth-secret: loki-query-auth
+        nginx.ingress.kubernetes.io/auth-realm: loki-query
+    spec:
+      ingressClassName: nginx
+      rules:
+        - host: loki-query.${ .ClusterLabels.site }.lsst.org
+          http:
+            paths:
+              - path: /loki/api/v1/query
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/label
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/query_range
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/labels
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /loki/api/v1/series
+                pathType: Prefix
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+              - path: /ready
+                pathType: Exact
+                backend:
+                  service:
+                    name: loki-gateway
+                    port:
+                      number: 80
+      tls:
+        - secretName: tls-loki-query-ingress
+          hosts:
+            - loki-query.${ .ClusterLabels.site }.lsst.org
