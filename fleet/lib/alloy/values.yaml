@@ -7,6 +7,18 @@ alloy:
   controller:
     type: daemonset
 
+  extraEnv:
+    - name: LOKI_USER
+      valueFrom:
+        secretKeyRef:
+          name: loki-push-credentials
+          key: username
+    - name: LOKI_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: loki-push-credentials
+          key: password
+
   mounts:
     varlog: true
 
@@ -149,5 +161,9 @@ alloy:
       loki.write "send" {
         endpoint {
           url = "https://loki.ls.lsst.org/loki/api/v1/push"
+          basic_auth {
+            username = sys.env("LOKI_USER")
+            password = sys.env("LOKI_PASSWORD")
+          }
         }
       }
