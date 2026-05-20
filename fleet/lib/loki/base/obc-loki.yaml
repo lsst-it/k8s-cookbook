@@ -32,7 +32,7 @@ spec:
   storageClassName: o11y
   additionalConfig:
     bucketOwner: loki
-    bucketMaxSize: 5Ti
+    bucketMaxSize: 10Ti
     bucketLifecycle: |
       {
         "Rules": [
