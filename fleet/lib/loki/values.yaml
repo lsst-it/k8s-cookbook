@@ -46,8 +46,14 @@ loki:
   ingester:
     chunk_idle_period: 10m
     max_chunk_age: 1h
+    chunk_encoding: snappy
+    wal:
+      flush_on_shutdown: true
   commonConfig:
     replication_factor: 3
+
+  querier:
+    max_concurrent: 16
 
   storage:
     type: s3
@@ -96,13 +102,14 @@ loki:
     reject_old_samples_max_age: 168h
     query_timeout: 4m
     max_entries_limit_per_query: 100000
+    split_queries_by_interval: 30m
 
 distributor:
   replicas: 3
   maxUnavailable: 1
   resources:
-    requests: { cpu: 2, memory: 1Gi }
-    limits: { cpu: 4, memory: 2Gi }
+    requests: { cpu: 4, memory: 2Gi }
+    limits: { cpu: 8, memory: 4Gi }
 
 ingester:
   replicas: 6
