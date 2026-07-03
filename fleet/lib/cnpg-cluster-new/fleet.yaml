@@ -1,0 +1,34 @@
+---
+defaultNamespace: cloudnativepg-cp
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: &name cnpg-cluster-new
+helm:
+  releaseName: *name
+  takeOwnership: true
+  force: true
+  timeoutSeconds: 60
+  waitForJobs: false
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+  - selector:
+      matchLabels:
+        bundle: external-secrets
+  - selector:
+      matchLabels:
+        bundle: prometheus-operator-crds
+targetCustomizations:
+  - name: yagan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - yagan
+    yaml:
+      overlays:
+        - generic
+        - yagan
