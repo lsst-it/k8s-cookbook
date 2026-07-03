@@ -8,7 +8,7 @@ spec:
   imageName: docker.io/lsstit/cnpgsphere:16.8
   imagePullPolicy: IfNotPresent
 
-  instances: 3
+  instances: 1
 
   postgresql:
     parameters:
