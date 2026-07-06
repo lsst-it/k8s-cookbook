@@ -1,0 +1,37 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cnpg-backups-yagan
+spec:
+  concurrencyPolicy: Forbid
+  schedule: 0 12,21 * * *  # 9AM CLT - 6PM CLT
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 172800
+      template:
+        spec:
+          activeDeadlineSeconds: 14400
+          containers:
+            - name: cnpg-backup
+              image: docker.io/lsstit/cnpg-backup:0.6
+              volumeMounts:
+                - name: ephemeral
+                  mountPath: /tmp
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - secretRef:
+                    name: cnpg-backups-yagan
+              env:
+                - name: HOST
+                  value: cnpg-loadbalancer-cp.cloudnativepg-cp.svc.cluster.local
+          volumes:
+            - name: ephemeral
+              ephemeral:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: [ReadWriteOnce]
+                    resources:
+                      requests:
+                        storage: 500Gi
+          restartPolicy: OnFailure
