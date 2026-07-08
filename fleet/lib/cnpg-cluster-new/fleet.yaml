@@ -1,7 +1,7 @@
 ---
 defaultNamespace: cloudnativepg-cp
 namespaceLabels:
-  lsst.io/discover: "true"
+  lsst.io/monitor: "true"
 labels:
   bundle: &name cnpg-cluster-new
 helm:
