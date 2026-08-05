@@ -89,3 +89,15 @@ targetCustomizations:
         pools:
           - reserved
           - reserved-lhn
+  - name: lonko
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lonko
+    helm:
+      values:
+        pools:
+          - reserved
+          - reserved-lhn
