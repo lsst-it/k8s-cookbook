@@ -1,0 +1,120 @@
+---
+# based on https://github.com/integr8ly/keycloak-operator/blob/master/deploy/template/prometheus-rule.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    lsst.io/rule: "true"
+  name: keycloak
+spec:
+  groups:
+    - name: keycloak
+      rules:
+        - alert: KeycloakJavaHeapThresholdExceeded
+          annotations:
+            message: >-
+              {{ printf "%0.0f" $value }}% heap usage of {{ $labels.area }} in pod {{
+              $labels.pod }}, namespace {{ $labels.namespace }}.
+          expr: |
+            100 * jvm_memory_bytes_used{area="heap",job="keycloak-metrics"}
+              / jvm_memory_bytes_max{area="heap",job="keycloak-metrics"}
+              > 90
+          for: 1m
+          labels:
+            severity: warning
+
+        - alert: KeycloakJavaNonHeapThresholdExceeded
+          annotations:
+            message: >-
+              {{ printf "%0.0f" $value }}% nonheap usage of {{ $labels.area }} in pod {{
+              $labels.pod }}, namespace {{ $labels.namespace }}.
+          expr: |
+            100 * jvm_memory_bytes_used{area="nonheap",job="keycloak-metrics"}
+              / jvm_memory_bytes_max{area="nonheap",job="keycloak-metrics"}
+              > 90
+          for: 1m
+          labels:
+            severity: warning
+
+        - alert: KeycloakJavaGCTimePerMinuteScavenge
+          annotations:
+            message: >-
+              Amount of time per minute spent on garbage collection of {{ $labels.area }}
+              in pod {{ $labels.pod }}, namespace {{ $labels.namespace }} exceeds 90%.
+              This could indicate that the available heap memory is insufficient.
+          expr: |
+            increase(jvm_gc_collection_seconds_sum{gc="PS Scavenge",job="keycloak-metrics"}[1m]) > 1 * 60 * 0.9
+          for: 1m
+          labels:
+            severity: warning
+
+        - alert: KeycloakJavaGCTimePerMinuteMarkSweep
+          annotations:
+            message: >-
+              Amount of time per minute spent on garbage collection of {{ $labels.area }}
+              in pod {{ $labels.pod }}, namespace {{ $labels.namespace }} exceeds 90%.
+              This could indicate that the available heap memory is insufficient.
+          expr: |
+            increase(jvm_gc_collection_seconds_sum{gc="PS MarkSweep",job="keycloak-metrics"}[1m]) > 1 * 60 * 0.9
+          for: 1m
+          labels:
+            severity: warning
+
+        - alert: KeycloakJavaDeadlockedThreads
+          annotations:
+            message: >-
+              Number of threads in deadlock state of {{ $labels.area }}
+              in pod {{ $labels.pod }}, namespace {{ $labels.namespace }}
+          expr: |
+            jvm_threads_deadlocked{jobs="keycloak-metrics"}
+              > 0
+          for: 1m
+          labels:
+            severity: warning
+
+        - alert: KeycloakLoginFailedThresholdExceeded
+          annotations:
+            message: >-
+              More than 50 failed login attempts for realm {{ $labels.realm }},
+              provider {{ $labels.provider }}, namespace {{ $labels.namespace }}
+              over the last 5 minutes. (Rate of {{ printf "%0f" $value }})
+          expr: >
+            rate(keycloak_failed_login_attempts{job="keycloak-metrics"}[5m])
+            * 300 > 50
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: KeycloakInstanceNotAvailable
+          annotations:
+            message: >-
+              Keycloak instance in namespace {{ $labels.namespace }} has not
+              been available for the last 5 minutes.
+          expr: kube_statefulset_status_current_revision{namespace="keycloak",statefulset="keycloak"} != 1
+          for: 5m
+          labels:
+            severity: critical
+
+        - alert: KeycloakAPIRequestDuration90PercThresholdExceeded
+          annotations:
+            message: >-
+              90% of the total requests are not served within 1 second for the last 5 minutes for the RH SSO API in the {{ $labels.namespace }} namespace
+          expr: >
+            (sum(rate(keycloak_request_duration_bucket{le="1000.0"}[5m])) by (job)
+            /
+            sum(rate(keycloak_request_duration_count[5m])) by (job)) < 0.90
+          for: 5m
+          labels:
+            severity: warning
+
+        - alert: KeycloakAPIRequestDuration99PercThresholdExceeded
+          annotations:
+            message: >-
+              99.5% of the total requests are not served within 10 seconds for the last 5 minutes for the RH SSO API in the {{ $labels.namespace }} namespace
+          expr: >
+            (sum(rate(keycloak_request_duration_bucket{le="10000.0"}[5m])) by (job)
+            /
+            sum(rate(keycloak_request_duration_count[5m])) by (job)) < 0.995
+          for: 5m
+          labels:
+            severity: warning
