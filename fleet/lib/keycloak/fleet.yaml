@@ -21,6 +21,16 @@ dependsOn:
       matchLabels:
         bundle: keycloak-pg
 targetCustomizations:
+  - name: ayekan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ayekan
+    helm:
+      valuesFiles:
+        - overlays/ayekan/values.yaml
   - name: luan
     clusterSelector:
       matchExpressions:
