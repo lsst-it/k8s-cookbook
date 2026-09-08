@@ -38,3 +38,5 @@ dependencies:
     condition: subchart.merken.enabled
   - name: machi
     condition: subchart.machi.enabled
+  - name: chango
+    condition: subchart.chango.enabled
