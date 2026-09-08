@@ -239,3 +239,13 @@ targetCustomizations:
     yaml:
       overlays:
         - machi
+  - name: chango
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chango
+    yaml:
+      overlays:
+        - chango

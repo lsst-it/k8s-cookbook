@@ -32,3 +32,5 @@ subchart:
     enabled: false
   machi:
     enabled: false
+  chango:
+    enabled: false
