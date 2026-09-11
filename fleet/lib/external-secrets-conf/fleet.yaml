@@ -45,6 +45,7 @@ targetCustomizations:
           operator: In
           values:
             - ayekan
+            - chango
             - elqui
             - konkong
             - machi

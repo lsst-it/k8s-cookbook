@@ -1,0 +1,313 @@
+---
+cephClusterSpec:
+  mon:
+    count: 3
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    config:
+      osdsPerDevice: "1"
+    nodes:
+      - name: chango01
+        devices:
+          - name: /dev/sda
+          - name: /dev/sdb
+          - name: /dev/sdc
+          - name: /dev/sdd
+          - name: /dev/sde
+          - name: /dev/sdf
+          - name: /dev/sdg
+          - name: /dev/sdh
+          - name: /dev/sdi
+          - name: /dev/sdj
+          - name: /dev/sdk
+          - name: /dev/sdl
+          - name: /dev/sdm
+          - name: /dev/sdn
+          - name: /dev/sdo
+          - name: /dev/sdp
+          - name: /dev/sdq
+          - name: /dev/sdr
+          - name: /dev/sds
+          - name: /dev/sdt
+          - name: /dev/sdu
+          - name: /dev/sdv
+          - name: /dev/sdw
+          - name: /dev/sdx
+          - name: /dev/sdy
+          - name: /dev/sdz
+          - name: /dev/sdaa
+          - name: /dev/sdab
+          - name: /dev/sdac
+          - name: /dev/sdad
+          - name: /dev/sdae
+          - name: /dev/sdaf
+          - name: /dev/sdag
+          - name: /dev/sdah
+          - name: /dev/sdai
+          - name: /dev/sdaj
+          - name: /dev/sdak
+          - name: /dev/sdal
+          - name: /dev/sdam
+          - name: /dev/sdan
+          - name: /dev/sdao
+          - name: /dev/sdap
+          - name: /dev/sdaq
+          - name: /dev/sdar
+          - name: /dev/sdas
+          - name: /dev/sdat
+          - name: /dev/sdau
+          - name: /dev/sdav
+          - name: /dev/sdaw
+          - name: /dev/sdax
+          - name: /dev/sday
+          - name: /dev/sdaz
+          - name: /dev/sdba
+          - name: /dev/sdbb
+          - name: /dev/sdbc
+          - name: /dev/sdbd
+          - name: /dev/sdbe
+          - name: /dev/sdbf
+          - name: /dev/sdbg
+          - name: /dev/sdbh
+          - name: /dev/sdbi
+          - name: /dev/sdbj
+          - name: /dev/sdbk
+          - name: /dev/sdbl
+          - name: /dev/sdbm
+          - name: /dev/sdbn
+          - name: /dev/sdbo
+          - name: /dev/sdbp
+          - name: /dev/sdbq
+          - name: /dev/sdbr
+          - name: /dev/sdbs
+          - name: /dev/sdbt
+          - name: /dev/sdbu
+          - name: /dev/sdbv
+          - name: /dev/sdbw
+          - name: /dev/sdbx
+          - name: /dev/sdby
+          - name: /dev/sdbz
+          - name: /dev/sdca
+          - name: /dev/sdcb
+          - name: /dev/sdcc
+          - name: /dev/sdcd
+          - name: /dev/sdce
+          - name: /dev/sdcf
+          - name: /dev/sdcg
+          - name: /dev/sdch
+          - name: /dev/sdci
+          - name: /dev/sdcj
+          - name: /dev/sdck
+      - name: chango02
+        devices:
+          - name: /dev/sda
+          - name: /dev/sdb
+          - name: /dev/sdc
+          - name: /dev/sdd
+          - name: /dev/sde
+          - name: /dev/sdf
+          - name: /dev/sdg
+          - name: /dev/sdh
+          - name: /dev/sdi
+          - name: /dev/sdj
+          - name: /dev/sdk
+          - name: /dev/sdl
+          - name: /dev/sdm
+          - name: /dev/sdn
+          - name: /dev/sdo
+          - name: /dev/sdp
+          - name: /dev/sdq
+          - name: /dev/sdr
+          - name: /dev/sds
+          - name: /dev/sdt
+          - name: /dev/sdu
+          - name: /dev/sdv
+          - name: /dev/sdw
+          - name: /dev/sdx
+          - name: /dev/sdy
+          - name: /dev/sdz
+          - name: /dev/sdaa
+          - name: /dev/sdab
+          - name: /dev/sdac
+          - name: /dev/sdad
+          - name: /dev/sdae
+          - name: /dev/sdaf
+          - name: /dev/sdag
+          - name: /dev/sdah
+          - name: /dev/sdai
+          - name: /dev/sdaj
+          - name: /dev/sdak
+          - name: /dev/sdal
+          - name: /dev/sdam
+          - name: /dev/sdan
+          - name: /dev/sdao
+          - name: /dev/sdap
+          - name: /dev/sdaq
+          - name: /dev/sdar
+          - name: /dev/sdas
+          - name: /dev/sdat
+          - name: /dev/sdau
+          - name: /dev/sdav
+          - name: /dev/sdaw
+          - name: /dev/sdax
+          - name: /dev/sday
+          - name: /dev/sdaz
+          - name: /dev/sdba
+          - name: /dev/sdbb
+          - name: /dev/sdbc
+          - name: /dev/sdbd
+          - name: /dev/sdbe
+          - name: /dev/sdbf
+          - name: /dev/sdbg
+          - name: /dev/sdbh
+          - name: /dev/sdbi
+          - name: /dev/sdbj
+          - name: /dev/sdbk
+          - name: /dev/sdbl
+          - name: /dev/sdbm
+          - name: /dev/sdbn
+          - name: /dev/sdbo
+          - name: /dev/sdbp
+          - name: /dev/sdbq
+          - name: /dev/sdbr
+          - name: /dev/sdbs
+          - name: /dev/sdbt
+          - name: /dev/sdbu
+          - name: /dev/sdbv
+          - name: /dev/sdbw
+          - name: /dev/sdbx
+          - name: /dev/sdby
+          - name: /dev/sdbz
+          - name: /dev/sdca
+          - name: /dev/sdcb
+          - name: /dev/sdcc
+          - name: /dev/sdcd
+          - name: /dev/sdce
+          - name: /dev/sdcf
+          - name: /dev/sdcg
+          - name: /dev/sdch
+          - name: /dev/sdci
+          - name: /dev/sdcj
+          - name: /dev/sdck
+      - name: chango03
+        devices:
+          - name: /dev/sda
+          - name: /dev/sdb
+          - name: /dev/sdc
+          - name: /dev/sdd
+          - name: /dev/sde
+          - name: /dev/sdf
+          - name: /dev/sdg
+          - name: /dev/sdh
+          - name: /dev/sdi
+          - name: /dev/sdj
+          - name: /dev/sdk
+          - name: /dev/sdl
+          - name: /dev/sdm
+          - name: /dev/sdn
+          - name: /dev/sdo
+          - name: /dev/sdp
+          - name: /dev/sdq
+          - name: /dev/sdr
+          - name: /dev/sds
+          - name: /dev/sdt
+          - name: /dev/sdu
+          - name: /dev/sdv
+          - name: /dev/sdw
+          - name: /dev/sdx
+          - name: /dev/sdy
+          - name: /dev/sdz
+          - name: /dev/sdaa
+          - name: /dev/sdab
+          - name: /dev/sdac
+          - name: /dev/sdad
+          - name: /dev/sdae
+          - name: /dev/sdaf
+          - name: /dev/sdag
+          - name: /dev/sdah
+          - name: /dev/sdai
+          - name: /dev/sdaj
+          - name: /dev/sdak
+          - name: /dev/sdal
+          - name: /dev/sdam
+          - name: /dev/sdan
+          - name: /dev/sdao
+          - name: /dev/sdap
+          - name: /dev/sdaq
+          - name: /dev/sdar
+          - name: /dev/sdas
+          - name: /dev/sdat
+          - name: /dev/sdau
+          - name: /dev/sdav
+          - name: /dev/sdaw
+          - name: /dev/sdax
+          - name: /dev/sday
+          - name: /dev/sdaz
+          - name: /dev/sdba
+          - name: /dev/sdbb
+          - name: /dev/sdbc
+          - name: /dev/sdbd
+          - name: /dev/sdbe
+          - name: /dev/sdbf
+          - name: /dev/sdbg
+          - name: /dev/sdbh
+          - name: /dev/sdbi
+          - name: /dev/sdbj
+          - name: /dev/sdbk
+          - name: /dev/sdbl
+          - name: /dev/sdbm
+          - name: /dev/sdbn
+          - name: /dev/sdbo
+          - name: /dev/sdbp
+          - name: /dev/sdbq
+          - name: /dev/sdbr
+          - name: /dev/sdbs
+          - name: /dev/sdbt
+          - name: /dev/sdbu
+          - name: /dev/sdbv
+          - name: /dev/sdbw
+          - name: /dev/sdbx
+          - name: /dev/sdby
+          - name: /dev/sdbz
+          - name: /dev/sdca
+          - name: /dev/sdcb
+          - name: /dev/sdcc
+          - name: /dev/sdcd
+          - name: /dev/sdce
+          - name: /dev/sdcf
+          - name: /dev/sdcg
+          - name: /dev/sdch
+          - name: /dev/sdci
+          - name: /dev/sdcj
+
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      quotas:
+        maxSize: 1050Ti
+      enableRBDStats: true
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      mountOptions:
+        - discard
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4

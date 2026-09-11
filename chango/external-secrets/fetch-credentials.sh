@@ -1,1 +1,0 @@
-../../template/external-secrets/fetch-credentials.sh
