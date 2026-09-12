@@ -1,0 +1,190 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: dac-fast
+  namespace: rook-ceph
+spec:
+  defaultRealm: false
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: dac-fast
+  namespace: rook-ceph
+spec:
+  realm: dac-fast
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: dac-fast
+  namespace: rook-ceph
+spec:
+  zoneGroup: dac-fast
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: dac-fast
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: false
+  gateway:
+    port: 80
+    instances: 2
+  zone:
+    name: dac-fast
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-dac-fast
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host dac-fast.machi.ls.lsst.org
+      secretName: rook-ceph-rgw-dac-fast-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-dac-fast
+                port:
+                  number: 80
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.control
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.meta
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.log
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "64"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-fast.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: nvme
+  erasureCoded:
+    dataChunks: 4
+    codingChunks: 3
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "128"
+  quotas:
+    maxSize: 20Ti
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: dac-fast
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: dac-fast
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Delete
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: dac-fast-test
+  namespace: rook-ceph
+spec:
+  generateBucketName: dac-fast-test
+  storageClassName: dac-fast

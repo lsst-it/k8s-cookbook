@@ -3,6 +3,7 @@ cephBlockPools:
   - name: replicapool
     spec:
       failureDomain: host
+      deviceClass: hdd
       replicated:
         size: 3
         requireSafeReplicaSize: true
@@ -2766,3 +2767,57 @@ cephClusterSpec:
             config: *nvme3
           - name: /dev/sdx
             config: *nvme3
+      - name: toqui01
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DC83F
+      - name: toqui02
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DA065
+      - name: toqui03
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DCA49
+      - name: toqui04
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D9517
+      - name: toqui05
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D9FFE
+      - name: toqui06
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D94F1
+      - name: toqui07
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DA030
+      - name: toqui08
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DCA36
+      - name: toqui09
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D9563
+      - name: toqui10
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D9FFC
+      - name: toqui11
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DCA5E
+      - name: toqui12
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DC812
+      - name: toqui13
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DA05B
+      - name: toqui14
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DC865
+      - name: toqui15
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DBC26
+      - name: toqui16
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DBCC5
+      - name: toqui17
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0DA518
+      - name: toqui18
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_24364B0D9541
