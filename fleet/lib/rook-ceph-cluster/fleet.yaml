@@ -214,3 +214,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/machi/values.yaml
+  - name: chango
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chango
+    helm:
+      valuesFiles:
+        - overlays/chango/values.yaml
