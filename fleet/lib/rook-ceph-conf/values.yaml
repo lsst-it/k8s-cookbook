@@ -32,3 +32,5 @@ subchart:
     enabled: false
   machi:
     enabled: false
+  lonko:
+    enabled: false

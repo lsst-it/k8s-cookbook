@@ -1,0 +1,22 @@
+---
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: lonko
+  namespace: fleet-default
+spec:
+  repo: https://github.com/lsst-it/k8s-cookbook
+  branch: master
+  keepResources: true
+  paths:
+    - fleet/s/ls/c/lonko/*
+  targets:
+    - name: lonko
+      clusterSelector:
+        matchExpressions:
+          - key: management.cattle.io/cluster-display-name
+            operator: In
+            values:
+              - lonko
+  correctDrift:
+    enabled: true
