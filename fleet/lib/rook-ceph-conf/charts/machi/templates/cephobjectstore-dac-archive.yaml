@@ -2,7 +2,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephObjectRealm
 metadata:
-  name: lfa
+  name: dac-archive
   namespace: rook-ceph
 spec:
   defaultRealm: true
@@ -10,63 +10,36 @@ spec:
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
 metadata:
-  name: lfa
+  name: dac-archive
   namespace: rook-ceph
 spec:
-  realm: lfa
+  realm: dac-archive
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZone
 metadata:
-  name: lfa
+  name: dac-archive
   namespace: rook-ceph
 spec:
-  zoneGroup: lfa
+  zoneGroup: dac-archive
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
 metadata:
-  name: lfa
+  name: dac-archive
   namespace: rook-ceph
 spec:
-  preservePoolsOnDelete: true
+  preservePoolsOnDelete: false
   gateway:
     port: 80
-    instances: 96  # 2 per node
-    resources:
-      limits:
-        cpu: "4"
-        memory: 8Gi
-      requests:
-        cpu: "4"
-        memory: 8Gi
+    instances: 2
   zone:
-    name: lfa
----
-apiVersion: ceph.rook.io/v1
-kind: CephObjectStore
-metadata:
-  name: lfagc  # gc only
-  namespace: rook-ceph
-spec:
-  preservePoolsOnDelete: true
-  gateway:
-    port: 80
-    instances: 6
-    resources:
-      limits:
-        cpu: "4"
-        memory: 8Gi
-      requests:
-        cpu: "4"
-        memory: 8Gi
-  zone:
-    name: lfa
+    name: dac-archive
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: rook-ceph-rgw-lfa
+  name: rook-ceph-rgw-dac-archive
   namespace: rook-ceph
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
@@ -75,8 +48,8 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - &host s3.machi.ls.lsst.org
-      secretName: rook-ceph-rgw-lfa-ingress-tls
+        - &host dac-archive.machi.ls.lsst.org
+      secretName: rook-ceph-rgw-dac-archive-ingress-tls
   rules:
     - host: *host
       http:
@@ -85,178 +58,133 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: rook-ceph-rgw-lfa
-                port:
-                  number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: rook-ceph-rgw-lfa-lhn
-  namespace: rook-ceph
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt
-    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
-spec:
-  ingressClassName: nginx-lhn
-  tls:
-    - hosts:
-        - &host s3-lhn.machi.ls.lsst.org
-      secretName: rook-ceph-rgw-lfa-lhn-ingress-tls
-  rules:
-    - host: *host
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: rook-ceph-rgw-lfa
+                name: rook-ceph-rgw-dac-archive
                 port:
                   number: 80
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
-  name: rgw.root
-  namespace: rook-ceph
-spec:
-  application: rgw
-  failureDomain: host
-  name: .rgw.root
-  parameters:
-    nodelete: "true"
-    nosizechange: "true"
-    pg_autoscale_mode: "off"
-    pg_num: "512"
-  replicated:
-    size: 3
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: lfa.rgw.control
-  namespace: rook-ceph
-spec:
-  application: rgw
-  failureDomain: host
-  parameters:
-    nodelete: "true"
-    nosizechange: "true"
-    pg_autoscale_mode: "off"
-    pg_num: "512"
-  replicated:
-    size: 3
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: lfa.rgw.meta
-  namespace: rook-ceph
-spec:
-  application: rgw
-  failureDomain: host
-  parameters:
-    nodelete: "true"
-    nosizechange: "true"
-    pg_autoscale_mode: "off"
-    pg_num: "512"
-  replicated:
-    size: 3
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: lfa.rgw.log
-  namespace: rook-ceph
-spec:
-  application: rgw
-  failureDomain: host
-  parameters:
-    nodelete: "true"
-    nosizechange: "true"
-    pg_autoscale_mode: "off"
-    pg_num: "1024"
-  replicated:
-    size: 3
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: lfa.rgw.buckets.index
-  namespace: rook-ceph
-spec:
-  application: rgw
-  failureDomain: host
-  # deviceClass: nvme # XXX this should ideally be on nvme
-  parameters:
-    nodelete: "true"
-    nosizechange: "true"
-    pg_autoscale_mode: "off"
-    pg_num: "2048"
-  replicated:
-    size: 3
----
-apiVersion: ceph.rook.io/v1
-kind: CephBlockPool
-metadata:
-  name: lfa.rgw.buckets.non-ec
+  name: dac-archive.rgw.control
   namespace: rook-ceph
 spec:
   application: rgw
   failureDomain: host
   deviceClass: hdd
   parameters:
-    nodelete: "true"
-    nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "512"
+    pg_num: "32"
   replicated:
     size: 3
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
-  name: lfa.rgw.otp
+  name: dac-archive.rgw.meta
   namespace: rook-ceph
 spec:
   application: rgw
   failureDomain: host
+  deviceClass: hdd
   parameters:
-    nodelete: "true"
-    nosizechange: "true"
     pg_autoscale_mode: "off"
-    pg_num: "1"
+    pg_num: "32"
   replicated:
     size: 3
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephBlockPool
 metadata:
-  name: lfa.rgw.buckets.data
+  name: dac-archive.rgw.log
   namespace: rook-ceph
 spec:
   application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-archive.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-archive.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "64"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-archive.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: dac-archive.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
   erasureCoded:
     dataChunks: 8
     codingChunks: 3
-  failureDomain: host
-  deviceClass: hdd
   parameters:
-    nodelete: "true"
-    nosizechange: "true"
     pg_autoscale_mode: "off"
-    bulk: "true"
-    pg_num: "16384"
+    pg_num: "4096"
   quotas:
-    maxSize: 14Pi
+    maxSize: 10Ti
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: lfa
+  name: dac-archive
 provisioner: rook-ceph.ceph.rook.io/bucket
 parameters:
-  objectStoreName: lfa
+  objectStoreName: dac-archive
   objectStoreNamespace: rook-ceph
-reclaimPolicy: Retain
+reclaimPolicy: Delete
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: dac-archive-test
+  namespace: rook-ceph
+spec:
+  generateBucketName: dac-archive-test
+  storageClassName: dac-archive

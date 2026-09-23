@@ -5,7 +5,7 @@ metadata:
   name: extended-ceph-exporter
   namespace: rook-ceph
 spec:
-  store: lfa
+  store: dac-archive
   clusterNamespace: rook-ceph
   displayName: extended-ceph-exporter
   capabilities:

@@ -1,0 +1,20 @@
+---
+# Cluster-wide RGW realm/zonegroup/zone metadata. Shared by every object
+# store on this cluster, so it belongs to none of them and lives here.
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: rgw.root
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  name: .rgw.root
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "512"
+  replicated:
+    size: 3
