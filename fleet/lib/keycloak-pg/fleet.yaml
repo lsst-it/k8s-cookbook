@@ -46,3 +46,14 @@ targetCustomizations:
       overlays:
         - generic
         - yepun
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    yaml:
+      overlays:
+        - generic
+        - merken
