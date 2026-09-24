@@ -47,6 +47,15 @@ ingress:
   className: nginx
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
+  hosts:
+    - host: netbox.${ .ClusterLabels.site }.lsst.org
+      paths:
+        - /
+  tls:
+    - hosts:
+        - netbox.${ .ClusterLabels.site }.lsst.org
+      secretName: netbox-ingress-tls
+      
 
 extraConfig:
   - secret:

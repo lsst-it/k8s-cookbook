@@ -34,7 +34,7 @@ spec:
     name: netbox-pg-superuser
 
   storage:
-    size: 2Gi
+    size: 5Gi
 
   monitoring:
     enablePodMonitor: true
