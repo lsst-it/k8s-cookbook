@@ -1,0 +1,33 @@
+---
+defaultNamespace: &name netbox
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: netbox-pre
+  - selector:
+      matchLabels:
+        bundle: netbox-pg
+helm:
+  chart: netbox
+  releaseName: *name
+  repo: https://charts.bitnami.com/bitnami
+  version: 8.3.84
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml

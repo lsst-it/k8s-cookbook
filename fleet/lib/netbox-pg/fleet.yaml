@@ -1,0 +1,17 @@
+---
+defaultNamespace: &name netbox-pg
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+helm:
+  releaseName: *name
+  timeoutSeconds: 300
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: cnpg-system
+  - selector:
+      matchLabels:
+        bundle: netbox-pre
