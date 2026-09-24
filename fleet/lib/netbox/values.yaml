@@ -88,6 +88,9 @@ extraVolumeMounts:
     subPath: sso_pipeline_roles.py
     readOnly: true
 
+postgresql:
+  enabled: false
+
 externalDatabase:
   host: netbox-pg-rw.netbox-pg.svc.cluster.local
   port: 5432
