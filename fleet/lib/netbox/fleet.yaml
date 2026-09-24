@@ -12,9 +12,8 @@ dependsOn:
       matchLabels:
         bundle: netbox-pg
 helm:
-  chart: netbox
+  chart: oci://ghcr.io/netbox-community/netbox-chart/netbox
   releaseName: *name
-  repo: https://charts.bitnami.com/bitnami
   version: 8.3.84
   timeoutSeconds: 300
   waitForJobs: true
