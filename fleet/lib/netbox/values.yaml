@@ -98,4 +98,5 @@ externalDatabase:
 
 valkey:
   auth:
-    password: testpassword
+    existingSecret: netbox-valkey
+    existingSecretPasswordKey: valkey-password
