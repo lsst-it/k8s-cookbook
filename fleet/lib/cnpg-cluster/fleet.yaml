@@ -65,14 +65,3 @@ targetCustomizations:
       overlays:
         - generic
         - ruka
-  - name: yagan
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - yagan
-    yaml:
-      overlays:
-        - generic
-        - yagan
