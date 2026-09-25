@@ -4,7 +4,7 @@ kind: Cluster
 metadata:
   name: netbox-pg
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:15
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
 
   instances: 3
 
