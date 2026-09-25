@@ -1,0 +1,10 @@
+---
+defaultNamespace: netbox
+labels:
+  bundle: netbox-pre
+namespaceLabels:
+  lsst.io/discover: "true"
+helm:
+  releaseName: netbox-pre
+  timeoutSeconds: 300
+  waitForJobs: true
