@@ -55,7 +55,6 @@ ingress:
     - hosts:
         - netbox.${ .ClusterLabels.site }.lsst.org
       secretName: netbox-ingress-tls
-      
 
 extraConfig:
   - secret:
