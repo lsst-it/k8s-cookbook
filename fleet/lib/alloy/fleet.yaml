@@ -10,7 +10,7 @@ helm:
   chart: &chart alloy
   releaseName: *chart
   repo: https://grafana.github.io/helm-charts
-  version: 1.6.0
+  version: 1.13.0
   timeoutSeconds: 600
   waitForJobs: true
   valuesFiles:
