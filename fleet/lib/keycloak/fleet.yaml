@@ -51,3 +51,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/yepun/values.yaml
+  - name: merken
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - merken
+    helm:
+      valuesFiles:
+        - overlays/merken/values.yaml
