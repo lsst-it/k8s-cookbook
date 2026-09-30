@@ -58,6 +58,8 @@ helm:
           lsst.io/monitor: "true"
       metricsService:
         create: true
+    grafana:
+      enabled: true
 dependsOn:
   - selector:
       matchLabels:
