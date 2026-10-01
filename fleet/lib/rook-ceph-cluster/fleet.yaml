@@ -224,3 +224,13 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/lonko/values.yaml
+  - name: chango
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chango
+    helm:
+      valuesFiles:
+        - overlays/chango/values.yaml

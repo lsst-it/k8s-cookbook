@@ -34,3 +34,5 @@ subchart:
     enabled: false
   lonko:
     enabled: false
+  chango:
+    enabled: false
