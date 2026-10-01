@@ -17,7 +17,7 @@ helm:
   releaseName: *name
   repo: https://k8up-io.github.io/k8up
   version: 4.8.6
-  timeoutSeconds: 60
+  timeoutSeconds: 900
   waitForJobs: true
 targetCustomizations:
   - name: ruka
