@@ -1,0 +1,37 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: netbox-pg-backup
+spec:
+  concurrencyPolicy: Forbid
+  schedule: 0 12,21 * * *  # 9AM CLT - 6PM CLT
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 172800
+      template:
+        spec:
+          activeDeadlineSeconds: 3600
+          containers:
+            - name: cnpg-backup
+              image: docker.io/lsstit/cnpg-backup:17.5-0.7
+              volumeMounts:
+                - name: ephemeral
+                  mountPath: /tmp
+              imagePullPolicy: IfNotPresent
+              envFrom:
+                - secretRef:
+                    name: netbox-pg-backup
+              env:
+                - name: HOST
+                  value: netbox-pg-rw.netbox-pg.svc.cluster.local
+          volumes:
+            - name: ephemeral
+              ephemeral:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes: [ReadWriteOnce]
+                    resources:
+                      requests:
+                        storage: 5Gi
+          restartPolicy: OnFailure
