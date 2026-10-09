@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: cnpg-cluster-test
 spec:
-  imageName: docker.io/lsstit/cnpgsphere:16.8
+  imageName: docker.io/lsstit/cnpgsphere:17.5
   imagePullPolicy: Always
 
   instances: 3
