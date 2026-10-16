@@ -70,6 +70,22 @@ helm:
   timeoutSeconds: 60
   waitForJobs: true
 targetCustomizations:
+  # must precede "default": fleet applies only the first matching customization
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml
+      values:
+        controller:
+          service:
+            annotations:
+              metallb.io/address-pool: ingress
   - name: default
     clusterSelector:
       matchLabels:
