@@ -81,11 +81,6 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ruka/values.yaml
-      values:
-        controller:
-          service:
-            annotations:
-              metallb.io/address-pool: ingress
   - name: default
     clusterSelector:
       matchLabels:
