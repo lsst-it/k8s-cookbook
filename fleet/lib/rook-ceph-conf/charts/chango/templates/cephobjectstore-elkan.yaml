@@ -1,0 +1,201 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  realm: elkan
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  zoneGroup: elkan
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
+    instances: 2
+    resources:
+      limits:
+        cpu: "16"
+        memory: 8Gi
+      requests:
+        cpu: "1"
+        memory: 4Gi
+  zone:
+    name: elkan
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-elkan
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host elkan.chango.ls.lsst.org
+      secretName: rook-ceph-rgw-elkan-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-elkan
+                port:
+                  number: 80
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.control
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.meta
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.log
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.otp
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.buckets.index
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "64"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.buckets.non-ec
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "32"
+  replicated:
+    size: 3
+---
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: elkan.rgw.buckets.data
+  namespace: rook-ceph
+spec:
+  application: rgw
+  failureDomain: host
+  deviceClass: hdd
+  replicated:
+    size: 3
+  parameters:
+    nodelete: "true"
+    nosizechange: "true"
+    pg_autoscale_mode: "off"
+    pg_num: "8192"
+  quotas:
+    maxSize: 900Ti
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: elkan
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: elkan
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
