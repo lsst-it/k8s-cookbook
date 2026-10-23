@@ -65,14 +65,14 @@ targetCustomizations:
       overlays:
         - generic
         - ruka
-  - name: yagan
+  - name: lonko
     clusterSelector:
       matchExpressions:
         - key: management.cattle.io/cluster-display-name
           operator: In
           values:
-            - yagan
+            - lonko
     yaml:
       overlays:
         - generic
-        - yagan
+        - lonko
