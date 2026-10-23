@@ -43,3 +43,17 @@ targetCustomizations:
             host: http://rook-ceph-rgw-dac-archive:80
             existingSecret:
               name: rook-ceph-object-user-dac-archive-extended-ceph-exporter
+  - name: chango
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chango
+    helm:
+      values:
+        config:
+          rgw:
+            host: http://rook-ceph-rgw-elkan:80
+            existingSecret:
+              name: rook-ceph-object-user-elkan-extended-ceph-exporter
