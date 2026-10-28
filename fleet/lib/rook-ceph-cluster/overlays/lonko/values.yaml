@@ -1,0 +1,99 @@
+---
+cephClusterSpec:
+  mon:
+    count: 5
+  cephConfig:
+    global:
+      osd_pool_default_pg_autoscale_mode: warn
+      rgw_override_bucket_index_max_shards: "401"
+      rgw_enable_usage_log: "false"
+    mgr:
+      mgr/balancer/upmap_max_deviation: "1"
+    osd:
+      osd_max_pg_per_osd_hard_ratio: "10"
+      osd_op_queue: wpq
+      osd_scrub_auto_repair: "true"
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    config:
+      osdsPerDevice: "1"
+      encryptedDevice: "true"
+    nodes:
+      - name: lonko01
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_2327423792E7
+      - name: lonko02
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E093C3
+      - name: lonko03
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E07C20
+      - name: lonko04
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E055B6
+      - name: lonko05
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_242048F6F327
+      - name: lonko06
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E0551A
+      - name: lonko07
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E07BFF
+      - name: lonko08
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_242048F717A2
+      - name: lonko09
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_242048F717FB
+      - name: lonko10
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E07B80
+      - name: lonko11
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E0937E
+      - name: lonko12
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E05500
+      - name: lonko13
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E07C30
+      - name: lonko14
+        devices:
+          - name: /dev/disk/by-id/nvme-Micron_9400_MTFDKCC30T7TGH_241248E09AA8
+
+cephBlockPools:
+  - name: replicapool
+    spec:
+      failureDomain: host
+      replicated:
+        size: 3
+        requireSafeReplicaSize: true
+      parameters:
+        nodelete: "true"
+        nosizechange: "true"
+        pg_num: "512"
+      quotas:
+        maxSize: 20Ti
+      enableRBDStats: true
+    storageClass:
+      name: rook-ceph-block
+      enabled: true
+      isDefault: true
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      mountOptions:
+        - discard
+      parameters:
+        clusterID: rook-ceph
+        pool: replicapool
+        imageFormat: "2"
+        imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+        csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+        csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+        csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+        csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+        csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+        csi.storage.k8s.io/fstype: ext4
