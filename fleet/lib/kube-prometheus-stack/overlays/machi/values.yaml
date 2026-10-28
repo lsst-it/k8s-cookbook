@@ -7,3 +7,14 @@ kube-state-metrics:
     requests:
       cpu: 10m
       memory: 512Mi
+prometheus:
+  prometheusSpec:
+    retentionSize: 140GB
+    storageSpec:
+      volumeClaimTemplate:
+        metadata:
+          name: prometheus-db-machi
+        spec:
+          resources:
+            requests:
+              storage: 200Gi

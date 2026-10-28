@@ -218,3 +218,27 @@ targetCustomizations:
         subchart:
           machi:
             enabled: true
+  - name: lonko
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lonko
+    helm:
+      values:
+        subchart:
+          lonko:
+            enabled: true
+  - name: chango
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - chango
+    helm:
+      values:
+        subchart:
+          chango:
+            enabled: true
