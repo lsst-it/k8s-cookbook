@@ -51,8 +51,8 @@ spec:
 
   resources:
     limits:
-      cpu: "24"
-      memory: 32Gi
+      cpu: "48"
+      memory: 64Gi
     requests:
-      cpu: "24"
-      memory: 32Gi
+      cpu: "48"
+      memory: 64Gi
