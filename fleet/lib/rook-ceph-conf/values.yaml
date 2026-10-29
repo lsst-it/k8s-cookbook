@@ -32,3 +32,7 @@ subchart:
     enabled: false
   machi:
     enabled: false
+  lonko:
+    enabled: false
+  chango:
+    enabled: false
