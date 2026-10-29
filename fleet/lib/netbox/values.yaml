@@ -107,6 +107,15 @@ valkey:
     existingSecretPasswordKey: valkey-password
 
 worker:
+  # netbox-media is RWO; keep the worker on the same node as the web pod so it can mount it
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: netbox
+              app.kubernetes.io/instance: netbox
+          topologyKey: kubernetes.io/hostname
   resources:
     requests:
       cpu: 100m
