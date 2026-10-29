@@ -81,6 +81,16 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ruka/values.yaml
+  - name: lonko
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lonko
+    helm:
+      valuesFiles:
+        - overlays/lonko/values.yaml
   - name: default
     clusterSelector:
       matchLabels:
