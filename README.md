@@ -58,6 +58,3 @@ graph TD
     H -->|review requested<br/>@lsst-it/cl-infra| J[cp_production]
     I -->|auto-approve + auto-merge| J[cp_production]
 ```
-
-
-test
