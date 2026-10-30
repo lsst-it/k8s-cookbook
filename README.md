@@ -2,7 +2,7 @@
 
 ## Merge & Promotion Workflow (dev -> production -> cp_production)
 
-This repository uses a gated promotion workflow enforced by Pull Requests (PRs).
+Rhis repository uses a gated promotion workflow enforced by Pull Requests (PRs).
 
 Primary branches:
 
