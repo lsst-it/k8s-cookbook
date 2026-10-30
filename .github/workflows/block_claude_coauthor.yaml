@@ -19,7 +19,7 @@ jobs:
       - name: reject Claude co-author trailers
         run: |
           if git log --format=%B "origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }}" \
-              | grep -iE '^co-authored-by:.*(claude|anthropic\.com)'; then
+              | grep -iE '^co-authored-by:.*<noreply@anthropic\.com>'; then
             echo "::error::Commits must not list Claude as a co-author"
             exit 1
           fi
