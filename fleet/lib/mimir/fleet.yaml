@@ -44,15 +44,6 @@ targetCustomizations:
         - overlays/kona/values.yaml
     kustomize:
       dir: kustomize/overlays/kona
-  - name: kueyen
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - kueyen
-    kustomize:
-      dir: kustomize/overlays/kueyen
   - name: ruka
     clusterSelector:
       matchExpressions:

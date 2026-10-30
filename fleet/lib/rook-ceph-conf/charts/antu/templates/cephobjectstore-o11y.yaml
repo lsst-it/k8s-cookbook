@@ -205,7 +205,7 @@ spec:
     bulk: "true"
     pg_num: "64"
   quotas:
-    maxSize: 40Ti
+    maxSize: 50Ti
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass

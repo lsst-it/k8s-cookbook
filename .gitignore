@@ -3,3 +3,4 @@ secret.yaml
 template.yaml
 .DS_Store
 *\ [2-9].sh
+temp/

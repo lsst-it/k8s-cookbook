@@ -22,6 +22,10 @@ helm:
         requests:
           cpu: 10m
           memory: 192Mi
+      livenessProbe:
+        initialDelaySeconds: 120
+      readinessProbe:
+        initialDelaySeconds: 120
     speaker:
       priorityClassName: system-node-critical
       frr:

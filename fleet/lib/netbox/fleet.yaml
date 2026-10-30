@@ -1,0 +1,42 @@
+---
+defaultNamespace: &name netbox
+namespaceLabels:
+  lsst.io/discover: "true"
+labels:
+  bundle: *name
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: netbox-pre
+  - selector:
+      matchLabels:
+        bundle: netbox-pg
+helm:
+  chart: oci://ghcr.io/netbox-community/netbox-chart/netbox
+  releaseName: *name
+  version: 8.3.98
+  timeoutSeconds: 300
+  waitForJobs: true
+  valuesFiles:
+    - values.yaml
+targetCustomizations:
+  - name: ruka
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+    helm:
+      valuesFiles:
+        - overlays/ruka/values.yaml
+  - name: luan
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - luan
+    helm:
+      valuesFiles:
+        - overlays/luan/values.yaml
