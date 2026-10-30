@@ -1,0 +1,11 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: chango-elkan
+  namespace: rook-ceph
+spec:
+  store: elkan
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 1
