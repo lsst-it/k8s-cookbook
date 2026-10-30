@@ -58,3 +58,18 @@ graph TD
     H -->|review requested<br/>@lsst-it/cl-infra| J[cp_production]
     I -->|auto-approve + auto-merge| J[cp_production]
 ```
+
+## Git Hooks
+
+This repository ships shared git hooks in the `.githooks/` directory.
+Git does not use them by default, so enable them once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+Current hooks:
+
+- `commit-msg`: rejects commits with a `Co-Authored-By` trailer for Claude (`claude` or `anthropic.com`).
+
+The same rule is enforced on every PR by the `Block Claude Co-Author` workflow, so commits that skip the hook (e.g. `git commit --no-verify`) will still fail CI.
