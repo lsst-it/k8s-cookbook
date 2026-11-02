@@ -81,6 +81,22 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/ruka/values.yaml
+    # must precede "default": fleet applies only the first matching customization
+  - name: lonko
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - lonko
+    helm:
+      valuesFiles:
+        - overlays/lonko/values.yaml
+      values:
+        controller:
+          service:
+            annotations:
+              metallb.io/address-pool: ingress
   - name: default
     clusterSelector:
       matchLabels:
