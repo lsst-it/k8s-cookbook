@@ -26,4 +26,4 @@ metrics:
         lsst.io/monitor: "true"
 service:
   annotations:
-    metallb.universe.tf/address-pool: ingress
+    metallb.io/address-pool: ingress

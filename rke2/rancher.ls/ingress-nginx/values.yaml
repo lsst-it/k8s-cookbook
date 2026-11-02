@@ -9,6 +9,6 @@ controller:
     controllerValue: k8s.io/ingress-nginx
   service:
     annotations:
-      metallb.universe.tf/address-pool: ingress
+      metallb.io/address-pool: ingress
 rbac:
   create: true
