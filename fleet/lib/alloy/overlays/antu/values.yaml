@@ -2,7 +2,7 @@ service:
   enabled: true
   type: LoadBalancer
   annotations:
-    metallb.universe.tf/address-pool: alloy
+    metallb.io/address-pool: alloy
 
 controller:
   type: deployment

@@ -69,7 +69,7 @@ metadata:
   name: rook-ceph-nfs-lsstdata
   namespace: rook-ceph
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 140.252.146.52
+    metallb.io/loadBalancerIPs: 140.252.146.52
 spec:
   ports:
     - name: nfs
