@@ -20,3 +20,6 @@ data:
 
     ceph osd pool set .mgr nodelete true
     ceph osd pool set .mgr nosizechange true
+
+    radosgw-admin zone modify --rgw-realm=elkan --rgw-zone=elkan-kueyen --master --read-only=false --sync-from-all=false >/dev/null
+    radosgw-admin period update --commit --rgw-realm=elkan >/dev/null
