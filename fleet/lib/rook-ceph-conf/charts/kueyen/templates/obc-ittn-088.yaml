@@ -1,0 +1,14 @@
+# This is a test bucket for the technote explaining the replication
+
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name ittn-088
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: elkan
+  additionalConfig:
+    bucketOwner: ittn-088
+    bucketMaxSize: 1Gi

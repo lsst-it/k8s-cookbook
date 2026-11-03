@@ -1,0 +1,13 @@
+# This is a test for the technote explaining the replication
+
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStoreUser
+metadata:
+  name: ittn-088
+  namespace: rook-ceph
+spec:
+  store: elkan
+  clusterNamespace: rook-ceph
+  quotas:
+    maxBuckets: 1
