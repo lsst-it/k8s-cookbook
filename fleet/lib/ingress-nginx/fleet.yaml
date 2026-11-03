@@ -70,6 +70,24 @@ helm:
   timeoutSeconds: 60
   waitForJobs: true
 targetCustomizations:
+  # must precede "default": fleet applies only the first matching customization
+  - name: phalanx
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - ruka
+            - lonko
+    helm:
+      values:
+        controller:
+          podLabels:
+            gafaelfawr.lsst.io/ingress: "true"
+            hub.jupyter.org/network-access-proxy-http: "true"
+          service:
+            annotations:
+              metallb.io/address-pool: ingress
   - name: default
     clusterSelector:
       matchLabels:
