@@ -26,7 +26,7 @@ metadata:
   name: elkan
   namespace: rook-ceph
 spec:
-  defaultRealm: false
+  defaultRealm: true
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
