@@ -1,5 +1,16 @@
 debug: true
 
+# NetBox with the prometheus-sd and topology-views plugins baked in (lsst-it/netbox-image,
+# multi-arch, public). ruka only until the trial is done: luan stays on the upstream image.
+image:
+  registry: docker.io
+  repository: lsstit/netbox
+  tag: v4.7.4-1
+
+plugins:
+  - netbox_prometheus_sd
+  - netbox_topology_views
+
 resources:
   requests:
     cpu: 500m
