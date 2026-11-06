@@ -27,10 +27,12 @@ spec:
           name: netbox-prometheus-sd
           key: token
   relabelings:
-    # the plugin's target is the device name; ping its primary IPv4 (a bare address)
+    # the plugin's target is the device name; ping its primary IPv4 (a bare address), and skip
+    # devices without one (keep, not drop on "": the operator omits an empty regex, and the
+    # default (.*) would then drop every target)
     - sourceLabels: [__meta_netbox_primary_ip4]
-      regex: ""
-      action: drop
+      regex: (.+)
+      action: keep
     - sourceLabels: [__meta_netbox_primary_ip4]
       targetLabel: __param_target
     # instance = FQDN, as in the hand-kept lists: name + the site's domain
