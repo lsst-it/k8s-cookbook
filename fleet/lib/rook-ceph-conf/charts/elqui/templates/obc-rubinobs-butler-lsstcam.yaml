@@ -9,7 +9,7 @@ spec:
   storageClassName: lfa
   additionalConfig:
     bucketOwner: butler
-    bucketMaxSize: 3Pi
+    bucketMaxSize: 3.3Pi
     bucketPolicy: |
       {
           "Version": "2012-10-17",
