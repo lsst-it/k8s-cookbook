@@ -350,7 +350,7 @@ spec:
     bulk: "true"
     pg_num: "2048"
   quotas:
-    maxSize: 3Pi
+    maxSize: 3.3Pi
 ---
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
