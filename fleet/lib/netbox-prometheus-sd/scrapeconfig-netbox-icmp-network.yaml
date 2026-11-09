@@ -35,6 +35,10 @@ spec:
       action: keep
     - sourceLabels: [__meta_netbox_primary_ip4]
       targetLabel: __param_target
+    # the pinged address as a visible label, to compare with the hand-kept lists in PromQL
+    # (probe_ip_addr_hash only says whether two jobs ping the same address)
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      targetLabel: target_ip
     # instance = FQDN, as in the hand-kept lists: name + the site's domain
     - sourceLabels: [__meta_netbox_name]
       targetLabel: instance
