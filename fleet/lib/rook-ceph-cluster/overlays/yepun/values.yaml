@@ -22,25 +22,48 @@ cephClusterSpec:
     nodes:
       - name: yepun01
         devices:
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800508
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800502
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702385N
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702901H
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702902M
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702906Y
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702912N
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702936A
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702951K
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R702953P
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R704221R
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R804983Z
       - name: yepun02
         devices:
           - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800370
           - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800261
       - name: yepun03
         devices:
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800260
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800023
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705109K
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705139Z
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705141T
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705147R
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705153V
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705479L
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705485Y
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705487X
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R705492F
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R805000T
       - name: yepun04
         devices:
           - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800505
           - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800257
       - name: yepun05
         devices:
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800468
-          - name: /dev/disk/by-id/ata-WDC_WDS400T2B0A-00SM50_214227800515
-
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R704207V
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R801805Z
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R802782B
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R802783P
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R802794M
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R804245D
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R804287J
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0R804846V
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0RA02160A
+          - name: /dev/disk/by-id/ata-Samsung_SSD_870_QVO_8TB_S5VUNJ0RA02831V
 cephBlockPools:
   - name: replicapool
     spec:
@@ -52,7 +75,7 @@ cephBlockPools:
         nodelete: "true"
         nosizechange: "true"
         pg_autoscale_mode: "off"
-        pg_num: "32"
+        pg_num: "1024"
       quotas:
         maxSize: 5Ti
       enableRBDStats: true
