@@ -22,8 +22,6 @@ dependencies:
     condition: subchart.konkong.enabled
   - name: manke
     condition: subchart.manke.enabled
-  - name: lukay
-    condition: subchart.lukay.enabled
   - name: yagan
     condition: subchart.yagan.enabled
   - name: yepun
