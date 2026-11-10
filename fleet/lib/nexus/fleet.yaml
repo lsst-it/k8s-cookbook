@@ -32,4 +32,4 @@ targetCustomizations:
     helm:
       values:
         persistence:
-          size: 5Ti
+          size: 10Ti
