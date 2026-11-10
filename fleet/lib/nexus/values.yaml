@@ -47,7 +47,7 @@ metrics:
 license:
   enabled: true
   secret: nexus-license
-  key: sonatype-license-2025-03-03T185609Z.lic
+  key: sonatype-license-2026-03-06T154313Z.lic
 
 env:
   - name: NEXUS_DATASTORE_NEXUS_JDBCURL
