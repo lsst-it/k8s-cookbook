@@ -77,7 +77,7 @@ cephBlockPools:
         pg_autoscale_mode: "off"
         pg_num: "1024"
       quotas:
-        maxSize: 5Ti
+        maxSize: 50Ti
       enableRBDStats: true
     storageClass:
       name: rook-ceph-block
