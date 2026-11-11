@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checknorris
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: checknorris
+  template:
+    metadata:
+      labels:
+        app: checknorris
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: checknorris
+          image: ghcr.io/lsst-it/checknorris:v1.28.0
+          env:
+            # Only the test channel (#checknorris-test-bot) until launch; remove before production.
+            - name: ALLOWED_CHANNELS
+              value: C0CGZKDBZ0V,checknorris-test-bot
+          envFrom:
+            - secretRef:
+                name: checknorris-slack
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: checknorris-data
