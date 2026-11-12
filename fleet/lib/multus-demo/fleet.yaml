@@ -75,6 +75,5 @@ targetCustomizations:
     helm:
       values:
         networks:
-          - dds
           - lhn
           - ra-lhn-demo
