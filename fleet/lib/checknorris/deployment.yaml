@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checknorris
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: checknorris
+  template:
+    metadata:
+      labels:
+        app: checknorris
+    spec:
+      containers:
+        - name: checknorris
+          image: ghcr.io/lsst-it/checknorris:v1.1.1
+          envFrom:
+            - secretRef:
+                name: checknorris-slack
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
