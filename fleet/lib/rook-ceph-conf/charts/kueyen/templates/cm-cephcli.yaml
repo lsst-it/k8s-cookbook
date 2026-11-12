@@ -20,3 +20,18 @@ data:
 
     ceph osd pool set .mgr nodelete true
     ceph osd pool set .mgr nosizechange true
+
+    # elkan multisite: kueyen is the master zone
+    radosgw-admin zone modify --rgw-realm=elkan --rgw-zone=elkan-kueyen --master --read-only=false --sync-from-all=false >/dev/null
+    radosgw-admin period update --commit --rgw-realm=elkan >/dev/null
+    radosgw-admin zonegroup default --rgw-realm=elkan --rgw-zonegroup=elkan
+    radosgw-admin zone default --rgw-realm=elkan --rgw-zone=elkan-kueyen
+
+    # NFS export of the elkan-nfs bucket (replicated to chango)
+    # ganesha needs access to the RGW pools
+    ceph auth caps client.nfs-ganesha.elkan-nfs.a mon 'allow r' osd 'allow rw pool=.nfs namespace=elkan-nfs, allow rwx tag rgw *=*'
+    waitforpod rook-ceph -l app=rook-ceph-nfs,ceph_nfs=elkan-nfs
+    ceph nfs export rm elkan-nfs /elkan-nfs
+    ceph nfs export create rgw --cluster-id elkan-nfs --pseudo-path /elkan-nfs --bucket elkan-nfs --user-id elkan-nfs
+    # restart ganesha to apply the changes
+    kubectl -n rook-ceph rollout restart deploy -l ceph_nfs=elkan-nfs

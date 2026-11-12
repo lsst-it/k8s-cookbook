@@ -1,0 +1,12 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: &name elkan-nfs
+  namespace: rook-ceph
+spec:
+  bucketName: *name
+  storageClassName: elkan
+  additionalConfig:
+    bucketOwner: elkan-nfs
+    bucketMaxSize: 500Gi

@@ -5,7 +5,7 @@ metadata:
   name: o11y
   namespace: rook-ceph
 spec:
-  defaultRealm: true
+  defaultRealm: false
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup

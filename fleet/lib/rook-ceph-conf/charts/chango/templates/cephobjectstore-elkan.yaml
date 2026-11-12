@@ -6,6 +6,8 @@ metadata:
   namespace: rook-ceph
 spec:
   defaultRealm: true
+  pull:
+    endpoint: https://s3.elkan.kueyen.dev.lsst.org
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectZoneGroup
@@ -22,6 +24,8 @@ metadata:
   namespace: rook-ceph
 spec:
   zoneGroup: elkan
+  customEndpoints:
+    - https://s3.chango.ls.lsst.org
 ---
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
@@ -51,6 +55,9 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
 spec:
   ingressClassName: nginx
   tls:
@@ -189,13 +196,3 @@ spec:
     pg_num: "8192"
   quotas:
     maxSize: 900Ti
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: elkan
-provisioner: rook-ceph.ceph.rook.io/bucket
-parameters:
-  objectStoreName: elkan
-  objectStoreNamespace: rook-ceph
-reclaimPolicy: Retain
