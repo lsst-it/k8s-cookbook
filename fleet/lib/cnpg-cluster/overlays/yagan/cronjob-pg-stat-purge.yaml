@@ -1,0 +1,49 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pg-snapshot-purge
+  namespace: cloudnativepg
+  labels:
+    app: pg-snapshot-purge
+spec:
+  schedule: "0 20 * * *"
+  startingDeadlineSeconds: 300
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 600
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: purge
+              image: postgres:16-alpine
+              env:
+                - name: PGHOST
+                  value: cnpg-cluster-rw
+                - name: PGDATABASE
+                  value: butler
+                - name: PGUSER
+                  valueFrom:
+                    secretKeyRef:
+                      name: cnpg-cluster-superuser
+                      key: username
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: cnpg-cluster-superuser
+                      key: password
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  psql -v ON_ERROR_STOP=1 <<'SQL'
+                  DELETE FROM pg_stat_statements_snap
+                  WHERE ts < now() - interval '7 days';
+                  VACUUM pg_stat_statements_snap;
+                  ANALYZE pg_stat_statements_snap;
+                  SQL
