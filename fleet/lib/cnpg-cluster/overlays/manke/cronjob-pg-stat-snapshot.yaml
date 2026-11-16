@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: snapshot
-              image: docker.io/lsstit/cnpgsphere:16.8
+              image: docker.io/lsstit/cnpgsphere:17.5
               env:
                 - name: PGHOST
                   value: cnpg-cluster-rw
