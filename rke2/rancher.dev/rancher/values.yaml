@@ -7,7 +7,7 @@ ingress:
     source: secret
   extraAnnotations:
     cert-manager.io/cluster-issuer: letsencrypt
-extraEnv:
-  # version strings from https://github.com/rancher/charts/tree/dev-v2.9/charts/fleet
-  - name: CATTLE_FLEET_MIN_VERSION
-    value: 106.0.0+up0.12.0
+    # Rancher >= 2.14 no longer sets these on its Ingress; keep long UI websockets (kubectl shell, logs) open
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
