@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: snapshot
-              image: docker.io/lsstit/cnpgsphere:16.8
+              image: docker.io/lsstit/cnpgsphere:17.5
               env:
                 - name: PGHOST
                   value: cnpg-cluster-rw
@@ -48,7 +48,9 @@ spec:
                   INSERT INTO pg_stat_statements_snap
                   SELECT now(), *
                   FROM pg_stat_statements
-                  WHERE calls > 0;
+                  WHERE calls > 0 AND query !~ '^(DECLARE|FETCH|CLOSE) ';
+
+                  DELETE FROM pg_stat_statements_snap WHERE ts < now() - interval '30 days';
 
                   SELECT pg_stat_statements_reset();
                   SQL

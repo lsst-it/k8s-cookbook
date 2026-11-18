@@ -93,16 +93,6 @@ targetCustomizations:
     yaml:
       overlays:
         - manke
-  - name: lukay
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - lukay
-    yaml:
-      overlays:
-        - lukay
   - name: yagan
     clusterSelector:
       matchExpressions:
