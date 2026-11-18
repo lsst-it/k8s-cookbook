@@ -1,0 +1,20 @@
+---
+# Trial of NetBox as Prometheus's inventory (netbox-plugin-prometheus-sd): ICMP of the active
+# leafs and spines, under a new job name. Deployed on ruka only (no HostDown rule there).
+defaultNamespace: kube-prometheus-stack
+labels:
+  bundle: netbox-prometheus-sd
+helm:
+  releaseName: netbox-prometheus-sd
+  timeoutSeconds: 300
+  waitForJobs: true
+dependsOn:
+  - selector:
+      matchLabels:
+        bundle: external-secrets
+  - selector:
+      matchLabels:
+        bundle: kube-prometheus-stack
+  - selector:
+      matchLabels:
+        bundle: netbox
