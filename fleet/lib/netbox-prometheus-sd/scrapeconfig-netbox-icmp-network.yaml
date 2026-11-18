@@ -1,8 +1,10 @@
 ---
-# Ping the active leafs and spines that NetBox knows, through the blackbox exporter, like
+# Ping the active network devices that NetBox knows (leafs, spines, access and BMC switches,
+# border routers, ipsec gateways, firewalls), through the blackbox exporter, like
 # blackbox-icmp-snmp does from the hand-kept list (kube-prometheus-stack overlays/dev). New job
 # name, so HostDown and the dashboards filtering on blackbox-icmp-snmp don't pick it up; compare
-# the two jobs by instance in PromQL.
+# the two jobs by instance in PromQL. Devices without a primary IPv4 (the firewalls today) are
+# skipped, so they show up as "only in the list".
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
@@ -19,7 +21,7 @@ spec:
     module: [icmp]
   httpSDConfigs:
     # in-cluster NetBox (netbox-chart service); the endpoint returns every match, no pagination
-    - url: http://netbox.netbox.svc.cluster.local/api/plugins/prometheus-sd/devices/?status=active&role=leaf&role=spine
+    - url: http://netbox.netbox.svc.cluster.local/api/plugins/prometheus-sd/devices/?status=active&role=leaf&role=spine&role=access-switch&role=bmc-switch&role=border-router&role=ipsec&role=firewall
       refreshInterval: 5m
       authorization:
         type: Bearer
@@ -39,15 +41,16 @@ spec:
     # (probe_ip_addr_hash only says whether two jobs ping the same address)
     - sourceLabels: [__meta_netbox_primary_ip4]
       targetLabel: target_ip
-    # instance = FQDN, as in the hand-kept lists: name + the site's domain
+    # instance = FQDN, as in the hand-kept lists: a short name + the site's domain (a name that
+    # already has a dot is kept as it is)
     - sourceLabels: [__meta_netbox_name]
       targetLabel: instance
     - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
-      regex: bdc;(.+)
+      regex: bdc;([^.]+)
       replacement: ${1}.ls.lsst.org
       targetLabel: instance
     - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
-      regex: sdc;(.+)
+      regex: sdc;([^.]+)
       replacement: ${1}.cp.lsst.org
       targetLabel: instance
     - sourceLabels: [__meta_netbox_role_slug]
