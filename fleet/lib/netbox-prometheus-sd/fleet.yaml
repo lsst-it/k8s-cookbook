@@ -1,7 +1,7 @@
 ---
 # Trial of NetBox as Prometheus's inventory (netbox-plugin-prometheus-sd): ICMP and SNMP of the
-# active network devices and PDUs, under new job names next to the hand-kept jobs. Deployed on
-# ruka only (no prometheus-alerts there, so nothing pages).
+# active network devices and PDUs, under new job names next to the hand-kept jobs, plus the
+# servers' BMCs by ICMP. Deployed on ruka only (no prometheus-alerts there, so nothing pages).
 defaultNamespace: kube-prometheus-stack
 labels:
   bundle: netbox-prometheus-sd
