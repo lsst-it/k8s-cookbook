@@ -1,0 +1,71 @@
+---
+# Poll CPU, memory and hardware sensors of the active network devices that NetBox knows
+# (network_base): HOST-RESOURCES hrProcessorLoad / hrStorage* (standard), Cisco avgBusy1/5,
+# ciscoMemoryPool* and CISCO-ENTITY-SENSOR entSensor* (temperatures, fans, PSUs; Cisco only:
+# Arista implements the standard ENTITY-SENSOR-MIB, which this module doesn't walk). No
+# hand-kept job polls this today, so there's nothing to compare with: check per platform which
+# devices answer and which metrics come back. Every 5m, like the other SNMP trial jobs.
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: netbox-snmp-network-base
+  namespace: kube-prometheus-stack
+  labels:
+    lsst.io/scrape: "true"
+spec:
+  jobName: netbox-snmp-network-base
+  scrapeInterval: 5m
+  scrapeTimeout: 60s
+  metricsPath: /snmp
+  params:
+    module: [network_base]
+    auth: [rubin_v2]
+  httpSDConfigs:
+    # in-cluster NetBox (netbox-chart service); the endpoint returns every match, no pagination
+    - url: http://netbox.netbox.svc.cluster.local/api/plugins/prometheus-sd/devices/?status=active&role=leaf&role=spine&role=access-switch&role=bmc-switch&role=border-router&role=ipsec&role=firewall
+      refreshInterval: 5m
+      authorization:
+        type: Bearer
+        credentials:
+          name: netbox-prometheus-sd
+          key: token
+  relabelings:
+    # the plugin's target is the device name; poll its primary IPv4 (a bare address), and skip
+    # devices without one (keep, not drop on "": the operator omits an empty regex, and the
+    # default (.*) would then drop every target)
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      regex: (.+)
+      action: keep
+    # mainlaser-as01 (IOS) never finishes the network_base walk (60s timeout on every poll) and
+    # the walk loads it: the hand-kept if_mib job on it fell from ~100% to ~72% up when this job
+    # started (2026-11-19). Skip it until NetBox can mark slow devices (a tag), then filter on that
+    - sourceLabels: [__meta_netbox_name]
+      regex: mainlaser-as01
+      action: drop
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      targetLabel: __param_target
+    # the polled address as a visible label, to compare with the hand-kept lists in PromQL
+    # (probe_ip_addr_hash only says whether two jobs ping the same address)
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      targetLabel: target_ip
+    # instance = FQDN, as in the hand-kept lists: a short name + the site's domain (a name that
+    # already has a dot is kept as it is)
+    - sourceLabels: [__meta_netbox_name]
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: bdc;([^.]+)
+      replacement: ${1}.ls.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: sdc;([^.]+)
+      replacement: ${1}.cp.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_role_slug]
+      targetLabel: role
+    # eos / ios / nxos: what network_base returns depends on the vendor
+    - sourceLabels: [__meta_netbox_platform_slug]
+      targetLabel: platform
+    - sourceLabels: [__meta_netbox_site_slug]
+      targetLabel: site
+    - targetLabel: __address__
+      replacement: prometheus-snmp-exporter.snmp-exporter:9116
