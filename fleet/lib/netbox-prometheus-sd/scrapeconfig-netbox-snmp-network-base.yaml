@@ -36,6 +36,12 @@ spec:
     - sourceLabels: [__meta_netbox_primary_ip4]
       regex: (.+)
       action: keep
+    # mainlaser-as01 (IOS) never finishes the network_base walk (60s timeout on every poll) and
+    # the walk loads it: the hand-kept if_mib job on it fell from ~100% to ~72% up when this job
+    # started (2026-11-19). Skip it until NetBox can mark slow devices (a tag), then filter on that
+    - sourceLabels: [__meta_netbox_name]
+      regex: mainlaser-as01
+      action: drop
     - sourceLabels: [__meta_netbox_primary_ip4]
       targetLabel: __param_target
     # the polled address as a visible label, to compare with the hand-kept lists in PromQL
