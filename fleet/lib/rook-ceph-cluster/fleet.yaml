@@ -124,16 +124,6 @@ targetCustomizations:
     helm:
       valuesFiles:
         - overlays/manke/values.yaml
-  - name: lukay
-    clusterSelector:
-      matchExpressions:
-        - key: management.cattle.io/cluster-display-name
-          operator: In
-          values:
-            - lukay
-    helm:
-      valuesFiles:
-        - overlays/lukay/values.yaml
   - name: yagan
     clusterSelector:
       matchExpressions:
