@@ -20,8 +20,7 @@ extraEnvVars:
   - name: KEYCLOAK_PROXY
     value: edge
   - name: JAVA_OPTS_APPEND
-    value: "-XX:-UseBASE64Intrinsics -Djgroups.dns.query=keycloak-headless.keycloak.svc.cluster.local"
-
+    value: -XX:-UseBASE64Intrinsics -Djgroups.dns.query=keycloak-headless.keycloak.svc.cluster.local
 
 ingress:
   enabled: true
