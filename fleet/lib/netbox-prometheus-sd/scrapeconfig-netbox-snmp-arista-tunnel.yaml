@@ -2,6 +2,7 @@
 # Poll the IPsec tunnel state of the active ipsec gateways that NetBox knows (arista_tunnel),
 # like blackbox-snmp-arista-tunnel does from the hand-kept list, where it keeps hostnames
 # matching .*ipsec.*; here the NetBox role selects them. New job name; compare by instance.
+# Every 5m, like the other SNMP trial jobs (a single packet per poll).
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
@@ -11,7 +12,7 @@ metadata:
     lsst.io/scrape: "true"
 spec:
   jobName: netbox-snmp-arista-tunnel
-  scrapeInterval: 1m
+  scrapeInterval: 5m
   scrapeTimeout: 30s
   metricsPath: /snmp
   params:
