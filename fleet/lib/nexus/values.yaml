@@ -1,4 +1,7 @@
 ---
+image:
+  tag: 3.93.4-ubi
+
 ingress:
   enabled: true
   ingressClassName: nginx
