@@ -3,9 +3,7 @@
 
 namespaces:
   nexusNs:
-    # Fleet owns the namespace (defaultNamespace); don't let the chart create it
     enabled: false
-    # every chart template uses this as its namespace, so it must match Fleet's
     name: nexus
 
 statefulset:
@@ -43,12 +41,10 @@ secret:
   existingDbSecret:
     enabled: true
   license:
-    # secret name and key must both be this value (see nexus-pre)
     name: nexus-repo-license.lic
     existingSecret: true
 
 pvc:
-  # declared in kustomize/ (legacy name from the previous chart, adopted)
   existingClaim: data-nexus-nexus3-0
 
 service:
