@@ -29,7 +29,7 @@ Chart and Nexus versions map one to one: chart `A.B.C` ships Nexus `3.A.B`, and
 1. Read the release notes for the target Nexus version (and the versions
    between) for upgrade notes:
    <https://help.sonatype.com/en/release-notes.html>
-2. Find the chart version that ships it:
+1. Find the chart version that ships it:
 
    ```bash
    helm repo add sonatype https://sonatype.github.io/helm3-charts
@@ -39,7 +39,7 @@ Chart and Nexus versions map one to one: chart `A.B.C` ships Nexus `3.A.B`, and
    helm show chart nxrm-ha --repo https://sonatype.github.io/helm3-charts --version 98.2.0 | grep appVersion
    ```
 
-3. Compare the default values of the current and target chart versions for
+1. Compare the default values of the current and target chart versions for
    renamed or new keys:
 
    ```bash
@@ -47,7 +47,7 @@ Chart and Nexus versions map one to one: chart `A.B.C` ships Nexus `3.A.B`, and
         <(helm show values nxrm-ha --repo https://sonatype.github.io/helm3-charts --version <target>)
    ```
 
-4. Set `helm.version` in `fleet.yaml` to the target chart version. Renovate
+1. Set `helm.version` in `fleet.yaml` to the target chart version. Renovate
    also opens these bumps.
-5. Test on a dev cluster first, then delete the pod as shown above so the new
+1. Test on a dev cluster first, then delete the pod as shown above so the new
    version starts.
