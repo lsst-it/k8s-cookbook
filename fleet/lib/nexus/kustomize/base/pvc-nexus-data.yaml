@@ -1,0 +1,20 @@
+---
+# Nexus data volume, referenced by the chart via pvc.existingClaim.
+# The name comes from the previous chart (stevehipwell/nexus3) and is kept so the
+# existing PVCs are adopted (helm.takeOwnership). Size can only grow; override it
+# per cluster in kustomize/overlays/<cluster>.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-nexus-nexus3-0
+  annotations:
+    # rook-ceph-block reclaimPolicy is Delete: never let helm delete this PVC
+    helm.sh/resource-policy: keep
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: rook-ceph-block
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi

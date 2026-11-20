@@ -1,67 +1,74 @@
 ---
+# Sonatype nxrm-ha chart: https://github.com/sonatype/nxrm3-ha-repository
+# The image tag is not overridden: the chart's appVersion sets the Nexus version.
+
+namespaces:
+  nexusNs:
+    # Fleet owns the namespace (defaultNamespace); don't let the chart create it
+    enabled: false
+    # every chart template uses this as its namespace, so it must match Fleet's
+    name: nexus
+
+statefulset:
+  # single instance (Pro license + external PostgreSQL), not an HA cluster
+  clustered: false
+  container:
+    resources:
+      requests:
+        cpu: "4"
+        memory: 16Gi
+      limits:
+        cpu: "4"
+        memory: 16Gi
+    env:
+      nexusDBPort: 5432
+      install4jAddVmParams: -Xms4g -Xmx4g -XX:MaxDirectMemorySize=4g
+    # required when secret.existingDbSecret.enabled is true
+    additionalEnv:
+      - name: DB_NAME
+        value: nexus
+      - name: DB_HOST
+        value: nexus-pg-rw.nexus-pg.svc.cluster.local
+      - name: DB_USER
+        valueFrom:
+          secretKeyRef:
+            name: nexus-pg-creds
+            key: username
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: nexus-pg-creds
+            key: password
+
+secret:
+  existingDbSecret:
+    enabled: true
+  license:
+    # secret name and key must both be this value (see nexus-pre)
+    name: nexus-repo-license.lic
+    existingSecret: true
+
+pvc:
+  # declared in kustomize/ (legacy name from the previous chart, adopted)
+  existingClaim: data-nexus-nexus3-0
+
+service:
+  nexus:
+    enabled: true
+    type: ClusterIP
+    port: 8081
+    targetPort: 8081
+
 ingress:
   enabled: true
   ingressClassName: nginx
+  host: nexus.${ .ClusterLabels.site }.lsst.org
+  defaultRule: true
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
-  hosts:
-    - nexus.${ .ClusterLabels.site }.lsst.org
-  http:
-    paths:
-      - backend:
-          service:
-            name: nexus3
-            port:
-              name:
-              number: 8081
-        path: /
-        pathType: Prefix
   tls:
-    - hosts:
+    - secretName: nexus-dashboard-ingress-tls
+      hosts:
         - nexus.${ .ClusterLabels.site }.lsst.org
-      secretName: nexus-dashboard-ingress-tls
-
-persistence:
-  enabled: true
-  accessMode: ReadWriteOnce
-  storageClass: rook-ceph-block
-  size: 10Gi  # sized for testing only
-
-resources:
-  limits:
-    cpu: "4"
-    memory: 16Gi
-  requests:
-    cpu: "4"
-    memory: 16Gi
-
-metrics:
-  enabled: false
-  serviceMonitor:
-    enabled: false
-    additionalLabels:
-      lsst.io/monitor: "true"
-
-license:
-  enabled: true
-  secret: nexus-license
-  key: sonatype-license-2026-03-06T154313Z.lic
-
-env:
-  - name: NEXUS_DATASTORE_NEXUS_JDBCURL
-    valueFrom:
-      secretKeyRef:
-        name: nexus-pg-creds
-        key: url
-  - name: NEXUS_DATASTORE_NEXUS_USERNAME
-    valueFrom:
-      secretKeyRef:
-        name: nexus-pg-creds
-        key: username
-  - name: NEXUS_DATASTORE_NEXUS_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: nexus-pg-creds
-        key: password
