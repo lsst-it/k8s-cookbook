@@ -1,0 +1,3 @@
+resources:
+  - nfs-base-pv-pvc.yaml
+  - backup-daily-nfs-base.yaml

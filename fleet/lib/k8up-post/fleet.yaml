@@ -41,3 +41,12 @@ targetCustomizations:
             - elqui
     kustomize:
       dir: overlays/elqui
+  - name: konkong
+    clusterSelector:
+      matchExpressions:
+        - key: management.cattle.io/cluster-display-name
+          operator: In
+          values:
+            - konkong
+    kustomize:
+      dir: overlays/konkong
