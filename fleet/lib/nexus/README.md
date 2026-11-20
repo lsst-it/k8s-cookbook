@@ -21,35 +21,33 @@ kubectl -n nexus delete pod nexus-nxrm-ha-0
 Nexus migrates the database schema on startup; the startup probe allows up to
 30 minutes.
 
-## License
+## Bumping Nexus
 
-The chart mounts the secret named `secret.license.name` and reads the key with
-the same name, so the secret and key are both `nexus-repo-license.lic`. The
-`nexus-pre` ExternalSecret renames whatever `.lic` file is attached to the
-1Password item to that key. To renew the license, replace the file in
-1Password (keep a single `.lic` file in the item); no git change is needed.
+Chart and Nexus versions map one to one: chart `A.B.C` ships Nexus `3.A.B`, and
+`C` is a chart-only revision (for example chart `98.2.0` -> Nexus `3.98.2`).
 
-## Storage
+1. Read the release notes for the target Nexus version (and the versions
+   between) for upgrade notes:
+   <https://help.sonatype.com/en/release-notes.html>
+2. Find the chart version that ships it:
 
-The data PVC is declared in `kustomize/` and referenced by the chart through
-`pvc.existingClaim`. Its name, `data-nexus-nexus3-0`, comes from the previous
-chart (`stevehipwell/nexus3`) and was kept so the existing volumes are adopted.
+   ```bash
+   helm repo add sonatype https://sonatype.github.io/helm3-charts
+   helm repo update sonatype
+   helm search repo sonatype/nxrm-ha --versions | head
+   # or check one chart version directly
+   helm show chart nxrm-ha --repo https://sonatype.github.io/helm3-charts --version 98.2.0 | grep appVersion
+   ```
 
-Kustomize is used, like in `mimir` and `loki`, because Fleet ignores
-`yaml.overlays` and plain YAML files in bundles that deploy a Helm chart; it
-only adds extra resources to a chart through kustomize.
+3. Compare the default values of the current and target chart versions for
+   renamed or new keys:
 
-- The default PVC (10Gi) is `kustomize/base/pvc-nexus-data.yaml`; clusters
-  without their own overlay use it.
-- A cluster that needs another size gets `kustomize/overlays/<cluster>/`
-  (a `kustomization.yaml` with `../../base` plus a patch) and a
-  `targetCustomizations` entry in `fleet.yaml` with `kustomize.dir` pointing to
-  it (see `yepun`).
-- Volumes can only grow. Raise the size in git and the volume is expanded
-  online; shrinking is rejected by the API.
-- Keep the `helm.sh/resource-policy: keep` annotation: the storage class
-  deletes the underlying volume when the PVC is deleted.
+   ```bash
+   diff <(helm show values nxrm-ha --repo https://sonatype.github.io/helm3-charts --version <current>) \
+        <(helm show values nxrm-ha --repo https://sonatype.github.io/helm3-charts --version <target>)
+   ```
 
-Per-cluster Helm values for this bundle follow the usual pattern: add
-`overlays/<cluster>/values.yaml` and list it under `helm.valuesFiles` in a
-`targetCustomizations` entry of `fleet.yaml`.
+4. Set `helm.version` in `fleet.yaml` to the target chart version. Renovate
+   also opens these bumps.
+5. Test on a dev cluster first, then delete the pod as shown above so the new
+   version starts.
