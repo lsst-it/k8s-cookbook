@@ -1,5 +1,4 @@
 ---
-# Nexus data volume, referenced by the chart via pvc.existingClaim.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
