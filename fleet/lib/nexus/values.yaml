@@ -1,6 +1,5 @@
 ---
 # Sonatype nxrm-ha chart: https://github.com/sonatype/nxrm3-ha-repository
-# The image tag is not overridden: the chart's appVersion sets the Nexus version.
 
 namespaces:
   nexusNs:
