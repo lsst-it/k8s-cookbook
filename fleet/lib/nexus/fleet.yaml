@@ -5,13 +5,17 @@ namespaceLabels:
   k8up-enabled: "true"
 labels:
   bundle: &name nexus
+kustomize:
+  dir: kustomize/base
 helm:
-  chart: nexus3
+  chart: nxrm-ha
   releaseName: *name
-  repo: https://stevehipwell.github.io/helm-charts
-  version: 5.23.0
+  repo: https://sonatype.github.io/helm3-charts
+  version: 98.2.0
   timeoutSeconds: 60
   waitForJobs: true
+  # adopt the pre-existing PVC declared in kustomize/ (created by the old chart)
+  takeOwnership: true
   valuesFiles:
     - values.yaml
 dependsOn:
@@ -29,7 +33,5 @@ targetCustomizations:
           operator: In
           values:
             - yepun
-    helm:
-      values:
-        persistence:
-          size: 10Ti
+    kustomize:
+      dir: kustomize/overlays/yepun
