@@ -1,0 +1,34 @@
+k8up:
+  envVars:
+    - name: BACKUP_S3_ENDPOINT
+      value: s3.gaw.ls.lsst.org
+    - name: BACKUP_GLOBALACCESSKEYID
+      valueFrom:
+        secretKeyRef:
+          name: k8up-s3-credentials
+          key: access_key
+    - name: BACKUP_GLOBALSECRETACCESSKEY
+      valueFrom:
+        secretKeyRef:
+          name: k8up-s3-credentials
+          key: secret_key
+    - name: RESTIC_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: k8up-s3-credentials
+          key: restic_password
+
+  timezone: America/Santiago
+
+resources:
+  limits:
+    memory: 4Gi
+  requests:
+    cpu: 2
+    memory: 4Gi
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      lsst.io/monitor: "true"
