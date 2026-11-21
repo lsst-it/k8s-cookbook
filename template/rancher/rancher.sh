@@ -8,7 +8,7 @@ helm repo update
 helm upgrade --install \
   rancher rancher-latest/rancher \
   --create-namespace --namespace cattle-system \
-  --version v2.11.0 \
+  --version v2.14.3 \
   -f ./values.yaml
 
 kubectl -n cattle-system rollout status deploy/rancher
