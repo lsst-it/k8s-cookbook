@@ -1,0 +1,120 @@
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: elkan-keys
+  namespace: rook-ceph
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword
+  target:
+    name: elkan-keys
+  data:
+    - secretKey: access-key
+      remoteRef:
+        key: rgw-realm-elkan
+        property: access-key
+    - secretKey: secret-key
+      remoteRef:
+        key: rgw-realm-elkan
+        property: secret-key
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectRealm
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  defaultRealm: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZoneGroup
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  realm: elkan
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectZone
+metadata:
+  name: elkan-kueyen
+  namespace: rook-ceph
+spec:
+  zoneGroup: elkan
+  customEndpoints:
+    - https://s3.elkan.kueyen.dev.lsst.org
+  metadataPool:
+    failureDomain: host
+    replicated:
+      size: 3
+    quotas:
+      maxSize: 10Gi
+  dataPool:
+    failureDomain: host
+    erasureCoded:
+      dataChunks: 2
+      codingChunks: 1
+    quotas:
+      maxSize: 1Ti
+  preservePoolsOnDelete: true
+---
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+metadata:
+  name: elkan
+  namespace: rook-ceph
+spec:
+  preservePoolsOnDelete: true
+  gateway:
+    port: 80
+    instances: 2
+    resources:
+      limits:
+        cpu: "4"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+  zone:
+    name: elkan-kueyen
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-rgw-elkan
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - &host s3.elkan.kueyen.dev.lsst.org
+      secretName: rook-ceph-rgw-elkan-ingress-tls
+  rules:
+    - host: *host
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rook-ceph-rgw-elkan
+                port:
+                  number: 80
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: elkan
+provisioner: rook-ceph.ceph.rook.io/bucket
+parameters:
+  objectStoreName: elkan
+  objectStoreNamespace: rook-ceph
+reclaimPolicy: Retain
