@@ -1,0 +1,25 @@
+---
+# yamllint disable rule:quoted-strings
+name: Block Claude Co-Author
+
+"on": pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  coauthor-check:
+    name: Block Claude Co-Author
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: reject Claude co-author trailers
+        run: |
+          if git log --format=%B "origin/${{ github.base_ref }}..${{ github.event.pull_request.head.sha }}" \
+              | grep -iE '^co-authored-by:.*<noreply@anthropic\.com>'; then
+            echo "::error::Commits must not list Claude as a co-author"
+            exit 1
+          fi

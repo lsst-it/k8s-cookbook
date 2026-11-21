@@ -1,0 +1,6 @@
+#!/bin/sh
+# Reject commits that list Claude as a co-author.
+if grep -qiE '^co-authored-by:.*<noreply@anthropic\.com>' "$1"; then
+  echo "commit-msg: Claude Co-Authored-By trailers are not allowed in this repo." >&2
+  exit 1
+fi
