@@ -1,0 +1,56 @@
+---
+# Cluster Definition
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster-dev
+spec:
+  imageName: docker.io/lsstit/cnpgsphere:17.5
+  imagePullPolicy: Always
+
+  instances: 3
+
+  postgresql:
+    parameters:
+      max_connections: "1000"
+      shared_buffers: 256MB
+      work_mem: 8MB
+      effective_cache_size: 768MB
+      idle_session_timeout: 1h
+      max_slot_wal_keep_size: 1GB
+      "pgaudit.log": none
+      "pgaudit.log_catalog": "off"
+      "pgaudit.log_parameter": "on"
+      "pgaudit.log_relation": "on"
+      log_duration: "on"
+      log_statement: none
+      maintenance_work_mem: 1GB
+      pg_stat_statements.max: "10000"
+      pg_stat_statements.track: all
+      pg_stat_statements.track_utility: "on"
+      pg_stat_statements.save: "on"
+    pg_hba:
+      - host replication postgres all md5
+      - host all all 139.229.134.0/23 md5
+      - host all all 139.229.136.0/21 md5
+      - host all all 139.229.144.0/20 md5
+      - host all all 139.229.160.0/19 md5
+      - host all all 139.229.192.0/18 md5
+      - host all all 140.252.146.0/23 md5
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: cnpg-cluster-superuser
+
+  storage:
+    size: 650Gi
+  monitoring:
+    enablePodMonitor: true
+
+  resources:
+    limits:
+      cpu: "4"
+      memory: 8Gi
+    requests:
+      cpu: "4"
+      memory: 8Gi
