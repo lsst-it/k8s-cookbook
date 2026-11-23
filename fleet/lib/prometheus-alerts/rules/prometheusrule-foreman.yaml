@@ -1,0 +1,37 @@
+groups:
+  - name: host.rules
+    rules:
+      - alert: ForemanRootDiskLowFreeSpace
+        annotations:
+          summary: Disk space warning on foreman.dev.lsst.org
+          description: >
+            Disk free space is below 10% on foreman.dev.lsst.org for device /dev/mapper/almalinux-root.
+            Current free fraction: {{ printf "%.2f" $value }}.
+            Filesystem mountpoint: {{ $labels.mountpoint }}.
+        expr: |
+          (
+            node_filesystem_avail_bytes{
+              job="node-puppetdb",
+              instance="foreman.dev.lsst.org",
+              device="/dev/mapper/almalinux-root"
+            }
+            /
+            node_filesystem_size_bytes{
+              job="node-puppetdb",
+              instance="foreman.dev.lsst.org",
+              device="/dev/mapper/almalinux-root"
+            }
+          ) < 0.10
+          and
+          node_filesystem_readonly{
+            job="node-puppetdb",
+            instance="foreman.dev.lsst.org",
+            device="/dev/mapper/almalinux-root"
+          } == 0
+        for: 5m
+        labels:
+          gnoc: "true"
+          severity: warning
+          node_name: foreman.dev.lsst.org
+          device: /dev/mapper/almalinux-root
+          service_name: null
