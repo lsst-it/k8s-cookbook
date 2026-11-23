@@ -1,0 +1,54 @@
+---
+# Ping the BMC (out-of-band IP) of every active server that NetBox knows, through the blackbox exporter.
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: netbox-icmp-bmc
+  namespace: kube-prometheus-stack
+  labels:
+    lsst.io/scrape: "true"
+spec:
+  jobName: netbox-icmp-bmc
+  scrapeInterval: 1m
+  scrapeTimeout: 30s
+  metricsPath: /probe
+  params:
+    module: [icmp]
+  httpSDConfigs:
+    # in-cluster NetBox (netbox-chart service); the endpoint returns every match, no pagination
+    - url: http://netbox.netbox.svc.cluster.local/api/plugins/prometheus-sd/devices/?status=active&role=server
+      refreshInterval: 5m
+      authorization:
+        type: Bearer
+        credentials:
+          name: netbox-prometheus-sd
+          key: token
+  relabelings:
+    # the plugin's target is the server's name; ping its BMC (the out-of-band IP, a bare
+    # address), and skip servers without one (keep on (.+): the operator omits an empty regex)
+    - sourceLabels: [__meta_netbox_oob_ip]
+      regex: (.+)
+      action: keep
+    - sourceLabels: [__meta_netbox_oob_ip]
+      targetLabel: __param_target
+    # the pinged BMC address as a visible label
+    - sourceLabels: [__meta_netbox_oob_ip]
+      targetLabel: target_ip
+    # instance = the server's FQDN (NetBox has no BMC hostname; the job name says it's the BMC):
+    # server names are already FQDNs, a short name gets the site's domain
+    - sourceLabels: [__meta_netbox_name]
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: bdc;([^.]+)
+      replacement: ${1}.ls.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: sdc;([^.]+)
+      replacement: ${1}.cp.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_role_slug]
+      targetLabel: role
+    - sourceLabels: [__meta_netbox_site_slug]
+      targetLabel: site
+    - targetLabel: __address__
+      replacement: prometheus-blackbox-exporter.blackbox-exporter:9115

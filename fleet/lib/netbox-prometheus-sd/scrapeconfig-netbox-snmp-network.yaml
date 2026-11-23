@@ -1,0 +1,57 @@
+---
+# Poll the active network devices that NetBox knows over SNMP through the snmp exporter.
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: netbox-snmp-network
+  namespace: kube-prometheus-stack
+  labels:
+    lsst.io/scrape: "true"
+spec:
+  jobName: netbox-snmp-network
+  scrapeInterval: 5m
+  scrapeTimeout: 30s
+  metricsPath: /snmp
+  params:
+    module: [if_mib]
+    auth: [rubin_v2]
+  httpSDConfigs:
+    # in-cluster NetBox (netbox-chart service); the endpoint returns every match, no pagination
+    - url: http://netbox.netbox.svc.cluster.local/api/plugins/prometheus-sd/devices/?status=active&role=leaf&role=spine&role=access-switch&role=bmc-switch&role=border-router&role=ipsec&role=firewall
+      refreshInterval: 5m
+      authorization:
+        type: Bearer
+        credentials:
+          name: netbox-prometheus-sd
+          key: token
+  relabelings:
+    # the plugin's target is the device name; poll its primary IPv4 (a bare address), and skip
+    # devices without one (keep, not drop on "": the operator omits an empty regex, and the
+    # default (.*) would then drop every target)
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      regex: (.+)
+      action: keep
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      targetLabel: __param_target
+    # the polled address as a visible label, to compare with the hand-kept lists in PromQL
+    # (probe_ip_addr_hash only says whether two jobs ping the same address)
+    - sourceLabels: [__meta_netbox_primary_ip4]
+      targetLabel: target_ip
+    # instance = FQDN, as in the hand-kept lists: a short name + the site's domain (a name that
+    # already has a dot is kept as it is)
+    - sourceLabels: [__meta_netbox_name]
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: bdc;([^.]+)
+      replacement: ${1}.ls.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_site_slug, __meta_netbox_name]
+      regex: sdc;([^.]+)
+      replacement: ${1}.cp.lsst.org
+      targetLabel: instance
+    - sourceLabels: [__meta_netbox_role_slug]
+      targetLabel: role
+    - sourceLabels: [__meta_netbox_site_slug]
+      targetLabel: site
+    - targetLabel: __address__
+      replacement: prometheus-snmp-exporter.snmp-exporter:9116
