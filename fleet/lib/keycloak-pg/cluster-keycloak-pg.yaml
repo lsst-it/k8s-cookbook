@@ -20,6 +20,10 @@ spec:
       max_connections: "500"
       shared_buffers: 256MB
       idle_session_timeout: 4h
+      "pgaudit.log": all, -misc
+      "pgaudit.log_catalog": "off"
+      "pgaudit.log_parameter": "on"
+      "pgaudit.log_relation": "on"
     pg_hba:
       - host replication postgres all md5
       - host all all 139.229.134.0/23 md5
@@ -38,6 +42,8 @@ spec:
 
   monitoring:
     enablePodMonitor: true
+    podMonitorAdditionalLabels:
+      lsst.io/monitor: "true"
 
   resources:
     limits:
