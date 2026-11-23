@@ -1,11 +1,5 @@
 ---
-# Poll the active network devices that NetBox knows over SNMP (if_mib: sysUpTime and the
-# interface tables), through the snmp exporter, like blackbox-snmp-network does from the
-# hand-kept list (kube-prometheus-stack overlays/dev). New job name, so the dashboards filtering
-# on blackbox-snmp-network don't pick it up; compare by instance in PromQL. Every 5m instead of
-# 30s: a trial only checks the data, and four Prometheus already poll these devices (~8 polls a
-# minute, ~107 packets each); use rate() windows of 15m or more. The auth names a community the
-# exporter already has (Secret snmp-config, snmp-exporter-pre): no new secret here.
+# Poll the active network devices that NetBox knows over SNMP through the snmp exporter.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
