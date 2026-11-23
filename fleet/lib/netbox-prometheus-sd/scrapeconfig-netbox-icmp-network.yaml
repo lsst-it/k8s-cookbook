@@ -1,10 +1,5 @@
 ---
-# Ping the active network devices that NetBox knows (leafs, spines, access and BMC switches,
-# border routers, ipsec gateways, firewalls), through the blackbox exporter, like
-# blackbox-icmp-snmp does from the hand-kept list (kube-prometheus-stack overlays/dev). New job
-# name, so HostDown and the dashboards filtering on blackbox-icmp-snmp don't pick it up; compare
-# the two jobs by instance in PromQL. Devices without a primary IPv4 (the firewalls today) are
-# skipped, so they show up as "only in the list".
+# Ping the active network devices that NetBox knows through the blackbox exporter.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
