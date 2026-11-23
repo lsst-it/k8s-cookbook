@@ -1,10 +1,5 @@
 ---
-# Poll CPU, memory and hardware sensors of the active network devices that NetBox knows
-# (network_base): HOST-RESOURCES hrProcessorLoad / hrStorage* (standard), Cisco avgBusy1/5,
-# ciscoMemoryPool* and CISCO-ENTITY-SENSOR entSensor* (temperatures, fans, PSUs; Cisco only:
-# Arista implements the standard ENTITY-SENSOR-MIB, which this module doesn't walk). No
-# hand-kept job polls this today, so there's nothing to compare with: check per platform which
-# devices answer and which metrics come back. Every 5m, like the other SNMP trial jobs.
+# Poll CPU, memory and hardware sensors of the active network devices that NetBox knows.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
