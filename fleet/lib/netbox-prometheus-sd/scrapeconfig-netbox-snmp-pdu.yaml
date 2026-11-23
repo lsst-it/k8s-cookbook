@@ -1,10 +1,5 @@
 ---
-# Poll the active PDUs that NetBox knows over SNMP (raritan: inlet, outlet and external sensor
-# measurements), like blackbox-snmp-raritan-pdu does from the hand-kept list. New job name;
-# compare by instance. Every 10m instead of 1m: a walk takes ~15s (~345 packets) and four
-# Prometheus already poll each PDU every minute, so a PDU spends most of each minute answering
-# SNMP. TemperatureHigh/Critical have no job filter, but ruka has no prometheus-alerts, so they
-# aren't evaluated here.
+# Poll the active PDUs that NetBox knows over SNMP.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:

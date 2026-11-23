@@ -1,7 +1,5 @@
 ---
-# Ping the BMC (out-of-band IP) of every active server that NetBox knows, through the blackbox
-# exporter. New coverage: nothing monitors the BMCs today (PuppetDB doesn't know them; the
-# hand-kept lists only have the BMC switches). Servers without an oob_ip are skipped.
+# Ping the BMC (out-of-band IP) of every active server that NetBox knows, through the blackbox exporter.
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
