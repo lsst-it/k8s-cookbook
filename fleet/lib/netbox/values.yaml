@@ -1,3 +1,13 @@
+# NetBox with the prometheus-sd and topology-views plugins (lsst-it/netbox-image)
+image:
+  registry: docker.io
+  repository: lsstit/netbox
+  tag: v4.7.5-1
+
+plugins:
+  - netbox_prometheus_sd
+  - netbox_topology_views
+
 extraDeploy:
   - |
     apiVersion: v1
