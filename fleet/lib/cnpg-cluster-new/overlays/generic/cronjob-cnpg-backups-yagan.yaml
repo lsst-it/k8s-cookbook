@@ -14,7 +14,7 @@ spec:
           activeDeadlineSeconds: 14400
           containers:
             - name: cnpg-backup
-              image: docker.io/lsstit/cnpg-backup:0.6
+              image: docker.io/lsstit/cnpg-backup:0.7
               volumeMounts:
                 - name: ephemeral
                   mountPath: /tmp
