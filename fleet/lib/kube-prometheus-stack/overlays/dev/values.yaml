@@ -66,6 +66,40 @@ prometheus:
             target_label: role
           - source_labels: [__meta_puppetdb_parameter_cluster]
             target_label: cluster
+      - job_name: ipmi-puppetdb
+        scrape_interval: 60s
+        scrape_timeout: 30s
+        puppetdb_sd_configs:
+          - &ipmi-puppetdb
+            url: https://puppetdb.${ .ClusterLabels.site }.lsst.org:8443
+            basic_auth:
+              username: svc_prometheus
+              password_file: /etc/prometheus/secrets/puppetdb/password
+            query: |
+              resources {
+                type = "Class" and title = "Profile::Core::Node_info" and
+                certname in resources[certname] {
+                  type = "Class" and title = "Prometheus::Ipmi_exporter"
+                }
+              }
+            refresh_interval: 30s
+            follow_redirects: true
+            include_parameters: true
+            enable_http2: true
+            port: 9290
+          - <<: *ipmi-puppetdb
+            url: https://puppetdb.ls.lsst.org:8443
+        relabel_configs:
+          - source_labels: [__meta_puppetdb_certname]
+            target_label: instance
+          - source_labels: [__meta_puppetdb_environment]
+            target_label: environment
+          - source_labels: [__meta_puppetdb_parameter_site]
+            target_label: site
+          - source_labels: [__meta_puppetdb_parameter_role]
+            target_label: role
+          - source_labels: [__meta_puppetdb_parameter_cluster]
+            target_label: cluster
       - job_name: blackbox-icmp-snmp
         metrics_path: /probe
         params:
