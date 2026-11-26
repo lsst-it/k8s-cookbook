@@ -1,3 +1,4 @@
 ---
+replicaCount: 0
 ingress:
   hostname: keycloak.cp.lsst.org
