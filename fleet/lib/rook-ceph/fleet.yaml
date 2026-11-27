@@ -15,8 +15,8 @@ helm:
   waitForJobs: false
 dependsOn:
   - selector:
-    matchLabels:
-      bundle: prometheus-operator-crds
+      matchLabels:
+        bundle: prometheus-operator-crds
 targetCustomizations:
   - name: machi
     clusterSelector:
