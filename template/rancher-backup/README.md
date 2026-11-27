@@ -33,5 +33,10 @@ Do **not** install Rancher yet.
 
 **Do not install Rancher** before restoring the backup. FIRST restore, then install Rancher.
 
+Install it from the site's `rke2/rancher.<site>/rancher/` directory with
+`RANCHER_FRESH_INSTALL=yes ./rancher.sh`, using the Rancher version the backup was taken on
+(set in that directory's `rancher-version` file). Without that variable the script refuses to
+install where no Rancher release exists.
+
 More information:
 https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/backup-restore-and-disaster-recovery/migrate-rancher-to-new-cluster
